@@ -1,0 +1,40 @@
+name: Daily Taiji Calendar Update
+
+on:
+  schedule:
+    # 設定為台灣時間每天 00:00 準時跨日執行 (UTC 時間 16:00)
+    - cron: '0 16 * * *'
+  workflow_dispatch: # 允許您隨時手動按按鈕測試
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 允許機器人自動上傳更新後的網頁
+
+    steps:
+    - name: 📥 降落並取得專案檔案
+      uses: actions/checkout@v3
+
+    - name: 🐍 安裝 Python 系統
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: ⚙️ 裝填通訊套件
+      run: |
+        python -m pip install --upgrade pip
+        pip install google-generativeai
+
+    - name: 🧠 啟動靈魂引擎 (執行您的 Python)
+      env:
+        # 機器人會在這裡秘密取出您剛才存的保險箱金鑰
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      run: python taiji_engine.py
+
+    - name: 🚀 自動上傳更新的網頁
+      run: |
+        git config --global user.name "Taiji-Auto-Bot"
+        git config --global user.email "bot@taiji.system"
+        git add taiji_dashboard.html
+        git diff --quiet && git diff --staged --quiet || (git commit -m "🚀 Auto-update: 跨日 00:00 新鮮日曆已出爐" && git push)
