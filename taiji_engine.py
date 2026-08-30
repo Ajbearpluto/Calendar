@@ -431,7 +431,7 @@ class TaijiOmniverseCalendar:
 (後製排版用，繪圖AI勿理會: 宜="${{currentAlmanacData.yi}}", 忌="${{currentAlmanacData.ji}}")`;
                     document.getElementById('rawPrompt').value = promptText;
 
-                    const captionText = `📅 ${{currentDate}} | ${{currentAlmanacData.lunarStr}}\n📝 宜：${{currentAlmanacData.yi}}\n🚫 忌：${{currentAlmanacData.ji}}\n\n"${{selectedQuote.q}}"\n\n📌 社會觀察：${{selectedThemeName}} | ${{selectedQuote.p}}\n⚠️ 宇宙警告：${{selectedFortune.text}}\n\n${{finalTags.join(" ")}}`;
+                    const captionText = `📅 ${{currentDate}} | ${{currentAlmanacData.lunarStr}}\\n📝 宜：${{currentAlmanacData.yi}}\\n🚫 忌：${{currentAlmanacData.ji}}\\n\\n【今日現場直擊 🎤】\\n畫面左邊的${{payload.star_sign}}史萊姆，目前完全是個「${{stages[0]}}」，不僅${{texs[0]}}，還${{emos[0]}}，只能${{acts[0]}}。\\n右邊的${{payload.zodiac_sign}}史萊姆更絕了，直接化身「${{stages[1]}}」，${{texs[1]}}，${{emos[1]}}，甚至正在${{acts[1]}}。\\n這兩人中間還配上${{selectedFortune.prop}}，這荒謬的畫面簡直就是我們真實人生的縮影啊！\\n\\n"${{selectedQuote.q}}"\\n\\n📌 社會觀察：${{selectedThemeName}} | ${{selectedQuote.p}}\\n⚠️ 宇宙警告：${{selectedFortune.text}}\\n\\n${{finalTags.join(" ")}}`;
                     document.getElementById('igCaption').value = captionText;
                 }}
 
