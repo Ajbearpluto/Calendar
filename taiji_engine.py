@@ -26,7 +26,7 @@ class TaijiOmniverseCalendar:
         self.forum_titles = self.fetch_social_forum_trends()
         self.dynamic_quotes, self.is_llm_active = self.generate_quotes_via_llm(self.forum_titles)
         
-        # 🧠 【絕對防禦】Python 直接原生演算星座與生肖，不再依賴前端網頁！
+        # 🧠 【絕對防禦】Python 直接原生演算星座與生肖
         current_star = self.get_star_sign(self.today.month, self.today.day)
         zodiacs = ["鼠", "牛", "虎", "兔", "龍", "蛇", "馬", "羊", "猴", "雞", "狗", "豬"]
         current_zodiac = zodiacs[(self.today.year - 4) % 12]
@@ -386,7 +386,7 @@ class TaijiOmniverseCalendar:
                     const day = d.getDate();
                     const year = d.getFullYear();
 
-                    // 🛡️ 原生 JS 防禦運算 (不依賴外部套件，保證絕不當機)
+                    // 🛡️ 原生 JS 防禦運算
                     const currentStar = getStarSignSafe(month, day);
                     const currentZodiac = getZodiacSignSafe(year);
 
