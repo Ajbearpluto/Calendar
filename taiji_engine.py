@@ -14,11 +14,10 @@ except ImportError:
 
 class TaijiOmniverseCalendar:
     def __init__(self):
-        # 🌐 【時區校正】強制鎖定為台灣時間 (UTC+8)，破解雲端時區陷阱！
+        # 🌐 【時區校正】強制鎖定為台灣時間 (UTC+8)
         tz_tw = timezone(timedelta(hours=8))
         self.today = datetime.now(tz_tw)
         
-        # 🔑 【雲端保險箱讀取機制】機器人會自動從 GitHub Secrets 提取金鑰
         self.api_key = os.environ.get("GEMINI_API_KEY", "")
         
         self._init_static_databases()
@@ -27,13 +26,64 @@ class TaijiOmniverseCalendar:
         self.forum_titles = self.fetch_social_forum_trends()
         self.dynamic_quotes, self.is_llm_active = self.generate_quotes_via_llm(self.forum_titles)
         
+        # 🧠 【絕對防禦】Python 直接原生演算星座與生肖，不再依賴前端網頁！
+        current_star = self.get_star_sign(self.today.month, self.today.day)
+        zodiacs = ["鼠", "牛", "虎", "兔", "龍", "蛇", "馬", "羊", "猴", "雞", "狗", "豬"]
+        current_zodiac = zodiacs[(self.today.year - 4) % 12]
+
         self.payload = {
             "date": self.today.strftime("%Y-%m-%d"),
-            "star_sign": "天秤座", "star_color": "湖水綠", "star_visual": "頭頂懸浮著一個發光的黃金小天平",
-            "zodiac_sign": "兔", "zodiac_color": "櫻花粉", "zodiac_visual": "擁有長長的毛茸茸兔子耳朵",
+            "star_sign": current_star,
+            "star_color": self.star_visuals[current_star]["c"],
+            "star_visual": self.star_visuals[current_star]["v"],
+            "zodiac_sign": current_zodiac,
+            "zodiac_color": self.zodiac_visuals[current_zodiac]["c"],
+            "zodiac_visual": self.zodiac_visuals[current_zodiac]["v"],
         }
 
+    def get_star_sign(self, month, day):
+        if (month == 1 and day >= 20) or (month == 2 and day <= 18): return "水瓶座"
+        if (month == 2 and day >= 19) or (month == 3 and day <= 20): return "雙魚座"
+        if (month == 3 and day >= 21) or (month == 4 and day <= 19): return "牡羊座"
+        if (month == 4 and day >= 20) or (month == 5 and day <= 20): return "金牛座"
+        if (month == 5 and day >= 21) or (month == 6 and day <= 21): return "雙子座"
+        if (month == 6 and day >= 22) or (month == 7 and day <= 22): return "巨蟹座"
+        if (month == 7 and day >= 23) or (month == 8 and day <= 22): return "獅子座"
+        if (month == 8 and day >= 23) or (month == 9 and day <= 22): return "處女座"
+        if (month == 9 and day >= 23) or (month == 10 and day <= 23): return "天秤座"
+        if (month == 10 and day >= 24) or (month == 11 and day <= 22): return "天蠍座"
+        if (month == 11 and day >= 23) or (month == 12 and day <= 21): return "射手座"
+        return "摩羯座"
+
     def _init_static_databases(self):
+        self.star_visuals = {
+            "水瓶座": {"c": "星空藍", "v": "周圍環繞著發光的水波紋"},
+            "雙魚座": {"c": "海洋藍", "v": "頭頂有兩條光影小魚環繞"},
+            "牡羊座": {"c": "火焰紅", "v": "擁有發光的螺旋羊角"},
+            "金牛座": {"c": "大地綠", "v": "帶著小巧的黃金牛角"},
+            "雙子座": {"c": "明亮黃", "v": "身體有著雙重顏色的分裂感"},
+            "巨蟹座": {"c": "珍珠白", "v": "表面有一層閃亮的珍珠光澤"},
+            "獅子座": {"c": "王者金", "v": "頭頂戴著一頂微型的黃金皇冠"},
+            "處女座": {"c": "純淨白", "v": "周圍有純潔的光芒與花瓣飄落"},
+            "天秤座": {"c": "湖水綠", "v": "頭頂懸浮著一個發光的黃金小天平"},
+            "天蠍座": {"c": "深邃紫", "v": "背後有一條若隱若現的紫色毒刺光影"},
+            "射手座": {"c": "自由橘", "v": "背著一把迷你的光之弓箭"},
+            "摩羯座": {"c": "沉穩褐", "v": "額頭有發光的神秘符文"}
+        }
+        self.zodiac_visuals = {
+            "鼠": {"c": "灰曜色", "v": "擁有靈動的小老鼠耳朵"},
+            "牛": {"c": "厚土色", "v": "帶著堅硬的牛角與鼻環"},
+            "虎": {"c": "霸氣橘", "v": "身上有著明顯的老虎斑紋"},
+            "兔": {"c": "櫻花粉", "v": "擁有長長的毛茸茸兔子耳朵"},
+            "龍": {"c": "神聖金", "v": "頭上長著威武的龍角"},
+            "蛇": {"c": "翡翠綠", "v": "身體呈現細長且帶有蛇鱗反光"},
+            "馬": {"c": "疾風棕", "v": "背部有著飄逸的馬鬃毛光影"},
+            "羊": {"c": "溫柔白", "v": "頭側有捲曲的綿羊角"},
+            "猴": {"c": "靈動桃", "v": "擁有一條長長的猴子尾巴"},
+            "雞": {"c": "晨曦紅", "v": "頭頂著鮮豔的雞冠"},
+            "狗": {"c": "忠誠黃", "v": "有著下垂的可愛狗狗耳朵"},
+            "豬": {"c": "豐饒粉", "v": "擁有一個可愛的粉紅豬鼻子"}
+        }
         self.art_styles = [
             "Sony A7R IV 微距實境攝影 (Photorealistic, 極致寫實、景深模糊、真實光影)",
             "實體羊毛氈手工藝拍攝 (Real Wool Felt craft, 真實的纖維毛流感與實體微距打光)",
@@ -51,7 +101,6 @@ class TaijiOmniverseCalendar:
             "美式普普藝術風 (Pop Art, 強烈網點、高飽和對比)",
             "潮玩盲盒公仔實拍 (Popmart Toy Photography, 極致光滑的高光塑膠或搪膠材質)"
         ]
-
         self.fortune_fusion = [
             {"text": "今日宜低調行事，不適合做任何重大決定，包含中午要吃什麼。", "prop": "一個打開卻空無一物的便當盒"},
             {"text": "星象顯示有破財危機，請立刻關閉所有購物APP的推播通知。", "prop": "一張正在燃燒的信用卡"},
@@ -69,7 +118,6 @@ class TaijiOmniverseCalendar:
             {"text": "月亮空亡期容易迷失方向，今天出門就跟著導航走，別相信自己的方向感。", "prop": "一個瘋狂重新規劃路線的導航畫面"},
             {"text": "滿月能量波動大，理智線容易斷裂，建議遠離一切會激怒你的人事物。", "prop": "一個被捏爆的壓力球"}
         ]
-
         self.themes_data = {
             "社畜的生存掙扎": {"stages": ["靈魂還在床上的打工人", "被死線追殺的社畜", "眼神空洞的會議參與者"], "emotions": ["發出無聲的尖叫", "強作鎮定的苦笑", "徹底放棄思考"], "textures": ["像史萊姆一樣裂開", "變成灰白色的石化狀態", "流出透明的冷汗"], "actions": ["在辦公桌前癱瘓", "看著時鐘絕望", "無力地敲擊鍵盤"]},
             "月光族的月底日常": {"stages": ["看著戶頭餘額發抖的窮鬼", "月底準備吃土的生存者", "物慾極高但沒錢的幻想家"], "emotions": ["欲哭無淚的絕望", "看到價格標籤後的驚恐", "心如刀割的痛楚"], "textures": ["變得像紙一樣薄", "表面出現貧窮的裂痕", "不斷流出窮酸汗"], "actions": ["倒立試圖抖出零錢", "抱著空的錢包痛哭", "在地上尋找發票"]},
@@ -78,7 +126,6 @@ class TaijiOmniverseCalendar:
             "數位時代的資訊焦慮": {"stages": ["被未讀訊息淹沒的逃避者", "電量剩下1%的恐慌症患者", "滑短影音滑到失憶的網癮患者"], "emotions": ["雙眼布滿血絲", "盯著螢幕露出詭異的笑容", "因為沒網路而抓狂"], "textures": ["全身閃爍著電子雜訊", "像當機一樣停格", "表面浮現各種社群圖示"], "actions": ["瘋狂往下滑動手機", "到處尋找充電插座", "把手機遠遠丟開又撿回來"]},
             "人際內耗與社交邊界": {"stages": ["社交電力提早歸零的 I 人", "在群組裡假笑陪聊的邊緣人", "下班後不想被打擾的隱士"], "emotions": ["戴著和善但虛假的面具", "在內心狂翻白眼", "渴望瞬間移動回家"], "textures": ["像被榨乾的檸檬", "表面長出防衛的尖刺", "呈現半透明的隱形狀態"], "actions": ["已讀不回裝死中", "躲在角落滑手機", "對著空氣練習拒絕別人的台詞"]}
         }
-
         self.fallback_quotes = [
             {"q": "薪水就像渣男，每個月來一次，沒幾天就消失得無影無蹤。", "p": "金錢焦慮"},
             {"q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學"},
@@ -121,7 +168,6 @@ class TaijiOmniverseCalendar:
         if not HAS_GENAI or not self.api_key:
             print("⚠️ 未偵測到 API Key。切換至備用庫。")
             return self.fallback_quotes, False
-
         print("🧠 正在連線 LLM 靈魂引擎...")
         try:
             genai.configure(api_key=self.api_key)
@@ -134,7 +180,6 @@ class TaijiOmniverseCalendar:
                     model = genai.GenerativeModel('gemini-1.0-pro')
                     
             titles_text = "\n".join([f"- {t}" for t in forum_titles])
-            
             prompt = f"""
             你是一位洞悉台灣社會現象的社群文案大師。今天是 {self.today.strftime("%Y-%m-%d")}。
             參考以下 Dcard 熱門標題的社會氛圍：\n{titles_text}\n
@@ -159,6 +204,8 @@ class TaijiOmniverseCalendar:
         real_trends_js = json.dumps(self.real_trends, ensure_ascii=False)
         art_styles_js = json.dumps(self.art_styles, ensure_ascii=False)
         fortune_js = json.dumps(self.fortune_fusion, ensure_ascii=False)
+        star_visuals_js = json.dumps(self.star_visuals, ensure_ascii=False)
+        zodiac_visuals_js = json.dumps(self.zodiac_visuals, ensure_ascii=False)
         is_llm_active_js = "true" if self.is_llm_active else "false"
 
         html_content = f"""
@@ -251,7 +298,7 @@ class TaijiOmniverseCalendar:
                 </div>
 
                 <div class="card actor-card">
-                    <h3 style="border-bottom: 2px solid var(--text-title); padding-bottom:10px; margin-top:0;">A. {self.payload['star_sign']} Slime</h3>
+                    <h3 id="title-actor-a" style="border-bottom: 2px solid var(--text-title); padding-bottom:10px; margin-top:0;">A. {self.payload['star_sign']} Slime</h3>
                     <div class="detail-list" style="line-height:1.8; margin-top:10px;">
                         <strong>狀態：</strong><span id="ui-stage-a"></span><br><strong>表情：</strong><span id="ui-emo-a"></span><br>
                         <strong>材質：</strong><span id="ui-tex-a"></span><br><strong>動作：</strong><span id="ui-act-a"></span>
@@ -259,7 +306,7 @@ class TaijiOmniverseCalendar:
                 </div>
 
                 <div class="card actor-card">
-                    <h3 style="border-bottom: 2px solid var(--text-title); padding-bottom:10px; margin-top:0;">B. {self.payload['zodiac_sign']} Slime</h3>
+                    <h3 id="title-actor-b" style="border-bottom: 2px solid var(--text-title); padding-bottom:10px; margin-top:0;">B. {self.payload['zodiac_sign']} Slime</h3>
                     <div class="detail-list" style="line-height:1.8; margin-top:10px;">
                         <strong>狀態：</strong><span id="ui-stage-b"></span><br><strong>表情：</strong><span id="ui-emo-b"></span><br>
                         <strong>材質：</strong><span id="ui-tex-b"></span><br><strong>動作：</strong><span id="ui-act-b"></span>
@@ -278,10 +325,12 @@ class TaijiOmniverseCalendar:
             <script>
                 const themes = {themes_js};
                 const quotes = {quotes_js}; 
-                const payload = {payload_js};
+                let payload = {payload_js};
                 const realTrends = {real_trends_js};
                 const artStyles = {art_styles_js};
                 const fortunes = {fortune_js};
+                const starVisuals = {star_visuals_js};
+                const zodiacVisuals = {zodiac_visuals_js};
                 const isLlmActive = {is_llm_active_js};
                 
                 const coreTags = ["#日曆", "#生活碎片", "#史萊姆"];
@@ -296,6 +345,26 @@ class TaijiOmniverseCalendar:
                     {{ class: 'theme-wired', name: 'WIRED 前衛科技風' }},
                     {{ class: 'theme-casa', name: 'CASA BRUTUS 生活美學風' }}
                 ];
+
+                function getStarSignSafe(m, d) {{
+                    if ((m == 1 && d >= 20) || (m == 2 && d <= 18)) return "水瓶座";
+                    if ((m == 2 && d >= 19) || (m == 3 && d <= 20)) return "雙魚座";
+                    if ((m == 3 && d >= 21) || (m == 4 && d <= 19)) return "牡羊座";
+                    if ((m == 4 && d >= 20) || (m == 5 && d <= 20)) return "金牛座";
+                    if ((m == 5 && d >= 21) || (m == 6 && d <= 21)) return "雙子座";
+                    if ((m == 6 && d >= 22) || (m == 7 && d <= 22)) return "巨蟹座";
+                    if ((m == 7 && d >= 23) || (m == 8 && d <= 22)) return "獅子座";
+                    if ((m == 8 && d >= 23) || (m == 9 && d <= 22)) return "處女座";
+                    if ((m == 9 && d >= 23) || (m == 10 && d <= 23)) return "天秤座";
+                    if ((m == 10 && d >= 24) || (m == 11 && d <= 22)) return "天蠍座";
+                    if ((m == 11 && d >= 23) || (m == 12 && d <= 21)) return "射手座";
+                    return "摩羯座";
+                }}
+
+                function getZodiacSignSafe(year) {{
+                    const z = ["鼠", "牛", "虎", "兔", "龍", "蛇", "馬", "羊", "猴", "雞", "狗", "豬"];
+                    return z[(year - 4) % 12];
+                }}
 
                 let currentThemeIndex = -1; 
                 let currentAlmanacData = {{ lunarStr: "正在演算農民曆..." }};
@@ -312,24 +381,42 @@ class TaijiOmniverseCalendar:
                     if(!dateVal) return;
                     document.getElementById('display-date').innerText = dateVal;
                     
+                    const d = new Date(dateVal + "T00:00:00");
+                    const month = d.getMonth() + 1;
+                    const day = d.getDate();
+                    const year = d.getFullYear();
+
+                    // 🛡️ 原生 JS 防禦運算 (不依賴外部套件，保證絕不當機)
+                    const currentStar = getStarSignSafe(month, day);
+                    const currentZodiac = getZodiacSignSafe(year);
+
+                    payload.star_sign = currentStar;
+                    payload.star_color = starVisuals[currentStar].c;
+                    payload.star_visual = starVisuals[currentStar].v;
+
+                    payload.zodiac_sign = currentZodiac;
+                    payload.zodiac_color = zodiacVisuals[currentZodiac].c;
+                    payload.zodiac_visual = zodiacVisuals[currentZodiac].v;
+
+                    document.getElementById('title-actor-a').innerText = "A. " + currentStar + " Slime";
+                    document.getElementById('title-actor-b').innerText = "B. " + currentZodiac + " Slime";
+
                     try {{
-                        if (typeof Lunar === 'undefined') throw new Error("Lunar.js 尚未載入");
-                        const d = new Date(dateVal + "T00:00:00");
-                        const lunar = Lunar.fromDate(d);
-                        
-                        let lunarStr = `農曆 ${{lunar.getMonthInChinese()}}月${{lunar.getDayInChinese()}}`;
-                        const jieQi = lunar.getJieQi();
-                        if(jieQi) lunarStr += ` | 節氣: ${{jieQi}}`;
-                        
-                        currentAlmanacData.lunarStr = lunarStr;
-                        document.getElementById('display-lunar').innerText = currentAlmanacData.lunarStr;
-                        randomizeAll();
+                        if (typeof Lunar !== 'undefined') {{
+                            const lunar = Lunar.fromDate(d);
+                            let lunarStr = `農曆 ${{lunar.getMonthInChinese()}}月${{lunar.getDayInChinese()}}`;
+                            const jieQi = lunar.getJieQi();
+                            if(jieQi) lunarStr += ` | 節氣: ${{jieQi}}`;
+                            currentAlmanacData.lunarStr = lunarStr;
+                        }} else {{
+                            currentAlmanacData.lunarStr = "農曆查無資料";
+                        }}
                     }} catch (e) {{
-                        console.error("農民曆演算失敗：", e);
                         currentAlmanacData.lunarStr = "農曆查無資料";
-                        document.getElementById('display-lunar').innerText = currentAlmanacData.lunarStr;
-                        randomizeAll();
                     }}
+                    
+                    document.getElementById('display-lunar').innerText = currentAlmanacData.lunarStr;
+                    randomizeAll();
                 }}
 
                 function populateStyleDropdown() {{
