@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import os
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -14,7 +14,9 @@ except ImportError:
 
 class TaijiOmniverseCalendar:
     def __init__(self):
-        self.today = datetime.now()
+        # 🌐 【時區校正】強制鎖定為台灣時間 (UTC+8)，破解雲端時區陷阱！
+        tz_tw = timezone(timedelta(hours=8))
+        self.today = datetime.now(tz_tw)
         
         # 🔑 【雲端保險箱讀取機制】機器人會自動從 GitHub Secrets 提取金鑰
         self.api_key = os.environ.get("GEMINI_API_KEY", "")
@@ -185,8 +187,6 @@ class TaijiOmniverseCalendar:
                 .date-card {{ grid-column: span 12; background: var(--text-title); color: var(--bg-color); text-align: center; padding: 45px 20px; border: none; }}
                 .date-card h1 {{ font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; margin: 0; color: var(--bg-color); letter-spacing: -2px; }}
                 .date-card p.lunar {{ font-size: 1.1rem; color: var(--bg-color); opacity: 0.9; letter-spacing: 5px; margin: 15px 0 0 0; text-transform: uppercase; }}
-                .almanac-box {{ margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px; display: inline-block; text-align: left; }}
-                .almanac-yi {{ color: #4ec9b0; font-weight: bold; }} .almanac-ji {{ color: #e63946; font-weight: bold; }}
                 .headline-card {{ grid-column: span 12; background: var(--hero-bg); text-align: center; padding: 50px 20px; border-bottom: 3px solid var(--text-title); }}
                 .headline-card h2 {{ font-family: var(--font-title); font-size: 2.5rem; color: var(--text-title); margin: 0 0 15px 0; }}
                 .quote-card {{ grid-column: span 12; text-align: center; padding: 50px 30px; position: relative; }}
@@ -219,10 +219,6 @@ class TaijiOmniverseCalendar:
                 <div class="card date-card">
                     <h1 id="display-date">{self.payload['date']}</h1>
                     <p class="lunar" id="display-lunar">正在演算農民曆...</p>
-                    <div class="almanac-box">
-                        <div><span class="almanac-yi">【本日宜】</span> <span id="display-yi">演算中...</span></div>
-                        <div><span class="almanac-ji">【本日忌】</span> <span id="display-ji">演算中...</span></div>
-                    </div>
                 </div>
 
                 <div class="card headline-card">
@@ -302,7 +298,7 @@ class TaijiOmniverseCalendar:
                 ];
 
                 let currentThemeIndex = -1; 
-                let currentAlmanacData = {{ yi: "演算中...", ji: "演算中...", lunarStr: "正在演算農民曆..." }};
+                let currentAlmanacData = {{ lunarStr: "正在演算農民曆..." }};
 
                 function getRandomItem(arr) {{ return arr[Math.floor(Math.random() * arr.length)]; }}
                 function getRandomTwo(arr) {{
@@ -325,22 +321,13 @@ class TaijiOmniverseCalendar:
                         const jieQi = lunar.getJieQi();
                         if(jieQi) lunarStr += ` | 節氣: ${{jieQi}}`;
                         
-                        currentAlmanacData.yi = lunar.getDayYi().join("、") || "無特別宜事";
-                        currentAlmanacData.ji = lunar.getDayJi().join("、") || "無特別忌諱";
                         currentAlmanacData.lunarStr = lunarStr;
-                        
                         document.getElementById('display-lunar').innerText = currentAlmanacData.lunarStr;
-                        document.getElementById('display-yi').innerText = currentAlmanacData.yi;
-                        document.getElementById('display-ji').innerText = currentAlmanacData.ji;
                         randomizeAll();
                     }} catch (e) {{
                         console.error("農民曆演算失敗：", e);
-                        currentAlmanacData.yi = "外出、喝水";
-                        currentAlmanacData.ji = "動怒、熬夜";
                         currentAlmanacData.lunarStr = "農曆查無資料";
                         document.getElementById('display-lunar').innerText = currentAlmanacData.lunarStr;
-                        document.getElementById('display-yi').innerText = currentAlmanacData.yi;
-                        document.getElementById('display-ji').innerText = currentAlmanacData.ji;
                         randomizeAll();
                     }}
                 }}
@@ -426,9 +413,7 @@ class TaijiOmniverseCalendar:
 - 物理狀態: ${{stages[0]}}。${{acts[0]}}。${{emos[0]}}, ${{texs[0]}}。
 【角色B: ${{payload.zodiac_sign}}史萊姆】
 - 專屬配件: ${{payload.zodiac_color}}, ${{payload.zodiac_visual}}。
-- 物理狀態: ${{stages[1]}}。${{acts[1]}}。${{emos[1]}}, ${{texs[1]}}。
----
-(後製排版用，繪圖AI勿理會: 宜="${{currentAlmanacData.yi}}", 忌="${{currentAlmanacData.ji}}")`;
+- 物理狀態: ${{stages[1]}}。${{acts[1]}}。${{emos[1]}}, ${{texs[1]}}。`;
                     document.getElementById('rawPrompt').value = promptText;
 
                     let cap = "📅 " + currentDate + " | " + currentAlmanacData.lunarStr + "\\n\\n";
