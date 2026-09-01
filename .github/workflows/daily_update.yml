@@ -14,21 +14,21 @@ jobs:
 
     steps:
     - name: 📥 降落並取得專案檔案
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: 🐍 安裝 Python 系統
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.12'
 
     - name: ⚙️ 裝填通訊套件
       run: |
         python -m pip install --upgrade pip
-        pip install google-generativeai
+        pip install google-generativeai requests
 
     - name: 🧠 啟動靈魂引擎 (執行您的 Python)
       env:
-        # 機器人會在這裡秘密取出您剛才存的保險箱金鑰
+        # 🔑 機器人會在這裡秘密取出您剛才存的保險箱金鑰
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       run: python taiji_engine.py
 
