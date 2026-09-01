@@ -36,7 +36,6 @@ class TaijiOmniverseCalendar:
         self.star_visuals = {"水瓶座": {"c": "星空藍", "v": "發光的水波紋"}, "雙魚座": {"c": "海洋藍", "v": "光影小魚"}, "牡羊座": {"c": "火焰紅", "v": "螺旋羊角"}, "金牛座": {"c": "大地綠", "v": "黃金牛角"}, "雙子座": {"c": "明亮黃", "v": "雙重顏色"}, "巨蟹座": {"c": "珍珠白", "v": "珍珠光澤"}, "獅子座": {"c": "王者金", "v": "黃金皇冠"}, "處女座": {"c": "純淨白", "v": "光芒花瓣"}, "天秤座": {"c": "湖水綠", "v": "黃金小天平"}, "天蠍座": {"c": "深邃紫", "v": "紫色毒刺"}, "射手座": {"c": "自由橘", "v": "光之弓箭"}, "摩羯座": {"c": "沉穩褐", "v": "神秘符文"}}
         self.zodiac_visuals = {"鼠": {"c": "灰曜色", "v": "小老鼠耳朵"}, "牛": {"c": "厚土色", "v": "堅硬牛角"}, "虎": {"c": "霸氣橘", "v": "老虎斑紋"}, "兔": {"c": "櫻花粉", "v": "兔子耳朵"}, "龍": {"c": "神聖金", "v": "威武龍角"}, "蛇": {"c": "翡翠綠", "v": "細長蛇鱗"}, "馬": {"c": "疾風棕", "v": "馬鬃毛"}, "羊": {"c": "溫柔白", "v": "綿羊角"}, "猴": {"c": "靈動桃", "v": "猴子尾巴"}, "雞": {"c": "晨曦紅", "v": "鮮豔雞冠"}, "狗": {"c": "忠誠黃", "v": "可愛狗狗耳朵"}, "豬": {"c": "豐饒粉", "v": "粉紅豬鼻子"}}
         
-        # 🎵 更換為保證可嵌入播放的無版權音樂/直播串流
         self.fortune_fusion = [
             {"text": "星象顯示有破財危機，請立刻關閉所有購物APP的推播通知。", "prop": "一張正在燃燒的信用卡", "music_text": "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", "yt_id": "jfKfPfyJRdk"}, 
             {"text": "水星逆行引發通訊危機，今日請再三確認訊息是否發錯群組。", "prop": "一支停在尷尬聊天室畫面的手機", "music_text": "🎶 輕快 Lofi Beats - 保持心情平靜", "yt_id": "4xDzrIxMSt8"}, 
@@ -105,7 +104,7 @@ class TaijiOmniverseCalendar:
                 except: continue
 
             if not working_model: return self.fallback_quotes, False, "所有模型實測皆遭拒"
-            sys_log_msg = f"V41 音軌修復完成，鎖定模型: {working_model}"
+            sys_log_msg = f"V42 網址根目錄修正完成，鎖定模型: {working_model}"
 
             titles_text = "\n".join([f"- {t}" for t in forum_titles])
             prompt = f"你是一位洞悉台灣社會現象的社群文案大師。今天是 {self.today.strftime('%Y-%m-%d')}。參考以下 Dcard 熱門標題的社會氛圍：\n{titles_text}\n為我寫出 5 組日曆圖文 (包含生活、上班等普世痛點)。\n請嚴格以 JSON 陣列格式回傳，每組包含：\n1. article: 30字以內的幽默/療癒前言短文\n2. q: 畫龍點睛的一句金句\n3. p: 痛點標籤\n格式範例：[ {{\\\"article\\\": \\\"短文...\\\", \\\"q\\\": \\\"金句...\\\", \\\"p\\\": \\\"標籤\\\"}} ]"
@@ -121,7 +120,9 @@ class TaijiOmniverseCalendar:
     def export_to_html(self):
         current_dir = os.path.dirname(os.path.abspath(__file__))
         template_path = os.path.join(current_dir, 'template.html')
-        output_path = os.path.join(current_dir, 'taiji_dashboard.html')
+        
+        # 🔑 重大修改：將輸出檔名直接改為 index.html，讓根目錄網址生效！
+        output_path = os.path.join(current_dir, 'index.html') 
         
         try:
             with open(template_path, 'r', encoding='utf-8') as f:
