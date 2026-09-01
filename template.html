@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Creator V42</title>
+    <title>TAIJI Omniverse Creator V43</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Inter:wght@400;600;700;900&display=swap');
@@ -32,7 +32,7 @@
         .btn-copy.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
         .btn-copy:hover { opacity: 0.9; transform: translateY(-2px); }
         
-        textarea.visible-box { width: 100%; flex-grow: 1; min-height: 280px; background: var(--hero-bg); color: var(--text-main); border: 1px solid #ccc; padding: 15px; border-radius: 8px; resize: vertical; font-size: 0.95rem; font-family: inherit; line-height: 1.6; box-sizing: border-box; }
+        textarea.visible-box { width: 100%; flex-grow: 1; min-height: 250px; background: var(--hero-bg); color: var(--text-main); border: 1px solid #ccc; padding: 15px; border-radius: 8px; resize: vertical; font-size: 0.95rem; font-family: inherit; line-height: 1.6; box-sizing: border-box; }
         .ai-image-preview { width: 100%; height: auto; border-radius: 8px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: block; object-fit: cover; aspect-ratio: 9/16; background: #e0e0e0 url('https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif') no-repeat center center; }
 
         @media (max-width: 768px) { .info-card { grid-column: span 12; } }
@@ -82,7 +82,7 @@
                 <h3>🎨 視覺產出 (AI Prompt & Image)</h3>
                 <button class="btn-copy" onclick="copyText('rawPrompt', 'btnMsgAI')" id="btnMsgAI">📸 點擊複製算圖指令 (Prompt)</button>
                 <textarea id="rawPrompt" class="visible-box" readonly></textarea>
-                <p style="margin: 15px 0 5px 0; font-size: 0.9rem; font-weight: bold;">✨ 即時 AI 預覽圖 (可右鍵另存)：</p>
+                <p style="margin: 15px 0 5px 0; font-size: 0.9rem; font-weight: bold; color: #e63946;">✨ 免費 AI 預覽草圖 (細節與光影請依賴上方 Prompt 交由付費工具算圖)：</p>
                 <img id="ai-image-result" class="ai-image-preview" src="" alt="AI Generated Image">
             </div>
 
@@ -105,42 +105,42 @@
             { class: 'theme-brutus', name: 'BRUTUS 高級暗黑風' }, { class: 'theme-casa', name: 'CASA BRUTUS 生活美學風' }
         ];
 
-        // 🌟 終極攝影生成器 (Combinatorics Engine)
-        // 將主題、光影、鏡頭物理參數分開，創造數千種國家地理級的神級排列組合
+        // 🌟 V43 終極多元矩陣：徹底打碎重組的靈感盲盒
+        
+        // 1. 視覺風格 (定義整張圖的靈魂)
+        const promptGenres = [
+            "Cozy lifestyle editorial photography",
+            "Cinematic neo-noir street photography",
+            "Hyper-realistic macro photography",
+            "Minimalist architectural photography",
+            "Studio Ghibli anime style illustration, soft watercolor",
+            "Vintage 35mm film photography, Kodak Portra 400",
+            "Epic National Geographic astrophotography",
+            "Moody food magazine editorial photography"
+        ];
+
+        // 2. 主角與場景 (包含您感興趣的日常與風景)
         const promptSubjects = [
-            "A pristine teardrop-shaped high-altitude alpine lake nestled in a golden grassy crater",
-            "A majestic snow-capped mountain peak reflecting perfectly on a mirror-like calm water surface",
-            "A vintage glass siphon coffee maker actively brewing premium dark roast coffee with dynamic bubbles",
-            "Freshly baked Spanish churros paired with a steaming cup of thick hot chocolate on a textured oak table",
-            "An advanced glowing 3D printer operating in a dark high-tech workshop with neon blue and magenta filaments",
-            "A lone hiker standing at the edge of a steep misty mountain cliff facing the vast breathtaking wilderness",
-            "A close-up of a delicate blooming lotus flower with crystal clear morning dew drops",
-            "A bustling cyberpunk city street at midnight drenched in rain with vivid neon sign reflections",
-            "A majestic wild tiger prowling gracefully through a dense emerald green jungle",
-            "A serene minimalist Japanese Zen garden with a bamboo water fountain and smooth raked sand",
-            "An epic aerial view of a deep grand canyon with a winding turquoise river at the bottom",
-            "A beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs",
-            "A majestic humpback whale gliding gracefully through sunlit crystal clear ocean waters",
-            "A cinematic portrait of an old artisan carefully crafting a wooden sculpture in a dusty workshop"
+            "a vintage glass siphon coffee maker actively brewing coffee on a wooden table, rich steam",
+            "a plate of freshly baked Spanish churros paired with a steaming cup of thick hot chocolate",
+            "an advanced 3D printer crafting a complex geometric sculpture in a dark high-tech workshop",
+            "a pristine high-altitude alpine lake reflecting a magnificent Milky Way galaxy, facing southwest",
+            "a solitary figure walking down a rain-drenched neon-lit city street at midnight with a clear umbrella",
+            "a close-up of morning dew resting on a lush green fern leaf in a dense forest",
+            "a sleek minimalist concrete staircase with dramatic geometric light and shadow",
+            "a cute fluffy cat sleeping peacefully next to a pile of old books near a sunlit window",
+            "a bustling night market with vibrant food stalls, glowing lanterns, and steam rising into the air",
+            "a beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs"
         ];
 
-        const promptLightings = [
-            "Soft golden hour sunlight illuminating the subject, volumetric lighting",
-            "A magnificent and highly detailed Milky Way galaxy arches across the clear night sky",
-            "Dramatic moody lighting, heavy mist and deep cinematic shadows",
-            "Cinematic neon lighting, high contrast, cyberpunk aesthetic",
-            "Soft ambient morning light, dust motes dancing gracefully in the rays"
+        // 3. 濾鏡與相機參數 (確保高質感)
+        const promptModifiers = [
+            "shot on 50mm lens, f/1.8, warm golden hour sunlight, volumetric lighting, masterpiece, 8k",
+            "dramatic lighting, cinematic composition, photorealistic, highly detailed, Unreal Engine 5 render",
+            "soft ambient daylight, beautiful shallow depth of field, sharp focus on the subject",
+            "shot with an ultra-wide 14mm lens, long exposure, raw and natural true colors, award-winning",
+            "vibrant pastel colors, dreamy and ethereal atmosphere, highly aesthetic"
         ];
-
-        const promptCameras = [
-            "Shot with an ultra-wide 14mm lens, f/1.8 aperture, long exposure astrophotography",
-            "Shot with a 100mm macro lens, f/2.8, beautiful shallow depth of field, sharp focus",
-            "Shot on 35mm lens, f/1.4, cinematic wide framing",
-            "Shot on Hasselblad H6D-400c, 50mm lens, f/2.0, medium format aesthetics",
-            "Epic drone photography, extreme wide aerial perspective"
-        ];
-
-        const masterModifiers = "National Geographic award-winning photo, masterpiece, best quality, ultra-detailed, photorealistic, 8k resolution, RAW photo, highly detailed, raw and natural true colors, Unreal Engine 5 render, cinematic lighting --ar 9:16 --style raw --v 6.0";
 
         function getAstrologySignsByDate(dateStr) {
             const d = new Date(dateStr + "T00:00:00");
@@ -202,15 +202,16 @@
             document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
             document.getElementById('ui-pain').innerText = selectedQuote.p;
             
-            // 🔥 組合生成獨一無二的高純度 Prompt
-            const subj = getRandomItem(promptSubjects);
-            const light = getRandomItem(promptLightings);
-            const cam = getRandomItem(promptCameras);
-            const fullPrompt = `${subj}. ${light}. ${cam}. ${masterModifiers}`;
+            // 🔥 隨機縫合：風格 + 主體 + 濾鏡
+            const genre = getRandomItem(promptGenres);
+            const subject = getRandomItem(promptSubjects);
+            const modifier = getRandomItem(promptModifiers);
+            
+            const fullPrompt = `${genre} of ${subject}. ${modifier} --ar 9:16 --v 6.0`;
             document.getElementById('rawPrompt').value = fullPrompt;
             
-            // 生成網頁預覽圖 (抽取主題與光影餵給免費 API)
-            const safeUrlPrompt = encodeURIComponent(`${subj}, ${light}, photorealistic, 8k resolution, highly detailed`);
+            // 傳送給免費預覽 API (僅作為草圖參考)
+            const safeUrlPrompt = encodeURIComponent(`${genre} of ${subject}, highly detailed`);
             document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
             
             const lunarFullText = document.getElementById('display-lunar').innerText;
