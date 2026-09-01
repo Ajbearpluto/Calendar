@@ -26,7 +26,7 @@ class TaijiOmniverseCalendar:
         self.forum_titles = self.fetch_social_forum_trends()
         self.dynamic_quotes, self.is_llm_active = self.generate_quotes_via_llm(self.forum_titles)
         
-        # 🌌 【宇宙曆法公式】根據年月日的絕對軌跡推算
+        # 🌌 【宇宙曆法公式】根據年月日的絕對軌跡推算，保證每天變化
         year = self.today.year
         month = self.today.month
         day = self.today.day
@@ -80,6 +80,7 @@ class TaijiOmniverseCalendar:
             "豬": {"c": "豐饒粉", "v": "擁有一個可愛的粉紅豬鼻子"}
         }
         
+        # 📸 唯一鎖定：頂級寫實照 (涵蓋萬事萬物)
         self.art_styles = [
             "最高規格「頂級寫實照」光學成像參數 (極致寫實、大師級攝影光影、場景涵蓋宇宙星辰、工作日常、建築物、花草樹木等萬事萬物真實質感)"
         ]
@@ -155,7 +156,7 @@ class TaijiOmniverseCalendar:
         try:
             genai.configure(api_key=self.api_key)
             
-            # 🛠️ 【關鍵修復】指定最穩定的 gemini-1.5-flash 模型，移除失效的 latest 後綴
+            # 🛠️ 【精準修復】移除 latest，鎖定絕對穩定版模型 gemini-1.5-flash
             model = genai.GenerativeModel('gemini-1.5-flash')
             
             titles_text = "\n".join([f"- {t}" for t in forum_titles])
