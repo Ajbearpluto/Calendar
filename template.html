@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Creator V42 - High Purity Prompts</title>
+    <title>TAIJI Omniverse Creator V42</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Inter:wght@400;600;700;900&display=swap');
@@ -105,16 +105,42 @@
             { class: 'theme-brutus', name: 'BRUTUS 高級暗黑風' }, { class: 'theme-casa', name: 'CASA BRUTUS 生活美學風' }
         ];
 
-        // 🌟 史詩級高純度 Prompt 矩陣 (完美具備敘事與精確光學物理參數)
-        const purePrompts = [
-            "A breathtaking hyper-realistic landscape photography of a pristine high-altitude alpine lake resembling a blue sapphire nestled in a golden grassy crater. A magnificent and highly detailed Milky Way galaxy arches across the clear night sky, facing southwest. The brilliant starry night reflects perfectly on the mirror-like calm water surface. Shot with an ultra-wide 14mm lens, f/1.8 aperture, long exposure astrophotography. Majestic mountain peaks in the background, soft natural moonlight illuminating the foreground grass. Cinematic lighting, highly detailed, 8k resolution, National Geographic award-winning photo, raw and natural true colors, photorealistic.",
-            
-            "A hyper-realistic cinematic close-up of a vintage glass siphon coffee maker actively brewing premium dark roast coffee. Rich, dramatic steam curls elegantly against a dimly lit, warm-toned cafe background. The boiling water creating dynamic bubbles in the lower glass chamber. Shot with a 100mm macro lens, f/2.8, capturing every condensation drop and textural detail of the wooden stand. Soft ambient glowing light, masterpiece, volumetric lighting, photorealistic, ultra-detailed food editorial photography.",
-            
-            "An incredibly cozy and aesthetic morning view from inside a rustic wooden cabin. Soft, warm golden hour sunlight streaming through a large glass window, brilliantly illuminating a plate of freshly baked Spanish churros and a steaming cup of thick hot chocolate on a textured oak table. Dust motes dancing gracefully in the light rays. Shot on 50mm lens, f/2.0, natural window lighting, highly detailed, photorealistic, masterpiece food magazine photography.",
-            
-            "A stunning cyberpunk aesthetic street photography of a rain-drenched neon-lit city alley at midnight. Vivid magenta and cyan neon signs reflecting perfectly on the wet asphalt. A solitary figure with an open clear umbrella walking into the mist. Shot on 35mm lens, f/1.4 for shallow depth of field, dramatic shadows, cinematic framing, 8k resolution, photorealistic, atmospheric lighting."
+        // 🌟 終極攝影生成器 (Combinatorics Engine)
+        // 將主題、光影、鏡頭物理參數分開，創造數千種國家地理級的神級排列組合
+        const promptSubjects = [
+            "A pristine teardrop-shaped high-altitude alpine lake nestled in a golden grassy crater",
+            "A majestic snow-capped mountain peak reflecting perfectly on a mirror-like calm water surface",
+            "A vintage glass siphon coffee maker actively brewing premium dark roast coffee with dynamic bubbles",
+            "Freshly baked Spanish churros paired with a steaming cup of thick hot chocolate on a textured oak table",
+            "An advanced glowing 3D printer operating in a dark high-tech workshop with neon blue and magenta filaments",
+            "A lone hiker standing at the edge of a steep misty mountain cliff facing the vast breathtaking wilderness",
+            "A close-up of a delicate blooming lotus flower with crystal clear morning dew drops",
+            "A bustling cyberpunk city street at midnight drenched in rain with vivid neon sign reflections",
+            "A majestic wild tiger prowling gracefully through a dense emerald green jungle",
+            "A serene minimalist Japanese Zen garden with a bamboo water fountain and smooth raked sand",
+            "An epic aerial view of a deep grand canyon with a winding turquoise river at the bottom",
+            "A beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs",
+            "A majestic humpback whale gliding gracefully through sunlit crystal clear ocean waters",
+            "A cinematic portrait of an old artisan carefully crafting a wooden sculpture in a dusty workshop"
         ];
+
+        const promptLightings = [
+            "Soft golden hour sunlight illuminating the subject, volumetric lighting",
+            "A magnificent and highly detailed Milky Way galaxy arches across the clear night sky",
+            "Dramatic moody lighting, heavy mist and deep cinematic shadows",
+            "Cinematic neon lighting, high contrast, cyberpunk aesthetic",
+            "Soft ambient morning light, dust motes dancing gracefully in the rays"
+        ];
+
+        const promptCameras = [
+            "Shot with an ultra-wide 14mm lens, f/1.8 aperture, long exposure astrophotography",
+            "Shot with a 100mm macro lens, f/2.8, beautiful shallow depth of field, sharp focus",
+            "Shot on 35mm lens, f/1.4, cinematic wide framing",
+            "Shot on Hasselblad H6D-400c, 50mm lens, f/2.0, medium format aesthetics",
+            "Epic drone photography, extreme wide aerial perspective"
+        ];
+
+        const masterModifiers = "National Geographic award-winning photo, masterpiece, best quality, ultra-detailed, photorealistic, 8k resolution, RAW photo, highly detailed, raw and natural true colors, Unreal Engine 5 render, cinematic lighting --ar 9:16 --style raw --v 6.0";
 
         function getAstrologySignsByDate(dateStr) {
             const d = new Date(dateStr + "T00:00:00");
@@ -176,14 +202,15 @@
             document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
             document.getElementById('ui-pain').innerText = selectedQuote.p;
             
-            // 寫入完整的高純度 Prompt 並加上尺寸後綴
-            const basePrompt = getRandomItem(purePrompts);
-            const fullPrompt = `${basePrompt} --ar 9:16 --style raw --v 6.0`;
+            // 🔥 組合生成獨一無二的高純度 Prompt
+            const subj = getRandomItem(promptSubjects);
+            const light = getRandomItem(promptLightings);
+            const cam = getRandomItem(promptCameras);
+            const fullPrompt = `${subj}. ${light}. ${cam}. ${masterModifiers}`;
             document.getElementById('rawPrompt').value = fullPrompt;
             
-            // 為了不讓 API URL 超載，我們擷取第一句話發送給免費繪圖介面，但您的文字方塊依然保留最完整的大師級指令
-            const shortPromptForAPI = basePrompt.split('.')[0];
-            const safeUrlPrompt = encodeURIComponent(shortPromptForAPI + ", masterpiece, hyper realistic photography, 8k");
+            // 生成網頁預覽圖 (抽取主題與光影餵給免費 API)
+            const safeUrlPrompt = encodeURIComponent(`${subj}, ${light}, photorealistic, 8k resolution, highly detailed`);
             document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
             
             const lunarFullText = document.getElementById('display-lunar').innerText;
