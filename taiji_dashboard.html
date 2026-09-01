@@ -39,7 +39,7 @@
             <label>📅 時空跳躍：</label>
             <input type="date" id="ui-date-picker" value="2026-09-01">
             <button class="btn-apply" onclick="applyDateChange()">確認切換</button>
-            <span style="color:var(--text-main); font-weight:bold; margin-left:20px; cursor:pointer;" onclick="randomizeAll()">🔄 刷新排版</span>
+            <span style="color:var(--text-main); font-weight:bold; margin-left:20px; cursor:pointer;" onclick="randomizeAll()">🔄 刷新排版與內容</span>
         </div>
 
         <div class="card date-card">
@@ -59,6 +59,8 @@
             <div class="content" style="line-height:1.6; margin-top:10px;">
                 <strong>⚠️ 注意事項：</strong><br><span id="ui-fortune-text"></span><br><br>
                 <strong style="color:#d97706;" id="ui-fortune-music"></strong>
+                <!-- 🎵 迷你 YouTube 播放器鑲嵌區 -->
+                <div id="yt-player-container" style="margin-top: 15px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"></div>
             </div>
         </div>
 
@@ -67,11 +69,10 @@
             <div class="content" style="color: var(--text-sub); font-size: 0.85rem; line-height:1.6; margin-top:10px;">
                 <span style="color: #2563eb; font-weight: bold;">[大腦動態]</span> <span id="log-data-source"></span><br>
                 目前版型：<strong id="ui-web-theme" style="color:var(--text-main);"></strong><br>
-                架構升級：宗師級模組化系統已掛載。<br>
+                架構升級：V39 聽覺沉浸模組已掛載。<br>
             </div>
         </div>
 
-        <!-- 全新：專屬星座觀測站 -->
         <div class="card zodiac-card">
             <h3 style="border-bottom: 2px solid var(--text-title); padding-bottom:10px; margin-top:0;">✨ 12 星座專屬觀測站</h3>
             <div style="margin-top: 15px; display:flex; align-items:center; gap:15px;">
@@ -98,9 +99,9 @@
     </div>
 
     <script>
-        const quotes = [{"article": "鬧鐘響了三次，靈魂還在床上漂浮。看著戶頭餘額，決定還是用肉體換取微薄的生存費。", "q": "生活不是為了夢想，是為了繳帳單。", "p": "不想上班"}, {"article": "每天認真上班，月底一看存摺，發現自己只是幫房東和手搖飲店打工的精準窮人。", "q": "薪水追不上通膨，只好追劇壓驚。", "p": "存不到錢"}, {"article": "週一焦慮症準時發作，打開求職網滑了五分鐘，發現外面也是一片苦海，只好繼續乖乖加班。", "q": "逃離一個火坑，只是為了跳進另一個火坑。", "p": "職場人生"}, {"article": "滑著 Dcard 看到別人的 20 歲買房、30 歲財富自由，回頭看看自己的午餐便當，安慰自己至少有加滷蛋。", "q": "比貧窮更可怕的是，發現自己連窮都窮得很穩定。", "p": "社群焦慮"}, {"article": "下班路過超商，本想犒賞自己買杯咖啡，結帳前一秒還是默默放回架上，生活真的好難。", "q": "成年人的崩潰，是從算計每一塊錢開始的。", "p": "小資普生"}]; 
+        const quotes = [{"article": "鬧鐘響了三次，靈魂還在床上漂浮。看著戶頭餘額，才甘願把沉重的雙腿伸出被窩。", "q": "生活不是為了夢想，是為了繳帳單。", "p": "#不想上班想離職"}, {"article": "每天滑著脆跟Dcard，別人不是買房就是財富自由，只有我連手搖飲加料都要掙扎三秒。", "q": "薪水追不上通膨，只好追劇壓驚。", "p": "#存不到錢好焦慮"}, {"article": "週一進公司的那一刻，眼神已經死透。主管講話像是大悲咒，只差沒原地出家。", "q": "我的靈魂早在打卡那秒就離職了。", "p": "#週一症候群"}, {"article": "月底的超商便當是最後的溫柔，發薪日那天帳戶熱鬧三秒，然後又回歸平靜。", "q": "錢沒有不見，只是變成我不認識的樣子。", "p": "#月底吃土"}, {"article": "滑到以前同學出國打卡，再看看自己辦公桌上堆成山的文件，突然覺得人生最大的成就只是沒遲到。", "q": "活著已經很努力，請別再要求我精采。", "p": "#社畜日常"}]; 
         let payload = {"date": "2026-09-01", "star_sign": "牡羊座", "zodiac_sign": "馬"};
-        const fortunes = [{"text": "星象顯示有破財危機，請立刻關閉所有購物APP的推播通知。", "prop": "一張正在燃燒的信用卡", "music": "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮"}, {"text": "水星逆行引發通訊危機，今日請再三確認訊息是否發錯群組。", "prop": "一支停在尷尬聊天室畫面的手機", "music": "🎶 輕快 Lofi Beats - 保持心情平靜"}, {"text": "天王星帶來突發變動，原本的完美計畫隨時可能被一場大雨打亂。", "prop": "一雙踩進水坑的白球鞋", "music": "🎶 史詩氛圍 Epic Ambient - 迎接未知挑戰"}, {"text": "木星能量飽滿，今天是發揮靈感與整理思緒的絕佳時機。", "prop": "一杯冒著熱氣的黑咖啡", "music": "🎶 原聲吉他 Acoustic Folk - 專注與純粹"}];
+        const fortunes = [{"text": "星象顯示有破財危機，請立刻關閉所有購物APP的推播通知。", "prop": "一張正在燃燒的信用卡", "music_text": "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", "yt_id": "neV3EPgvZ3g"}, {"text": "水星逆行引發通訊危機，今日請再三確認訊息是否發錯群組。", "prop": "一支停在尷尬聊天室畫面的手機", "music_text": "🎶 輕快 Lofi Beats - 保持心情平靜", "yt_id": "8XIGrtnOUtc"}, {"text": "天王星帶來突發變動，原本的完美計畫隨時可能被一場大雨打亂。", "prop": "一雙踩進水坑的白球鞋", "music_text": "🎶 史詩氛圍 Epic Ambient - 迎接未知挑戰", "yt_id": "qH31oZlq-OQ"}, {"text": "木星能量飽滿，今天是發揮靈感與整理思緒的絕佳時機。", "prop": "一杯冒著熱氣的黑咖啡", "music_text": "🎶 原聲吉他 Acoustic Folk - 專注與純粹", "yt_id": "m1-uVn07Rkw"}];
         const zodiacAdvices = {"水瓶座": "今天你的直覺非常準確，如果在兩個選擇中猶豫，請相信你的第一反應。", "雙魚座": "感情方面需要多一點傾聽，少一點說教，對方其實只需要你的陪伴。", "牡羊座": "人際關係出現微妙的化學反應，主動對陌生人微笑，會開啟一段好緣分。", "金牛座": "適合規劃長遠目標的一天，哪怕只是寫下第一步，宇宙都會開始幫你。", "雙子座": "今天適合整理環境，丟掉不必要的雜物，能帶來意想不到的好運。", "巨蟹座": "工作上可能會遇到固執的同事，深呼吸，用柔和的語氣能化解僵局。", "獅子座": "靈感爆發的一天！把腦中閃過的點子立刻記下來，未來會派上用場。", "處女座": "體能狀態極佳，下班後去流點汗吧！這能幫你洗刷一整天的疲憊。", "天秤座": "長輩或長官會給你重要的建議，就算當下覺得刺耳，也請先收進心裡。", "天蠍座": "情緒稍顯低落，給自己泡杯好茶或咖啡，安靜獨處半小時能滿血復活。", "射手座": "計畫趕不上變化，與其死磕到底，不如順應局勢，換個方式會更輕鬆。", "摩羯座": "財運微幅上升，但切忌衝動購物，把錢投資在學習上會更有價值。"};
         const isLlmActive = true;
         const sysLog = "大腦重構完成，穩定鎖定模型: gemini-flash-lite-latest";
@@ -110,7 +111,6 @@
             { class: 'theme-brutus', name: 'BRUTUS 高級暗黑風' }, { class: 'theme-casa', name: 'CASA BRUTUS 生活美學風' }
         ];
 
-        // 國家地理、攝影大師風格的 Prompt 元素矩陣
         const sceneryStyles = [
             "award-winning landscape photography of a serene mountain trail above the clouds, golden hour lighting",
             "hyper-realistic close up of a professional coffee brewing process, rich dramatic steam, cozy morning vibe",
@@ -141,7 +141,7 @@
             document.getElementById('display-date').innerText = dateVal;
             const luckySigns = getAstrologySignsByDate(dateVal);
             payload.star_sign = luckySigns.star;
-            document.getElementById('zodiac-selector').value = luckySigns.star; // 自動切換到今日主星
+            document.getElementById('zodiac-selector').value = luckySigns.star; 
 
             let lunarDisplay = "農曆查無資料";
             try {
@@ -187,20 +187,21 @@
             const selectedQuote = getRandomItem(quotes);
 
             document.getElementById('ui-fortune-text').innerText = selectedFortune.text;
-            document.getElementById('ui-fortune-music').innerText = "建議配樂：" + (selectedFortune.music || "🎶 輕快純音樂");
+            document.getElementById('ui-fortune-music').innerText = "建議配樂：" + (selectedFortune.music_text || "🎶 輕快純音樂");
             
-            // 處理短文與金句顯示
+            // 鑲嵌微型 YouTube 音樂點唱機 (設定高度 80px 偽裝成純音樂播放列)
+            const ytId = selectedFortune.yt_id || "8XIGrtnOUtc";
+            document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube.com/embed/${ytId}?autoplay=0&controls=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            
             const articleText = selectedQuote.article ? selectedQuote.article : "";
             document.getElementById('ui-article').innerText = articleText;
             document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
             document.getElementById('ui-pain').innerText = selectedQuote.p;
             
-            // 1. 生成大師級攝影指令 (35mm 鏡頭、自然光、9:16 IG限動比例)
             const selectedScene = getRandomItem(sceneryStyles);
             const promptText = `${selectedScene}, shot on 35mm lens, f/2.8, highly detailed, dramatic natural lighting, photorealistic, 8k resolution, masterful composition --ar 9:16 --style raw --v 6.0`;
             document.getElementById('rawPrompt').value = promptText;
             
-            // 2. 生成完美 IG 文案 (結合短文與金句)
             const lunarFullText = document.getElementById('display-lunar').innerText;
             let lunarClean = lunarFullText.split(' | ')[0];
             let jieQiClean = lunarFullText.includes(' | 節氣: ') ? ` ${lunarFullText.split(' | 節氣: ')[1]}` : '';
