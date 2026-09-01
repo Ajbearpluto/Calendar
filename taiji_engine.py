@@ -17,7 +17,7 @@ class TaijiOmniverseCalendar:
         self.real_trends = self.fetch_google_rss_trends()
         self.forum_titles = self.fetch_social_forum_trends()
         
-        # 執行實彈排雷與生成
+        # 執行實彈排雷與生成 (保留成功的 V35 邏輯)
         self.dynamic_quotes, self.is_llm_active, self.sys_log = self.generate_quotes_via_llm(self.forum_titles)
         
         year, month, day = self.today.year, self.today.month, self.today.day
@@ -37,17 +37,18 @@ class TaijiOmniverseCalendar:
         }
 
     def _init_static_databases(self):
-        self.star_visuals = {"水瓶座": {"c": "星空藍", "v": "發光水波紋"}, "雙魚座": {"c": "海洋藍", "v": "光影小魚"}, "牡羊座": {"c": "火焰紅", "v": "發光羊角"}, "金牛座": {"c": "大地綠", "v": "黃金牛角"}, "雙子座": {"c": "明亮黃", "v": "雙重顏色分裂"}, "巨蟹座": {"c": "珍珠白", "v": "珍珠光澤"}, "獅子座": {"c": "王者金", "v": "黃金皇冠"}, "處女座": {"c": "純淨白", "v": "光芒花瓣"}, "天秤座": {"c": "湖水綠", "v": "黃金小天平"}, "天蠍座": {"c": "深邃紫", "v": "紫色毒刺"}, "射手座": {"c": "自由橘", "v": "光之弓箭"}, "摩羯座": {"c": "沉穩褐", "v": "神秘符文"}}
-        self.zodiac_visuals = {"鼠": {"c": "灰曜色", "v": "小老鼠耳朵"}, "牛": {"c": "厚土色", "v": "堅硬牛角"}, "虎": {"c": "霸氣橘", "v": "老虎斑紋"}, "兔": {"c": "櫻花粉", "v": "兔子耳朵"}, "龍": {"c": "神聖金", "v": "威武龍角"}, "蛇": {"c": "翡翠綠", "v": "蛇鱗反光"}, "馬": {"c": "疾風棕", "v": "馬鬃毛光影"}, "羊": {"c": "溫柔白", "v": "綿羊角"}, "猴": {"c": "靈動桃", "v": "猴子尾巴"}, "雞": {"c": "晨曦紅", "v": "鮮豔雞冠"}, "狗": {"c": "忠誠黃", "v": "狗狗耳朵"}, "豬": {"c": "豐饒粉", "v": "粉紅豬鼻子"}}
-        self.art_styles = ["極致寫實照"]
+        self.star_visuals = {"水瓶座": {"c": "星空藍", "v": "周圍環繞著發光的水波紋"}, "雙魚座": {"c": "海洋藍", "v": "頭頂有兩條光影小魚環繞"}, "牡羊座": {"c": "火焰紅", "v": "擁有發光的螺旋羊角"}, "金牛座": {"c": "大地綠", "v": "帶著小巧的黃金牛角"}, "雙子座": {"c": "明亮黃", "v": "身體有著雙重顏色的分裂感"}, "巨蟹座": {"c": "珍珠白", "v": "表面有一層閃亮的珍珠光澤"}, "獅子座": {"c": "王者金", "v": "頭頂戴著一頂微型的黃金皇冠"}, "處女座": {"c": "純淨白", "v": "周圍有純潔的光芒與花瓣飄落"}, "天秤座": {"c": "湖水綠", "v": "頭頂懸浮著一個發光的黃金小天平"}, "天蠍座": {"c": "深邃紫", "v": "背後有一條若隱若現的紫色毒刺光影"}, "射手座": {"c": "自由橘", "v": "背著一把迷你的光之弓箭"}, "摩羯座": {"c": "沉穩褐", "v": "額頭有發光的神秘符文"}}
+        self.zodiac_visuals = {"鼠": {"c": "灰曜色", "v": "擁有靈動的小老鼠耳朵"}, "牛": {"c": "厚土色", "v": "帶著堅硬的牛角與鼻環"}, "虎": {"c": "霸氣橘", "v": "身上有著明顯的老虎斑紋"}, "兔": {"c": "櫻花粉", "v": "擁有長長的毛茸茸兔子耳朵"}, "龍": {"c": "神聖金", "v": "頭上長著威武的龍角"}, "蛇": {"c": "翡翠綠", "v": "身體呈現細長且帶有蛇鱗反光"}, "馬": {"c": "疾風棕", "v": "背部有著飄逸的馬鬃毛光影"}, "羊": {"c": "溫柔白", "v": "頭側有捲曲的綿羊角"}, "猴": {"c": "靈動桃", "v": "擁有一條長長的猴子尾巴"}, "雞": {"c": "晨曦紅", "v": "頭頂著鮮豔的雞冠"}, "狗": {"c": "忠誠黃", "v": "有著下垂的可愛狗狗耳朵"}, "豬": {"c": "豐饒粉", "v": "擁有一個可愛的粉紅豬鼻子"}}
+        self.art_styles = ["最高規格「頂級寫實照」光學成像參數 (極致寫實、大師級攝影光影)"]
         self.fortune_fusion = [
             {"text": "星象顯示有破財危機，請立刻關閉所有購物APP的推播通知。", "prop": "一張正在燃燒的信用卡"},
-            {"text": "水星逆行引發通訊危機，今日請再三確認訊息是否發錯群組。", "prop": "一支停在尷尬聊天室畫面的手機"}
+            {"text": "水星逆行引發通訊危機，今日請再三確認訊息是否發錯群組。", "prop": "一支停在尷尬聊天室畫面的手機"},
+            {"text": "天王星帶來突發變動，原本的完美計畫隨時可能被一場大雨打亂。", "prop": "一雙踩進水坑的白球鞋"}
         ]
         self.themes_data = {
-            "社畜的生存掙扎": {"stages": ["被死線追殺", "眼神空洞"], "emotions": ["無聲尖叫", "放棄思考"], "textures": ["裂開", "石化狀態"], "actions": ["癱瘓", "無力敲擊"]},
-            "月光族的月底日常": {"stages": ["準備吃土", "物慾極高"], "emotions": ["驚恐", "心如刀割"], "textures": ["像紙一樣薄", "貧窮裂痕"], "actions": ["抱錢包痛哭", "找發票"]},
-            "極致的懶散躺平": {"stages": ["拒絕營業", "物理性登出"], "emotions": ["毫無波瀾", "慵懶"], "textures": ["融化成液體", "軟爛麻糬"], "actions": ["極致鬆弛", "緩慢蠕動"]}
+            "社畜的生存掙扎": {"stages": ["被死線追殺的社畜", "眼神空洞的會議參與者"], "emotions": ["發出無聲的尖叫", "徹底放棄思考"], "textures": ["像史萊姆一樣裂開", "變成灰白色的石化狀態"], "actions": ["在辦公桌前癱瘓", "無力地敲擊鍵盤"]},
+            "月光族的月底日常": {"stages": ["月底準備吃土的生存者", "物慾極高但沒錢的幻想家"], "emotions": ["看到價格標籤後的驚恐", "心如刀割的痛楚"], "textures": ["變得像紙一樣薄", "表面出現貧窮的裂痕"], "actions": ["抱著空的錢包痛哭", "在地上尋找發票"]},
+            "極致的懶散躺平": {"stages": ["拒絕營業的廢物", "試圖物理性登出的人類"], "emotions": ["毫無波瀾，徹底放空", "散發著慵懶的氣息"], "textures": ["融化成一灘液體", "像麻糬一樣軟爛"], "actions": ["展現極致鬆弛感", "緩慢地蠕動"]}
         }
         self.fallback_quotes = [
             {"q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學"},
@@ -86,7 +87,6 @@ class TaijiOmniverseCalendar:
             return self.fallback_quotes, False, "未偵測到 API 金鑰"
 
         try:
-            # 階段一：取得帳號可用模型清單
             list_url = f"https://generativelanguage.googleapis.com/v1beta/models?key={self.api_key}"
             list_resp = requests.get(list_url, timeout=10)
             if list_resp.status_code != 200:
@@ -97,14 +97,12 @@ class TaijiOmniverseCalendar:
             
             for m in models_data:
                 name = m.get('name', '').lower()
-                # 篩選條件：支援 generateContent 且為 gemini 系列，排除 embedding/vision 專用模型
                 if 'generatecontent' in [method.lower() for method in m.get('supportedGenerationMethods', [])] and 'gemini' in name and 'vision' not in name:
                     candidate_models.append(m['name'].replace('models/', ''))
 
             if not candidate_models:
                 return self.fallback_quotes, False, "帳號無可用的生成模型"
 
-            # 階段二：實彈測試 (Ping) - 找出第一個真正存活的節點
             working_model = None
             headers = {"Content-Type": "application/json"}
             test_payload = {"contents": [{"parts": [{"text": "1"}]}]}
@@ -120,11 +118,10 @@ class TaijiOmniverseCalendar:
                     continue
 
             if not working_model:
-                return self.fallback_quotes, False, "所有候選模型實測皆遭拒，請確認 API 額度或權限。"
+                return self.fallback_quotes, False, "所有模型實測皆遭拒，請確認 API 額度。"
 
-            sys_log_msg = f"V35 實測通過，鎖定模型: {working_model}"
+            sys_log_msg = f"V36 實測通過，鎖定模型: {working_model}"
 
-            # 階段三：正式執行文案生成
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{working_model}:generateContent?key={self.api_key}"
             titles_text = "\n".join([f"- {t}" for t in forum_titles])
             prompt = f"""
@@ -146,164 +143,4 @@ class TaijiOmniverseCalendar:
             if response.status_code == 200:
                 data = response.json()
                 raw_text = data['candidates'][0]['content']['parts'][0]['text']
-                raw_text = raw_text.replace("```json", "").replace("```", "").strip()
-                new_quotes = json.loads(raw_text)
-                return new_quotes, True, sys_log_msg
-            else:
-                return self.fallback_quotes, False, f"{working_model} 生成遭拒: 代碼 {response.status_code}"
-                
-        except Exception as e:
-            return self.fallback_quotes, False, f"執行崩潰：{str(e)}"
-
-    def export_to_html(self):
-        themes_js = json.dumps(self.themes_data, ensure_ascii=False)
-        quotes_js = json.dumps(self.dynamic_quotes, ensure_ascii=False)
-        payload_js = json.dumps(self.payload, ensure_ascii=False)
-        real_trends_js = json.dumps(self.real_trends, ensure_ascii=False)
-        fortune_js = json.dumps(self.fortune_fusion, ensure_ascii=False)
-        star_visuals_js = json.dumps(self.star_visuals, ensure_ascii=False)
-        zodiac_visuals_js = json.dumps(self.zodiac_visuals, ensure_ascii=False)
-        is_llm_active_js = "true" if self.is_llm_active else "false"
-        sys_log_js = json.dumps(self.sys_log, ensure_ascii=False)
-
-        html_content = f"""
-        <!DOCTYPE html>
-        <html lang="zh-TW">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>TAIJI V35 Auto-Drive Edition</title>
-            <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
-            <style>
-                @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Inter:wght@400;600;700;900&display=swap');
-                :root {{ --bg-color: #ffffff; --card-bg: #ffffff; --text-title: #111111; --text-main: #333333; --text-sub: #888888; --font-title: 'Noto Serif TC', serif; --font-body: 'Inter', sans-serif; --border-radius: 0px; --border-style: 1px solid #eeeeee; --hero-bg: #f9f9f9; --btn-bg: #111111; --btn-text: #ffffff; --spacing: 40px; }}
-                body.theme-popeye {{ --bg-color: #F5F3E9; --text-title: #0d3b66; --border-radius: 12px; --border-style: 2px solid #1a1a1a; --btn-bg: #e63946; }}
-                body.theme-brutus {{ --bg-color: #121212; --card-bg: #1e1e1e; --text-title: #f5f5f5; --text-main: #e0e0e0; --text-sub: #757575; --border-radius: 4px; --border-style: 1px solid #333333; --hero-bg: #1a1a1a; --btn-bg: #f5f5f5; --btn-text: #121212; }}
-                body.theme-wired {{ --bg-color: #ffffff; --card-bg: #f4f5f7; --text-title: #000000; --text-main: #111111; --text-sub: #6b7280; --border-radius: 16px; --border-style: none; --hero-bg: #ebf5ff; --btn-bg: #2563eb; --btn-text: #ffffff; }}
-                body {{ font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 40px 20px; transition: all 0.5s ease; }}
-                .editorial-grid {{ max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }}
-                .card {{ background: var(--card-bg); border-radius: var(--border-radius); padding: var(--spacing); border: var(--border-style); transition: all 0.3s ease; }}
-                .date-card {{ grid-column: span 12; background: var(--text-title); color: var(--bg-color); text-align: center; padding: 45px 20px; border: none; }}
-                .date-card h1 {{ font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; margin: 0; color: var(--bg-color); letter-spacing: -2px; }}
-                .date-card p.lunar {{ font-size: 1.1rem; color: var(--bg-color); opacity: 0.9; letter-spacing: 5px; margin: 15px 0 0 0; text-transform: uppercase; }}
-                .headline-card {{ grid-column: span 12; background: var(--hero-bg); text-align: center; padding: 50px 20px; border-bottom: 3px solid var(--text-title); }}
-                .headline-card h2 {{ font-family: var(--font-title); font-size: 2.5rem; color: var(--text-title); margin: 0 0 15px 0; }}
-                .quote-card {{ grid-column: span 12; text-align: center; padding: 50px 30px; position: relative; }}
-                .quote-card h2 {{ font-family: var(--font-title); font-size: 1.8rem; line-height: 1.5; color: var(--text-title); margin: 0 0 15px 0; }}
-                .badge-llm {{ background: #4ec9b0; color: #111; padding: 6px 14px; font-size: 0.75rem; font-weight: bold; border-radius: 20px; display: inline-block; margin-bottom: 15px; }}
-                .badge-static {{ background: #ef4444; color: #fff; padding: 6px 14px; font-size: 0.75rem; font-weight: bold; border-radius: 20px; display: inline-block; margin-bottom: 15px; }}
-                .info-card {{ grid-column: span 6; }} .actor-card {{ grid-column: span 6; }}
-            </style>
-        </head>
-        <body>
-            <div class="editorial-grid">
-                <div class="card date-card">
-                    <h1 id="display-date">{self.payload['date']}</h1>
-                    <p class="lunar" id="display-lunar">正在演算農民曆...</p>
-                </div>
-
-                <div class="card headline-card">
-                    <p style="text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; margin-bottom:15px; font-weight: bold;">Google Trends Live</p>
-                    <h2 id="ui-scene"></h2>
-                </div>
-
-                <div class="card quote-card" id="quote-card-container">
-                    <div id="llm-badge"></div>
-                    <h2 id="ui-quote"></h2>
-                    <span style="display:inline-block; margin-top:10px;">DAILY EDITORIAL · 📌 今日觀察：<strong id="ui-pain"></strong></span>
-                </div>
-                
-                <div class="card info-card">
-                    <h3 style="border-bottom: 1px solid var(--text-sub); padding-bottom:10px;">系統日誌</h3>
-                    <div class="content" style="color: var(--text-sub); font-size: 0.85rem; line-height:1.6; margin-top:10px;">
-                        <span style="color: #2563eb; font-weight: bold;">[最新動態]</span> <span id="log-data-source"></span><br>
-                        自動化工廠：V35 實彈排雷連線系統已啟動。<br>
-                    </div>
-                </div>
-
-                <div class="card actor-card">
-                    <h3 id="title-actor-a" style="border-bottom: 2px solid var(--text-title); padding-bottom:10px; margin-top:0;">A. {self.payload['star_sign']} Slime</h3>
-                    <div class="detail-list" style="line-height:1.8; margin-top:10px;">
-                        <strong>狀態：</strong><span id="ui-stage-a"></span><br><strong>表情：</strong><span id="ui-emo-a"></span><br>
-                        <strong>材質：</strong><span id="ui-tex-a"></span><br><strong>動作：</strong><span id="ui-act-a"></span>
-                    </div>
-                </div>
-            </div>
-
-            <script>
-                const themes = {themes_js};
-                const quotes = {quotes_js}; 
-                const realTrends = {real_trends_js};
-                const isLlmActive = {is_llm_active_js};
-                const sysLog = {sys_log_js};
-                const payload = {payload_js};
-                
-                const webThemes = [
-                    {{ class: '', name: 'KINFOLK 極簡北歐風' }},
-                    {{ class: 'theme-popeye', name: 'POPEYE 潮流日雜風' }},
-                    {{ class: 'theme-brutus', name: 'BRUTUS 高級暗黑風' }},
-                    {{ class: 'theme-wired', name: 'WIRED 前衛科技風' }}
-                ];
-
-                function getRandomItem(arr) {{ return arr[Math.floor(Math.random() * arr.length)]; }}
-                function getRandomTwo(arr) {{
-                    let shuffled = arr.slice(0), i = arr.length, temp, index;
-                    while (i--) {{ index = Math.floor((i + 1) * Math.random()); temp = shuffled[index]; shuffled[index] = shuffled[i]; shuffled[i] = temp; }}
-                    return shuffled.slice(0, 2);
-                }}
-
-                window.onload = function() {{
-                    try {{
-                        const d = new Date(payload.date + "T00:00:00");
-                        if (typeof Lunar !== 'undefined') {{
-                            const lunar = Lunar.fromDate(d);
-                            let lunarStr = `農曆 ${{lunar.getMonthInChinese()}}月${{lunar.getDayInChinese()}}`;
-                            document.getElementById('display-lunar').innerText = lunarStr;
-                        }}
-                    }} catch (e) {{}}
-
-                    const badgeElem = document.getElementById('llm-badge');
-                    const quoteCard = document.getElementById('quote-card-container');
-                    
-                    if (isLlmActive) {{
-                        badgeElem.className = 'badge-llm';
-                        badgeElem.innerHTML = '⚡ LLM SOUL ENGINE GENERATED';
-                        quoteCard.style.border = '2px dashed #4ec9b0';
-                    }} else {{
-                        badgeElem.className = 'badge-static';
-                        badgeElem.innerHTML = '🚨 雲端 API 未連線 (使用備用庫)';
-                    }}
-
-                    document.body.className = getRandomItem(webThemes).class;
-                    
-                    const selectedThemeName = getRandomItem(Object.keys(themes));
-                    const theme = themes[selectedThemeName];
-                    const selectedQuote = getRandomItem(quotes);
-                    const stages = getRandomTwo(theme.stages);
-                    const emos = getRandomTwo(theme.emotions);
-                    const texs = getRandomTwo(theme.textures);
-                    const acts = getRandomTwo(theme.actions);
-
-                    document.getElementById('ui-scene').innerText = getRandomItem(realTrends);
-                    document.getElementById('ui-stage-a').innerText = stages[0];
-                    document.getElementById('ui-emo-a').innerText = emos[0];
-                    document.getElementById('ui-tex-a').innerText = texs[0];
-                    document.getElementById('ui-act-a').innerText = acts[0];
-                    
-                    document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
-                    document.getElementById('ui-pain').innerText = selectedThemeName + " | " + selectedQuote.p;
-                    document.getElementById('log-data-source').innerText = sysLog;
-                }};
-            </script>
-        </body>
-        </html>
-        """
-        
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_dir, 'taiji_dashboard.html')
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(html_content)
-
-if __name__ == "__main__":
-    engine = TaijiOmniverseCalendar()
-    engine.export_to_html()
+                raw_text = raw_text.replace("```json", "").replace("
