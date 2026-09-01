@@ -39,7 +39,7 @@
             <label>📅 時空跳躍：</label>
             <input type="date" id="ui-date-picker" value="__PAYLOAD_DATE__">
             <button class="btn-apply" onclick="applyDateChange()">確認切換</button>
-            <span style="color:var(--text-main); font-weight:bold; margin-left:20px; cursor:pointer;" onclick="randomizeAll()">🔄 刷新排版</span>
+            <span style="color:var(--text-main); font-weight:bold; margin-left:20px; cursor:pointer;" onclick="randomizeAll()">🔄 刷新排版與內容</span>
         </div>
 
         <div class="card date-card">
@@ -59,6 +59,8 @@
             <div class="content" style="line-height:1.6; margin-top:10px;">
                 <strong>⚠️ 注意事項：</strong><br><span id="ui-fortune-text"></span><br><br>
                 <strong style="color:#d97706;" id="ui-fortune-music"></strong>
+                <!-- 🎵 迷你 YouTube 播放器鑲嵌區 -->
+                <div id="yt-player-container" style="margin-top: 15px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"></div>
             </div>
         </div>
 
@@ -67,11 +69,10 @@
             <div class="content" style="color: var(--text-sub); font-size: 0.85rem; line-height:1.6; margin-top:10px;">
                 <span style="color: #2563eb; font-weight: bold;">[大腦動態]</span> <span id="log-data-source"></span><br>
                 目前版型：<strong id="ui-web-theme" style="color:var(--text-main);"></strong><br>
-                架構升級：宗師級模組化系統已掛載。<br>
+                架構升級：V39 聽覺沉浸模組已掛載。<br>
             </div>
         </div>
 
-        <!-- 全新：專屬星座觀測站 -->
         <div class="card zodiac-card">
             <h3 style="border-bottom: 2px solid var(--text-title); padding-bottom:10px; margin-top:0;">✨ 12 星座專屬觀測站</h3>
             <div style="margin-top: 15px; display:flex; align-items:center; gap:15px;">
@@ -110,7 +111,6 @@
             { class: 'theme-brutus', name: 'BRUTUS 高級暗黑風' }, { class: 'theme-casa', name: 'CASA BRUTUS 生活美學風' }
         ];
 
-        // 國家地理、攝影大師風格的 Prompt 元素矩陣
         const sceneryStyles = [
             "award-winning landscape photography of a serene mountain trail above the clouds, golden hour lighting",
             "hyper-realistic close up of a professional coffee brewing process, rich dramatic steam, cozy morning vibe",
@@ -141,7 +141,7 @@
             document.getElementById('display-date').innerText = dateVal;
             const luckySigns = getAstrologySignsByDate(dateVal);
             payload.star_sign = luckySigns.star;
-            document.getElementById('zodiac-selector').value = luckySigns.star; // 自動切換到今日主星
+            document.getElementById('zodiac-selector').value = luckySigns.star; 
 
             let lunarDisplay = "農曆查無資料";
             try {
@@ -187,20 +187,21 @@
             const selectedQuote = getRandomItem(quotes);
 
             document.getElementById('ui-fortune-text').innerText = selectedFortune.text;
-            document.getElementById('ui-fortune-music').innerText = "建議配樂：" + (selectedFortune.music || "🎶 輕快純音樂");
+            document.getElementById('ui-fortune-music').innerText = "建議配樂：" + (selectedFortune.music_text || "🎶 輕快純音樂");
             
-            // 處理短文與金句顯示
+            // 鑲嵌微型 YouTube 音樂點唱機 (設定高度 80px 偽裝成純音樂播放列)
+            const ytId = selectedFortune.yt_id || "8XIGrtnOUtc";
+            document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube.com/embed/${ytId}?autoplay=0&controls=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            
             const articleText = selectedQuote.article ? selectedQuote.article : "";
             document.getElementById('ui-article').innerText = articleText;
             document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
             document.getElementById('ui-pain').innerText = selectedQuote.p;
             
-            // 1. 生成大師級攝影指令 (35mm 鏡頭、自然光、9:16 IG限動比例)
             const selectedScene = getRandomItem(sceneryStyles);
             const promptText = `${selectedScene}, shot on 35mm lens, f/2.8, highly detailed, dramatic natural lighting, photorealistic, 8k resolution, masterful composition --ar 9:16 --style raw --v 6.0`;
             document.getElementById('rawPrompt').value = promptText;
             
-            // 2. 生成完美 IG 文案 (結合短文與金句)
             const lunarFullText = document.getElementById('display-lunar').innerText;
             let lunarClean = lunarFullText.split(' | ')[0];
             let jieQiClean = lunarFullText.includes(' | 節氣: ') ? ` ${lunarFullText.split(' | 節氣: ')[1]}` : '';
