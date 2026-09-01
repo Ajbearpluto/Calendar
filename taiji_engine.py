@@ -50,6 +50,20 @@ class TaijiOmniverseCalendar:
             "zodiac_visual": self.zodiac_visuals[current_zodiac]["v"],
         }
 
+    def get_star_sign(self, month, day):
+        if (month == 1 and day >= 20) or (month == 2 and day <= 18): return "水瓶座"
+        if (month == 2 and day >= 19) or (month == 3 and day <= 20): return "雙魚座"
+        if (month == 3 and day >= 21) or (month == 4 and day <= 19): return "牡羊座"
+        if (month == 4 and day >= 20) or (month == 5 and day <= 20): return "金牛座"
+        if (month == 5 and day >= 21) or (month == 6 and day <= 21): return "雙子座"
+        if (month == 6 and day >= 22) or (month == 7 and day <= 22): return "巨蟹座"
+        if (month == 7 and day >= 23) or (month == 8 and day <= 22): return "獅子座"
+        if (month == 8 and day >= 23) or (month == 9 and day <= 22): return "處女座"
+        if (month == 9 and day >= 23) or (month == 10 and day <= 23): return "天秤座"
+        if (month == 10 and day >= 24) or (month == 11 and day <= 22): return "天蠍座"
+        if (month == 11 and day >= 23) or (month == 12 and day <= 21): return "射手座"
+        return "摩羯座"
+
     def _init_static_databases(self):
         self.star_visuals = {
             "水瓶座": {"c": "星空藍", "v": "周圍環繞著發光的水波紋"},
@@ -80,9 +94,9 @@ class TaijiOmniverseCalendar:
             "豬": {"c": "豐饒粉", "v": "擁有一個可愛的粉紅豬鼻子"}
         }
         
-        # 📸 唯一鎖定：頂級寫實攝影 (涵蓋萬事萬物)
+        # 📸 唯一鎖定：頂級寫實照 (涵蓋萬事萬物)
         self.art_styles = [
-            "最高規格「頂級寫實攝影」光學成像參數 (極致寫實、大師級攝影光影、場景包含宇宙/建築/自然/都會等萬事萬物真實質感)"
+            "最高規格「頂級寫實照」光學成像參數 (極致寫實、大師級攝影光影、場景涵蓋宇宙星辰、工作日常、建築物、花草樹木等萬事萬物真實質感)"
         ]
         
         self.fortune_fusion = [
@@ -243,7 +257,7 @@ class TaijiOmniverseCalendar:
                     
                     <label style="margin-left:20px;">🎨 風格設定：</label>
                     <select id="ui-style-override" disabled>
-                        <option value="random">📸 頂級寫實攝影鎖定</option>
+                        <option value="random">📸 頂級寫實照 (萬事萬物) 鎖定</option>
                     </select>
                 </div>
 
@@ -319,7 +333,7 @@ class TaijiOmniverseCalendar:
                 
                 const coreTags = ["#日曆", "#生活碎片", "#史萊姆"];
                 const emotionTags = ["#情緒價值", "#人間清醒", "#好好生活", "#自我療癒", "#社畜心聲", "#人生好難", "#微苦日常", "#今日幹話"];
-                const artTags = ["#寫實攝影", "#視覺藝術", "#極致光影"];
+                const artTags = ["#寫實攝影", "#視覺藝術", "#萬事萬物"];
 
                 const webThemes = [
                     {{ class: '', name: 'KINFOLK 極簡北歐風' }},
@@ -454,13 +468,13 @@ class TaijiOmniverseCalendar:
                     document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
                     document.getElementById('ui-pain').innerText = selectedThemeName + " | " + selectedQuote.p;
 
-                    // 🖌️ 解除風景綁定，要求 AI 根據時事自由演繹任何寫實場景 (宇宙/建築/自然/都會皆可)
+                    // 🖌️ 解除風景綁定，要求 AI 根據時事自由演繹萬事萬物 (宇宙/建築/自然/工作皆可)
                     const promptText = `[系統指令] 啟動太極萬象曆 Prompt 煉成引擎 V31.0
 【當前時間線】: ${{currentDate}}
-【核心媒材鎖定】: ${{selectedStyle}}！必須像真實的攝影照片，絕對禁止生成任何 2D 動漫或平面插畫風格！
-【構圖強制約束】: 配合今日時事自由生成對應的寫實場景（宇宙、建築、自然萬物皆可），主體置中。畫面絕對禁止 AI 生成任何亂碼文字！
+【核心媒材鎖定】: ${{selectedStyle}}！必須是真實的攝影照片，絕對禁止生成任何 2D 動漫、平面插畫或畫作風格！
+【構圖強制約束】: 配合今日時事自由生成對應的寫實場景（可以是宇宙、工作日常、建築物、花草樹木等萬事萬物），主體置中。畫面絕對禁止 AI 生成任何亂碼文字！
 【專屬浮水印】: 請在圖片的「右下角」自然地融入一個小小的「Aj」英文草寫字樣，作為專屬攝影師簽名。
-【今日大眾時事熱點】: 畫面場景與背景融入「${{trendKeyword}}」的氛圍。
+【今日大眾時事熱點】: 畫面場景與背景請巧妙融入「${{trendKeyword}}」的氛圍。
 【動態張力與變裝】: 兩隻史萊姆必須完美融入這片頂級寫實場景中，並產生「互相拉扯、無奈對視或爭奪道具」的實體互動！
 ---
 【角色A: ${{payload.star_sign}}史萊姆】
