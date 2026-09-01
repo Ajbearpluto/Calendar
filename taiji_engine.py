@@ -26,7 +26,7 @@ class TaijiOmniverseCalendar:
         self.forum_titles = self.fetch_social_forum_trends()
         self.dynamic_quotes, self.is_llm_active = self.generate_quotes_via_llm(self.forum_titles)
         
-        # 🌌 【宇宙曆法公式】根據年月日的絕對軌跡推算，保證每天變化
+        # 🌌 【宇宙曆法公式】根據年月日的絕對軌跡推算
         year = self.today.year
         month = self.today.month
         day = self.today.day
@@ -49,20 +49,6 @@ class TaijiOmniverseCalendar:
             "zodiac_color": self.zodiac_visuals[current_zodiac]["c"],
             "zodiac_visual": self.zodiac_visuals[current_zodiac]["v"],
         }
-
-    def get_star_sign(self, month, day):
-        if (month == 1 and day >= 20) or (month == 2 and day <= 18): return "水瓶座"
-        if (month == 2 and day >= 19) or (month == 3 and day <= 20): return "雙魚座"
-        if (month == 3 and day >= 21) or (month == 4 and day <= 19): return "牡羊座"
-        if (month == 4 and day >= 20) or (month == 5 and day <= 20): return "金牛座"
-        if (month == 5 and day >= 21) or (month == 6 and day <= 21): return "雙子座"
-        if (month == 6 and day >= 22) or (month == 7 and day <= 22): return "巨蟹座"
-        if (month == 7 and day >= 23) or (month == 8 and day <= 22): return "獅子座"
-        if (month == 8 and day >= 23) or (month == 9 and day <= 22): return "處女座"
-        if (month == 9 and day >= 23) or (month == 10 and day <= 23): return "天秤座"
-        if (month == 10 and day >= 24) or (month == 11 and day <= 22): return "天蠍座"
-        if (month == 11 and day >= 23) or (month == 12 and day <= 21): return "射手座"
-        return "摩羯座"
 
     def _init_static_databases(self):
         self.star_visuals = {
@@ -94,7 +80,6 @@ class TaijiOmniverseCalendar:
             "豬": {"c": "豐饒粉", "v": "擁有一個可愛的粉紅豬鼻子"}
         }
         
-        # 📸 唯一鎖定：頂級寫實照 (涵蓋萬事萬物)
         self.art_styles = [
             "最高規格「頂級寫實照」光學成像參數 (極致寫實、大師級攝影光影、場景涵蓋宇宙星辰、工作日常、建築物、花草樹木等萬事萬物真實質感)"
         ]
@@ -169,14 +154,10 @@ class TaijiOmniverseCalendar:
         print("🧠 正在連線 LLM 靈魂引擎...")
         try:
             genai.configure(api_key=self.api_key)
-            try:
-                model = genai.GenerativeModel('gemini-1.5-flash-latest')
-            except:
-                try:
-                    model = genai.GenerativeModel('gemini-1.5-flash')
-                except:
-                    model = genai.GenerativeModel('gemini-1.0-pro')
-                    
+            
+            # 🛠️ 【關鍵修復】指定最穩定的 gemini-1.5-flash 模型，移除失效的 latest 後綴
+            model = genai.GenerativeModel('gemini-1.5-flash')
+            
             titles_text = "\n".join([f"- {t}" for t in forum_titles])
             prompt = f"""
             你是一位洞悉台灣社會現象的社群文案大師。今天是 {self.today.strftime("%Y-%m-%d")}。
@@ -344,7 +325,6 @@ class TaijiOmniverseCalendar:
                     {{ class: 'theme-casa', name: 'CASA BRUTUS 生活美學風' }}
                 ];
 
-                // 🌌 宇宙曆法公式：精確的年月日軌跡推算
                 function getAstrologySignsByDate(dateStr) {{
                     const d = new Date(dateStr + "T00:00:00");
                     const year = d.getFullYear();
@@ -468,7 +448,6 @@ class TaijiOmniverseCalendar:
                     document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
                     document.getElementById('ui-pain').innerText = selectedThemeName + " | " + selectedQuote.p;
 
-                    // 🖌️ 解除風景綁定，要求 AI 根據時事自由演繹萬事萬物 (宇宙/建築/自然/工作皆可)
                     const promptText = `[系統指令] 啟動太極萬象曆 Prompt 煉成引擎 V31.0
 【當前時間線】: ${{currentDate}}
 【核心媒材鎖定】: ${{selectedStyle}}！必須是真實的攝影照片，絕對禁止生成任何 2D 動漫、平面插畫或畫作風格！
