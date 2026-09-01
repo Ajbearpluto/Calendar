@@ -26,7 +26,7 @@ class TaijiOmniverseCalendar:
         self.forum_titles = self.fetch_social_forum_trends()
         self.dynamic_quotes, self.is_llm_active = self.generate_quotes_via_llm(self.forum_titles)
         
-        # 🌌 【宇宙曆法公式】取代隨機抽卡！根據年月日的絕對軌跡推算，保證每天變化且 9/1 精準對應牡羊與馬！
+        # 🌌 【宇宙曆法公式】根據年月日的絕對軌跡推算，保證每天變化
         year = self.today.year
         month = self.today.month
         day = self.today.day
@@ -80,9 +80,9 @@ class TaijiOmniverseCalendar:
             "豬": {"c": "豐饒粉", "v": "擁有一個可愛的粉紅豬鼻子"}
         }
         
-        # 📸 唯一鎖定：最高規格風景照
+        # 📸 唯一鎖定：頂級寫實攝影 (涵蓋萬事萬物)
         self.art_styles = [
-            "最高規格「寫實風景照」光學成像參數 (極致寫實、大自然絕美光影、史詩級高山場景與清澈湖泊)"
+            "最高規格「頂級寫實攝影」光學成像參數 (極致寫實、大師級攝影光影、場景包含宇宙/建築/自然/都會等萬事萬物真實質感)"
         ]
         
         self.fortune_fusion = [
@@ -243,7 +243,7 @@ class TaijiOmniverseCalendar:
                     
                     <label style="margin-left:20px;">🎨 風格設定：</label>
                     <select id="ui-style-override" disabled>
-                        <option value="random">⛰️ 頂級寫實風景照鎖定</option>
+                        <option value="random">📸 頂級寫實攝影鎖定</option>
                     </select>
                 </div>
 
@@ -319,7 +319,7 @@ class TaijiOmniverseCalendar:
                 
                 const coreTags = ["#日曆", "#生活碎片", "#史萊姆"];
                 const emotionTags = ["#情緒價值", "#人間清醒", "#好好生活", "#自我療癒", "#社畜心聲", "#人生好難", "#微苦日常", "#今日幹話"];
-                const artTags = ["#大自然美學", "#風景攝影", "#寫實光影"];
+                const artTags = ["#寫實攝影", "#視覺藝術", "#極致光影"];
 
                 const webThemes = [
                     {{ class: '', name: 'KINFOLK 極簡北歐風' }},
@@ -330,7 +330,7 @@ class TaijiOmniverseCalendar:
                     {{ class: 'theme-casa', name: 'CASA BRUTUS 生活美學風' }}
                 ];
 
-                // 🌌 宇宙曆法公式：精確的年月日軌跡推算 (鎖定 2026/09/01 必為 牡羊/馬)
+                // 🌌 宇宙曆法公式：精確的年月日軌跡推算
                 function getAstrologySignsByDate(dateStr) {{
                     const d = new Date(dateStr + "T00:00:00");
                     const year = d.getFullYear();
@@ -364,7 +364,6 @@ class TaijiOmniverseCalendar:
                     if(!dateVal) return;
                     document.getElementById('display-date').innerText = dateVal;
                     
-                    // 👉 啟動宇宙曆法公式，抓取對應日期的專屬主角
                     const luckySigns = getAstrologySignsByDate(dateVal);
 
                     payload.star_sign = luckySigns.star;
@@ -455,14 +454,14 @@ class TaijiOmniverseCalendar:
                     document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
                     document.getElementById('ui-pain').innerText = selectedThemeName + " | " + selectedQuote.p;
 
-                    // 🖌️ 寫入浮水印指令與嚴格的大自然風景約束
+                    // 🖌️ 解除風景綁定，要求 AI 根據時事自由演繹任何寫實場景 (宇宙/建築/自然/都會皆可)
                     const promptText = `[系統指令] 啟動太極萬象曆 Prompt 煉成引擎 V31.0
 【當前時間線】: ${{currentDate}}
 【核心媒材鎖定】: ${{selectedStyle}}！必須像真實的攝影照片，絕對禁止生成任何 2D 動漫或平面插畫風格！
-【構圖強制約束】: 壯麗的大自然戶外場景，主體置中。畫面絕對禁止 AI 生成任何亂碼文字！
+【構圖強制約束】: 配合今日時事自由生成對應的寫實場景（宇宙、建築、自然萬物皆可），主體置中。畫面絕對禁止 AI 生成任何亂碼文字！
 【專屬浮水印】: 請在圖片的「右下角」自然地融入一個小小的「Aj」英文草寫字樣，作為專屬攝影師簽名。
-【今日大眾時事熱點】: 畫面背景融入「${{trendKeyword}}」的氛圍。
-【動態張力與變裝】: 兩隻史萊姆必須完美融入這片寫實大自然場景中，並產生「互相拉扯、無奈對視或爭奪道具」的實體互動！
+【今日大眾時事熱點】: 畫面場景與背景融入「${{trendKeyword}}」的氛圍。
+【動態張力與變裝】: 兩隻史萊姆必須完美融入這片頂級寫實場景中，並產生「互相拉扯、無奈對視或爭奪道具」的實體互動！
 ---
 【角色A: ${{payload.star_sign}}史萊姆】
 - 專屬配件: ${{payload.star_color}}, ${{payload.star_visual}}, 旁邊放著[${{selectedFortune.prop}}]。
