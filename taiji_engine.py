@@ -17,7 +17,7 @@ class TaijiOmniverseCalendar:
         self.real_trends = self.fetch_google_rss_trends()
         self.forum_titles = self.fetch_social_forum_trends()
         
-        # 執行實彈排雷與生成 (保留成功的 V35 邏輯)
+        # 執行實彈排雷與生成
         self.dynamic_quotes, self.is_llm_active, self.sys_log = self.generate_quotes_via_llm(self.forum_titles)
         
         year, month, day = self.today.year, self.today.month, self.today.day
@@ -143,4 +143,4 @@ class TaijiOmniverseCalendar:
             if response.status_code == 200:
                 data = response.json()
                 raw_text = data['candidates'][0]['content']['parts'][0]['text']
-           raw_text = raw_text.replace("```json", "").replace("```", "").strip()
+                raw_text = raw_text.replace("```json", "").replace("
