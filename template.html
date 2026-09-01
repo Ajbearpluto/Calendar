@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Creator Edition</title>
+    <title>TAIJI Omniverse Creator V40</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Inter:wght@400;600;700;900&display=swap');
-        :root { --bg-color: #ffffff; --card-bg: #ffffff; --text-title: #111111; --text-main: #333333; --text-sub: #888888; --font-title: 'Noto Serif TC', serif; --font-body: 'Inter', sans-serif; --border-radius: 0px; --border-style: 1px solid #eeeeee; --hero-bg: #f9f9f9; }
-        body.theme-popeye { --bg-color: #F5F3E9; --text-title: #0d3b66; --border-radius: 12px; --border-style: 2px solid #1a1a1a; }
-        body.theme-brutus { --bg-color: #121212; --card-bg: #1e1e1e; --text-title: #f5f5f5; --text-main: #e0e0e0; --text-sub: #757575; --border-radius: 4px; --border-style: 1px solid #333333; --hero-bg: #1a1a1a; }
-        body.theme-casa { --bg-color: #EAEAE4; --card-bg: #F4F4F0; --text-title: #4a5d4e; --text-main: #5c5c5c; --border-radius: 8px; --border-style: 1px solid #d1d1c7; --hero-bg: #e3e8e4; }
+        :root { --bg-color: #ffffff; --card-bg: #ffffff; --text-title: #111111; --text-main: #333333; --text-sub: #888888; --font-title: 'Noto Serif TC', serif; --font-body: 'Inter', sans-serif; --border-radius: 8px; --border-style: 1px solid #eeeeee; --hero-bg: #f9f9f9; }
+        body.theme-popeye { --bg-color: #F5F3E9; --text-title: #0d3b66; --border-style: 2px solid #1a1a1a; }
+        body.theme-brutus { --bg-color: #121212; --card-bg: #1e1e1e; --text-title: #f5f5f5; --text-main: #e0e0e0; --text-sub: #757575; --border-style: 1px solid #333333; --hero-bg: #1a1a1a; }
+        body.theme-casa { --bg-color: #EAEAE4; --card-bg: #F4F4F0; --text-title: #4a5d4e; --text-main: #5c5c5c; --border-style: 1px solid #d1d1c7; --hero-bg: #e3e8e4; }
         body { font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 40px 20px; transition: all 0.5s ease; }
         .editorial-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
-        .card { background: var(--card-bg); border-radius: var(--border-radius); padding: 40px; border: var(--border-style); transition: all 0.3s ease; }
+        .card { background: var(--card-bg); border-radius: var(--border-radius); padding: 40px; border: var(--border-style); }
         .control-panel { grid-column: span 12; background: var(--hero-bg); padding: 20px; border-radius: var(--border-radius); border: var(--border-style); display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; }
-        .control-panel input, .control-panel select { padding: 10px; font-size: 1rem; border: 1px solid #ccc; border-radius: 6px; font-family: var(--font-body); }
+        .control-panel input, .control-panel select { padding: 10px; font-size: 1rem; border: 1px solid #ccc; border-radius: 6px; }
         .control-panel button.btn-apply { background: #2563eb; color: #fff; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .date-card { grid-column: span 12; background: var(--text-title); color: var(--bg-color); text-align: center; padding: 45px 20px; border: none; }
-        .date-card h1 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; margin: 0; color: var(--bg-color); letter-spacing: -2px; }
-        .date-card p.lunar { font-size: 1.1rem; color: var(--bg-color); opacity: 0.9; letter-spacing: 5px; margin: 15px 0 0 0; }
+        .date-card h1 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; margin: 0; letter-spacing: -2px; }
+        .date-card p.lunar { font-size: 1.1rem; opacity: 0.9; letter-spacing: 5px; margin: 15px 0 0 0; }
         .quote-card { grid-column: span 12; text-align: center; padding: 50px 30px; }
         .quote-card h2 { font-family: var(--font-title); font-size: 1.8rem; line-height: 1.5; color: var(--text-title); margin: 0 0 15px 0; }
         .quote-card p.article { font-size: 1.1rem; color: var(--text-main); margin-bottom: 25px; line-height: 1.6; }
-        .badge-llm { background: #4ec9b0; color: #111; padding: 6px 14px; font-size: 0.75rem; font-weight: bold; border-radius: 20px; display: inline-block; margin-bottom: 15px; }
-        .badge-static { background: #ef4444; color: #fff; padding: 6px 14px; font-size: 0.75rem; font-weight: bold; border-radius: 20px; display: inline-block; margin-bottom: 15px; }
         .info-card { grid-column: span 6; } .zodiac-card { grid-column: span 12; background: var(--hero-bg); }
-        .action-buttons { grid-column: span 12; display: flex; gap: 20px; margin-top: 10px; }
-        .btn-ai { flex: 1; background: #e63946; color: white; padding: 25px; cursor: pointer; border: none; font-size: 1.2rem; font-weight: bold; border-radius: 8px; transition: 0.3s; }
-        .btn-ig { flex: 1; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; padding: 25px; cursor: pointer; border: none; font-size: 1.2rem; font-weight: bold; border-radius: 8px; transition: 0.3s; }
-        .btn-ai:hover, .btn-ig:hover { opacity: 0.9; transform: translateY(-2px); }
-        textarea { display: none; }
+        
+        /* 視覺解禁：圖片與文字方塊顯示區 */
+        .creator-section { grid-column: span 12; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .creator-box { background: var(--card-bg); padding: 25px; border-radius: var(--border-radius); border: var(--border-style); display: flex; flex-direction: column; }
+        .creator-box h3 { margin-top: 0; border-bottom: 2px solid var(--text-title); padding-bottom: 10px; }
+        .btn-copy { background: #e63946; color: white; padding: 15px; cursor: pointer; border: none; font-size: 1.1rem; font-weight: bold; border-radius: 8px; transition: 0.3s; width: 100%; margin-bottom: 15px; }
+        .btn-copy.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .btn-copy:hover { opacity: 0.9; transform: translateY(-2px); }
+        
+        /* 解除隱藏的 Textarea，變成美觀的唯讀文字框 */
+        textarea.visible-box { width: 100%; flex-grow: 1; min-height: 200px; background: var(--hero-bg); color: var(--text-main); border: 1px solid #ccc; padding: 15px; border-radius: 8px; resize: vertical; font-size: 1rem; font-family: inherit; line-height: 1.6; box-sizing: border-box; }
+        
+        /* 動態生成的圖片容器 */
+        .ai-image-preview { width: 100%; height: auto; border-radius: 8px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: block; object-fit: cover; aspect-ratio: 9/16; background: #e0e0e0 url('https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif') no-repeat center center; }
+
+        @media (max-width: 768px) { .creator-section { grid-template-columns: 1fr; } .info-card { grid-column: span 12; } }
     </style>
 </head>
 <body>
@@ -48,7 +57,6 @@
         </div>
 
         <div class="card quote-card" id="quote-card-container">
-            <div id="llm-badge"></div>
             <p class="article" id="ui-article"></p>
             <h2 id="ui-quote"></h2>
             <span style="display:inline-block; margin-top:10px; color: var(--text-sub);">DAILY EDITORIAL · 📌 今日靈感：<strong id="ui-pain" style="color:var(--text-main);"></strong></span>
@@ -59,43 +67,38 @@
             <div class="content" style="line-height:1.6; margin-top:10px;">
                 <strong>⚠️ 注意事項：</strong><br><span id="ui-fortune-text"></span><br><br>
                 <strong style="color:#d97706;" id="ui-fortune-music"></strong>
-                <!-- 🎵 迷你 YouTube 播放器鑲嵌區 -->
+                <!-- 🎵 迷你 YouTube 播放器 -->
                 <div id="yt-player-container" style="margin-top: 15px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"></div>
             </div>
         </div>
 
-        <div class="card info-card">
-            <h3 style="border-bottom: 1px solid var(--text-sub); padding-bottom:10px;">系統日誌</h3>
-            <div class="content" style="color: var(--text-sub); font-size: 0.85rem; line-height:1.6; margin-top:10px;">
-                <span style="color: #2563eb; font-weight: bold;">[大腦動態]</span> <span id="log-data-source"></span><br>
-                目前版型：<strong id="ui-web-theme" style="color:var(--text-main);"></strong><br>
-                架構升級：V39 聽覺沉浸模組已掛載。<br>
-            </div>
-        </div>
-
-        <div class="card zodiac-card">
+        <div class="card zodiac-card info-card">
             <h3 style="border-bottom: 2px solid var(--text-title); padding-bottom:10px; margin-top:0;">✨ 12 星座專屬觀測站</h3>
             <div style="margin-top: 15px; display:flex; align-items:center; gap:15px;">
-                <label style="font-weight:bold;">選擇星座：</label>
                 <select id="zodiac-selector" onchange="updateZodiacAdvice()">
-                    <option value="牡羊座">♈ 牡羊座 (Aries)</option><option value="金牛座">♉ 金牛座 (Taurus)</option>
-                    <option value="雙子座">♊ 雙子座 (Gemini)</option><option value="巨蟹座">♋ 巨蟹座 (Cancer)</option>
-                    <option value="獅子座">♌ 獅子座 (Leo)</option><option value="處女座">♍ 處女座 (Virgo)</option>
-                    <option value="天秤座">♎ 天秤座 (Libra)</option><option value="天蠍座">♏ 天蠍座 (Scorpio)</option>
-                    <option value="射手座">♐ 射手座 (Sagittarius)</option><option value="摩羯座">♑ 摩羯座 (Capricorn)</option>
-                    <option value="水瓶座">♒ 水瓶座 (Aquarius)</option><option value="雙魚座">♓ 雙魚座 (Pisces)</option>
+                    <option value="牡羊座">♈ 牡羊座</option><option value="金牛座">♉ 金牛座</option><option value="雙子座">♊ 雙子座</option><option value="巨蟹座">♋ 巨蟹座</option><option value="獅子座">♌ 獅子座</option><option value="處女座">♍ 處女座</option><option value="天秤座">♎ 天秤座</option><option value="天蠍座">♏ 天蠍座</option><option value="射手座">♐ 射手座</option><option value="摩羯座">♑ 摩羯座</option><option value="水瓶座">♒ 水瓶座</option><option value="雙魚座">♓ 雙魚座</option>
                 </select>
             </div>
-            <p id="zodiac-advice-text" style="font-size: 1.1rem; line-height:1.6; margin-top: 20px; padding: 15px; background: var(--card-bg); border-radius:6px; border: var(--border-style);"></p>
+            <p id="zodiac-advice-text" style="font-size: 1.1rem; line-height:1.6; margin-top: 20px;"></p>
         </div>
 
-        <div class="action-buttons">
-            <button class="btn-ai" onclick="copyText('rawPrompt', 'btnMsgAI')">📸 COPY AI PROMPT<br><span id="btnMsgAI" style="font-size:0.8rem; font-weight:normal;">(複製國家地理級算圖指令)</span></button>
-            <button class="btn-ig" onclick="copyText('igCaption', 'btnMsgIG')">📱 COPY IG CAPTION<br><span id="btnMsgIG" style="font-size:0.8rem; font-weight:normal;">(複製 IG 完美排版文案)</span></button>
+        <!-- 🌟 V40 視覺解禁：創作者成果直接展示區 -->
+        <div class="creator-section">
+            <div class="creator-box">
+                <h3>🎨 視覺產出 (AI Prompt & Image)</h3>
+                <button class="btn-copy" onclick="copyText('rawPrompt', 'btnMsgAI')" id="btnMsgAI">📸 點擊複製算圖指令 (Prompt)</button>
+                <textarea id="rawPrompt" class="visible-box" readonly></textarea>
+                <!-- 史詩級魔法：這張圖片會根據 Prompt 自動線上生成！ -->
+                <p style="margin: 15px 0 5px 0; font-size: 0.9rem; font-weight: bold;">✨ 即時 AI 預覽圖 (可右鍵另存)：</p>
+                <img id="ai-image-result" class="ai-image-preview" src="" alt="AI Generated Image">
+            </div>
+
+            <div class="creator-box">
+                <h3>📱 文案產出 (IG Caption)</h3>
+                <button class="btn-copy ig" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📱 點擊複製 IG 完美排版文案</button>
+                <textarea id="igCaption" class="visible-box" readonly></textarea>
+            </div>
         </div>
-        
-        <textarea id="rawPrompt"></textarea>
-        <textarea id="igCaption"></textarea>
     </div>
 
     <script>
@@ -104,7 +107,6 @@
         const fortunes = __FORTUNE_JS__;
         const zodiacAdvices = __ZODIAC_ADVICES_JS__;
         const isLlmActive = __IS_LLM_ACTIVE_JS__;
-        const sysLog = __SYS_LOG_JS__;
         
         const webThemes = [
             { class: '', name: 'KINFOLK 極簡北歐風' }, { class: 'theme-popeye', name: 'POPEYE 潮流日雜風' },
@@ -159,28 +161,10 @@
         }
 
         function randomizeAll() {
-            const badgeElem = document.getElementById('llm-badge');
-            const logElem = document.getElementById('log-data-source');
-            const quoteCard = document.getElementById('quote-card-container');
-            
-            if (isLlmActive) {
-                badgeElem.className = 'badge-llm';
-                badgeElem.innerHTML = '⚡ LLM SOUL ENGINE GENERATED';
-                quoteCard.style.border = '2px dashed #4ec9b0';
-                logElem.innerHTML = sysLog;
-            } else {
-                badgeElem.className = 'badge-static';
-                badgeElem.innerHTML = '🗄️ 靜態大眾資料庫 (雲端 API 未連線)';
-                quoteCard.style.border = '1px solid var(--border-style)';
-                logElem.innerHTML = '雲端 API 未連線，使用備用庫';
-                logElem.style.color = '#888';
-            }
-
             let newThemeIndex = Math.floor(Math.random() * webThemes.length);
             while (newThemeIndex === currentThemeIndex) { newThemeIndex = Math.floor(Math.random() * webThemes.length); }
             currentThemeIndex = newThemeIndex;
             document.body.className = webThemes[currentThemeIndex].class;
-            document.getElementById('ui-web-theme').innerText = webThemes[currentThemeIndex].name;
 
             const currentDate = document.getElementById('ui-date-picker').value;
             const selectedFortune = getRandomItem(fortunes);
@@ -189,8 +173,8 @@
             document.getElementById('ui-fortune-text').innerText = selectedFortune.text;
             document.getElementById('ui-fortune-music').innerText = "建議配樂：" + (selectedFortune.music_text || "🎶 輕快純音樂");
             
-            // 鑲嵌微型 YouTube 音樂點唱機 (設定高度 80px 偽裝成純音樂播放列)
-            const ytId = selectedFortune.yt_id || "8XIGrtnOUtc";
+            // 鑲嵌 YouTube，替換為絕對能播放的 ID
+            const ytId = selectedFortune.yt_id || "NEKzFqGZ-g0";
             document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube.com/embed/${ytId}?autoplay=0&controls=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             
             const articleText = selectedQuote.article ? selectedQuote.article : "";
@@ -198,15 +182,25 @@
             document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
             document.getElementById('ui-pain').innerText = selectedQuote.p;
             
+            // ==========================================
+            // 魔法 1：顯示算圖指令，並呼叫免費 AI 畫圖引擎
+            // ==========================================
             const selectedScene = getRandomItem(sceneryStyles);
             const promptText = `${selectedScene}, shot on 35mm lens, f/2.8, highly detailed, dramatic natural lighting, photorealistic, 8k resolution, masterful composition --ar 9:16 --style raw --v 6.0`;
             document.getElementById('rawPrompt').value = promptText;
             
+            // 呼叫 pollinations.ai 免費繪圖 API，直接渲染在網頁上！(尺寸設為 IG 限動 1080x1920)
+            const encodedPrompt = encodeURIComponent(selectedScene + ", masterpiece, hyper realistic photography, 8k");
+            document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1080&height=1920&nologo=true`;
+            
+            // ==========================================
+            // 魔法 2：顯示完美排版文案
+            // ==========================================
             const lunarFullText = document.getElementById('display-lunar').innerText;
             let lunarClean = lunarFullText.split(' | ')[0];
             let jieQiClean = lunarFullText.includes(' | 節氣: ') ? ` ${lunarFullText.split(' | 節氣: ')[1]}` : '';
             
-            const igText = `📅 ${currentDate}\n${lunarClean}${jieQiClean}\n\n【今日碎碎念】\n${articleText}\n\n"${selectedQuote.q}"\n\n#日曆 #生活碎片 #${selectedQuote.p.replace(/ /g, '')} #攝影 #日常紀錄`;
+            const igText = `📅 ${currentDate}\n${lunarClean}${jieQiClean} · ${payload.star_sign}\n\n【今日碎碎念】\n${articleText}\n\n"${selectedQuote.q}"\n\n#日曆 #生活碎片 #${selectedQuote.p.replace(/ /g, '')} #攝影 #日常紀錄`;
             document.getElementById('igCaption').value = igText;
         }
 
@@ -217,13 +211,14 @@
             }, 200); 
         };
 
-        function copyText(elementId, msgId) {
+        function copyText(elementId, btnId) {
             var copyText = document.getElementById(elementId);
-            copyText.style.display = "block"; copyText.select(); document.execCommand("copy"); copyText.style.display = "none";
-            var msg = document.getElementById(msgId);
-            var originalText = msg.innerHTML;
-            msg.innerHTML = "✓ 複製成功！";
-            setTimeout(function() { msg.innerHTML = originalText; }, 2000);
+            copyText.select(); 
+            document.execCommand("copy");
+            var btn = document.getElementById(btnId);
+            var originalText = btn.innerHTML;
+            btn.innerHTML = "✅ 已複製到剪貼簿！";
+            setTimeout(function() { btn.innerHTML = originalText; }, 2000);
         }
     </script>
 </body>
