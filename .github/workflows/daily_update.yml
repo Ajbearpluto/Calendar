@@ -36,5 +36,5 @@ jobs:
       run: |
         git config --global user.name "Taiji-Auto-Bot"
         git config --global user.email "bot@taiji.system"
-        git add taiji_dashboard.html
+        git add .
         git diff --quiet && git diff --staged --quiet || (git commit -m "🚀 Auto-update: 跨日 00:00 新鮮日曆已出爐" && git pull --rebase && git push)
