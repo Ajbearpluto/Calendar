@@ -143,4 +143,4 @@ class TaijiOmniverseCalendar:
             if response.status_code == 200:
                 data = response.json()
                 raw_text = data['candidates'][0]['content']['parts'][0]['text']
-                raw_text = raw_text.replace("```json", "").replace("
+        raw_text = raw_text.replace("```json", "").replace("```", "").strip()
