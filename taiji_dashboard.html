@@ -4,50 +4,64 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>TAIJI V33 Diagnostic Edition</title>
+            <title>TAIJI V34 Grandmaster Edition</title>
             <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Inter:wght@400;600;700;900&display=swap');
-                :root { --bg-color: #ffffff; --card-bg: #ffffff; --text-title: #111111; --text-main: #333333; --text-sub: #888888; --font-title: 'Noto Serif TC', serif; --font-body: 'Inter', sans-serif; --border-radius: 0px; --border-style: 1px solid #eeeeee; --hero-bg: #f9f9f9; --btn-bg: #111111; --btn-text: #ffffff; --spacing: 40px; }
-                body.theme-brutus { --bg-color: #121212; --card-bg: #1e1e1e; --text-title: #f5f5f5; --text-main: #e0e0e0; --text-sub: #757575; --border-radius: 4px; --border-style: 1px solid #333333; --hero-bg: #1a1a1a; --btn-bg: #f5f5f5; --btn-text: #121212; }
-                body { font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 40px 20px; transition: all 0.5s ease; }
+                :root { --bg-color: #121212; --card-bg: #1e1e1e; --text-title: #f5f5f5; --text-main: #e0e0e0; --text-sub: #757575; --font-title: 'Noto Serif TC', serif; --font-body: 'Inter', sans-serif; --border-radius: 8px; --border-style: 1px solid #333; --hero-bg: #1a1a1a; --spacing: 40px; }
+                body { font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 40px 20px; }
                 .editorial-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
-                .card { background: var(--card-bg); border-radius: var(--border-radius); padding: var(--spacing); border: var(--border-style); transition: all 0.3s ease; }
-                .date-card { grid-column: span 12; background: var(--text-title); color: var(--bg-color); text-align: center; padding: 45px 20px; border: none; }
-                .date-card h1 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; margin: 0; color: var(--bg-color); letter-spacing: -2px; }
+                .card { background: var(--card-bg); border-radius: var(--border-radius); padding: var(--spacing); border: var(--border-style); }
+                .date-card { grid-column: span 12; background: #f5f5f5; color: #121212; text-align: center; padding: 45px 20px; }
+                .date-card h1 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; margin: 0; }
                 .quote-card { grid-column: span 12; text-align: center; padding: 50px 30px; position: relative; }
                 .quote-card h2 { font-family: var(--font-title); font-size: 1.8rem; line-height: 1.5; color: var(--text-title); margin: 0 0 15px 0; }
                 .badge-llm { background: #4ec9b0; color: #111; padding: 6px 14px; font-size: 0.75rem; font-weight: bold; border-radius: 20px; display: inline-block; margin-bottom: 15px; }
-                .badge-error { background: #ef4444; color: #fff; padding: 6px 14px; font-size: 0.75rem; font-weight: bold; border-radius: 20px; display: inline-block; margin-bottom: 15px; }
+                .badge-static { background: #ef4444; color: #fff; padding: 6px 14px; font-size: 0.75rem; font-weight: bold; border-radius: 20px; display: inline-block; margin-bottom: 15px; }
+                .info-card { grid-column: span 12; }
             </style>
         </head>
-        <body class="theme-brutus">
+        <body>
             <div class="editorial-grid">
                 <div class="card date-card">
                     <h1 id="display-date">2026-09-01</h1>
                 </div>
                 <div class="card quote-card" id="quote-card-container">
                     <div id="llm-badge"></div>
-                    <h2 id="ui-quote" style="color: #ffaa00; font-family: monospace;"></h2>
-                    <span style="display:inline-block; margin-top:10px;">📌 系統狀態：<strong id="ui-pain"></strong></span>
+                    <h2 id="ui-quote"></h2>
+                    <span style="display:inline-block; margin-top:10px;">📌 今日痛點：<strong id="ui-pain"></strong></span>
+                </div>
+                
+                <div class="card info-card">
+                    <h3 style="border-bottom: 1px solid var(--text-sub); padding-bottom:10px; color:#4ec9b0;">🛡️ 白帽駭客系統日誌</h3>
+                    <div class="content" style="line-height:1.6; margin-top:10px; font-family: monospace; font-size:1.1rem;">
+                        <span style="color: #eab308; font-weight: bold;">[最新動態]</span> <span id="log-data-source"></span><br>
+                        自動化工廠：V34 宗師級動態尋標器已成功發揮作用。<br>
+                    </div>
                 </div>
             </div>
 
             <script>
-                const quotes = [{"q": "Google 拒絕連線 (代碼 404)。真實原因：{   'error': {     'code': 404,     'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their...", "p": "⚠️ 終極錯誤診斷"}]; 
+                const quotes = [{"q": "連線 gemini-2.5-flash 遭拒: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer avai", "p": "生成失敗"}]; 
                 const isLlmActive = false;
+                const sysLog = "gemini-2.5-flash 連線失敗";
                 
                 window.onload = function() {
                     const badgeElem = document.getElementById('llm-badge');
+                    const quoteCard = document.getElementById('quote-card-container');
+                    
                     if (isLlmActive) {
                         badgeElem.className = 'badge-llm';
-                        badgeElem.innerHTML = '⚡ 連線成功！';
+                        badgeElem.innerHTML = '⚡ 宗師模式連線成功';
+                        quoteCard.style.border = '2px dashed #4ec9b0';
                     } else {
-                        badgeElem.className = 'badge-error';
-                        badgeElem.innerHTML = '🚨 API 連線失敗 (詳見下方)';
+                        badgeElem.className = 'badge-static';
+                        badgeElem.innerHTML = '🚨 API 阻擋 (回歸備用庫)';
                     }
-                    document.getElementById('ui-quote').innerText = quotes[0].q;
+                    
+                    document.getElementById('ui-quote').innerText = '"' + quotes[0].q + '"';
                     document.getElementById('ui-pain').innerText = quotes[0].p;
+                    document.getElementById('log-data-source').innerText = sysLog;
                 };
             </script>
         </body>
