@@ -5,12 +5,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 import random
 import ssl
-
-try:
-    import google.generativeai as genai
-    HAS_GENAI = True
-except ImportError:
-    HAS_GENAI = False
+import requests
 
 class TaijiOmniverseCalendar:
     def __init__(self):
@@ -80,7 +75,6 @@ class TaijiOmniverseCalendar:
             "豬": {"c": "豐饒粉", "v": "擁有一個可愛的粉紅豬鼻子"}
         }
         
-        # 📸 唯一鎖定：頂級寫實照 (涵蓋萬事萬物)
         self.art_styles = [
             "最高規格「頂級寫實照」光學成像參數 (極致寫實、大師級攝影光影、場景涵蓋宇宙星辰、工作日常、建築物、花草樹木等萬事萬物真實質感)"
         ]
@@ -149,15 +143,14 @@ class TaijiOmniverseCalendar:
             return ["不想上班想離職", "存不到錢好焦慮", "客戶又在發神經", "每天都睡不飽"]
 
     def generate_quotes_via_llm(self, forum_titles):
-        if not HAS_GENAI or not self.api_key:
+        if not self.api_key:
             print("⚠️ 未偵測到 API Key。切換至備用庫。")
             return self.fallback_quotes, False
-        print("🧠 正在連線 LLM 靈魂引擎...")
-        try:
-            genai.configure(api_key=self.api_key)
             
-            # 🛠️ 【精準修復】移除 latest，鎖定絕對穩定版模型 gemini-1.5-flash
-            model = genai.GenerativeModel('gemini-1.5-flash')
+        print("🧠 正在連線 LLM 靈魂引擎 (啟用直連模式)...")
+        try:
+            # 🛠️ 【終極解法】拋棄官方問題套件，直接呼叫最新 Gemini 2.0 Flash 節點
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={self.api_key}"
             
             titles_text = "\n".join([f"- {t}" for t in forum_titles])
             prompt = f"""
@@ -168,11 +161,27 @@ class TaijiOmniverseCalendar:
             - 2 句為「正向療癒、生活微光」的溫暖句子。
             請嚴格以 JSON 陣列格式回傳：[ {{"q": "金句內容", "p": "痛點標籤"}} ]
             """
-            response = model.generate_content(prompt, generation_config={"temperature": 0.95})
-            raw_text = response.text.replace("```json", "").replace("```", "").strip()
+            
+            payload = {
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {"temperature": 0.95}
+            }
+            headers = {"Content-Type": "application/json"}
+            
+            response = requests.post(url, json=payload, headers=headers, timeout=15)
+            
+            if response.status_code != 200:
+                print(f"⚠️ API 拒絕連線 (錯誤碼: {response.status_code}): {response.text}")
+                return self.fallback_quotes, False
+                
+            data = response.json()
+            raw_text = data['candidates'][0]['content']['parts'][0]['text']
+            raw_text = raw_text.replace("```json", "").replace("```", "").strip()
             new_quotes = json.loads(raw_text)
-            print("🟢 靈魂引擎連線成功！")
+            
+            print("🟢 靈魂引擎連線成功！(Gemini 2.0 運作中)")
             return new_quotes, True
+            
         except Exception as e:
             print(f"⚠️ 靈魂引擎連線失敗 ({str(e)})。已切換至備用庫。")
             return self.fallback_quotes, False
