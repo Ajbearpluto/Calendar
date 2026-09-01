@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Creator V40</title>
+    <title>TAIJI Omniverse Creator V41</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Inter:wght@400;600;700;900&display=swap');
@@ -25,21 +25,18 @@
         .quote-card p.article { font-size: 1.1rem; color: var(--text-main); margin-bottom: 25px; line-height: 1.6; }
         .info-card { grid-column: span 6; } .zodiac-card { grid-column: span 12; background: var(--hero-bg); }
         
-        /* 視覺解禁：圖片與文字方塊顯示區 */
-        .creator-section { grid-column: span 12; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
-        .creator-box { background: var(--card-bg); padding: 25px; border-radius: var(--border-radius); border: var(--border-style); display: flex; flex-direction: column; }
+        /* 修復版面：強制左右並排，空間不夠時才折疊 */
+        .creator-section { grid-column: span 12; display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; }
+        .creator-box { flex: 1 1 45%; min-width: 300px; background: var(--card-bg); padding: 25px; border-radius: var(--border-radius); border: var(--border-style); display: flex; flex-direction: column; }
         .creator-box h3 { margin-top: 0; border-bottom: 2px solid var(--text-title); padding-bottom: 10px; }
         .btn-copy { background: #e63946; color: white; padding: 15px; cursor: pointer; border: none; font-size: 1.1rem; font-weight: bold; border-radius: 8px; transition: 0.3s; width: 100%; margin-bottom: 15px; }
         .btn-copy.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
         .btn-copy:hover { opacity: 0.9; transform: translateY(-2px); }
         
-        /* 解除隱藏的 Textarea，變成美觀的唯讀文字框 */
-        textarea.visible-box { width: 100%; flex-grow: 1; min-height: 200px; background: var(--hero-bg); color: var(--text-main); border: 1px solid #ccc; padding: 15px; border-radius: 8px; resize: vertical; font-size: 1rem; font-family: inherit; line-height: 1.6; box-sizing: border-box; }
-        
-        /* 動態生成的圖片容器 */
+        textarea.visible-box { width: 100%; flex-grow: 1; min-height: 250px; background: var(--hero-bg); color: var(--text-main); border: 1px solid #ccc; padding: 15px; border-radius: 8px; resize: vertical; font-size: 0.95rem; font-family: monospace; line-height: 1.6; box-sizing: border-box; }
         .ai-image-preview { width: 100%; height: auto; border-radius: 8px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: block; object-fit: cover; aspect-ratio: 9/16; background: #e0e0e0 url('https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif') no-repeat center center; }
 
-        @media (max-width: 768px) { .creator-section { grid-template-columns: 1fr; } .info-card { grid-column: span 12; } }
+        @media (max-width: 768px) { .info-card { grid-column: span 12; } }
     </style>
 </head>
 <body>
@@ -75,20 +72,19 @@
         <div class="card zodiac-card info-card">
             <h3 style="border-bottom: 2px solid var(--text-title); padding-bottom:10px; margin-top:0;">✨ 12 星座專屬觀測站</h3>
             <div style="margin-top: 15px; display:flex; align-items:center; gap:15px;">
-                <select id="zodiac-selector" onchange="updateZodiacAdvice()">
+                <select id="zodiac-selector" onchange="updateZodiacAdvice()" style="font-family: inherit;">
                     <option value="牡羊座">♈ 牡羊座</option><option value="金牛座">♉ 金牛座</option><option value="雙子座">♊ 雙子座</option><option value="巨蟹座">♋ 巨蟹座</option><option value="獅子座">♌ 獅子座</option><option value="處女座">♍ 處女座</option><option value="天秤座">♎ 天秤座</option><option value="天蠍座">♏ 天蠍座</option><option value="射手座">♐ 射手座</option><option value="摩羯座">♑ 摩羯座</option><option value="水瓶座">♒ 水瓶座</option><option value="雙魚座">♓ 雙魚座</option>
                 </select>
             </div>
             <p id="zodiac-advice-text" style="font-size: 1.1rem; line-height:1.6; margin-top: 20px;"></p>
         </div>
 
-        <!-- 🌟 V40 視覺解禁：創作者成果直接展示區 -->
+        <!-- 視覺解禁：Flexbox 雙欄佈局 -->
         <div class="creator-section">
             <div class="creator-box">
                 <h3>🎨 視覺產出 (AI Prompt & Image)</h3>
                 <button class="btn-copy" onclick="copyText('rawPrompt', 'btnMsgAI')" id="btnMsgAI">📸 點擊複製算圖指令 (Prompt)</button>
                 <textarea id="rawPrompt" class="visible-box" readonly></textarea>
-                <!-- 史詩級魔法：這張圖片會根據 Prompt 自動線上生成！ -->
                 <p style="margin: 15px 0 5px 0; font-size: 0.9rem; font-weight: bold;">✨ 即時 AI 預覽圖 (可右鍵另存)：</p>
                 <img id="ai-image-result" class="ai-image-preview" src="" alt="AI Generated Image">
             </div>
@@ -106,20 +102,23 @@
         let payload = __PAYLOAD_JSON__;
         const fortunes = __FORTUNE_JS__;
         const zodiacAdvices = __ZODIAC_ADVICES_JS__;
-        const isLlmActive = __IS_LLM_ACTIVE_JS__;
         
         const webThemes = [
             { class: '', name: 'KINFOLK 極簡北歐風' }, { class: 'theme-popeye', name: 'POPEYE 潮流日雜風' },
             { class: 'theme-brutus', name: 'BRUTUS 高級暗黑風' }, { class: 'theme-casa', name: 'CASA BRUTUS 生活美學風' }
         ];
 
+        // 🌟 強效外掛：全面擴充盲盒場景主題
         const sceneryStyles = [
-            "award-winning landscape photography of a serene mountain trail above the clouds, golden hour lighting",
-            "hyper-realistic close up of a professional coffee brewing process, rich dramatic steam, cozy morning vibe",
-            "breathtaking macro photography of nature's intricate details, morning dew on lush alpine grass",
-            "cinematic majestic milky way night sky over a tranquil high altitude lake, mirror reflection",
-            "National Geographic style nature photography, dramatic lighting, vivid colors, raw emotion"
+            "hyper-realistic astrophotography of the glowing Milky Way galaxy over a pristine high-altitude alpine lake surrounded by golden grass, rugged mountain peaks, night sky photography",
+            "cinematic close-up of a vintage glass siphon coffee maker brewing dark roast coffee, rich dramatic steam, warm glowing cafe lighting, macro details",
+            "editorial food photography of freshly baked Spanish Churros paired with a cup of thick hot chocolate, rustic wooden table, cozy morning sunlight",
+            "cyberpunk aesthetic photography of an advanced glowing 3D printer operating in a dark high-tech workshop, neon blue and magenta lights",
+            "breathtaking wide shot of a peaceful golden hour sunset over a lush green rural rice paddy field, cinematic lighting, serene atmosphere"
         ];
+
+        // 🌟 史詩級參數：破百字的神級算圖綴詞
+        const masterModifiers = "masterpiece, best quality, ultra-detailed, photorealistic, 8k resolution, RAW photo, highly detailed, dramatic natural lighting, cinematic lighting, volumetric lighting, shot on Hasselblad H6D-400c, 50mm lens, f/1.8, award-winning photography, Octane Render, Unreal Engine 5";
 
         function getAstrologySignsByDate(dateStr) {
             const d = new Date(dateStr + "T00:00:00");
@@ -173,8 +172,8 @@
             document.getElementById('ui-fortune-text').innerText = selectedFortune.text;
             document.getElementById('ui-fortune-music').innerText = "建議配樂：" + (selectedFortune.music_text || "🎶 輕快純音樂");
             
-            // 鑲嵌 YouTube，替換為絕對能播放的 ID
-            const ytId = selectedFortune.yt_id || "NEKzFqGZ-g0";
+            // 鑲嵌絕對能播放的 YouTube 直播與音樂
+            const ytId = selectedFortune.yt_id || "jfKfPfyJRdk";
             document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube.com/embed/${ytId}?autoplay=0&controls=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             
             const articleText = selectedQuote.article ? selectedQuote.article : "";
@@ -182,20 +181,15 @@
             document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
             document.getElementById('ui-pain').innerText = selectedQuote.p;
             
-            // ==========================================
-            // 魔法 1：顯示算圖指令，並呼叫免費 AI 畫圖引擎
-            // ==========================================
-            const selectedScene = getRandomItem(sceneryStyles);
-            const promptText = `${selectedScene}, shot on 35mm lens, f/2.8, highly detailed, dramatic natural lighting, photorealistic, 8k resolution, masterful composition --ar 9:16 --style raw --v 6.0`;
-            document.getElementById('rawPrompt').value = promptText;
+            // 組合極致高純度的 Prompt 指令
+            const baseScene = getRandomItem(sceneryStyles);
+            const fullPrompt = `${baseScene}, ${masterModifiers} --ar 9:16 --style raw --v 6.0`;
+            document.getElementById('rawPrompt').value = fullPrompt;
             
-            // 呼叫 pollinations.ai 免費繪圖 API，直接渲染在網頁上！(尺寸設為 IG 限動 1080x1920)
-            const encodedPrompt = encodeURIComponent(selectedScene + ", masterpiece, hyper realistic photography, 8k");
-            document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1080&height=1920&nologo=true`;
+            // 傳送給 AI 算圖引擎 (縮減長度以防 API 報錯，但保留高畫質關鍵字)
+            const safeUrlPrompt = encodeURIComponent(baseScene + ", masterpiece, highly detailed, 8k resolution");
+            document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
             
-            // ==========================================
-            // 魔法 2：顯示完美排版文案
-            // ==========================================
             const lunarFullText = document.getElementById('display-lunar').innerText;
             let lunarClean = lunarFullText.split(' | ')[0];
             let jieQiClean = lunarFullText.includes(' | 節氣: ') ? ` ${lunarFullText.split(' | 節氣: ')[1]}` : '';
