@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Creator V42 - High Purity Prompts</title>
+    <title>TAIJI Omniverse Creator V43</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Inter:wght@400;600;700;900&display=swap');
@@ -32,7 +32,7 @@
         .btn-copy.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
         .btn-copy:hover { opacity: 0.9; transform: translateY(-2px); }
         
-        textarea.visible-box { width: 100%; flex-grow: 1; min-height: 280px; background: var(--hero-bg); color: var(--text-main); border: 1px solid #ccc; padding: 15px; border-radius: 8px; resize: vertical; font-size: 0.95rem; font-family: inherit; line-height: 1.6; box-sizing: border-box; }
+        textarea.visible-box { width: 100%; flex-grow: 1; min-height: 250px; background: var(--hero-bg); color: var(--text-main); border: 1px solid #ccc; padding: 15px; border-radius: 8px; resize: vertical; font-size: 0.95rem; font-family: inherit; line-height: 1.6; box-sizing: border-box; }
         .ai-image-preview { width: 100%; height: auto; border-radius: 8px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: block; object-fit: cover; aspect-ratio: 9/16; background: #e0e0e0 url('https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif') no-repeat center center; }
 
         @media (max-width: 768px) { .info-card { grid-column: span 12; } }
@@ -82,7 +82,7 @@
                 <h3>🎨 視覺產出 (AI Prompt & Image)</h3>
                 <button class="btn-copy" onclick="copyText('rawPrompt', 'btnMsgAI')" id="btnMsgAI">📸 點擊複製算圖指令 (Prompt)</button>
                 <textarea id="rawPrompt" class="visible-box" readonly></textarea>
-                <p style="margin: 15px 0 5px 0; font-size: 0.9rem; font-weight: bold;">✨ 即時 AI 預覽圖 (可右鍵另存)：</p>
+                <p style="margin: 15px 0 5px 0; font-size: 0.9rem; font-weight: bold; color: #e63946;">✨ 免費 AI 預覽草圖 (細節與光影請依賴上方 Prompt 交由付費工具算圖)：</p>
                 <img id="ai-image-result" class="ai-image-preview" src="" alt="AI Generated Image">
             </div>
 
@@ -95,9 +95,9 @@
     </div>
 
     <script>
-        const quotes = [{"article": "鬧鐘響了三遍，靈魂還在床上跟棉被辦離職手續，這就是週一對打工人的最大霸凌。", "q": "我的存款沒長大，我的黑眼圈倒是挺有成就感的。", "p": "不想上班想離職"}, {"article": "打開網銀看餘額，心涼的程度比辦公室的超強冷氣還要透心涼，錢錢真的都變成了喜歡的樣子離我而去。", "q": "說好要存錢，結果錢只是在我戶頭過個水，就去養活別人了。", "p": "存不到錢好焦慮"}, {"article": "每天認真上班以為離財富自由越來越近，結果發現只是離過勞跟胃食道逆流越來越近。", "q": "拿賣命的錢，買不能吃的藥，這就是大人的成熟循環。", "p": "職場人生"}, {"article": "滑著脆跟Dcard看到大家都在買房買車出國玩，只有我連點外送都要湊免運猶豫半小時。", "q": "焦慮不是因為你不够努力，而是努力的速度趕不上通膨的腳步。", "p": "同儕壓力"}, {"article": "下午茶時間同事問要不要訂珍奶，雖然心裡有一百個節約的理由，但嘴巴還是很誠實地說好。", "q": "生活已經夠苦了，不喝點糖，我怕自己會在辦公室哭出來。", "p": "小確幸破產"}]; 
+        const quotes = [{"article": "鬧鐘響了三次，靈魂還在床上漂浮。看著戶頭餘額，才甘願把沉重的雙腳伸出被窩，這就是大人的悲哀。", "q": "工作治好了我的窮病，卻治不好我的憂鬱。", "p": "#不想上班 #MondayBlue"}, {"article": "每天認真上班、省吃儉用，結果一查房價跟通膨，直接讓人原地躺平。錢不是不見了，是變成喜歡的樣子卡在別人家。", "q": "薪水追不上通膨，只好躺平放過自己。", "p": "#存不到錢 #世代焦慮"}, {"article": "週一到週五的靈魂是公司租去的，只有週末兩天才是自己。星期日晚上的焦慮，簡時比鬼門開還要可怕。", "q": "週日晚上得了一種「想到明天要上班」就會窒息的病。", "p": "#職場生存 #厭世日常"}, {"article": "便利商店的咖啡越喝越濃，存款的數字卻像心酸的笑話。每天都想遞出離職信，但房租跟帳單總是死死拉住我的手。", "q": "每一句「明天見」，都是社畜無奈的謊言。", "p": "#想離職 #社畜心聲"}, {"article": "滑著 IG 別人天天出國吃大餐，回頭看看自己的存款，安慰自己平凡也是一種幸福。沒事，呼吸大自然空氣不用錢。", "q": "窮得很有尊嚴，這就是我們這一代的小確幸。", "p": "#小資族 #生活日常"}]; 
         let payload = {"date": "2026-09-01", "star_sign": "牡羊座", "zodiac_sign": "馬"};
-        const fortunes = [{"text": "星象顯示有破財危機，請立刻關閉所有購物APP的推播通知。", "prop": "一張正在燃燒的信用卡", "music_text": "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", "yt_id": "jfKfPfyJRdk"}, {"text": "水星逆行引發通訊危機，今日請再三確認訊息是否發錯群組。", "prop": "一支停在尷尬聊天室畫面的手機", "music_text": "🎶 輕快 Lofi Beats - 保持心情平靜", "yt_id": "4xDzrIxMSt8"}, {"text": "天王星帶來突發變動，原本的完美計畫隨時可能被一場大雨打亂。", "prop": "一雙踩進水坑的白球鞋", "music_text": "🎶 史詩氛圍 Epic Ambient - 迎接未知挑戰", "yt_id": "1UEmIfR5ZUM"}, {"text": "木星能量飽滿，今天是發揮靈感與整理思緒的絕佳時機。", "prop": "一杯冒著熱氣的黑咖啡", "music_text": "🎶 原聲吉他 Acoustic Folk - 專注與純粹", "yt_id": "MCkTebktHVc"}];
+        const fortunes = [{"text": "星象顯示有破財危機，請立刻關閉所有購物APP的推播通知。", "prop": "一張正在燃燒的信用卡", "music_text": "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", "yt_id": "kgx4WGK0oNU"}, {"text": "水星逆行引發通訊危機，今日請再三確認訊息是否發錯群組。", "prop": "一支停在尷尬聊天室畫面的手機", "music_text": "🎶 輕快 Lofi Beats - 保持心情平靜", "yt_id": "1fueZCTYkpA"}, {"text": "天王星帶來突發變動，原本的完美計畫隨時可能被一場大雨打亂。", "prop": "一雙踩進水坑的白球鞋", "music_text": "🎶 史詩氛圍 Epic Ambient - 迎接未知挑戰", "yt_id": "a2v_zFOnoDM"}, {"text": "木星能量飽滿，今天是發揮靈感與整理思緒的絕佳時機。", "prop": "一杯冒著熱氣的黑咖啡", "music_text": "🎶 原聲吉他 Acoustic Folk - 專注與純粹", "yt_id": "1mRE2VzS10c"}];
         const zodiacAdvices = {"水瓶座": "今天你的直覺非常準確，如果在兩個選擇中猶豫，請相信你的第一反應。", "雙魚座": "感情方面需要多一點傾聽，少一點說教，對方其實只需要你的陪伴。", "牡羊座": "人際關係出現微妙的化學反應，主動對陌生人微笑，會開啟一段好緣分。", "金牛座": "適合規劃長遠目標的一天，哪怕只是寫下第一步，宇宙都會開始幫你。", "雙子座": "今天適合整理環境，丟掉不必要的雜物，能帶來意想不到的好運。", "巨蟹座": "工作上可能會遇到固執的同事，深呼吸，用柔和的語氣能化解僵局。", "獅子座": "靈感爆發的一天！把腦中閃過的點子立刻記下來，未來會派上用場。", "處女座": "體能狀態極佳，下班後去流點汗吧！這能幫你洗刷一整天的疲憊。", "天秤座": "長輩或長官會給你重要的建議，就算當下覺得刺耳，也請先收進心裡。", "天蠍座": "情緒稍顯低落，給自己泡杯好茶或咖啡，安靜獨處半小時能滿血復活。", "射手座": "計畫趕不上變化，與其死磕到底，不如順應局勢，換個方式會更輕鬆。", "摩羯座": "財運微幅上升，但切忌衝動購物，把錢投資在學習上會更有價值。"};
         
         const webThemes = [
@@ -105,15 +105,41 @@
             { class: 'theme-brutus', name: 'BRUTUS 高級暗黑風' }, { class: 'theme-casa', name: 'CASA BRUTUS 生活美學風' }
         ];
 
-        // 🌟 史詩級高純度 Prompt 矩陣 (完美具備敘事與精確光學物理參數)
-        const purePrompts = [
-            "A breathtaking hyper-realistic landscape photography of a pristine high-altitude alpine lake resembling a blue sapphire nestled in a golden grassy crater. A magnificent and highly detailed Milky Way galaxy arches across the clear night sky, facing southwest. The brilliant starry night reflects perfectly on the mirror-like calm water surface. Shot with an ultra-wide 14mm lens, f/1.8 aperture, long exposure astrophotography. Majestic mountain peaks in the background, soft natural moonlight illuminating the foreground grass. Cinematic lighting, highly detailed, 8k resolution, National Geographic award-winning photo, raw and natural true colors, photorealistic.",
-            
-            "A hyper-realistic cinematic close-up of a vintage glass siphon coffee maker actively brewing premium dark roast coffee. Rich, dramatic steam curls elegantly against a dimly lit, warm-toned cafe background. The boiling water creating dynamic bubbles in the lower glass chamber. Shot with a 100mm macro lens, f/2.8, capturing every condensation drop and textural detail of the wooden stand. Soft ambient glowing light, masterpiece, volumetric lighting, photorealistic, ultra-detailed food editorial photography.",
-            
-            "An incredibly cozy and aesthetic morning view from inside a rustic wooden cabin. Soft, warm golden hour sunlight streaming through a large glass window, brilliantly illuminating a plate of freshly baked Spanish churros and a steaming cup of thick hot chocolate on a textured oak table. Dust motes dancing gracefully in the light rays. Shot on 50mm lens, f/2.0, natural window lighting, highly detailed, photorealistic, masterpiece food magazine photography.",
-            
-            "A stunning cyberpunk aesthetic street photography of a rain-drenched neon-lit city alley at midnight. Vivid magenta and cyan neon signs reflecting perfectly on the wet asphalt. A solitary figure with an open clear umbrella walking into the mist. Shot on 35mm lens, f/1.4 for shallow depth of field, dramatic shadows, cinematic framing, 8k resolution, photorealistic, atmospheric lighting."
+        // 🌟 V43 終極多元矩陣：徹底打碎重組的靈感盲盒
+        
+        // 1. 視覺風格 (定義整張圖的靈魂)
+        const promptGenres = [
+            "Cozy lifestyle editorial photography",
+            "Cinematic neo-noir street photography",
+            "Hyper-realistic macro photography",
+            "Minimalist architectural photography",
+            "Studio Ghibli anime style illustration, soft watercolor",
+            "Vintage 35mm film photography, Kodak Portra 400",
+            "Epic National Geographic astrophotography",
+            "Moody food magazine editorial photography"
+        ];
+
+        // 2. 主角與場景 (包含您感興趣的日常與風景)
+        const promptSubjects = [
+            "a vintage glass siphon coffee maker actively brewing coffee on a wooden table, rich steam",
+            "a plate of freshly baked Spanish churros paired with a steaming cup of thick hot chocolate",
+            "an advanced 3D printer crafting a complex geometric sculpture in a dark high-tech workshop",
+            "a pristine high-altitude alpine lake reflecting a magnificent Milky Way galaxy, facing southwest",
+            "a solitary figure walking down a rain-drenched neon-lit city street at midnight with a clear umbrella",
+            "a close-up of morning dew resting on a lush green fern leaf in a dense forest",
+            "a sleek minimalist concrete staircase with dramatic geometric light and shadow",
+            "a cute fluffy cat sleeping peacefully next to a pile of old books near a sunlit window",
+            "a bustling night market with vibrant food stalls, glowing lanterns, and steam rising into the air",
+            "a beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs"
+        ];
+
+        // 3. 濾鏡與相機參數 (確保高質感)
+        const promptModifiers = [
+            "shot on 50mm lens, f/1.8, warm golden hour sunlight, volumetric lighting, masterpiece, 8k",
+            "dramatic lighting, cinematic composition, photorealistic, highly detailed, Unreal Engine 5 render",
+            "soft ambient daylight, beautiful shallow depth of field, sharp focus on the subject",
+            "shot with an ultra-wide 14mm lens, long exposure, raw and natural true colors, award-winning",
+            "vibrant pastel colors, dreamy and ethereal atmosphere, highly aesthetic"
         ];
 
         function getAstrologySignsByDate(dateStr) {
@@ -176,14 +202,16 @@
             document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
             document.getElementById('ui-pain').innerText = selectedQuote.p;
             
-            // 寫入完整的高純度 Prompt 並加上尺寸後綴
-            const basePrompt = getRandomItem(purePrompts);
-            const fullPrompt = `${basePrompt} --ar 9:16 --style raw --v 6.0`;
+            // 🔥 隨機縫合：風格 + 主體 + 濾鏡
+            const genre = getRandomItem(promptGenres);
+            const subject = getRandomItem(promptSubjects);
+            const modifier = getRandomItem(promptModifiers);
+            
+            const fullPrompt = `${genre} of ${subject}. ${modifier} --ar 9:16 --v 6.0`;
             document.getElementById('rawPrompt').value = fullPrompt;
             
-            // 為了不讓 API URL 超載，我們擷取第一句話發送給免費繪圖介面，但您的文字方塊依然保留最完整的大師級指令
-            const shortPromptForAPI = basePrompt.split('.')[0];
-            const safeUrlPrompt = encodeURIComponent(shortPromptForAPI + ", masterpiece, hyper realistic photography, 8k");
+            // 傳送給免費預覽 API (僅作為草圖參考)
+            const safeUrlPrompt = encodeURIComponent(`${genre} of ${subject}, highly detailed`);
             document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
             
             const lunarFullText = document.getElementById('display-lunar').innerText;
