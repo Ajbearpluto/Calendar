@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Creator V41</title>
+    <title>TAIJI Omniverse Creator V42 - High Purity Prompts</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Inter:wght@400;600;700;900&display=swap');
@@ -15,7 +15,7 @@
         .editorial-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
         .card { background: var(--card-bg); border-radius: var(--border-radius); padding: 40px; border: var(--border-style); }
         .control-panel { grid-column: span 12; background: var(--hero-bg); padding: 20px; border-radius: var(--border-radius); border: var(--border-style); display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; }
-        .control-panel input, .control-panel select { padding: 10px; font-size: 1rem; border: 1px solid #ccc; border-radius: 6px; }
+        .control-panel input, .control-panel select { padding: 10px; font-size: 1rem; border: 1px solid #ccc; border-radius: 6px; font-family: var(--font-body); }
         .control-panel button.btn-apply { background: #2563eb; color: #fff; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .date-card { grid-column: span 12; background: var(--text-title); color: var(--bg-color); text-align: center; padding: 45px 20px; border: none; }
         .date-card h1 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; margin: 0; letter-spacing: -2px; }
@@ -25,7 +25,6 @@
         .quote-card p.article { font-size: 1.1rem; color: var(--text-main); margin-bottom: 25px; line-height: 1.6; }
         .info-card { grid-column: span 6; } .zodiac-card { grid-column: span 12; background: var(--hero-bg); }
         
-        /* 修復版面：強制左右並排，空間不夠時才折疊 */
         .creator-section { grid-column: span 12; display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; }
         .creator-box { flex: 1 1 45%; min-width: 300px; background: var(--card-bg); padding: 25px; border-radius: var(--border-radius); border: var(--border-style); display: flex; flex-direction: column; }
         .creator-box h3 { margin-top: 0; border-bottom: 2px solid var(--text-title); padding-bottom: 10px; }
@@ -33,7 +32,7 @@
         .btn-copy.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
         .btn-copy:hover { opacity: 0.9; transform: translateY(-2px); }
         
-        textarea.visible-box { width: 100%; flex-grow: 1; min-height: 250px; background: var(--hero-bg); color: var(--text-main); border: 1px solid #ccc; padding: 15px; border-radius: 8px; resize: vertical; font-size: 0.95rem; font-family: monospace; line-height: 1.6; box-sizing: border-box; }
+        textarea.visible-box { width: 100%; flex-grow: 1; min-height: 280px; background: var(--hero-bg); color: var(--text-main); border: 1px solid #ccc; padding: 15px; border-radius: 8px; resize: vertical; font-size: 0.95rem; font-family: inherit; line-height: 1.6; box-sizing: border-box; }
         .ai-image-preview { width: 100%; height: auto; border-radius: 8px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: block; object-fit: cover; aspect-ratio: 9/16; background: #e0e0e0 url('https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif') no-repeat center center; }
 
         @media (max-width: 768px) { .info-card { grid-column: span 12; } }
@@ -64,7 +63,6 @@
             <div class="content" style="line-height:1.6; margin-top:10px;">
                 <strong>⚠️ 注意事項：</strong><br><span id="ui-fortune-text"></span><br><br>
                 <strong style="color:#d97706;" id="ui-fortune-music"></strong>
-                <!-- 🎵 迷你 YouTube 播放器 -->
                 <div id="yt-player-container" style="margin-top: 15px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"></div>
             </div>
         </div>
@@ -79,7 +77,6 @@
             <p id="zodiac-advice-text" style="font-size: 1.1rem; line-height:1.6; margin-top: 20px;"></p>
         </div>
 
-        <!-- 視覺解禁：Flexbox 雙欄佈局 -->
         <div class="creator-section">
             <div class="creator-box">
                 <h3>🎨 視覺產出 (AI Prompt & Image)</h3>
@@ -108,17 +105,16 @@
             { class: 'theme-brutus', name: 'BRUTUS 高級暗黑風' }, { class: 'theme-casa', name: 'CASA BRUTUS 生活美學風' }
         ];
 
-        // 🌟 強效外掛：全面擴充盲盒場景主題
-        const sceneryStyles = [
-            "hyper-realistic astrophotography of the glowing Milky Way galaxy over a pristine high-altitude alpine lake surrounded by golden grass, rugged mountain peaks, night sky photography",
-            "cinematic close-up of a vintage glass siphon coffee maker brewing dark roast coffee, rich dramatic steam, warm glowing cafe lighting, macro details",
-            "editorial food photography of freshly baked Spanish Churros paired with a cup of thick hot chocolate, rustic wooden table, cozy morning sunlight",
-            "cyberpunk aesthetic photography of an advanced glowing 3D printer operating in a dark high-tech workshop, neon blue and magenta lights",
-            "breathtaking wide shot of a peaceful golden hour sunset over a lush green rural rice paddy field, cinematic lighting, serene atmosphere"
+        // 🌟 史詩級高純度 Prompt 矩陣 (完美具備敘事與精確光學物理參數)
+        const purePrompts = [
+            "A breathtaking hyper-realistic landscape photography of a pristine high-altitude alpine lake resembling a blue sapphire nestled in a golden grassy crater. A magnificent and highly detailed Milky Way galaxy arches across the clear night sky, facing southwest. The brilliant starry night reflects perfectly on the mirror-like calm water surface. Shot with an ultra-wide 14mm lens, f/1.8 aperture, long exposure astrophotography. Majestic mountain peaks in the background, soft natural moonlight illuminating the foreground grass. Cinematic lighting, highly detailed, 8k resolution, National Geographic award-winning photo, raw and natural true colors, photorealistic.",
+            
+            "A hyper-realistic cinematic close-up of a vintage glass siphon coffee maker actively brewing premium dark roast coffee. Rich, dramatic steam curls elegantly against a dimly lit, warm-toned cafe background. The boiling water creating dynamic bubbles in the lower glass chamber. Shot with a 100mm macro lens, f/2.8, capturing every condensation drop and textural detail of the wooden stand. Soft ambient glowing light, masterpiece, volumetric lighting, photorealistic, ultra-detailed food editorial photography.",
+            
+            "An incredibly cozy and aesthetic morning view from inside a rustic wooden cabin. Soft, warm golden hour sunlight streaming through a large glass window, brilliantly illuminating a plate of freshly baked Spanish churros and a steaming cup of thick hot chocolate on a textured oak table. Dust motes dancing gracefully in the light rays. Shot on 50mm lens, f/2.0, natural window lighting, highly detailed, photorealistic, masterpiece food magazine photography.",
+            
+            "A stunning cyberpunk aesthetic street photography of a rain-drenched neon-lit city alley at midnight. Vivid magenta and cyan neon signs reflecting perfectly on the wet asphalt. A solitary figure with an open clear umbrella walking into the mist. Shot on 35mm lens, f/1.4 for shallow depth of field, dramatic shadows, cinematic framing, 8k resolution, photorealistic, atmospheric lighting."
         ];
-
-        // 🌟 史詩級參數：破百字的神級算圖綴詞
-        const masterModifiers = "masterpiece, best quality, ultra-detailed, photorealistic, 8k resolution, RAW photo, highly detailed, dramatic natural lighting, cinematic lighting, volumetric lighting, shot on Hasselblad H6D-400c, 50mm lens, f/1.8, award-winning photography, Octane Render, Unreal Engine 5";
 
         function getAstrologySignsByDate(dateStr) {
             const d = new Date(dateStr + "T00:00:00");
@@ -172,7 +168,6 @@
             document.getElementById('ui-fortune-text').innerText = selectedFortune.text;
             document.getElementById('ui-fortune-music').innerText = "建議配樂：" + (selectedFortune.music_text || "🎶 輕快純音樂");
             
-            // 鑲嵌絕對能播放的 YouTube 直播與音樂
             const ytId = selectedFortune.yt_id || "jfKfPfyJRdk";
             document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube.com/embed/${ytId}?autoplay=0&controls=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             
@@ -181,13 +176,14 @@
             document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
             document.getElementById('ui-pain').innerText = selectedQuote.p;
             
-            // 組合極致高純度的 Prompt 指令
-            const baseScene = getRandomItem(sceneryStyles);
-            const fullPrompt = `${baseScene}, ${masterModifiers} --ar 9:16 --style raw --v 6.0`;
+            // 寫入完整的高純度 Prompt 並加上尺寸後綴
+            const basePrompt = getRandomItem(purePrompts);
+            const fullPrompt = `${basePrompt} --ar 9:16 --style raw --v 6.0`;
             document.getElementById('rawPrompt').value = fullPrompt;
             
-            // 傳送給 AI 算圖引擎 (縮減長度以防 API 報錯，但保留高畫質關鍵字)
-            const safeUrlPrompt = encodeURIComponent(baseScene + ", masterpiece, highly detailed, 8k resolution");
+            // 為了不讓 API URL 超載，我們擷取第一句話發送給免費繪圖介面，但您的文字方塊依然保留最完整的大師級指令
+            const shortPromptForAPI = basePrompt.split('.')[0];
+            const safeUrlPrompt = encodeURIComponent(shortPromptForAPI + ", masterpiece, hyper realistic photography, 8k");
             document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
             
             const lunarFullText = document.getElementById('display-lunar').innerText;
