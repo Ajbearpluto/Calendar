@@ -9,10 +9,8 @@ import requests
 
 class TaijiOmniverseCalendar:
     def __init__(self):
-        # 🌐 【時區校正】強制鎖定為台灣時間 (UTC+8)
         tz_tw = timezone(timedelta(hours=8))
         self.today = datetime.now(tz_tw)
-        
         self.api_key = os.environ.get("GEMINI_API_KEY", "").strip()
         
         self._init_static_databases()
@@ -20,10 +18,9 @@ class TaijiOmniverseCalendar:
         self.real_trends = self.fetch_google_rss_trends()
         self.forum_titles = self.fetch_social_forum_trends()
         
-        # 🧠 呼叫靈魂引擎
+        # 🧠 啟動多彈頭自適應尋標系統
         self.dynamic_quotes, self.is_llm_active = self.generate_quotes_via_llm(self.forum_titles)
         
-        # 🌌 【宇宙曆法公式】
         year, month, day = self.today.year, self.today.month, self.today.day
         stars = ["水瓶座", "雙魚座", "牡羊座", "金牛座", "雙子座", "巨蟹座", "獅子座", "處女座", "天秤座", "天蠍座", "射手座", "摩羯座"]
         zodiacs = ["鼠", "牛", "虎", "兔", "龍", "蛇", "馬", "羊", "猴", "雞", "狗", "豬"]
@@ -45,20 +42,9 @@ class TaijiOmniverseCalendar:
         self.star_visuals = {"水瓶座": {"c": "星空藍", "v": "周圍環繞著發光的水波紋"}, "雙魚座": {"c": "海洋藍", "v": "頭頂有兩條光影小魚環繞"}, "牡羊座": {"c": "火焰紅", "v": "擁有發光的螺旋羊角"}, "金牛座": {"c": "大地綠", "v": "帶著小巧的黃金牛角"}, "雙子座": {"c": "明亮黃", "v": "身體有著雙重顏色的分裂感"}, "巨蟹座": {"c": "珍珠白", "v": "表面有一層閃亮的珍珠光澤"}, "獅子座": {"c": "王者金", "v": "頭頂戴著一頂微型的黃金皇冠"}, "處女座": {"c": "純淨白", "v": "周圍有純潔的光芒與花瓣飄落"}, "天秤座": {"c": "湖水綠", "v": "頭頂懸浮著一個發光的黃金小天平"}, "天蠍座": {"c": "深邃紫", "v": "背後有一條若隱若現的紫色毒刺光影"}, "射手座": {"c": "自由橘", "v": "背著一把迷你的光之弓箭"}, "摩羯座": {"c": "沉穩褐", "v": "額頭有發光的神秘符文"}}
         self.zodiac_visuals = {"鼠": {"c": "灰曜色", "v": "擁有靈動的小老鼠耳朵"}, "牛": {"c": "厚土色", "v": "帶著堅硬的牛角與鼻環"}, "虎": {"c": "霸氣橘", "v": "身上有著明顯的老虎斑紋"}, "兔": {"c": "櫻花粉", "v": "擁有長長的毛茸茸兔子耳朵"}, "龍": {"c": "神聖金", "v": "頭上長著威武的龍角"}, "蛇": {"c": "翡翠綠", "v": "身體呈現細長且帶有蛇鱗反光"}, "馬": {"c": "疾風棕", "v": "背部有著飄逸的馬鬃毛光影"}, "羊": {"c": "溫柔白", "v": "頭側有捲曲的綿羊角"}, "猴": {"c": "靈動桃", "v": "擁有一條長長的猴子尾巴"}, "雞": {"c": "晨曦紅", "v": "頭頂著鮮豔的雞冠"}, "狗": {"c": "忠誠黃", "v": "有著下垂的可愛狗狗耳朵"}, "豬": {"c": "豐饒粉", "v": "擁有一個可愛的粉紅豬鼻子"}}
         self.art_styles = ["最高規格「頂級寫實照」光學成像參數 (極致寫實、大師級攝影光影)"]
-        self.fortune_fusion = [
-            {"text": "星象顯示有破財危機，請立刻關閉所有購物APP的推播通知。", "prop": "一張正在燃燒的信用卡"},
-            {"text": "水星逆行引發通訊危機，今日請再三確認訊息是否發錯群組。", "prop": "一支停在尷尬聊天室畫面的手機"},
-            {"text": "天王星帶來突發變動，原本的完美計畫隨時可能被一場大雨打亂。", "prop": "一雙踩進水坑的白球鞋"}
-        ]
-        self.themes_data = {
-            "社畜的生存掙扎": {"stages": ["被死線追殺的社畜", "眼神空洞的會議參與者"], "emotions": ["發出無聲的尖叫", "徹底放棄思考"], "textures": ["像史萊姆一樣裂開", "變成灰白色的石化狀態"], "actions": ["在辦公桌前癱瘓", "無力地敲擊鍵盤"]},
-            "月光族的月底日常": {"stages": ["月底準備吃土的生存者", "物慾極高但沒錢的幻想家"], "emotions": ["看到價格標籤後的驚恐", "心如刀割的痛楚"], "textures": ["變得像紙一樣薄", "表面出現貧窮的裂痕"], "actions": ["抱著空的錢包痛哭", "在地上尋找發票"]},
-            "極致的懶散躺平": {"stages": ["拒絕營業的廢物", "試圖物理性登出的人類"], "emotions": ["毫無波瀾，徹底放空", "散發著慵懶的氣息"], "textures": ["融化成一灘液體", "像麻糬一樣軟爛"], "actions": ["展現極致鬆弛感", "緩慢地蠕動"]}
-        }
-        self.fallback_quotes = [
-            {"q": "薪水就像渣男，每個月來一次，沒幾天就消失得無影無蹤。", "p": "金錢焦慮"},
-            {"q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學"}
-        ]
+        self.fortune_fusion = [{"text": "水星逆行引發通訊危機，今日請再三確認訊息是否發錯群組。", "prop": "一支停在尷尬聊天室畫面的手機"}]
+        self.themes_data = {"極致的懶散躺平": {"stages": ["試圖物理性登出的人類", "拒絕營業的廢物"], "emotions": ["毫無波瀾，徹底放空", "散發著慵懶的氣息"], "textures": ["融化成一灘液體", "像麻糬一樣軟爛"], "actions": ["展現極致鬆弛感", "緩慢地蠕動"]}}
+        self.fallback_quotes = [{"q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學"}]
 
     def self_diagnostic(self):
         print("🔍 [零一系統] 底層自檢完成。準備執行自動化排程。")
@@ -89,50 +75,65 @@ class TaijiOmniverseCalendar:
                 titles = [item['title'] for item in data if 'title' in item]
                 return titles[:10]
         except Exception:
-            return ["不想上班想離職", "存不到錢好焦慮", "客戶又在發神經"]
+            return ["不想上班想離職", "存不到錢好焦慮"]
 
     def generate_quotes_via_llm(self, forum_titles):
         if not self.api_key:
             print("⚠️ 未偵測到 API Key。切換至備用庫。")
             return self.fallback_quotes, False
             
-        print("🧠 正在連線 LLM 靈魂引擎 (啟用直連模式)...")
+        print("🧠 正在連線 LLM 靈魂引擎 (啟動自動尋標模式)...")
+        
+        # 🎯 終極武器：自動測試各種模型，直到找到您帳號有權限的那一個！
+        models_to_try = [
+            "gemini-1.5-flash",
+            "gemini-1.5-flash-latest",
+            "gemini-pro",
+            "gemini-1.0-pro"
+        ]
+        
+        titles_text = "\n".join([f"- {t}" for t in forum_titles])
+        prompt = f"""
+        你是一位洞悉台灣社會現象的社群文案大師。今天是 {self.today.strftime("%Y-%m-%d")}。
+        參考以下 Dcard 熱門標題的社會氛圍：\n{titles_text}\n
+        為我寫出 5 句極度接地氣的大眾共鳴金句 (包含生活、上班、缺錢等普世痛點)。
+        - 3 句為帶有自我解嘲的「幽默幹話」（厭世、吐槽）。
+        - 2 句為「正向療癒、生活微光」的溫暖句子。
+        請嚴格以 JSON 陣列格式回傳：[ {{"q": "金句內容", "p": "痛點標籤"}} ]
+        """
+        
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"temperature": 0.9}
+        }
+        headers = {"Content-Type": "application/json"}
+        
+        last_error = ""
+        
         try:
-            # 🎯 破案關鍵：修正了 Google 要求的精準模型名稱 (-latest)
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={self.api_key}"
-            
-            titles_text = "\n".join([f"- {t}" for t in forum_titles])
-            prompt = f"""
-            你是一位洞悉台灣社會現象的社群文案大師。今天是 {self.today.strftime("%Y-%m-%d")}。
-            參考以下 Dcard 熱門標題的社會氛圍：\n{titles_text}\n
-            為我寫出 5 句極度接地氣的大眾共鳴金句 (包含生活、上班、缺錢等普世痛點)。
-            - 3 句為帶有自我解嘲的「幽默幹話」（厭世、吐槽）。
-            - 2 句為「正向療癒、生活微光」的溫暖句子。
-            請嚴格以 JSON 陣列格式回傳：[ {{"q": "金句內容", "p": "痛點標籤"}} ]
-            """
-            
-            payload = {
-                "contents": [{"parts": [{"text": prompt}]}],
-                "generationConfig": {"temperature": 0.9}
-            }
-            headers = {"Content-Type": "application/json"}
-            
-            response = requests.post(url, json=payload, headers=headers, timeout=15)
-            
-            if response.status_code != 200:
-                print(f"⚠️ API 拒絕連線 (錯誤碼: {response.status_code}): {response.text}")
-                return self.fallback_quotes, False
+            for model_name in models_to_try:
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={self.api_key}"
+                print(f"📡 正在嘗試連線模型: {model_name}...")
                 
-            data = response.json()
-            raw_text = data['candidates'][0]['content']['parts'][0]['text']
-            raw_text = raw_text.replace("```json", "").replace("```", "").strip()
-            new_quotes = json.loads(raw_text)
-            
-            print("🟢 靈魂引擎連線成功！(Gemini 1.5 Flash 運作中)")
-            return new_quotes, True
+                response = requests.post(url, json=payload, headers=headers, timeout=15)
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    raw_text = data['candidates'][0]['content']['parts'][0]['text']
+                    # 清理可能附帶的 markdown 標籤
+                    raw_text = raw_text.replace("```json", "").replace("```", "").strip()
+                    new_quotes = json.loads(raw_text)
+                    print(f"🟢 靈魂引擎連線成功！(成功鎖定模型: {model_name})")
+                    return new_quotes, True
+                else:
+                    last_error = f"[{model_name}] 失敗代碼 {response.status_code}"
+                    print(f"⚠️ 模型 {model_name} 無權限或拒絕連線，自動切換下一個...")
+                    
+            print(f"❌ 所有模型均測試失敗。最後錯誤: {last_error}")
+            return self.fallback_quotes, False
             
         except Exception as e:
-            print(f"⚠️ 靈魂引擎連線失敗 ({str(e)})。已切換至備用庫。")
+            print(f"⚠️ LLM 處理過程發生崩潰 ({str(e)})。已切換至備用庫。")
             return self.fallback_quotes, False
 
     def export_to_html(self):
@@ -225,7 +226,7 @@ class TaijiOmniverseCalendar:
                     <div class="content" style="color: var(--text-sub); font-size: 0.85rem; line-height:1.6; margin-top:10px;">
                         <span style="color: #2563eb; font-weight: bold;">[資料來源]</span> <span id="log-data-source"></span><br>
                         目前版型：<strong id="ui-web-theme" style="color:var(--text-main);"></strong><br><br>
-                        自動化工廠：V31 雲端自動更新排程已準備就緒。<br>
+                        自動化工廠：V32 全自動巡弋排程已準備就緒。<br>
                     </div>
                 </div>
 
