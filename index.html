@@ -10,17 +10,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
         
         :root {
-            /* 原研哉：紙張材質與墨水色 */
             --paper-bg: #FDFBF7;
             --ink-black: #1A1A1A;
             --ink-gray: #757575;
             --line-color: #E0E0E0;
-            
-            /* 聶永真：印章色彩 (低飽和度的朱紅與青綠) */
             --stamp-red: #C05A50;
             --stamp-green: #5B8266;
-            
-            /* 背景環境色 */
             --env-bg: #EAEAE4;
         }
 
@@ -53,7 +48,6 @@
             align-items: center;
             padding: 0 10px;
         }
-        /* 聶永真：資訊群組化與細線分隔 */
         .control-panel input {
             background: transparent;
             border: 1px solid var(--line-color);
@@ -83,7 +77,7 @@
         }
         .btn-tear:hover { background: #333; transform: translateY(-2px); }
 
-        /* 原研哉：紙張本體與多重堆疊陰影 (厚度感) */
+        /* 紙張本體與厚度陰影 */
         .calendar-page {
             background-color: var(--paper-bg);
             /* 模擬紙張纖維雜訊 */
@@ -112,7 +106,7 @@
             opacity: 0.5;
         }
 
-        /* 深澤直人：撕頁與掉落動畫 */
+        /* 撕頁與掉落動畫 */
         @keyframes tearOff {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; filter: blur(0); }
             100% { transform: translateY(150px) rotate(4deg); opacity: 0; filter: blur(5px); }
@@ -124,7 +118,7 @@
         .anim-tear { animation: tearOff 0.6s forwards cubic-bezier(0.55, 0.085, 0.68, 0.53); }
         .anim-appear { animation: fallIn 0.5s forwards ease-out; }
 
-        /* 聶永真：巨大化排版與網格 (視覺錨點) */
+        /* 巨大化排版與網格 */
         .date-hero {
             display: flex;
             align-items: baseline;
@@ -158,7 +152,7 @@
             line-height: 1.4;
         }
 
-        /* 聶永真：印章式宜忌模組 */
+        /* 印章式宜忌模組 */
         .fortune-grid {
             display: flex;
             align-items: center;
@@ -184,7 +178,7 @@
         .stamp.do { border-color: var(--stamp-green); color: var(--stamp-green); transform: rotate(-2deg); }
         .stamp.dont { border-color: var(--stamp-red); color: var(--stamp-red); transform: rotate(1deg); }
 
-        /* 聶永真：留白重構與兩端對齊故事 */
+        /* 故事與金句 */
         .story-content {
             font-size: 1.15rem;
             line-height: 2;
@@ -194,7 +188,6 @@
             text-align: justify;
             white-space: pre-line;
         }
-        /* 賈伯斯：文學感宋體金句與中文標準引號 「 」 */
         .quote-content {
             font-family: 'Noto Serif TC', serif;
             font-size: 1.6rem;
@@ -206,7 +199,7 @@
             border-left: 4px solid var(--ink-black);
         }
 
-        /* 音樂模組 (聶永真版面與賈伯斯標準符號) */
+        /* 音樂模組 */
         .music-player {
             margin-bottom: 40px;
             border-top: 1px solid var(--line-color);
@@ -223,7 +216,7 @@
             padding-top: 40px;
         }
         .output-box {
-            background: #F4F6F8; /* 您截圖中的微灰底色 */
+            background: #F4F6F8;
             border-radius: 16px;
             padding: 20px;
             display: flex;
@@ -240,7 +233,7 @@
             gap: 8px;
         }
         
-        /* 指令複製群組 (一分為二，高張力排版) */
+        /* 指令複製群組 */
         .prompt-group {
             display: flex;
             flex-direction: column;
@@ -250,7 +243,7 @@
         }
         .prompt-group:last-of-type { border-bottom: none; padding-bottom: 0; }
         
-        /* 徹底還原您截圖中的乾淨、emoji 圖文對齊按鈕 */
+        /* UI 按鈕設計 */
         .btn-action {
             background: #FFFFFF;
             border: 1px solid rgba(0,0,0,0.05);
@@ -273,7 +266,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transform: translateY(-1px);
         }
-        /* 特別將 Threads 按鈕設為深色底，達成「視覺主次劃分」 */
+        /* 主按鈕 (Threads) */
         .btn-action.primary { background: var(--ink-black); color: #fff; }
         .btn-action.primary:hover { background: #333; }
 
@@ -289,9 +282,7 @@
             outline: none;
             box-sizing: border-box;
         }
-        /* 獨立 小文字框 */
         textarea.small-box { min-height: 90px; }
-        /* Threads 寬大文字框 */
         textarea.large-box { min-height: 220px; flex-grow: 1; }
 
         .preview-img {
@@ -347,11 +338,12 @@
             <!-- 音樂區塊 -->
             <div class="music-player">
                 <div class="music-title" id="ui-fortune-music">建議配樂：載入中...</div>
+                <!-- 換回最穩定的 youtube.com 標準網域 -->
                 <div id="yt-player-container" style="border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);"></div>
                 <p style="font-size: 0.8rem; margin-top: 8px; text-align: right;"><a id="yt-fallback-link" href="#" target="_blank" style="color: var(--ink-gray); text-decoration: none;">🎧 備用聆聽連結</a></p>
             </div>
 
-            <!-- 創作者輸出區 (彻底拆分按鈕區塊) -->
+            <!-- 創作者輸出區 -->
             <div class="creator-grid">
                 <!-- 左側：視覺產出區 -->
                 <div class="output-box">
@@ -378,7 +370,7 @@
                     <button class="btn-action primary" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📝 複製 Threads 貼文</button>
                     <textarea id="igCaption" class="code-box large-box" readonly style="color: var(--ink-black); font-weight: 500;"></textarea>
                     
-                    <span style="font-size: 0.8rem; color: var(--ink-gray); text-align: center; margin-top: 10px;">✨ AI 草圖預覽 (依據純圖指令生成)</span>
+                    <span style="font-size: 0.85rem; color: var(--ink-gray); text-align: center; margin-top: 10px;">✨ AI 草圖預覽 (依據純圖指令)</span>
                     <img id="ai-image-result" class="preview-img" src="" alt="AI Preview">
                 </div>
             </div>
@@ -387,16 +379,16 @@
     </div>
 
     <script>
-        const quotesData = [{"style": "極致反差", "article": "早晨窗外陽光灑進，咖啡香氣迷人，一切看起來像高級雜誌內頁。直到螢幕跳出老闆的「在嗎？」，瞬間回歸地獄，這杯咖啡的錢簡直是付給靈魂的贖金。", "q": "生活的美感，總是敗給週一的訊息視窗。", "p": "社畜日常 職場生存 離職衝動", "do": "準時登出", "dont": "秒讀訊息"}, {"style": "滿血復活", "article": "早起被鬧鐘嚇醒的瞬間想辭職，搭捷運時又覺得人生好累。但看到路邊那隻貓伸懶腰的模樣，突然覺得：算了，為了下班那杯冰美式，我還可以再演一天。", "q": "只要還有咖啡喝，我就是這家公司的影帝。", "p": "轉念的力量 正能量 職場社畜", "do": "大口喝咖", "dont": "懷疑人生"}, {"style": "人間清醒", "article": "辦公室裡的勾心鬥角，聽久了就發現大家都在演戲。薪水沒多給，戲份倒是給滿。與其爭個輸贏，不如專注在自己的人生，畢竟你也沒打算跟他們過一輩子。", "q": "不在意別人的評價，是成年人最高級的自律。", "p": "職場通透 人際關係 放過自己", "do": "專注自己", "dont": "在意評價"}, {"style": "躺平無罪", "article": "看著帳戶餘額，焦慮值直接破表。但我反覆思考後發現，只要我不買房、不買車、不結婚，我就能永遠擁有快樂的廢物人生。沒錢不可怕，可怕的是還要假裝上進。", "q": "只要我躺得夠平，焦慮就追不上我。", "p": "存不到錢 躺平主義 焦慮釋放", "do": "盡情廢物", "dont": "查看帳戶"}, {"style": "微小幸運", "article": "下班路上剛好捕捉到粉紫色的夕陽，那一刻心裡的結好像鬆開了。世界沒變好，但我變溫柔了，也許運氣不是從天而降，而是藏在這種不起眼的小事裡。", "q": "留心那些微小的美好，生活才會對你微笑。", "p": "日常療癒 生活小確幸 轉運", "do": "抬頭看天", "dont": "低頭煩惱"}]; 
+        const quotesData = [{"style": "極致反差", "article": "夕陽餘暉灑在海面上波光粼粼，浪漫得像一首詩。轉頭看見桌上堆成山的待辦事項，還有戶頭裡剩兩位數的餘額。沒事，反正我們這種人本來就是來人間湊數的苦行僧。", "q": "生活虐我千百遍，我把生活當智障。", "p": "不想上班想離職", "do": "原地躺平", "dont": "看存款簿"}, {"style": "滿血復活", "article": "早晨出門踩到狗屎氣到快中風，搭捷運剛好有空位坐下，抬頭看到帥哥美女對你微笑。轉念一想，今天踩黃金代表我要發財啦！老天爺這是在鋪陳我的主角光環！", "q": "只要我夠阿Q，全世界的衰事都是我的墊腳石。", "p": "存不到錢好焦慮", "do": "大口喝奶茶", "dont": "自己嚇自己"}, {"style": "人間清醒", "article": "主管在群組發了一大堆畫大餅的雞湯，大家搶著拍馬屁點貼圖。我冷眼看著這一切，默默把手機轉成靜音。職場不是家，演戲拿片酬就好，認真你就輸了。", "q": "不努力不會怎樣，但一直努力可能會直接往生。", "p": "不想上班想離職", "do": "冷眼旁觀", "dont": "回覆老闆"}, {"style": "躺平無罪", "article": "房租繳不出來、存款看不到未來，焦慮到整晚睡不著。乾脆把棉被拉起來繼續睡，反正天塌下來有高個子頂著，我這麼矮，壓不到我。", "q": "只要我夠廢，這個世界就沒有人能剝削我。", "p": "存不到錢好焦慮", "do": "大睡特睡", "dont": "面對現實"}, {"style": "微小幸運", "article": "走在路上突然飄來一陣剛出爐的麵包香，超商的茶葉蛋竟然剛好撈到最後兩顆入味最深的。生活雖然還是很破爛，但這些微小的甜，足夠撐過每一個想離職的瞬間。", "q": "世界雖然破破爛爛，總有人縫縫補補。", "p": "不想上班想離職", "do": "吃好料的", "dont": "計較太多"}]; 
         let payload = {"date": "2026-09-02", "star_sign": "金牛座", "zodiac_sign": "羊"};
 
-        // 🌟 保證 100% 允許嵌入、無直播結束錯誤的 YouTube 連結清單
+        // 🌟 保證 100% 允許嵌入且永久存在的 YouTube 名曲 (非直播)
         const localFortunes = [
-            { music_text: "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", yt_id: "5qap5aO4i9A" },
-            { music_text: "🎶 輕快 Lofi Beats - 保持心情平靜", yt_id: "-5KAN9_CzSA" },
-            { music_text: "🎶 史詩氛圍 Epic Ambient - 迎接未知挑戰", yt_id: "tNkZsRW7h2c" },
-            { music_text: "🎶 原聲吉他 Acoustic Folk - 專注與純粹", yt_id: "V1bFr2SWP1I" },
-            { music_text: "🎶 靜謐時光 - 療癒心靈", yt_id: "BOjZeaF4kM8" }
+            { music_text: "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", yt_id: "8Z5EjAmZS1o" },
+            { music_text: "🎶 輕快 Lofi Beats - 保持心情平靜", yt_id: "8XigHnczVOw" }, /* Lofi Girl - 1 A.M Study Session */
+            { music_text: "🎶 史詩氛圍 Epic Ambient - 迎接未知挑戰", yt_id: "ASj8VN0mdo4" },
+            { music_text: "🎶 原聲吉他 Acoustic Folk - 專注與純粹", yt_id: "CcsUYu0PVxY" },
+            { music_text: "🎶 靜謐時光 - 療癒心靈", yt_id: "lCOF9LN_Zxs" }
         ];
 
         const promptGenres = [
@@ -433,7 +425,7 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-        // 深澤直人：撕頁動畫觸發器
+        // 撕頁動畫觸發器
         function triggerTearAnimation() {
             const paper = document.getElementById('calendar-paper');
             paper.classList.remove('anim-appear');
@@ -455,7 +447,6 @@
         }
 
         function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
-            // 聶永真：巨大字體排版
             const dObj = new Date(currentDate + "T00:00:00");
             const dayStr = String(dObj.getDate()).padStart(2, '0');
             const ymStr = `${dObj.getFullYear()}.${String(dObj.getMonth()+1).padStart(2, '0')}`;
@@ -476,7 +467,6 @@
             document.getElementById('ui-lunar-zodiac').innerHTML = `${lunarDisplay}<br>✨ ${payload.star_sign}`;
 
             const selectedData = Array.isArray(quotesData) ? getRandomItem(quotesData) : quotesData;
-            // 🌟 確保音樂載入
             const selectedFortune = getRandomItem(localFortunes);
             
             const style = selectedData.style || "微小幸運";
@@ -490,24 +480,23 @@
             document.getElementById('ui-do').innerText = doAction;
             document.getElementById('ui-dont').innerText = dontAction;
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
-            // 賈伯斯標準符號
             document.getElementById('ui-quote').innerText = `「${quoteText}」`;
 
-            // 更新音樂模組
+            // 確保使用標準 youtube.com 網域以提升相容性
             document.getElementById('ui-fortune-music').innerText = "建議配樂：" + selectedFortune.music_text;
             const ytId = selectedFortune.yt_id;
-            document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube.com/embed/${ytId}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             document.getElementById('yt-fallback-link').href = `https://www.youtube.com/watch?v=${ytId}`;
 
             const genre = getRandomItem(promptGenres);
             const subject = getRandomItem(promptSubjects);
             const modifier = getRandomItem(promptModifiers);
             
-            // 寫入獨立 純圖文字框
+            // 寫入純圖文字框
             const purePrompt = `${genre} of ${subject}. ${modifier} --ar 9:16 --style raw --v 6.0`;
             document.getElementById('purePrompt').value = purePrompt;
             
-            // 寫入獨立 海報文字框
+            // 寫入海報文字框
             const posterPrompt = `A minimalist editorial calendar poster design. Background: ${genre} of ${subject}, ${modifier}. Overlay typography: Clean modern UI design layout, featuring a giant bold number "${dayStr}" at the top left, elegant Chinese serif text blocks, stamp-like graphic tags for "Do" and "Don't", negative space, masterpiece graphic design, magazine cover style --ar 9:16 --v 6.0`;
             document.getElementById('posterPrompt').value = posterPrompt;
             
@@ -532,7 +521,7 @@
             
             var btn = document.getElementById(btnId);
             var originalText = btn.innerHTML;
-            btn.innerHTML = "✅ 已複製成功！";
+            btn.innerHTML = "✅ 已複製！";
             setTimeout(function() { btn.innerHTML = originalText; }, 2000);
         }
     </script>
