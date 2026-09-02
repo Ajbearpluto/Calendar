@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Dieter Rams Typography Edition</title>
+    <title>TAIJI Omniverse Calendar - Composite Engine Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
-        /* 引入無印良品風黑體 (Sans) 與 傳統文學感宋體 (Serif) */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
         
         :root {
@@ -22,7 +21,6 @@
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: var(--env-bg);
-            /* SVG 細微雜訊，模擬空間質感 */
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
             color: var(--ink-black);
             margin: 0;
@@ -33,267 +31,99 @@
             align-items: center;
         }
 
-        .container {
-            max-width: 800px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        .container { max-width: 800px; width: 100%; display: flex; flex-direction: column; gap: 20px; }
 
-        /* 頂部操作列 */
-        .control-panel {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 10px;
-        }
-        .control-panel input {
-            background: transparent;
-            border: 1px solid var(--line-color);
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 1rem;
-            color: var(--ink-gray);
-            font-weight: 700;
-            outline: none;
-            cursor: pointer;
-        }
-        .btn-tear {
-            background: var(--ink-black);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+        .control-panel { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
+        .control-panel input { background: transparent; border: 1px solid var(--line-color); padding: 8px 15px; border-radius: 8px; font-family: inherit; font-size: 1rem; color: var(--ink-gray); font-weight: 700; outline: none; cursor: pointer; }
+        .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 10px 20px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .btn-tear:hover { background: #333; transform: translateY(-2px); }
 
-        /* 紙張本體與厚度陰影 */
+        /* 紙張本體 */
         .calendar-page {
             background-color: var(--paper-bg);
-            /* 模擬紙張纖維雜訊 */
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
             border-radius: 2px;
             padding: 50px;
             position: relative;
-            box-shadow: 
-                0 1px 1px rgba(0,0,0,0.05),
-                0 4px 0 -1px var(--paper-bg),
-                0 4px 1px -1px rgba(0,0,0,0.05),
-                0 8px 0 -2px var(--paper-bg),
-                0 8px 1px -2px rgba(0,0,0,0.05),
-                0 25px 50px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 1px rgba(0,0,0,0.05), 0 4px 0 -1px var(--paper-bg), 0 4px 1px -1px rgba(0,0,0,0.05), 0 8px 0 -2px var(--paper-bg), 0 8px 1px -2px rgba(0,0,0,0.05), 0 25px 50px rgba(0,0,0,0.08);
             transform-origin: top center;
         }
+        .calendar-page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-image: radial-gradient(circle at 10px 0, transparent 3px, var(--paper-bg) 4px); background-size: 20px 6px; background-repeat: repeat-x; opacity: 0.5; }
 
-        /* 穿孔撕線特效 */
-        .calendar-page::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 6px;
-            background-image: radial-gradient(circle at 10px 0, transparent 3px, var(--paper-bg) 4px);
-            background-size: 20px 6px;
-            background-repeat: repeat-x;
-            opacity: 0.5;
-        }
-
-        /* 撕頁與掉落動畫 */
-        @keyframes tearOff {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; filter: blur(0); }
-            100% { transform: translateY(150px) rotate(4deg); opacity: 0; filter: blur(5px); }
-        }
-        @keyframes fallIn {
-            0% { transform: translateY(-20px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
+        @keyframes tearOff { 0% { transform: translateY(0) rotate(0deg); opacity: 1; filter: blur(0); } 100% { transform: translateY(150px) rotate(4deg); opacity: 0; filter: blur(5px); } }
+        @keyframes fallIn { 0% { transform: translateY(-20px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         .anim-tear { animation: tearOff 0.6s forwards cubic-bezier(0.55, 0.085, 0.68, 0.53); }
         .anim-appear { animation: fallIn 0.5s forwards ease-out; }
 
-        /* 巨大化排版與網格 */
-        .date-hero {
-            display: flex;
-            align-items: baseline;
-            gap: 20px;
-            border-bottom: 2px solid var(--ink-black);
-            padding-bottom: 15px;
-            margin-bottom: 30px;
-        }
-        .giant-day {
-            font-size: 8rem;
-            font-weight: 900;
-            line-height: 0.75;
-            letter-spacing: -4px;
-            color: var(--ink-black);
-        }
-        .date-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .meta-ym {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--ink-black);
-        }
-        .meta-lunar {
-            font-size: 0.95rem;
-            color: var(--ink-gray);
-            border-left: 2px solid var(--line-color);
-            padding-left: 12px;
-            line-height: 1.4;
-        }
+        .date-hero { display: flex; align-items: baseline; gap: 20px; border-bottom: 2px solid var(--ink-black); padding-bottom: 15px; margin-bottom: 30px; }
+        .giant-day { font-size: 8rem; font-weight: 900; line-height: 0.75; letter-spacing: -4px; color: var(--ink-black); }
+        .date-meta { display: flex; flex-direction: column; gap: 5px; }
+        .meta-ym { font-size: 1.5rem; font-weight: 700; color: var(--ink-black); }
+        .meta-lunar { font-size: 0.95rem; color: var(--ink-gray); border-left: 2px solid var(--line-color); padding-left: 12px; line-height: 1.4; }
 
-        /* 印章式宜忌模組 */
-        .fortune-grid {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 35px;
-            flex-wrap: wrap;
-        }
-        .badge-style {
-            background: var(--ink-black);
-            color: #fff;
-            padding: 4px 12px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-        .stamp {
-            border: 2px solid;
-            padding: 4px 12px;
-            font-weight: 900;
-            font-size: 0.95rem;
-            background: transparent;
-        }
+        .fortune-grid { display: flex; align-items: center; gap: 15px; margin-bottom: 35px; flex-wrap: wrap; }
+        .badge-style { background: var(--ink-black); color: #fff; padding: 4px 12px; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; }
+        .stamp { border: 2px solid; padding: 4px 12px; font-weight: 900; font-size: 0.95rem; background: transparent; }
         .stamp.do { border-color: var(--stamp-green); color: var(--stamp-green); transform: rotate(-2deg); }
         .stamp.dont { border-color: var(--stamp-red); color: var(--stamp-red); transform: rotate(1deg); }
 
-        /* 故事與金句 */
-        .story-content {
-            font-size: 1.15rem;
-            line-height: 2;
-            font-weight: 400;
-            color: var(--ink-black);
-            margin: 0 0 30px 0;
-            text-align: justify;
-            white-space: pre-line;
-        }
-        .quote-content {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.6rem;
-            font-weight: 900;
-            line-height: 1.6;
-            color: var(--ink-black);
-            margin: 0 0 40px 0;
-            padding-left: 20px;
-            border-left: 4px solid var(--ink-black);
-        }
+        .story-content { font-size: 1.15rem; line-height: 2; font-weight: 400; color: var(--ink-black); margin: 0 0 30px 0; text-align: justify; white-space: pre-line; }
+        .quote-content { font-family: 'Noto Serif TC', serif; font-size: 1.6rem; font-weight: 900; line-height: 1.6; color: var(--ink-black); margin: 0 0 40px 0; padding-left: 20px; border-left: 4px solid var(--ink-black); }
 
-        /* 音樂模組 */
-        .music-player {
-            margin-bottom: 40px;
-            border-top: 1px solid var(--line-color);
-            padding-top: 20px;
-        }
+        .music-player { margin-bottom: 40px; border-top: 1px solid var(--line-color); padding-top: 20px; }
         .music-title { font-size: 0.85rem; color: var(--ink-gray); margin-bottom: 10px; font-weight: 700; }
 
-        /* 創作者雙欄 */
-        .creator-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            border-top: 2px dashed var(--line-color);
-            padding-top: 40px;
-        }
-        .output-box {
-            background: #F4F6F8;
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .output-box h3 { 
-            margin: 0; 
-            font-size: 1rem; 
-            font-weight: 700; 
-            color: var(--ink-black); 
-            display: flex; 
-            align-items: center; 
-            gap: 8px;
-        }
+        .creator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; border-top: 2px dashed var(--line-color); padding-top: 40px; }
+        .output-box { background: #F4F6F8; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .output-box h3 { margin: 0; font-size: 1rem; font-weight: 700; color: var(--ink-black); display: flex; align-items: center; gap: 8px; }
         
-        /* 指令複製群組 */
-        .prompt-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            border-bottom: 1px dashed rgba(0,0,0,0.1);
-            padding-bottom: 15px;
-        }
-        .prompt-group:last-of-type { border-bottom: none; padding-bottom: 0; }
-        
-        /* UI 按鈕設計 */
-        .btn-action {
-            background: #FFFFFF;
-            border: 1px solid rgba(0,0,0,0.05);
-            color: var(--ink-black);
-            padding: 12px;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            width: 100%;
-        }
-        .btn-action:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transform: translateY(-1px);
-        }
-        /* 主按鈕 (Threads) */
+        .btn-action { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.05); color: var(--ink-black); padding: 12px; border-radius: 12px; font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; }
+        .btn-action:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-1px); }
         .btn-action.primary { background: var(--ink-black); color: #fff; }
         .btn-action.primary:hover { background: #333; }
 
-        textarea.code-box {
-            width: 100%;
-            background: transparent;
-            border: none;
-            font-family: 'Noto Sans TC', monospace;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            color: var(--ink-gray);
-            resize: vertical;
-            outline: none;
-            box-sizing: border-box;
-        }
-        textarea.small-box { min-height: 90px; }
-        textarea.large-box { min-height: 220px; flex-grow: 1; }
+        textarea.code-box { width: 100%; flex-grow: 1; min-height: 250px; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: vertical; outline: none; box-sizing: border-box; }
 
-        .preview-img {
+        /* 🔥 零一的 HTML 實時合成海報引擎 */
+        .html-poster {
+            position: relative;
             width: 100%;
             aspect-ratio: 9/16;
-            object-fit: cover;
-            border-radius: 8px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: transform 0.3s ease;
             background-color: #E0E0E0;
-            display: block;
-            margin-top: 10px;
         }
+        .html-poster:hover { transform: scale(1.02); }
+        .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
+        .html-poster:hover .poster-bg { filter: brightness(0.7) blur(2px); }
+        
+        .poster-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2;
+            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%);
+            color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box;
+            pointer-events: none;
+        }
+        /* 海報上方大字 */
+        .p-top { display: flex; align-items: baseline; gap: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .p-day { font-size: 5rem; font-weight: 900; line-height: 0.8; font-family: 'Noto Sans TC'; }
+        .p-meta { font-size: 0.95rem; line-height: 1.4; font-weight: 400; opacity: 0.9; border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
+        /* 海報下方金句與印章 */
+        .p-bottom { display: flex; flex-direction: column; gap: 15px; }
+        .p-fortune { display: flex; gap: 10px; }
+        .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700; backdrop-filter: blur(4px); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .p-stamp.do { background: rgba(91, 130, 102, 0.6); }
+        .p-stamp.dont { background: rgba(192, 90, 80, 0.6); }
+        .p-quote { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 900; line-height: 1.6; text-shadow: 0 2px 8px rgba(0,0,0,0.9); margin: 0; }
+        
+        .upload-hint {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.7); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700;
+            z-index: 3; opacity: 0; transition: 0.3s; pointer-events: none; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .html-poster:hover .upload-hint { opacity: 1; }
 
         @media (max-width: 768px) {
             .calendar-page { padding: 30px 20px; }
@@ -315,7 +145,6 @@
         <!-- 紙張本體 -->
         <div class="calendar-page" id="calendar-paper">
             
-            <!-- 巨大排版與網格 -->
             <div class="date-hero">
                 <div class="giant-day" id="ui-day">02</div>
                 <div class="date-meta">
@@ -324,54 +153,61 @@
                 </div>
             </div>
 
-            <!-- 印章式宜忌 -->
             <div class="fortune-grid">
                 <span class="badge-style" id="ui-style-badge">極致反差</span>
                 <span class="stamp do">宜 <span id="ui-do">摸魚</span></span>
                 <span class="stamp dont">忌 <span id="ui-dont">群組</span></span>
             </div>
 
-            <!-- 留白故事與金句 -->
             <div class="story-content" id="ui-article">故事載入中...</div>
             <h2 class="quote-content" id="ui-quote">「金句載入中...」</h2>
 
-            <!-- 音樂區塊 -->
             <div class="music-player">
                 <div class="music-title" id="ui-fortune-music">建議配樂：載入中...</div>
-                <!-- 換回最穩定的 youtube.com 標準網域 -->
                 <div id="yt-player-container" style="border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);"></div>
                 <p style="font-size: 0.8rem; margin-top: 8px; text-align: right;"><a id="yt-fallback-link" href="#" target="_blank" style="color: var(--ink-gray); text-decoration: none;">🎧 備用聆聽連結</a></p>
             </div>
 
-            <!-- 創作者輸出區 -->
             <div class="creator-grid">
-                <!-- 左側：視覺產出區 -->
+                <!-- 左側：視覺產出區 (移除爛排版海報指令，專注出大片) -->
                 <div class="output-box">
-                    <h3>🎨 視覺產出 (Visual Prompts)</h3>
-                    
-                    <!-- 1. 純圖指令 -->
-                    <div class="prompt-group">
-                        <button class="btn-action" onclick="copyText('purePrompt', 'btnPure')" id="btnPure">🖼️ 複製純圖算圖指令</button>
-                        <textarea id="purePrompt" class="code-box small-box" readonly></textarea>
-                    </div>
-
-                    <!-- 2. 日曆海報指令 -->
-                    <div class="prompt-group">
-                        <button class="btn-action" onclick="copyText('posterPrompt', 'btnPoster')" id="btnPoster">📅 複製日曆海報指令</button>
-                        <textarea id="posterPrompt" class="code-box small-box" readonly></textarea>
-                    </div>
+                    <h3>🎨 視覺產出 (Visual Prompt)</h3>
+                    <button class="btn-action primary" onclick="copyText('purePrompt', 'btnPure')" id="btnPure">🖼️ 複製大師級算圖指令</button>
+                    <textarea id="purePrompt" class="code-box" readonly title="複製這串去 Midjourney 產出極致美圖"></textarea>
                 </div>
 
-                <!-- 右側：貼文產出區 -->
+                <!-- 右側：貼文與實時合成海報 -->
                 <div class="output-box">
                     <h3>📱 脆 (Threads) 專屬排版</h3>
+                    <button class="btn-action" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📝 複製 Threads 貼文</button>
+                    <textarea id="igCaption" class="code-box" style="min-height: 120px; color: var(--ink-black); font-weight: 500;" readonly></textarea>
                     
-                    <!-- 3. 文案指令 -->
-                    <button class="btn-action primary" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📝 複製 Threads 貼文</button>
-                    <textarea id="igCaption" class="code-box large-box" readonly style="color: var(--ink-black); font-weight: 500;"></textarea>
-                    
-                    <span style="font-size: 0.85rem; color: var(--ink-gray); text-align: center; margin-top: 10px;">✨ AI 草圖預覽 (依據純圖指令)</span>
-                    <img id="ai-image-result" class="preview-img" src="" alt="AI Preview">
+                    <!-- 零一特製：HTML 合成引擎 -->
+                    <span style="font-size: 0.85rem; color: var(--ink-gray); text-align: center; margin-top: 15px; margin-bottom: 5px;">
+                        ✨ 點擊圖片上傳您的 Midjourney 作品，實時生成日曆海報
+                    </span>
+                    <div class="html-poster" onclick="document.getElementById('bg-uploader').click()">
+                        <img id="poster-bg-img" class="poster-bg" src="" alt="Background">
+                        <div class="poster-overlay">
+                            <div class="p-top">
+                                <div class="p-day" id="p-day">02</div>
+                                <div class="p-meta">
+                                    <div id="p-ym">2026.09</div>
+                                    <div id="p-lunar">農曆七月廿一</div>
+                                </div>
+                            </div>
+                            <div class="p-bottom">
+                                <div class="p-fortune">
+                                    <span class="p-stamp do">宜 <span id="p-do">摸魚</span></span>
+                                    <span class="p-stamp dont">忌 <span id="p-dont">群組</span></span>
+                                </div>
+                                <p class="p-quote" id="p-quote">「生活不只有詩和遠方，還有眼前的無薪加班。」</p>
+                            </div>
+                        </div>
+                        <div class="upload-hint">📸 點擊替換底圖</div>
+                        <!-- 隱藏的檔案上傳器 -->
+                        <input type="file" id="bg-uploader" style="display:none;" accept="image/*" onchange="loadCustomBg(event)">
+                    </div>
                 </div>
             </div>
             
@@ -379,13 +215,12 @@
     </div>
 
     <script>
-        const quotesData = [{"style": "極致反差", "article": "晨光灑落辦公桌，咖啡香氣漫溢，以為自己是優雅的法式女主角，結果點開信箱，主旨寫著『急！客戶改稿』，瞬間跌回人間煉獄。", "q": "生活不是遠方，是遠在天邊的加班通知。", "p": "不想上班想離職", "do": "秒關電腦", "dont": "點開群組"}, {"style": "滿血復活", "article": "早上出門踩到狗屎本想大哭，轉念一想，這絕對是黃金萬兩的預兆！存款雖然只有三位數，但我的心情已經先暴富了。", "q": "貧窮限制我的想像，但限制不了我盲目的樂觀。", "p": "存不到錢好焦慮", "do": "大口喝奶", "dont": "看存摺簿"}, {"style": "人間清醒", "article": "職場上沒有真正的笨蛋，只有裝傻的靈魂。看透主管畫的大餅後，我終於學會微笑道謝，然後準時六點踏出大門。", "q": "不屬於我的錢不強求，不屬於我的班一秒都不留。", "p": "不想上班想離職", "do": "準時閃人", "dont": "認真負責"}, {"style": "躺平無罪", "article": "房貸繳不起、股票綠油油、存款看不到未來。既然努力也是窮，不努力也是窮，那我就理直氣壯地當個快樂的廢物吧！", "q": "只要我躺得夠快，生活就踹不到我。", "p": "存不到錢好焦慮", "do": "原地躺平", "dont": "自我反省"}, {"style": "微小幸運", "article": "下班路上的超商竟然還有最後一個我最愛的御飯糰，微波爐『叮』的那一聲，彷彿是整個宇宙在對我說：你今天辛苦啦。", "q": "吃飽喝足，就是今天最奢侈的拯救。", "p": "不想上班想離職", "do": "大口吃肉", "dont": "量體重"}]; 
+        const quotesData = [{"style": "極致反差", "article": "晨光灑落辦公桌，咖啡香氣漫溢，打開電腦那一刻，主管的賴瞬間彈出，夢想直接碎滿地。", "q": "生活虐我千百遍，我拿生活當白癡。", "p": "不想上班想離職", "do": "準時登出", "dont": "點開群組"}, {"style": "滿血復活", "article": "本以為這個月又要吃土到見骨，一查帳戶竟然多出了一筆莫名的加班費，瞬間覺得人生充滿希望。", "q": "錢不是真的不見了，只是變成我喜歡的形狀活在戶頭裡。", "p": "存不到錢好焦慮", "do": "大口喝珍奶", "dont": "查存款餘額"}, {"style": "人間清醒", "article": "職場上沒有真正的朋友，只有永遠的利益。既然大家都在演，那我也只好拿一座金馬獎再來下班。", "q": "不努力看看，你永遠不知道自己絕望的極限在哪裡。", "p": "職場假面具", "do": "敷衍點頭", "dont": "掏心掏肺"}, {"style": "躺平無罪", "article": "房貸繳不起、頭期款沒著落，看著不斷飆升的物價，我決定先躺為敬，反正地板真的很舒服。", "q": "只要我夠廢，這個世界就沒有人能壓榨我。", "p": "躺平最舒服", "do": "原地躺平", "dont": "看房市新聞"}, {"style": "微小幸運", "article": "下班路上的晚霞美得像一幅畫，走到巷口竟然還買到最後一個最愛的芋泥麵包，今天我就是幸運兒。", "q": "小確幸不用多，夠撐過明天就好。", "p": "日常小美好", "do": "大吃麵包", "dont": "量體重"}]; 
         let payload = {"date": "2026-09-02", "star_sign": "金牛座", "zodiac_sign": "羊"};
 
-        // 🌟 保證 100% 允許嵌入且永久存在的 YouTube 名曲 (非直播)
         const localFortunes = [
-            { music_text: "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", yt_id: "8Z5EjAmZS1o" },
-            { music_text: "🎶 輕快 Lofi Beats - 保持心情平靜", yt_id: "8XigHnczVOw" }, /* Lofi Girl - 1 A.M Study Session */
+            { music_text: "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", yt_id: "5qap5aO4i9A" },
+            { music_text: "🎶 輕快 Lofi Beats - 保持心情平靜", yt_id: "8XigHnczVOw" }, 
             { music_text: "🎶 史詩氛圍 Epic Ambient - 迎接未知挑戰", yt_id: "ASj8VN0mdo4" },
             { music_text: "🎶 原聲吉他 Acoustic Folk - 專注與純粹", yt_id: "CcsUYu0PVxY" },
             { music_text: "🎶 靜謐時光 - 療癒心靈", yt_id: "lCOF9LN_Zxs" }
@@ -425,17 +260,11 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-        // 撕頁動畫觸發器
         function triggerTearAnimation() {
             const paper = document.getElementById('calendar-paper');
             paper.classList.remove('anim-appear');
             paper.classList.add('anim-tear');
-            
-            setTimeout(() => {
-                randomizeAll();
-                paper.classList.remove('anim-tear');
-                paper.classList.add('anim-appear');
-            }, 500); 
+            setTimeout(() => { randomizeAll(); paper.classList.remove('anim-tear'); paper.classList.add('anim-appear'); }, 500); 
         }
 
         function applyDateChange() {
@@ -446,6 +275,16 @@
             triggerTearAnimation();
         }
 
+        // 用戶自定義上傳底圖
+        function loadCustomBg(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) { document.getElementById('poster-bg-img').src = e.target.result; }
+                reader.readAsDataURL(file);
+            }
+        }
+
         function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
             const dObj = new Date(currentDate + "T00:00:00");
             const dayStr = String(dObj.getDate()).padStart(2, '0');
@@ -453,6 +292,8 @@
             
             document.getElementById('ui-day').innerText = dayStr;
             document.getElementById('ui-ym').innerText = ymStr;
+            document.getElementById('p-day').innerText = dayStr;
+            document.getElementById('p-ym').innerText = ymStr;
 
             let lunarDisplay = "農曆查無資料";
             try {
@@ -465,6 +306,7 @@
             } catch (e) {}
             
             document.getElementById('ui-lunar-zodiac').innerHTML = `${lunarDisplay}<br>✨ ${payload.star_sign}`;
+            document.getElementById('p-lunar').innerHTML = `${lunarDisplay}<br>${payload.star_sign}`;
 
             const selectedData = Array.isArray(quotesData) ? getRandomItem(quotesData) : quotesData;
             const selectedFortune = getRandomItem(localFortunes);
@@ -479,10 +321,13 @@
             document.getElementById('ui-style-badge').innerText = style;
             document.getElementById('ui-do').innerText = doAction;
             document.getElementById('ui-dont').innerText = dontAction;
+            document.getElementById('p-do').innerText = doAction;
+            document.getElementById('p-dont').innerText = dontAction;
+            
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('ui-quote').innerText = `「${quoteText}」`;
+            document.getElementById('p-quote').innerText = `「${quoteText}」`;
 
-            // 確保使用標準 youtube.com 網域以提升相容性
             document.getElementById('ui-fortune-music').innerText = "建議配樂：" + selectedFortune.music_text;
             const ytId = selectedFortune.yt_id;
             document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube.com/embed/${ytId}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
@@ -492,33 +337,25 @@
             const subject = getRandomItem(promptSubjects);
             const modifier = getRandomItem(promptModifiers);
             
-            // 寫入純圖文字框
+            // 寫入純圖文字框 (捨棄排版指令)
             const purePrompt = `${genre} of ${subject}. ${modifier} --ar 9:16 --style raw --v 6.0`;
             document.getElementById('purePrompt').value = purePrompt;
             
-            // 寫入海報文字框
-            const posterPrompt = `A minimalist editorial calendar poster design. Background: ${genre} of ${subject}, ${modifier}. Overlay typography: Clean modern UI design layout, featuring a giant bold number "${dayStr}" at the top left, elegant Chinese serif text blocks, stamp-like graphic tags for "Do" and "Don't", negative space, masterpiece graphic design, magazine cover style --ar 9:16 --v 6.0`;
-            document.getElementById('posterPrompt').value = posterPrompt;
-            
-            // 更新網頁預覽圖
+            // 更新網頁預覽底圖
             const safeUrlPrompt = encodeURIComponent(`${genre} of ${subject}, highly detailed`);
-            document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
+            document.getElementById('poster-bg-img').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
             
             const lunarClean = lunarDisplay.replace('<br>', '｜');
             const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarClean}｜${payload.star_sign}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
             document.getElementById('igCaption').value = threadsText;
         }
 
-        window.onload = function() { 
-            setTimeout(() => { randomizeAll(); document.getElementById('calendar-paper').classList.add('anim-appear'); }, 200); 
-        };
+        window.onload = function() { setTimeout(() => { randomizeAll(); document.getElementById('calendar-paper').classList.add('anim-appear'); }, 200); };
 
-        // 共用複製功能
         function copyText(elementId, btnId) {
             var copyText = document.getElementById(elementId);
             copyText.select(); 
             document.execCommand("copy");
-            
             var btn = document.getElementById(btnId);
             var originalText = btn.innerHTML;
             btn.innerHTML = "✅ 已複製！";
