@@ -191,7 +191,7 @@
             font-weight: 400;
             color: var(--ink-black);
             margin: 0 0 30px 0;
-            text-align: justify; /* 兩端對齊營造磚塊感 */
+            text-align: justify;
             white-space: pre-line;
         }
         .quote-content {
@@ -213,7 +213,7 @@
         }
         .music-title { font-size: 0.85rem; color: var(--ink-gray); margin-bottom: 10px; font-weight: 700; }
 
-        /* 創作者雙欄：完全還原您截圖的視覺 */
+        /* 創作者雙欄 */
         .creator-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -222,7 +222,7 @@
             padding-top: 40px;
         }
         .output-box {
-            background: #F4F6F8; /* 截圖中的微灰底色 */
+            background: #F4F6F8;
             border-radius: 16px;
             padding: 20px;
             display: flex;
@@ -239,7 +239,6 @@
             gap: 8px;
         }
         
-        /* 截圖中的白色圓角精緻按鈕 */
         .btn-action {
             background: #FFFFFF;
             border: 1px solid rgba(0,0,0,0.05);
@@ -332,7 +331,7 @@
                 <p style="font-size: 0.8rem; margin-top: 8px; text-align: right;"><a id="yt-fallback-link" href="#" target="_blank" style="color: var(--ink-gray); text-decoration: none;">🎧 備用聆聽連結</a></p>
             </div>
 
-            <!-- 創作者輸出區 (完全比照截圖設計) -->
+            <!-- 創作者輸出區 -->
             <div class="creator-grid">
                 <!-- 視覺產出區 -->
                 <div class="output-box">
@@ -354,10 +353,19 @@
     </div>
 
     <script>
+        // 【核心修復點】：Python 變數與前端內建資料庫
         const quotesData = __QUOTES_JS__; 
         let payload = __PAYLOAD_JSON__;
-        const fortunes = __FORTUNE_JS__;
         const zodiacAdvices = __ZODIAC_ADVICES_JS__;
+
+        // 徹底將音樂庫內建於網頁，解決找不到 __FORTUNE_JS__ 的當機問題
+        const localFortunes = [
+            { music_text: "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", yt_id: "kgx4WGK0oNU" },
+            { music_text: "🎶 輕快 Lofi Beats - 保持心情平靜", yt_id: "1fueZCTYkpA" },
+            { music_text: "🎶 史詩氛圍 Epic Ambient - 迎接未知挑戰", yt_id: "a2v_zFOnoDM" },
+            { music_text: "🎶 原聲吉他 Acoustic Folk - 專注與純粹", yt_id: "1mRE2VzS10c" },
+            { music_text: "🎶 靜謐時光 - 療癒心靈", yt_id: "jfKfPfyJRdk" }
+        ];
 
         const promptGenres = [
             "Cozy lifestyle editorial photography", "Cinematic neo-noir street photography",
@@ -393,7 +401,7 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-        // 深澤直人：撕紙動畫觸發器
+        // 撕紙動畫觸發器
         function triggerTearAnimation() {
             const paper = document.getElementById('calendar-paper');
             paper.classList.remove('anim-appear');
@@ -403,7 +411,7 @@
                 randomizeAll();
                 paper.classList.remove('anim-tear');
                 paper.classList.add('anim-appear');
-            }, 500); // 等待撕下動畫完成後更新內容並落下新紙
+            }, 500); 
         }
 
         function applyDateChange() {
@@ -415,7 +423,6 @@
         }
 
         function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
-            // 解析日期給巨大字體
             const dObj = new Date(currentDate + "T00:00:00");
             const dayStr = String(dObj.getDate()).padStart(2, '0');
             const ymStr = `${dObj.getFullYear()}.${String(dObj.getMonth()+1).padStart(2, '0')}`;
@@ -436,7 +443,7 @@
             document.getElementById('ui-lunar-zodiac').innerHTML = `${lunarDisplay}<br>✨ ${payload.star_sign}`;
 
             const selectedData = Array.isArray(quotesData) ? getRandomItem(quotesData) : quotesData;
-            const selectedFortune = Array.isArray(fortunes) ? getRandomItem(fortunes) : { music_text: "🎶 靜謐時光", yt_id: "kgx4WGK0oNU" };
+            const selectedFortune = getRandomItem(localFortunes);
             
             const style = selectedData.style || "微小幸運";
             const doAction = selectedData.do || "呼吸";
@@ -451,8 +458,8 @@
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('ui-quote').innerText = `「${quoteText}」`;
 
-            document.getElementById('ui-fortune-music').innerText = "建議配樂：" + (selectedFortune.music_text || "🎶 輕快純音樂");
-            const ytId = selectedFortune.yt_id || "kgx4WGK0oNU";
+            document.getElementById('ui-fortune-music').innerText = "建議配樂：" + selectedFortune.music_text;
+            const ytId = selectedFortune.yt_id;
             document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             document.getElementById('yt-fallback-link').href = `https://www.youtube.com/watch?v=${ytId}`;
 
