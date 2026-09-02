@@ -3,31 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Creator - Masterpiece Edition</title>
+    <title>TAIJI Omniverse Creator - Poster Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
-        /* 引入無印良品風黑體 (Sans) 與 傳統文學感宋體 (Serif) */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
         
         :root {
-            /* 原研哉：紙張材質與墨水色 */
             --paper-bg: #FDFBF7;
             --ink-black: #1A1A1A;
             --ink-gray: #757575;
             --line-color: #E0E0E0;
-            
-            /* 聶永真：印章色彩 (低飽和度的朱紅與青綠) */
             --stamp-red: #C05A50;
             --stamp-green: #5B8266;
-            
-            /* 背景環境色 */
             --env-bg: #EAEAE4;
         }
 
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: var(--env-bg);
-            /* SVG 細微雜訊，模擬空間質感 */
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
             color: var(--ink-black);
             margin: 0;
@@ -46,7 +39,6 @@
             gap: 20px;
         }
 
-        /* 頂部操作列 */
         .control-panel {
             display: flex;
             justify-content: space-between;
@@ -82,15 +74,12 @@
         }
         .btn-tear:hover { background: #333; transform: translateY(-2px); }
 
-        /* 原研哉：紙張本體與厚度陰影 */
         .calendar-page {
             background-color: var(--paper-bg);
-            /* 模擬紙張纖維雜訊 */
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
             border-radius: 2px;
             padding: 50px;
             position: relative;
-            /* 多重陰影：創造「下方還有一整疊日曆」的物理厚度感 */
             box-shadow: 
                 0 1px 1px rgba(0,0,0,0.05),
                 0 4px 0 -1px var(--paper-bg),
@@ -101,7 +90,6 @@
             transform-origin: top center;
         }
 
-        /* 穿孔撕線特效 */
         .calendar-page::before {
             content: '';
             position: absolute;
@@ -112,7 +100,6 @@
             opacity: 0.5;
         }
 
-        /* 深澤直人：撕頁動畫 */
         @keyframes tearOff {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; filter: blur(0); }
             100% { transform: translateY(150px) rotate(4deg); opacity: 0; filter: blur(5px); }
@@ -124,7 +111,6 @@
         .anim-tear { animation: tearOff 0.6s forwards cubic-bezier(0.55, 0.085, 0.68, 0.53); }
         .anim-appear { animation: fallIn 0.5s forwards ease-out; }
 
-        /* 聶永真：巨大化排版與網格 */
         .date-hero {
             display: flex;
             align-items: baseline;
@@ -158,7 +144,6 @@
             line-height: 1.4;
         }
 
-        /* 印章式宜忌模組 */
         .fortune-grid {
             display: flex;
             align-items: center;
@@ -184,7 +169,6 @@
         .stamp.do { border-color: var(--stamp-green); color: var(--stamp-green); transform: rotate(-2deg); }
         .stamp.dont { border-color: var(--stamp-red); color: var(--stamp-red); transform: rotate(1deg); }
 
-        /* 留白重構：故事與金句 */
         .story-content {
             font-size: 1.15rem;
             line-height: 2;
@@ -205,7 +189,6 @@
             border-left: 4px solid var(--ink-black);
         }
 
-        /* 音樂模組 */
         .music-player {
             margin-bottom: 40px;
             border-top: 1px solid var(--line-color);
@@ -213,7 +196,6 @@
         }
         .music-title { font-size: 0.85rem; color: var(--ink-gray); margin-bottom: 10px; font-weight: 700; }
 
-        /* 創作者雙欄 */
         .creator-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -264,7 +246,8 @@
         textarea.code-box {
             width: 100%;
             flex-grow: 1;
-            min-height: 180px;
+            /* 加高空間以容納兩組 Prompt */
+            min-height: 380px; 
             background: transparent;
             border: none;
             font-family: 'Noto Sans TC', monospace;
@@ -337,8 +320,8 @@
                 <div class="output-box">
                     <h3>🎨 視覺產出 (Visual Prompt)</h3>
                     <button class="btn-action" onclick="copyText('rawPrompt', 'btnMsgAI')" id="btnMsgAI">📸 複製大師級算圖指令</button>
+                    <!-- 高度加高的 Textarea -->
                     <textarea id="rawPrompt" class="code-box" readonly></textarea>
-                    <img id="ai-image-result" class="preview-img" src="" alt="AI Preview">
                 </div>
 
                 <!-- 貼文產出區 -->
@@ -346,6 +329,9 @@
                     <h3>📱 脆 (Threads) 專屬排版</h3>
                     <button class="btn-action" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📋 複製 Threads 貼文</button>
                     <textarea id="igCaption" class="code-box" readonly style="color: var(--ink-black); font-weight: 500;"></textarea>
+                    
+                    <span style="font-size: 0.85rem; color: var(--ink-gray); margin-top: 10px;">✨ 網頁草圖預覽：</span>
+                    <img id="ai-image-result" class="preview-img" src="" alt="AI Preview">
                 </div>
             </div>
             
@@ -353,12 +339,10 @@
     </div>
 
     <script>
-        // 【核心修復點】：Python 變數與前端內建資料庫
         const quotesData = __QUOTES_JS__; 
         let payload = __PAYLOAD_JSON__;
         const zodiacAdvices = __ZODIAC_ADVICES_JS__;
 
-        // 徹底將音樂庫內建於網頁，解決找不到 __FORTUNE_JS__ 的當機問題
         const localFortunes = [
             { music_text: "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", yt_id: "kgx4WGK0oNU" },
             { music_text: "🎶 輕快 Lofi Beats - 保持心情平靜", yt_id: "1fueZCTYkpA" },
@@ -401,7 +385,6 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-        // 撕紙動畫觸發器
         function triggerTearAnimation() {
             const paper = document.getElementById('calendar-paper');
             paper.classList.remove('anim-appear');
@@ -463,13 +446,23 @@
             document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             document.getElementById('yt-fallback-link').href = `https://www.youtube.com/watch?v=${ytId}`;
 
+            // 🔥 核心生成邏輯
             const genre = getRandomItem(promptGenres);
             const subject = getRandomItem(promptSubjects);
             const modifier = getRandomItem(promptModifiers);
             
-            const fullPrompt = `${genre} of ${subject}. ${modifier} --ar 9:16 --v 6.0`;
-            document.getElementById('rawPrompt').value = fullPrompt;
+            // 【圖一：高純度無字底圖】
+            const baseImagePrompt = `${genre} of ${subject}. ${modifier} --ar 9:16 --style raw --v 6.0`;
             
+            // 【圖二：含日曆排版與字體海報】(教導 AI 排版巨型數字與印章)
+            const posterPrompt = `A minimalist editorial calendar poster design. Background: ${genre} of ${subject}, ${modifier}. Overlay typography: Clean modern UI design layout, featuring a giant bold number "${dayStr}" at the top left, elegant Chinese serif text blocks, stamp-like graphic tags for "Do" and "Don't", negative space, masterpiece graphic design, magazine cover style --ar 9:16 --v 6.0`;
+            
+            // 組合輸出到同一個 Textarea
+            const combinedPrompts = `【圖一：高純度無字底圖】\n${baseImagePrompt}\n\n------------------------\n\n【圖二：含日曆排版的完整海報】\n${posterPrompt}`;
+            
+            document.getElementById('rawPrompt').value = combinedPrompts;
+            
+            // 網頁預覽草圖維持簡化版
             const safeUrlPrompt = encodeURIComponent(`${genre} of ${subject}, highly detailed`);
             document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
             
