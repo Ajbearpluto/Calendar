@@ -3,332 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Creator - Grandmaster UI Edition</title>
+    <title>TAIJI Omniverse Creator - Masterpiece Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
-        /* 引入無印良品風黑體 (Sans) 與 文學感宋體 (Serif) */
+        /* 引入無印良品風黑體 (Sans) 與 傳統文學感宋體 (Serif) */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
         
         :root {
-            --text-main: #2D3436;
-            --text-sub: #636E72;
-            --glass-bg: rgba(255, 255, 255, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.4);
-            /* 宗師級陰影：大範圍、極低透明度的空氣感 */
-            --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.04);
-            --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.08);
+            /* 原研哉：紙張材質與墨水色 */
+            --paper-bg: #FDFBF7;
+            --ink-black: #1A1A1A;
+            --ink-gray: #757575;
+            --line-color: #E0E0E0;
             
-            /* 莫蘭迪色系 */
-            --color-do: #7FA071; /* 鼠尾草綠 */
-            --color-dont: #C07C7C; /* 乾燥玫瑰紅 */
+            /* 聶永真：印章色彩 (低飽和度的朱紅與青綠) */
+            --stamp-red: #C05A50;
+            --stamp-green: #5B8266;
+            
+            /* 背景環境色 */
+            --env-bg: #EAEAE4;
         }
 
-        /* 優雅的動態流動漸層背景 */
         body {
             font-family: 'Noto Sans TC', sans-serif;
-            background: linear-gradient(-45deg, #e0eafc, #cfdef3, #f5f7fa, #e4efe9);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: var(--text-main);
+            background-color: var(--env-bg);
+            /* SVG 細微雜訊，模擬空間質感 */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            color: var(--ink-black);
             margin: 0;
-            padding: 50px 20px;
+            padding: 40px 20px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
         .container {
-            max-width: 900px;
+            max-width: 800px;
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 35px;
-        }
-
-        /* 核心組件：毛玻璃懸浮卡片 */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: var(--shadow-soft);
-            padding: 45px;
-            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.5s ease;
-        }
-        .glass-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        /* 頂部控制台 */
-        .control-panel {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 35px;
-            border-radius: 50px;
-        }
-        .control-panel input {
-            background: transparent;
-            border: none;
-            font-family: inherit;
-            font-size: 1.05rem;
-            color: var(--text-main);
-            font-weight: 700;
-            outline: none;
-            cursor: pointer;
-        }
-        .btn-refresh {
-            cursor: pointer;
-            font-weight: 700;
-            color: var(--text-main);
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1.05rem;
-        }
-        .btn-refresh:hover { opacity: 0.5; }
-
-        /* 日期與宜忌區塊 */
-        .header-section { text-align: center; }
-        .date-title {
-            font-weight: 900;
-            font-size: 3.5rem;
-            letter-spacing: 2px;
-            margin: 0 0 10px 0;
-            color: var(--text-main);
-        }
-        .date-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-sub);
-            letter-spacing: 4px;
-            margin: 0 0 35px 0;
-            font-weight: 400;
-        }
-        .do-dont-box {
-            display: inline-flex;
-            gap: 40px;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 18px 50px;
-            border-radius: 16px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            box-shadow: inset 0 2px 5px rgba(255,255,255,0.8), 0 4px 15px rgba(0,0,0,0.02);
-        }
-        .do-dont-box .do { color: var(--color-do); }
-        .do-dont-box .dont { color: var(--color-dont); }
-
-        /* 故事與金句區塊 */
-        .story-section { position: relative; text-align: center; padding-top: 50px; }
-        
-        /* 標籤置中、帶有呼吸感與毛玻璃 */
-        .badge-style {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(45, 52, 54, 0.85);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #fff;
-            padding: 8px 24px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        }
-        
-        .story-content {
-            font-size: 1.15rem;
-            line-height: 1.9;
-            font-weight: 400;
-            color: var(--text-sub);
-            margin: 0 auto 35px auto;
-            white-space: pre-line;
-            max-width: 90%;
-        }
-
-        /* 賈伯斯指令：宋體金句與中文引號 */
-        .quote-content {
-            font-family: 'Noto Serif TC', serif;
-            font-size: 1.7rem;
-            font-weight: 900;
-            line-height: 1.6;
-            color: var(--text-main);
-            margin: 0;
-            letter-spacing: 1px;
-        }
-
-        /* 創作者雙欄輸出區 */
-        .creator-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-        .output-box {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
-        .output-box h3 { margin: 0; font-size: 1.1rem; font-weight: 700; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; color: var(--text-main); }
-        
-        /* 賈伯斯指令：Lickable 玻璃按鈕 */
-        .btn-action {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            color: var(--text-main);
-            padding: 16px;
-            border-radius: 16px;
+
+        /* 頂部操作列 */
+        .control-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+        .control-panel input {
+            background: transparent;
+            border: 1px solid var(--line-color);
+            padding: 8px 15px;
+            border-radius: 8px;
             font-family: inherit;
+            font-size: 1rem;
+            color: var(--ink-gray);
+            font-weight: 700;
+            outline: none;
+            cursor: pointer;
+        }
+        .btn-tear {
+            background: var(--ink-black);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn-tear:hover { background: #333; transform: translateY(-2px); }
+
+        /* 原研哉：紙張本體與厚度陰影 */
+        .calendar-page {
+            background-color: var(--paper-bg);
+            /* 模擬紙張纖維雜訊 */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            border-radius: 2px;
+            padding: 50px;
+            position: relative;
+            /* 多重陰影：創造「下方還有一整疊日曆」的物理厚度感 */
+            box-shadow: 
+                0 1px 1px rgba(0,0,0,0.05),
+                0 4px 0 -1px var(--paper-bg),
+                0 4px 1px -1px rgba(0,0,0,0.05),
+                0 8px 0 -2px var(--paper-bg),
+                0 8px 1px -2px rgba(0,0,0,0.05),
+                0 25px 50px rgba(0,0,0,0.08);
+            transform-origin: top center;
+        }
+
+        /* 穿孔撕線特效 */
+        .calendar-page::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 6px;
+            background-image: radial-gradient(circle at 10px 0, transparent 3px, var(--paper-bg) 4px);
+            background-size: 20px 6px;
+            background-repeat: repeat-x;
+            opacity: 0.5;
+        }
+
+        /* 深澤直人：撕頁動畫 */
+        @keyframes tearOff {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; filter: blur(0); }
+            100% { transform: translateY(150px) rotate(4deg); opacity: 0; filter: blur(5px); }
+        }
+        @keyframes fallIn {
+            0% { transform: translateY(-20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        .anim-tear { animation: tearOff 0.6s forwards cubic-bezier(0.55, 0.085, 0.68, 0.53); }
+        .anim-appear { animation: fallIn 0.5s forwards ease-out; }
+
+        /* 聶永真：巨大化排版與網格 */
+        .date-hero {
+            display: flex;
+            align-items: baseline;
+            gap: 20px;
+            border-bottom: 2px solid var(--ink-black);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .giant-day {
+            font-size: 8rem;
+            font-weight: 900;
+            line-height: 0.75;
+            letter-spacing: -4px;
+            color: var(--ink-black);
+        }
+        .date-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .meta-ym {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--ink-black);
+        }
+        .meta-lunar {
+            font-size: 0.95rem;
+            color: var(--ink-gray);
+            border-left: 2px solid var(--line-color);
+            padding-left: 12px;
+            line-height: 1.4;
+        }
+
+        /* 印章式宜忌模組 */
+        .fortune-grid {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+        .badge-style {
+            background: var(--ink-black);
+            color: #fff;
+            padding: 4px 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .stamp {
+            border: 2px solid;
+            padding: 4px 12px;
+            font-weight: 900;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+        .stamp.do { border-color: var(--stamp-green); color: var(--stamp-green); transform: rotate(-2deg); }
+        .stamp.dont { border-color: var(--stamp-red); color: var(--stamp-red); transform: rotate(1deg); }
+
+        /* 留白重構：故事與金句 */
+        .story-content {
+            font-size: 1.15rem;
+            line-height: 2;
+            font-weight: 400;
+            color: var(--ink-black);
+            margin: 0 0 30px 0;
+            text-align: justify; /* 兩端對齊營造磚塊感 */
+            white-space: pre-line;
+        }
+        .quote-content {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            line-height: 1.6;
+            color: var(--ink-black);
+            margin: 0 0 40px 0;
+            padding-left: 20px;
+            border-left: 4px solid var(--ink-black);
+        }
+
+        /* 音樂模組 */
+        .music-player {
+            margin-bottom: 40px;
+            border-top: 1px solid var(--line-color);
+            padding-top: 20px;
+        }
+        .music-title { font-size: 0.85rem; color: var(--ink-gray); margin-bottom: 10px; font-weight: 700; }
+
+        /* 創作者雙欄：完全還原您截圖的視覺 */
+        .creator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            border-top: 2px dashed var(--line-color);
+            padding-top: 40px;
+        }
+        .output-box {
+            background: #F4F6F8; /* 截圖中的微灰底色 */
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .output-box h3 { 
+            margin: 0; 
+            font-size: 1rem; 
+            font-weight: 700; 
+            color: var(--ink-black); 
+            display: flex; 
+            align-items: center; 
+            gap: 8px;
+        }
+        
+        /* 截圖中的白色圓角精緻按鈕 */
+        .btn-action {
+            background: #FFFFFF;
+            border: 1px solid rgba(0,0,0,0.05);
+            color: var(--ink-black);
+            padding: 14px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         .btn-action:hover {
-            background: rgba(255, 255, 255, 0.8);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-1px);
         }
 
         textarea.code-box {
             width: 100%;
             flex-grow: 1;
-            min-height: 240px;
-            background: rgba(255, 255, 255, 0.3);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 25px;
+            min-height: 180px;
+            background: transparent;
+            border: none;
             font-family: 'Noto Sans TC', monospace;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: var(--text-sub);
-            resize: none;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--ink-gray);
+            resize: vertical;
             outline: none;
-            box-sizing: border-box;
-            transition: 0.3s;
-        }
-        textarea.code-box:focus {
-            background: rgba(255, 255, 255, 0.6);
-            border-color: rgba(255, 255, 255, 1);
         }
 
-        /* 原研哉指令：圖片專屬畫框與一致的圓角 */
         .preview-img {
             width: 100%;
             aspect-ratio: 9/16;
             object-fit: cover;
-            border-radius: 14px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-            background-color: #ffffff;
-            padding: 10px; /* 留白畫框 */
-            box-sizing: border-box;
-            transition: transform 0.4s ease;
-        }
-        .preview-img:hover {
-            transform: scale(1.02);
+            border-radius: 8px;
+            background-color: #E0E0E0;
+            display: block;
         }
 
         @media (max-width: 768px) {
+            .calendar-page { padding: 30px 20px; }
+            .giant-day { font-size: 6rem; }
             .creator-grid { grid-template-columns: 1fr; }
-            .do-dont-box { flex-direction: column; gap: 15px; padding: 20px 40px; }
-            .date-title { font-size: 2.5rem; }
-            .quote-content { font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 控制台 -->
-        <div class="glass-card control-panel">
+        <!-- 頂部操作列 -->
+        <div class="control-panel">
             <input type="date" id="ui-date-picker" value="2026-09-02" onchange="applyDateChange()">
-            <div class="btn-refresh" onclick="randomizeAll()">
-                <span>🔄 刷新情緒盲盒</span>
-            </div>
+            <button class="btn-tear" onclick="triggerTearAnimation()">
+                <span>📄 撕下今日</span>
+            </button>
         </div>
 
-        <!-- 日期與宜忌 -->
-        <div class="glass-card header-section">
-            <h1 class="date-title" id="display-date">2026.09.02</h1>
-            <p class="date-subtitle" id="display-lunar">農曆七月廿一 ｜ ♉ 金牛座</p>
-            <div class="do-dont-box">
-                <div>宜 <span class="do" id="ui-do">摸魚</span></div>
-                <div>忌 <span class="dont" id="ui-dont">點開群組</span></div>
-            </div>
-        </div>
-
-        <!-- 故事與金句 -->
-        <div class="glass-card story-section">
-            <div class="badge-style" id="ui-style-badge">極致反差</div>
-            <div class="story-content" id="ui-article">盯著這片佈滿水珠的蕨類，感覺心靈都被洗滌了。<br>就像我現在坐在辦公桌前，盯著滿滿的待辦清單，眼角滑落的社畜之淚一樣，晶瑩剔透。</div>
-            <!-- 宋體金句與中文引號 -->
-            <h2 class="quote-content" id="ui-quote">「大家都說生活不只有詩和遠方。對，因為還有眼前的無薪加班。」</h2>
-        </div>
-
-        <!-- 產出區 -->
-        <div class="creator-grid">
-            <!-- 左欄：視覺產出 -->
-            <div class="glass-card output-box">
-                <h3>🎨 視覺產出 (Visual Prompt)</h3>
-                <button class="btn-action" onclick="copyText('rawPrompt', 'btnMsgAI')" id="btnMsgAI">📸 複製大師級算圖指令</button>
-                <textarea id="rawPrompt" class="code-box" readonly></textarea>
-                <span style="font-size: 0.85rem; color: var(--text-sub); margin-top: 5px; text-align: center;">✨ AI 草圖預覽 (請以 Prompt 交由專業工具算圖)</span>
-                <img id="ai-image-result" class="preview-img" src="" alt="AI Preview">
+        <!-- 宗師級：紙張本體 -->
+        <div class="calendar-page" id="calendar-paper">
+            
+            <!-- 巨大排版與網格 -->
+            <div class="date-hero">
+                <div class="giant-day" id="ui-day">02</div>
+                <div class="date-meta">
+                    <div class="meta-ym" id="ui-ym">2026.09</div>
+                    <div class="meta-lunar" id="ui-lunar-zodiac">農曆七月廿一<br>♉ 金牛座</div>
+                </div>
             </div>
 
-            <!-- 右欄：社群文案 -->
-            <div class="glass-card output-box">
-                <h3>📱 脆 (Threads) 專屬排版</h3>
-                <button class="btn-action" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📋 複製 Threads 貼文</button>
-                <textarea id="igCaption" class="code-box" readonly style="color: var(--text-main); font-weight: 500;"></textarea>
+            <!-- 印章式宜忌 -->
+            <div class="fortune-grid">
+                <span class="badge-style" id="ui-style-badge">極致反差</span>
+                <span class="stamp do">宜 <span id="ui-do">摸魚</span></span>
+                <span class="stamp dont">忌 <span id="ui-dont">群組</span></span>
             </div>
+
+            <!-- 留白故事與金句 -->
+            <div class="story-content" id="ui-article">故事載入中...</div>
+            <h2 class="quote-content" id="ui-quote">「金句載入中...」</h2>
+
+            <!-- 音樂區塊 -->
+            <div class="music-player">
+                <div class="music-title" id="ui-fortune-music">建議配樂：載入中...</div>
+                <div id="yt-player-container" style="border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);"></div>
+                <p style="font-size: 0.8rem; margin-top: 8px; text-align: right;"><a id="yt-fallback-link" href="#" target="_blank" style="color: var(--ink-gray); text-decoration: none;">🎧 備用聆聽連結</a></p>
+            </div>
+
+            <!-- 創作者輸出區 (完全比照截圖設計) -->
+            <div class="creator-grid">
+                <!-- 視覺產出區 -->
+                <div class="output-box">
+                    <h3>🎨 視覺產出 (Visual Prompt)</h3>
+                    <button class="btn-action" onclick="copyText('rawPrompt', 'btnMsgAI')" id="btnMsgAI">📸 複製大師級算圖指令</button>
+                    <textarea id="rawPrompt" class="code-box" readonly></textarea>
+                    <img id="ai-image-result" class="preview-img" src="" alt="AI Preview">
+                </div>
+
+                <!-- 貼文產出區 -->
+                <div class="output-box">
+                    <h3>📱 脆 (Threads) 專屬排版</h3>
+                    <button class="btn-action" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📋 複製 Threads 貼文</button>
+                    <textarea id="igCaption" class="code-box" readonly style="color: var(--ink-black); font-weight: 500;"></textarea>
+                </div>
+            </div>
+            
         </div>
     </div>
 
     <script>
-        const quotesData = [{"style": "極致反差", "article": "晨光灑落，手沖咖啡的香氣漫步在木質調的房間裡，窗外微風不燥。點開網銀，存款數字安靜得像我死去的熱情。", "q": "生活給了你詩和遠方，還有繳不完的帳單和主管的白眼。", "p": "不想上班想離職", "do": "呼吸吐納", "dont": "查餘額"}, {"style": "滿血復活", "article": "早上出門踩到狗屎，本來氣到想原地引爆。轉念一想，這絕對是『黃金』萬兩的發財預兆，今天肯定是我的主場！", "q": "只要心態夠盲目，全世界都會為你的好運開路。", "p": "存不到錢好焦慮", "do": "盲目樂觀", "dont": "面對現實"}, {"style": "人間清醒", "article": "職場上那些畫餅的長官和愛計較的同事，其實都是你人生路上的NPC。認真你就輸了，拿錢不交心才是最高指導原則。", "q": "放過自己最好的方式，就是學會對別人的屁話左耳進右耳出。", "p": "不想上班想離職", "do": "冷眼旁觀", "dont": "認真負責"}, {"style": "躺平無罪", "article": "房貸繳不起、頭期買不起，既然橫豎都是個死，不如現在就躺平。反正地球不爆炸，我絕不放假，但也絕對不努力。", "q": "只要我夠廢，資本主義就剝削不到我。", "p": "存不到錢好焦慮", "do": "原地躺平", "dont": "奮發向上"}, {"style": "微小幸運", "article": "走在路上突然迎面吹來一陣涼爽的秋風，超商剛好大冰奶買一送一。人生最棒的時刻，往往不用花什麼大錢。", "q": "宇宙正在偷偷愛你，只是用了一杯奶茶的價錢。", "p": "不想上班想離職", "do": "喝爆奶茶", "dont": "看行事曆"}]; 
+        const quotesData = [{"style": "極致反差", "article": "看著陽光灑在辦公桌的植栽上，生機盎然。就像我滿滿的待辦事項，永遠長不完。", "q": "生活不只有詩和遠方，還有眼前的無薪加班。", "p": "社畜之淚", "do": "喝杯手搖", "dont": "看存摺"}, {"style": "躺平無罪", "article": "今天鬧鐘響了三次，我終於領悟了一個宇宙真理。", "q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學", "do": "準時下班", "dont": "自找麻煩"}]; 
         let payload = {"date": "2026-09-02", "star_sign": "金牛座", "zodiac_sign": "羊"};
-        
-        const visualMapping = {
-            "極致反差": { 
-                genre: "Cinematic neo-noir macro photography", 
-                subject: "extreme close-up of morning dew resting on a vibrant green fern leaf, dark moody background", 
-                modifier: "high contrast, dramatic lighting, subtle melancholy atmosphere, 8k resolution, shot on 100mm macro lens" 
-            },
-            "滿血復活": { 
-                genre: "Epic National Geographic landscape photography", 
-                subject: "a magnificent sunrise over snow-capped mountain peaks reflecting perfectly on a serene alpine lake", 
-                modifier: "golden hour sunlight, majestic scale, awe-inspiring, ultra-detailed, shot with an ultra-wide 14mm lens" 
-            },
-            "人間清醒": { 
-                genre: "Minimalist architectural photography", 
-                subject: "a sleek minimalist concrete structure with dramatic geometric light and shadow", 
-                modifier: "clean lines, Zen atmosphere, editorial magazine style, highly detailed, photorealistic" 
-            },
-            "躺平無罪": { 
-                genre: "Cozy lifestyle editorial photography", 
-                subject: "a cute fluffy cat sleeping peacefully next to a pile of old books near a sunlit window", 
-                modifier: "soft warm ambient light, dreamy vibe, masterpiece, Kodak Portra 400 film aesthetic" 
-            },
-            "微小幸運": { 
-                genre: "Vintage aesthetic photography", 
-                subject: "a vintage glass siphon coffee maker actively brewing coffee, rich steam rising", 
-                modifier: "warm glowing cafe lighting, macro details, cozy morning sunlight, shot on 50mm lens, f/1.8" 
-            }
-        };
+        const fortunes = __FORTUNE_JS__;
+        const zodiacAdvices = {"水瓶座": "今天適合整理環境，丟掉不必要的雜物，能帶來意想不到的好運。", "雙魚座": "人際關係出現微妙的化學反應，主動對陌生人微笑，會開啟一段好緣分。", "牡羊座": "財運微幅上升，但切忌衝動購物，把錢投資在學習上會更有價值。", "金牛座": "長輩或長官會給你重要的建議，就算當下覺得刺耳，也請先收進心裡。", "雙子座": "適合規劃長遠目標的一天，哪怕只是寫下第一步，宇宙都會開始幫你。", "巨蟹座": "工作上可能會遇到固執的同事，深呼吸，用柔和的語氣能化解僵局。", "獅子座": "感情方面需要多一點傾聽，少一點說教，對方其實只需要你的陪伴。", "處女座": "今天你的直覺非常準確，如果在兩個選擇中猶豫，請相信你的第一反應。", "天秤座": "體能狀態極佳，下班後去流點汗吧！這能幫你洗刷一整天的疲憊。", "天蠍座": "計畫趕不上變化，與其死磕到底，不如順應局勢，換個方式會更輕鬆。", "射手座": "靈感爆發的一天！把腦中閃過的點子立刻記下來，未來會派上用場。", "摩羯座": "情緒稍顯低落，給自己泡杯好茶或咖啡，安靜獨處半小時能滿血復活。"};
+
+        const promptGenres = [
+            "Cozy lifestyle editorial photography", "Cinematic neo-noir street photography",
+            "Hyper-realistic macro photography", "Minimalist architectural photography",
+            "Studio Ghibli anime style illustration", "Vintage 35mm film photography",
+            "Epic National Geographic astrophotography", "Moody food magazine editorial photography"
+        ];
+        const promptSubjects = [
+            "a vintage glass siphon coffee maker actively brewing coffee, rich steam",
+            "freshly baked Spanish churros with a steaming cup of hot chocolate",
+            "an advanced 3D printer crafting a geometric sculpture in a high-tech workshop",
+            "a pristine high-altitude alpine lake reflecting a magnificent Milky Way galaxy",
+            "a solitary figure walking down a rain-drenched neon-lit city street at midnight",
+            "extreme close-up of morning dew resting on a lush green fern leaf",
+            "a sleek minimalist concrete staircase with dramatic geometric light and shadow",
+            "a cute fluffy cat sleeping next to a pile of old books near a sunlit window",
+            "a beautifully plated rustic Spanish potato tortilla on a ceramic dish"
+        ];
+        const promptModifiers = [
+            "shot on 50mm lens, f/1.8, warm golden hour sunlight, volumetric lighting, 8k",
+            "dramatic lighting, cinematic composition, photorealistic, highly detailed, Unreal Engine 5",
+            "soft ambient daylight, beautiful shallow depth of field, sharp focus",
+            "shot with an ultra-wide 14mm lens, long exposure, award-winning",
+            "vibrant pastel colors, dreamy and ethereal atmosphere"
+        ];
 
         function getAstrologySignsByDate(dateStr) {
             const d = new Date(dateStr + "T00:00:00");
@@ -339,32 +393,50 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
+        // 深澤直人：撕紙動畫觸發器
+        function triggerTearAnimation() {
+            const paper = document.getElementById('calendar-paper');
+            paper.classList.remove('anim-appear');
+            paper.classList.add('anim-tear');
+            
+            setTimeout(() => {
+                randomizeAll();
+                paper.classList.remove('anim-tear');
+                paper.classList.add('anim-appear');
+            }, 500); // 等待撕下動畫完成後更新內容並落下新紙
+        }
+
         function applyDateChange() {
             const dateVal = document.getElementById('ui-date-picker').value;
             if(!dateVal) return;
             const luckySigns = getAstrologySignsByDate(dateVal);
             payload.star_sign = luckySigns.star;
-            randomizeAll(dateVal);
+            triggerTearAnimation();
         }
 
         function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
-            const displayDate = currentDate.replace(/-/g, '.');
-            document.getElementById('display-date').innerText = displayDate;
+            // 解析日期給巨大字體
+            const dObj = new Date(currentDate + "T00:00:00");
+            const dayStr = String(dObj.getDate()).padStart(2, '0');
+            const ymStr = `${dObj.getFullYear()}.${String(dObj.getMonth()+1).padStart(2, '0')}`;
+            
+            document.getElementById('ui-day').innerText = dayStr;
+            document.getElementById('ui-ym').innerText = ymStr;
 
             let lunarDisplay = "農曆查無資料";
             try {
-                const d = new Date(currentDate + "T00:00:00");
                 if (typeof Lunar !== 'undefined') {
-                    const lunar = Lunar.fromDate(d);
+                    const lunar = Lunar.fromDate(dObj);
                     lunarDisplay = `農曆${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
                     const jieQi = lunar.getJieQi();
-                    if(jieQi) lunarDisplay += ` ｜ 節氣: ${jieQi}`;
+                    if(jieQi) lunarDisplay += `<br>節氣：${jieQi}`;
                 }
             } catch (e) {}
             
-            document.getElementById('display-lunar').innerText = `${lunarDisplay} ｜ ${payload.star_sign}`;
+            document.getElementById('ui-lunar-zodiac').innerHTML = `${lunarDisplay}<br>✨ ${payload.star_sign}`;
 
             const selectedData = Array.isArray(quotesData) ? getRandomItem(quotesData) : quotesData;
+            const selectedFortune = Array.isArray(fortunes) ? getRandomItem(fortunes) : { music_text: "🎶 靜謐時光", yt_id: "kgx4WGK0oNU" };
             
             const style = selectedData.style || "微小幸運";
             const doAction = selectedData.do || "呼吸";
@@ -377,23 +449,30 @@
             document.getElementById('ui-do').innerText = doAction;
             document.getElementById('ui-dont').innerText = dontAction;
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
-            
-            // 寫入中文標準引號
             document.getElementById('ui-quote').innerText = `「${quoteText}」`;
 
-            const visual = visualMapping[style] || visualMapping["微小幸運"];
-            const fullPrompt = `${visual.genre} of ${visual.subject}. ${visual.modifier}, masterpiece, award-winning, photorealistic --ar 9:16 --v 6.0`;
+            document.getElementById('ui-fortune-music').innerText = "建議配樂：" + (selectedFortune.music_text || "🎶 輕快純音樂");
+            const ytId = selectedFortune.yt_id || "kgx4WGK0oNU";
+            document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            document.getElementById('yt-fallback-link').href = `https://www.youtube.com/watch?v=${ytId}`;
+
+            const genre = getRandomItem(promptGenres);
+            const subject = getRandomItem(promptSubjects);
+            const modifier = getRandomItem(promptModifiers);
+            
+            const fullPrompt = `${genre} of ${subject}. ${modifier} --ar 9:16 --v 6.0`;
             document.getElementById('rawPrompt').value = fullPrompt;
-
-            const safeUrlPrompt = encodeURIComponent(`${visual.genre} of ${visual.subject}, highly detailed`);
+            
+            const safeUrlPrompt = encodeURIComponent(`${genre} of ${subject}, highly detailed`);
             document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
-
-            const threadsText = `📅 ${displayDate}｜${lunarDisplay}｜${payload.star_sign}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
+            
+            const lunarClean = lunarDisplay.replace('<br>', '｜');
+            const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarClean}｜${payload.star_sign}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
             document.getElementById('igCaption').value = threadsText;
         }
 
         window.onload = function() { 
-            setTimeout(() => { applyDateChange(); }, 200); 
+            setTimeout(() => { randomizeAll(); document.getElementById('calendar-paper').classList.add('anim-appear'); }, 200); 
         };
 
         function copyText(elementId, btnId) {
