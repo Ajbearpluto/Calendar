@@ -3,25 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Creator - Masterpiece Edition</title>
+    <title>TAIJI Omniverse Calendar - Dieter Rams Typography Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
         /* 引入無印良品風黑體 (Sans) 與 傳統文學感宋體 (Serif) */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
         
         :root {
+            /* 原研哉：紙張材質與墨水色 */
             --paper-bg: #FDFBF7;
             --ink-black: #1A1A1A;
             --ink-gray: #757575;
             --line-color: #E0E0E0;
+            
+            /* 聶永真：印章色彩 (低飽和度的朱紅與青綠) */
             --stamp-red: #C05A50;
             --stamp-green: #5B8266;
+            
+            /* 背景環境色 */
             --env-bg: #EAEAE4;
         }
 
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: var(--env-bg);
+            /* SVG 細微雜訊，模擬空間質感 */
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
             color: var(--ink-black);
             margin: 0;
@@ -47,6 +53,7 @@
             align-items: center;
             padding: 0 10px;
         }
+        /* 聶永真：資訊群組化與細線分隔 */
         .control-panel input {
             background: transparent;
             border: 1px solid var(--line-color);
@@ -76,9 +83,10 @@
         }
         .btn-tear:hover { background: #333; transform: translateY(-2px); }
 
-        /* 紙張本體 */
+        /* 原研哉：紙張本體與多重堆疊陰影 (厚度感) */
         .calendar-page {
             background-color: var(--paper-bg);
+            /* 模擬紙張纖維雜訊 */
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
             border-radius: 2px;
             padding: 50px;
@@ -93,6 +101,7 @@
             transform-origin: top center;
         }
 
+        /* 穿孔撕線特效 */
         .calendar-page::before {
             content: '';
             position: absolute;
@@ -103,7 +112,7 @@
             opacity: 0.5;
         }
 
-        /* 撕紙動畫 */
+        /* 深澤直人：撕頁與掉落動畫 */
         @keyframes tearOff {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; filter: blur(0); }
             100% { transform: translateY(150px) rotate(4deg); opacity: 0; filter: blur(5px); }
@@ -115,7 +124,7 @@
         .anim-tear { animation: tearOff 0.6s forwards cubic-bezier(0.55, 0.085, 0.68, 0.53); }
         .anim-appear { animation: fallIn 0.5s forwards ease-out; }
 
-        /* 排版與網格 */
+        /* 聶永真：巨大化排版與網格 (視覺錨點) */
         .date-hero {
             display: flex;
             align-items: baseline;
@@ -149,7 +158,7 @@
             line-height: 1.4;
         }
 
-        /* 印章式宜忌 */
+        /* 聶永真：印章式宜忌模組 */
         .fortune-grid {
             display: flex;
             align-items: center;
@@ -175,7 +184,7 @@
         .stamp.do { border-color: var(--stamp-green); color: var(--stamp-green); transform: rotate(-2deg); }
         .stamp.dont { border-color: var(--stamp-red); color: var(--stamp-red); transform: rotate(1deg); }
 
-        /* 故事與金句 */
+        /* 聶永真：留白重構與兩端對齊故事 */
         .story-content {
             font-size: 1.15rem;
             line-height: 2;
@@ -185,6 +194,7 @@
             text-align: justify;
             white-space: pre-line;
         }
+        /* 賈伯斯：文學感宋體金句與中文標準引號 「 」 */
         .quote-content {
             font-family: 'Noto Serif TC', serif;
             font-size: 1.6rem;
@@ -196,7 +206,7 @@
             border-left: 4px solid var(--ink-black);
         }
 
-        /* 音樂模組 */
+        /* 音樂模組 (聶永真版面與賈伯斯標準符號) */
         .music-player {
             margin-bottom: 40px;
             border-top: 1px solid var(--line-color);
@@ -213,7 +223,7 @@
             padding-top: 40px;
         }
         .output-box {
-            background: #F4F6F8;
+            background: #F4F6F8; /* 您截圖中的微灰底色 */
             border-radius: 16px;
             padding: 20px;
             display: flex;
@@ -229,8 +239,8 @@
             align-items: center; 
             gap: 8px;
         }
-
-        /* 拆分後的獨立指令群組 */
+        
+        /* 指令複製群組 (一分為二，高張力排版) */
         .prompt-group {
             display: flex;
             flex-direction: column;
@@ -240,7 +250,7 @@
         }
         .prompt-group:last-of-type { border-bottom: none; padding-bottom: 0; }
         
-        /* 統一按鈕風格 */
+        /* 徹底還原您截圖中的乾淨、emoji 圖文對齊按鈕 */
         .btn-action {
             background: #FFFFFF;
             border: 1px solid rgba(0,0,0,0.05);
@@ -263,11 +273,10 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transform: translateY(-1px);
         }
-        /* 讓 Threads 貼文按鈕保持醒目 */
+        /* 特別將 Threads 按鈕設為深色底，達成「視覺主次劃分」 */
         .btn-action.primary { background: var(--ink-black); color: #fff; }
         .btn-action.primary:hover { background: #333; }
 
-        /* 獨立的小型文字框 */
         textarea.code-box {
             width: 100%;
             background: transparent;
@@ -280,8 +289,10 @@
             outline: none;
             box-sizing: border-box;
         }
+        /* 獨立 小文字框 */
         textarea.small-box { min-height: 90px; }
-        textarea.large-box { min-height: 250px; flex-grow: 1; }
+        /* Threads 寬大文字框 */
+        textarea.large-box { min-height: 220px; flex-grow: 1; }
 
         .preview-img {
             width: 100%;
@@ -310,7 +321,7 @@
             </button>
         </div>
 
-        <!-- 宗師級：紙張本體 -->
+        <!-- 紙張本體 -->
         <div class="calendar-page" id="calendar-paper">
             
             <!-- 巨大排版與網格 -->
@@ -340,19 +351,19 @@
                 <p style="font-size: 0.8rem; margin-top: 8px; text-align: right;"><a id="yt-fallback-link" href="#" target="_blank" style="color: var(--ink-gray); text-decoration: none;">🎧 備用聆聽連結</a></p>
             </div>
 
-            <!-- 創作者雙欄 -->
+            <!-- 創作者輸出區 (彻底拆分按鈕區塊) -->
             <div class="creator-grid">
-                <!-- 左側：視覺產出區 (拆分為兩個獨立區塊) -->
+                <!-- 左側：視覺產出區 -->
                 <div class="output-box">
                     <h3>🎨 視覺產出 (Visual Prompts)</h3>
                     
-                    <!-- 1. 純圖指令區塊 -->
+                    <!-- 1. 純圖指令 -->
                     <div class="prompt-group">
                         <button class="btn-action" onclick="copyText('purePrompt', 'btnPure')" id="btnPure">🖼️ 複製純圖算圖指令</button>
                         <textarea id="purePrompt" class="code-box small-box" readonly></textarea>
                     </div>
 
-                    <!-- 2. 海報指令區塊 -->
+                    <!-- 2. 日曆海報指令 -->
                     <div class="prompt-group">
                         <button class="btn-action" onclick="copyText('posterPrompt', 'btnPoster')" id="btnPoster">📅 複製日曆海報指令</button>
                         <textarea id="posterPrompt" class="code-box small-box" readonly></textarea>
@@ -363,11 +374,11 @@
                 <div class="output-box">
                     <h3>📱 脆 (Threads) 專屬排版</h3>
                     
-                    <!-- 3. 文案指令區塊 -->
+                    <!-- 3. 文案指令 -->
                     <button class="btn-action primary" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📝 複製 Threads 貼文</button>
                     <textarea id="igCaption" class="code-box large-box" readonly style="color: var(--ink-black); font-weight: 500;"></textarea>
                     
-                    <span style="font-size: 0.8rem; color: var(--ink-gray); text-align: center; margin-top: 10px;">✨ AI 草圖預覽 (依據純圖指令)</span>
+                    <span style="font-size: 0.8rem; color: var(--ink-gray); text-align: center; margin-top: 10px;">✨ AI 草圖預覽 (依據純圖指令生成)</span>
                     <img id="ai-image-result" class="preview-img" src="" alt="AI Preview">
                 </div>
             </div>
@@ -376,10 +387,10 @@
     </div>
 
     <script>
-        const quotesData = [{"style": "極致反差", "article": "看著陽光灑在辦公桌的植栽上，生機盎然。就像我滿滿的待辦事項，永遠長不完。", "q": "生活不只有詩和遠方，還有眼前的無薪加班。", "p": "社畜之淚", "do": "喝杯手搖", "dont": "看存摺"}, {"style": "躺平無罪", "article": "今天鬧鐘響了三次，我終於領悟了一個宇宙真理。", "q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學", "do": "準時下班", "dont": "自找麻煩"}]; 
+        const quotesData = [{"style": "極致反差", "article": "早晨窗外陽光灑進，咖啡香氣迷人，一切看起來像高級雜誌內頁。直到螢幕跳出老闆的「在嗎？」，瞬間回歸地獄，這杯咖啡的錢簡直是付給靈魂的贖金。", "q": "生活的美感，總是敗給週一的訊息視窗。", "p": "社畜日常 職場生存 離職衝動", "do": "準時登出", "dont": "秒讀訊息"}, {"style": "滿血復活", "article": "早起被鬧鐘嚇醒的瞬間想辭職，搭捷運時又覺得人生好累。但看到路邊那隻貓伸懶腰的模樣，突然覺得：算了，為了下班那杯冰美式，我還可以再演一天。", "q": "只要還有咖啡喝，我就是這家公司的影帝。", "p": "轉念的力量 正能量 職場社畜", "do": "大口喝咖", "dont": "懷疑人生"}, {"style": "人間清醒", "article": "辦公室裡的勾心鬥角，聽久了就發現大家都在演戲。薪水沒多給，戲份倒是給滿。與其爭個輸贏，不如專注在自己的人生，畢竟你也沒打算跟他們過一輩子。", "q": "不在意別人的評價，是成年人最高級的自律。", "p": "職場通透 人際關係 放過自己", "do": "專注自己", "dont": "在意評價"}, {"style": "躺平無罪", "article": "看著帳戶餘額，焦慮值直接破表。但我反覆思考後發現，只要我不買房、不買車、不結婚，我就能永遠擁有快樂的廢物人生。沒錢不可怕，可怕的是還要假裝上進。", "q": "只要我躺得夠平，焦慮就追不上我。", "p": "存不到錢 躺平主義 焦慮釋放", "do": "盡情廢物", "dont": "查看帳戶"}, {"style": "微小幸運", "article": "下班路上剛好捕捉到粉紫色的夕陽，那一刻心裡的結好像鬆開了。世界沒變好，但我變溫柔了，也許運氣不是從天而降，而是藏在這種不起眼的小事裡。", "q": "留心那些微小的美好，生活才會對你微笑。", "p": "日常療癒 生活小確幸 轉運", "do": "抬頭看天", "dont": "低頭煩惱"}]; 
         let payload = {"date": "2026-09-02", "star_sign": "金牛座", "zodiac_sign": "羊"};
 
-        // 🌟 100% 穩定可嵌入的標準 YouTube 影片 ID (非直播)
+        // 🌟 保證 100% 允許嵌入、無直播結束錯誤的 YouTube 連結清單
         const localFortunes = [
             { music_text: "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", yt_id: "5qap5aO4i9A" },
             { music_text: "🎶 輕快 Lofi Beats - 保持心情平靜", yt_id: "-5KAN9_CzSA" },
@@ -422,6 +433,7 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
+        // 深澤直人：撕頁動畫觸發器
         function triggerTearAnimation() {
             const paper = document.getElementById('calendar-paper');
             paper.classList.remove('anim-appear');
@@ -443,6 +455,7 @@
         }
 
         function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
+            // 聶永真：巨大字體排版
             const dObj = new Date(currentDate + "T00:00:00");
             const dayStr = String(dObj.getDate()).padStart(2, '0');
             const ymStr = `${dObj.getFullYear()}.${String(dObj.getMonth()+1).padStart(2, '0')}`;
@@ -463,6 +476,7 @@
             document.getElementById('ui-lunar-zodiac').innerHTML = `${lunarDisplay}<br>✨ ${payload.star_sign}`;
 
             const selectedData = Array.isArray(quotesData) ? getRandomItem(quotesData) : quotesData;
+            // 🌟 確保音樂載入
             const selectedFortune = getRandomItem(localFortunes);
             
             const style = selectedData.style || "微小幸運";
@@ -476,9 +490,10 @@
             document.getElementById('ui-do').innerText = doAction;
             document.getElementById('ui-dont').innerText = dontAction;
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
+            // 賈伯斯標準符號
             document.getElementById('ui-quote').innerText = `「${quoteText}」`;
 
-            // 確保音樂載入
+            // 更新音樂模組
             document.getElementById('ui-fortune-music').innerText = "建議配樂：" + selectedFortune.music_text;
             const ytId = selectedFortune.yt_id;
             document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
@@ -488,11 +503,11 @@
             const subject = getRandomItem(promptSubjects);
             const modifier = getRandomItem(promptModifiers);
             
-            // 寫入純圖文字框
+            // 寫入獨立 純圖文字框
             const purePrompt = `${genre} of ${subject}. ${modifier} --ar 9:16 --style raw --v 6.0`;
             document.getElementById('purePrompt').value = purePrompt;
             
-            // 寫入海報文字框
+            // 寫入獨立 海報文字框
             const posterPrompt = `A minimalist editorial calendar poster design. Background: ${genre} of ${subject}, ${modifier}. Overlay typography: Clean modern UI design layout, featuring a giant bold number "${dayStr}" at the top left, elegant Chinese serif text blocks, stamp-like graphic tags for "Do" and "Don't", negative space, masterpiece graphic design, magazine cover style --ar 9:16 --v 6.0`;
             document.getElementById('posterPrompt').value = posterPrompt;
             
@@ -517,7 +532,7 @@
             
             var btn = document.getElementById(btnId);
             var originalText = btn.innerHTML;
-            btn.innerHTML = "✅ 已複製！";
+            btn.innerHTML = "✅ 已複製成功！";
             setTimeout(function() { btn.innerHTML = originalText; }, 2000);
         }
     </script>
