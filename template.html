@@ -3,144 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Creator V43</title>
+    <title>TAIJI Omniverse Creator - Minimalist Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Inter:wght@400;600;700;900&display=swap');
-        :root { --bg-color: #ffffff; --card-bg: #ffffff; --text-title: #111111; --text-main: #333333; --text-sub: #888888; --font-title: 'Noto Serif TC', serif; --font-body: 'Inter', sans-serif; --border-radius: 8px; --border-style: 1px solid #eeeeee; --hero-bg: #f9f9f9; }
-        body.theme-popeye { --bg-color: #F5F3E9; --text-title: #0d3b66; --border-style: 2px solid #1a1a1a; }
-        body.theme-brutus { --bg-color: #121212; --card-bg: #1e1e1e; --text-title: #f5f5f5; --text-main: #e0e0e0; --text-sub: #757575; --border-style: 1px solid #333333; --hero-bg: #1a1a1a; }
-        body.theme-casa { --bg-color: #EAEAE4; --card-bg: #F4F4F0; --text-title: #4a5d4e; --text-main: #5c5c5c; --border-style: 1px solid #d1d1c7; --hero-bg: #e3e8e4; }
-        body { font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 40px 20px; transition: all 0.5s ease; }
-        .editorial-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
-        .card { background: var(--card-bg); border-radius: var(--border-radius); padding: 40px; border: var(--border-style); }
-        .control-panel { grid-column: span 12; background: var(--hero-bg); padding: 20px; border-radius: var(--border-radius); border: var(--border-style); display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; }
-        .control-panel input, .control-panel select { padding: 10px; font-size: 1rem; border: 1px solid #ccc; border-radius: 6px; font-family: var(--font-body); }
-        .control-panel button.btn-apply { background: #2563eb; color: #fff; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .date-card { grid-column: span 12; background: var(--text-title); color: var(--bg-color); text-align: center; padding: 45px 20px; border: none; }
-        .date-card h1 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; margin: 0; letter-spacing: -2px; }
-        .date-card p.lunar { font-size: 1.1rem; opacity: 0.9; letter-spacing: 5px; margin: 15px 0 0 0; }
-        .quote-card { grid-column: span 12; text-align: center; padding: 50px 30px; }
-        .quote-card h2 { font-family: var(--font-title); font-size: 1.8rem; line-height: 1.5; color: var(--text-title); margin: 0 0 15px 0; }
-        .quote-card p.article { font-size: 1.1rem; color: var(--text-main); margin-bottom: 25px; line-height: 1.6; }
-        .info-card { grid-column: span 6; } .zodiac-card { grid-column: span 12; background: var(--hero-bg); }
+        /* 引入無印良品風的高級無襯線字體 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&display=swap');
         
-        .creator-section { grid-column: span 12; display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; }
-        .creator-box { flex: 1 1 45%; min-width: 300px; background: var(--card-bg); padding: 25px; border-radius: var(--border-radius); border: var(--border-style); display: flex; flex-direction: column; }
-        .creator-box h3 { margin-top: 0; border-bottom: 2px solid var(--text-title); padding-bottom: 10px; }
-        .btn-copy { background: #e63946; color: white; padding: 15px; cursor: pointer; border: none; font-size: 1.1rem; font-weight: bold; border-radius: 8px; transition: 0.3s; width: 100%; margin-bottom: 15px; }
-        .btn-copy.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-        .btn-copy:hover { opacity: 0.9; transform: translateY(-2px); }
-        
-        textarea.visible-box { width: 100%; flex-grow: 1; min-height: 250px; background: var(--hero-bg); color: var(--text-main); border: 1px solid #ccc; padding: 15px; border-radius: 8px; resize: vertical; font-size: 0.95rem; font-family: inherit; line-height: 1.6; box-sizing: border-box; }
-        .ai-image-preview { width: 100%; height: auto; border-radius: 8px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: block; object-fit: cover; aspect-ratio: 9/16; background: #e0e0e0 url('https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif') no-repeat center center; }
+        :root {
+            --text-main: #2D3436;
+            --text-sub: #636E72;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+            --shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.12);
+        }
 
-        @media (max-width: 768px) { .info-card { grid-column: span 12; } }
+        /* 優雅的動態流動漸層背景 */
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(-45deg, #e0eafc, #cfdef3, #f5f7fa, #e4efe9);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* 核心組件：毛玻璃懸浮卡片 */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+            padding: 40px;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* 頂部控制台 */
+        .control-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            border-radius: 50px;
+        }
+        .control-panel input {
+            background: transparent;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text-main);
+            font-weight: 700;
+            outline: none;
+        }
+        .btn-refresh {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--text-main);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-refresh:hover { opacity: 0.6; }
+
+        /* 日期與宜忌區塊 */
+        .header-section { text-align: center; }
+        .date-title {
+            font-weight: 900;
+            font-size: 3rem;
+            letter-spacing: 2px;
+            margin: 0 0 10px 0;
+        }
+        .date-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-sub);
+            letter-spacing: 4px;
+            margin: 0 0 30px 0;
+            font-weight: 300;
+        }
+        .do-dont-box {
+            display: inline-flex;
+            gap: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .do-dont-box .do { color: #27ae60; }
+        .do-dont-box .dont { color: #d63031; }
+
+        /* 故事與金句區塊 */
+        .story-section { position: relative; }
+        .badge-style {
+            position: absolute;
+            top: -15px;
+            left: 40px;
+            background: var(--text-main);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .story-content {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            font-weight: 400;
+            margin: 20px 0 30px 0;
+            white-space: pre-line;
+        }
+        .quote-content {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.6;
+            border-left: 4px solid var(--text-main);
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        /* 創作者雙欄輸出區 */
+        .creator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        .output-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .output-box h3 { margin: 0; font-size: 1.1rem; font-weight: 700; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; }
+        
+        .btn-action {
+            background: var(--text-main);
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .btn-action:hover {
+            background: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        textarea.code-box {
+            width: 100%;
+            flex-grow: 1;
+            min-height: 220px;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Noto Sans TC', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-sub);
+            resize: none;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .preview-img {
+            width: 100%;
+            aspect-ratio: 9/16;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            background: rgba(255,255,255,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .creator-grid { grid-template-columns: 1fr; }
+            .do-dont-box { flex-direction: column; gap: 10px; }
+            .date-title { font-size: 2.2rem; }
+        }
     </style>
 </head>
 <body>
-    <div class="editorial-grid">
-        <div class="control-panel">
-            <label>📅 時空跳躍：</label>
-            <input type="date" id="ui-date-picker" value="__PAYLOAD_DATE__">
-            <button class="btn-apply" onclick="applyDateChange()">確認切換</button>
-            <span style="color:var(--text-main); font-weight:bold; margin-left:20px; cursor:pointer;" onclick="randomizeAll()">🔄 刷新排版與內容</span>
-        </div>
-
-        <div class="card date-card">
-            <h1 id="display-date">__PAYLOAD_DATE__</h1>
-            <p class="lunar" id="display-lunar">正在演算農民曆...</p>
-        </div>
-
-        <div class="card quote-card" id="quote-card-container">
-            <p class="article" id="ui-article"></p>
-            <h2 id="ui-quote"></h2>
-            <span style="display:inline-block; margin-top:10px; color: var(--text-sub);">DAILY EDITORIAL · 📌 今日靈感：<strong id="ui-pain" style="color:var(--text-main);"></strong></span>
-        </div>
-        
-        <div class="card info-card">
-            <h3 style="border-bottom: 1px solid var(--text-sub); padding-bottom:10px;">綜合題點 & 情境配樂</h3>
-            <div class="content" style="line-height:1.6; margin-top:10px;">
-                <strong>⚠️ 注意事項：</strong><br><span id="ui-fortune-text"></span><br><br>
-                <strong style="color:#d97706;" id="ui-fortune-music"></strong>
-                <div id="yt-player-container" style="margin-top: 15px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"></div>
+    <div class="container">
+        <!-- 控制台 -->
+        <div class="glass-card control-panel">
+            <input type="date" id="ui-date-picker" value="__PAYLOAD_DATE__" onchange="applyDateChange()">
+            <div class="btn-refresh" onclick="randomizeAll()">
+                <span>🔄 刷新情緒盲盒</span>
             </div>
         </div>
 
-        <div class="card zodiac-card info-card">
-            <h3 style="border-bottom: 2px solid var(--text-title); padding-bottom:10px; margin-top:0;">✨ 12 星座專屬觀測站</h3>
-            <div style="margin-top: 15px; display:flex; align-items:center; gap:15px;">
-                <select id="zodiac-selector" onchange="updateZodiacAdvice()" style="font-family: inherit;">
-                    <option value="牡羊座">♈ 牡羊座</option><option value="金牛座">♉ 金牛座</option><option value="雙子座">♊ 雙子座</option><option value="巨蟹座">♋ 巨蟹座</option><option value="獅子座">♌ 獅子座</option><option value="處女座">♍ 處女座</option><option value="天秤座">♎ 天秤座</option><option value="天蠍座">♏ 天蠍座</option><option value="射手座">♐ 射手座</option><option value="摩羯座">♑ 摩羯座</option><option value="水瓶座">♒ 水瓶座</option><option value="雙魚座">♓ 雙魚座</option>
-                </select>
+        <!-- 日期與宜忌 -->
+        <div class="glass-card header-section">
+            <h1 class="date-title" id="display-date">2026.09.02</h1>
+            <p class="date-subtitle" id="display-lunar">農曆七月廿一 ｜ ♉ 金牛座</p>
+            <div class="do-dont-box">
+                <div>宜 <span class="do" id="ui-do">摸魚</span></div>
+                <div>忌 <span class="dont" id="ui-dont">點開群組</span></div>
             </div>
-            <p id="zodiac-advice-text" style="font-size: 1.1rem; line-height:1.6; margin-top: 20px;"></p>
         </div>
 
-        <div class="creator-section">
-            <div class="creator-box">
-                <h3>🎨 視覺產出 (AI Prompt & Image)</h3>
-                <button class="btn-copy" onclick="copyText('rawPrompt', 'btnMsgAI')" id="btnMsgAI">📸 點擊複製算圖指令 (Prompt)</button>
-                <textarea id="rawPrompt" class="visible-box" readonly></textarea>
-                <p style="margin: 15px 0 5px 0; font-size: 0.9rem; font-weight: bold; color: #e63946;">✨ 免費 AI 預覽草圖 (細節與光影請依賴上方 Prompt 交由付費工具算圖)：</p>
-                <img id="ai-image-result" class="ai-image-preview" src="" alt="AI Generated Image">
+        <!-- 故事與金句 -->
+        <div class="glass-card story-section">
+            <div class="badge-style" id="ui-style-badge">極致反差</div>
+            <div class="story-content" id="ui-article">盯著這片佈滿水珠的蕨類，感覺心靈都被洗滌了。<br>就像我現在坐在辦公桌前，盯著滿滿的待辦清單，眼角滑落的社畜之淚一樣，晶瑩剔透。</div>
+            <h2 class="quote-content" id="ui-quote">"大家都說生活不只有詩和遠方。對，因為還有眼前的無薪加班。"</h2>
+        </div>
+
+        <!-- 產出區 -->
+        <div class="creator-grid">
+            <!-- 左欄：視覺產出 -->
+            <div class="glass-card output-box">
+                <h3>🎨 視覺產出 (Visual Prompt)</h3>
+                <button class="btn-action" onclick="copyText('rawPrompt', 'btnMsgAI')" id="btnMsgAI">📸 複製大師級算圖指令</button>
+                <textarea id="rawPrompt" class="code-box" readonly></textarea>
+                <span style="font-size: 0.85rem; color: var(--text-sub); margin-top: 10px;">✨ AI 草圖預覽 (靈感參考，高純度請依賴上方 Prompt)：</span>
+                <img id="ai-image-result" class="preview-img" src="" alt="AI Preview">
             </div>
 
-            <div class="creator-box">
-                <h3>📱 文案產出 (IG Caption)</h3>
-                <button class="btn-copy ig" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📱 點擊複製 IG 完美排版文案</button>
-                <textarea id="igCaption" class="visible-box" readonly></textarea>
+            <!-- 右欄：社群文案 -->
+            <div class="glass-card output-box">
+                <h3>📱 脆 (Threads) 專屬排版</h3>
+                <button class="btn-action" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📋 複製 Threads 貼文</button>
+                <textarea id="igCaption" class="code-box" readonly style="color: var(--text-main); font-weight: 500;"></textarea>
             </div>
         </div>
     </div>
 
     <script>
-        const quotes = __QUOTES_JS__; 
+        const quotesData = __QUOTES_JS__; 
         let payload = __PAYLOAD_JSON__;
-        const fortunes = __FORTUNE_JS__;
-        const zodiacAdvices = __ZODIAC_ADVICES_JS__;
         
-        const webThemes = [
-            { class: '', name: 'KINFOLK 極簡北歐風' }, { class: 'theme-popeye', name: 'POPEYE 潮流日雜風' },
-            { class: 'theme-brutus', name: 'BRUTUS 高級暗黑風' }, { class: 'theme-casa', name: 'CASA BRUTUS 生活美學風' }
-        ];
-
-        // 🌟 V43 終極多元矩陣：徹底打碎重組的靈感盲盒
-        
-        // 1. 視覺風格 (定義整張圖的靈魂)
-        const promptGenres = [
-            "Cozy lifestyle editorial photography",
-            "Cinematic neo-noir street photography",
-            "Hyper-realistic macro photography",
-            "Minimalist architectural photography",
-            "Studio Ghibli anime style illustration, soft watercolor",
-            "Vintage 35mm film photography, Kodak Portra 400",
-            "Epic National Geographic astrophotography",
-            "Moody food magazine editorial photography"
-        ];
-
-        // 2. 主角與場景 (包含您感興趣的日常與風景)
-        const promptSubjects = [
-            "a vintage glass siphon coffee maker actively brewing coffee on a wooden table, rich steam",
-            "a plate of freshly baked Spanish churros paired with a steaming cup of thick hot chocolate",
-            "an advanced 3D printer crafting a complex geometric sculpture in a dark high-tech workshop",
-            "a pristine high-altitude alpine lake reflecting a magnificent Milky Way galaxy, facing southwest",
-            "a solitary figure walking down a rain-drenched neon-lit city street at midnight with a clear umbrella",
-            "a close-up of morning dew resting on a lush green fern leaf in a dense forest",
-            "a sleek minimalist concrete staircase with dramatic geometric light and shadow",
-            "a cute fluffy cat sleeping peacefully next to a pile of old books near a sunlit window",
-            "a bustling night market with vibrant food stalls, glowing lanterns, and steam rising into the air",
-            "a beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs"
-        ];
-
-        // 3. 濾鏡與相機參數 (確保高質感)
-        const promptModifiers = [
-            "shot on 50mm lens, f/1.8, warm golden hour sunlight, volumetric lighting, masterpiece, 8k",
-            "dramatic lighting, cinematic composition, photorealistic, highly detailed, Unreal Engine 5 render",
-            "soft ambient daylight, beautiful shallow depth of field, sharp focus on the subject",
-            "shot with an ultra-wide 14mm lens, long exposure, raw and natural true colors, award-winning",
-            "vibrant pastel colors, dreamy and ethereal atmosphere, highly aesthetic"
-        ];
+        // 🌟 階段三：視文連動引擎 (將 LLM 產出的情緒 Style，強制對齊神級光學參數)
+        const visualMapping = {
+            "極致反差": { 
+                genre: "Cinematic neo-noir macro photography", 
+                subject: "extreme close-up of morning dew resting on a vibrant green fern leaf, dark moody background", 
+                modifier: "high contrast, dramatic lighting, subtle melancholy atmosphere, 8k resolution, shot on 100mm macro lens" 
+            },
+            "滿血復活": { 
+                genre: "Epic National Geographic landscape photography", 
+                subject: "a magnificent sunrise over snow-capped mountain peaks reflecting perfectly on a serene alpine lake", 
+                modifier: "golden hour sunlight, majestic scale, awe-inspiring, ultra-detailed, shot with an ultra-wide 14mm lens" 
+            },
+            "人間清醒": { 
+                genre: "Minimalist architectural photography", 
+                subject: "a sleek minimalist concrete structure with dramatic geometric light and shadow", 
+                modifier: "clean lines, Zen atmosphere, editorial magazine style, highly detailed, photorealistic" 
+            },
+            "躺平無罪": { 
+                genre: "Cozy lifestyle editorial photography", 
+                subject: "a cute fluffy cat sleeping peacefully next to a pile of old books near a sunlit window", 
+                modifier: "soft warm ambient light, dreamy vibe, masterpiece, Kodak Portra 400 film aesthetic" 
+            },
+            "微小幸運": { 
+                genre: "Vintage aesthetic photography", 
+                subject: "a vintage glass siphon coffee maker actively brewing coffee, rich steam rising", 
+                modifier: "warm glowing cafe lighting, macro details, cozy morning sunlight, shot on 50mm lens, f/1.8" 
+            }
+        };
 
         function getAstrologySignsByDate(dateStr) {
             const d = new Date(dateStr + "T00:00:00");
@@ -149,84 +300,67 @@
             return { star: stars[(year + month + day + 6) % 12] };
         }
 
-        function updateZodiacAdvice() {
-            const selectedZodiac = document.getElementById('zodiac-selector').value;
-            const advice = zodiacAdvices[selectedZodiac] || "今日星象平穩，跟隨直覺前進吧。";
-            document.getElementById('zodiac-advice-text').innerText = "🔮 今日建議：" + advice;
-        }
-
-        let currentThemeIndex = -1; 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
         function applyDateChange() {
             const dateVal = document.getElementById('ui-date-picker').value;
             if(!dateVal) return;
-            document.getElementById('display-date').innerText = dateVal;
             const luckySigns = getAstrologySignsByDate(dateVal);
             payload.star_sign = luckySigns.star;
-            document.getElementById('zodiac-selector').value = luckySigns.star; 
-
-            let lunarDisplay = "農曆查無資料";
-            try {
-                const d = new Date(dateVal + "T00:00:00");
-                if (typeof Lunar !== 'undefined') {
-                    const lunar = Lunar.fromDate(d);
-                    lunarDisplay = `農曆 ${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
-                    const jieQi = lunar.getJieQi();
-                    if(jieQi) lunarDisplay += ` | 節氣: ${jieQi}`;
-                }
-            } catch (e) {}
-            document.getElementById('display-lunar').innerText = lunarDisplay;
-            randomizeAll();
-            updateZodiacAdvice();
+            randomizeAll(dateVal);
         }
 
-        function randomizeAll() {
-            let newThemeIndex = Math.floor(Math.random() * webThemes.length);
-            while (newThemeIndex === currentThemeIndex) { newThemeIndex = Math.floor(Math.random() * webThemes.length); }
-            currentThemeIndex = newThemeIndex;
-            document.body.className = webThemes[currentThemeIndex].class;
+        function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
+            // 處理日期格式 (將 - 換成 .)
+            const displayDate = currentDate.replace(/-/g, '.');
+            document.getElementById('display-date').innerText = displayDate;
 
-            const currentDate = document.getElementById('ui-date-picker').value;
-            const selectedFortune = getRandomItem(fortunes);
-            const selectedQuote = getRandomItem(quotes);
+            // 處理農曆
+            let lunarDisplay = "農曆查無資料";
+            try {
+                const d = new Date(currentDate + "T00:00:00");
+                if (typeof Lunar !== 'undefined') {
+                    const lunar = Lunar.fromDate(d);
+                    lunarDisplay = `農曆${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
+                    const jieQi = lunar.getJieQi();
+                    if(jieQi) lunarDisplay += ` ｜ 節氣: ${jieQi}`;
+                }
+            } catch (e) {}
+            
+            document.getElementById('display-lunar').innerText = `${lunarDisplay} ｜ ${payload.star_sign}`;
 
-            document.getElementById('ui-fortune-text').innerText = selectedFortune.text;
-            document.getElementById('ui-fortune-music').innerText = "建議配樂：" + (selectedFortune.music_text || "🎶 輕快純音樂");
+            // 抽取故事與情緒
+            const selectedData = Array.isArray(quotesData) ? getRandomItem(quotesData) : quotesData;
             
-            const ytId = selectedFortune.yt_id || "jfKfPfyJRdk";
-            document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube.com/embed/${ytId}?autoplay=0&controls=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            
-            const articleText = selectedQuote.article ? selectedQuote.article : "";
-            document.getElementById('ui-article').innerText = articleText;
-            document.getElementById('ui-quote').innerText = '"' + selectedQuote.q + '"';
-            document.getElementById('ui-pain').innerText = selectedQuote.p;
-            
-            // 🔥 隨機縫合：風格 + 主體 + 濾鏡
-            const genre = getRandomItem(promptGenres);
-            const subject = getRandomItem(promptSubjects);
-            const modifier = getRandomItem(promptModifiers);
-            
-            const fullPrompt = `${genre} of ${subject}. ${modifier} --ar 9:16 --v 6.0`;
+            const style = selectedData.style || "微小幸運";
+            const doAction = selectedData.do || "呼吸";
+            const dontAction = selectedData.dont || "焦慮";
+            const articleText = selectedData.article || "生活就像一面鏡子。";
+            const quoteText = selectedData.q || "努力活著。";
+            const painTag = selectedData.p || "日常碎片";
+
+            document.getElementById('ui-style-badge').innerText = style;
+            document.getElementById('ui-do').innerText = doAction;
+            document.getElementById('ui-dont').innerText = dontAction;
+            document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
+            document.getElementById('ui-quote').innerText = `"${quoteText}"`;
+
+            // 🔥 視文連動：根據抽到的情緒 Style，精準抓取對應的視覺光學參數
+            const visual = visualMapping[style] || visualMapping["微小幸運"];
+            const fullPrompt = `${visual.genre} of ${visual.subject}. ${visual.modifier}, masterpiece, award-winning, photorealistic --ar 9:16 --v 6.0`;
             document.getElementById('rawPrompt').value = fullPrompt;
-            
-            // 傳送給免費預覽 API (僅作為草圖參考)
-            const safeUrlPrompt = encodeURIComponent(`${genre} of ${subject}, highly detailed`);
+
+            // 更新預覽圖 (傳送簡化版 prompt 給免費 API)
+            const safeUrlPrompt = encodeURIComponent(`${visual.genre} of ${visual.subject}, highly detailed`);
             document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
-            
-            const lunarFullText = document.getElementById('display-lunar').innerText;
-            let lunarClean = lunarFullText.split(' | ')[0];
-            let jieQiClean = lunarFullText.includes(' | 節氣: ') ? ` ${lunarFullText.split(' | 節氣: ')[1]}` : '';
-            
-            const igText = `📅 ${currentDate}\n${lunarClean}${jieQiClean} · ${payload.star_sign}\n\n【今日碎碎念】\n${articleText}\n\n"${selectedQuote.q}"\n\n#日曆 #生活碎片 #${selectedQuote.p.replace(/ /g, '')} #攝影 #日常紀錄`;
-            document.getElementById('igCaption').value = igText;
+
+            // 📱 Threads 專屬排版文案
+            const threadsText = `📅 ${displayDate}｜${lunarDisplay}｜${payload.star_sign}\n💡 今日指南：宜 ${doAction}｜忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n"${quoteText}"\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
+            document.getElementById('igCaption').value = threadsText;
         }
 
         window.onload = function() { 
-            setTimeout(() => {
-                applyDateChange();
-                updateZodiacAdvice();
-            }, 200); 
+            setTimeout(() => { applyDateChange(); }, 200); 
         };
 
         function copyText(elementId, btnId) {
@@ -235,7 +369,7 @@
             document.execCommand("copy");
             var btn = document.getElementById(btnId);
             var originalText = btn.innerHTML;
-            btn.innerHTML = "✅ 已複製到剪貼簿！";
+            btn.innerHTML = "✅ 已複製成功！";
             setTimeout(function() { btn.innerHTML = originalText; }, 2000);
         }
     </script>
