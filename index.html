@@ -191,7 +191,7 @@
             font-weight: 400;
             color: var(--ink-black);
             margin: 0 0 30px 0;
-            text-align: justify; /* 兩端對齊營造磚塊感 */
+            text-align: justify;
             white-space: pre-line;
         }
         .quote-content {
@@ -213,7 +213,7 @@
         }
         .music-title { font-size: 0.85rem; color: var(--ink-gray); margin-bottom: 10px; font-weight: 700; }
 
-        /* 創作者雙欄：完全還原您截圖的視覺 */
+        /* 創作者雙欄 */
         .creator-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -222,7 +222,7 @@
             padding-top: 40px;
         }
         .output-box {
-            background: #F4F6F8; /* 截圖中的微灰底色 */
+            background: #F4F6F8;
             border-radius: 16px;
             padding: 20px;
             display: flex;
@@ -239,7 +239,6 @@
             gap: 8px;
         }
         
-        /* 截圖中的白色圓角精緻按鈕 */
         .btn-action {
             background: #FFFFFF;
             border: 1px solid rgba(0,0,0,0.05);
@@ -332,7 +331,7 @@
                 <p style="font-size: 0.8rem; margin-top: 8px; text-align: right;"><a id="yt-fallback-link" href="#" target="_blank" style="color: var(--ink-gray); text-decoration: none;">🎧 備用聆聽連結</a></p>
             </div>
 
-            <!-- 創作者輸出區 (完全比照截圖設計) -->
+            <!-- 創作者輸出區 -->
             <div class="creator-grid">
                 <!-- 視覺產出區 -->
                 <div class="output-box">
@@ -354,10 +353,19 @@
     </div>
 
     <script>
+        // 【核心修復點】：Python 變數與前端內建資料庫
         const quotesData = [{"style": "極致反差", "article": "看著陽光灑在辦公桌的植栽上，生機盎然。就像我滿滿的待辦事項，永遠長不完。", "q": "生活不只有詩和遠方，還有眼前的無薪加班。", "p": "社畜之淚", "do": "喝杯手搖", "dont": "看存摺"}, {"style": "躺平無罪", "article": "今天鬧鐘響了三次，我終於領悟了一個宇宙真理。", "q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學", "do": "準時下班", "dont": "自找麻煩"}]; 
         let payload = {"date": "2026-09-02", "star_sign": "金牛座", "zodiac_sign": "羊"};
-        const fortunes = __FORTUNE_JS__;
         const zodiacAdvices = {"水瓶座": "今天適合整理環境，丟掉不必要的雜物，能帶來意想不到的好運。", "雙魚座": "人際關係出現微妙的化學反應，主動對陌生人微笑，會開啟一段好緣分。", "牡羊座": "財運微幅上升，但切忌衝動購物，把錢投資在學習上會更有價值。", "金牛座": "長輩或長官會給你重要的建議，就算當下覺得刺耳，也請先收進心裡。", "雙子座": "適合規劃長遠目標的一天，哪怕只是寫下第一步，宇宙都會開始幫你。", "巨蟹座": "工作上可能會遇到固執的同事，深呼吸，用柔和的語氣能化解僵局。", "獅子座": "感情方面需要多一點傾聽，少一點說教，對方其實只需要你的陪伴。", "處女座": "今天你的直覺非常準確，如果在兩個選擇中猶豫，請相信你的第一反應。", "天秤座": "體能狀態極佳，下班後去流點汗吧！這能幫你洗刷一整天的疲憊。", "天蠍座": "計畫趕不上變化，與其死磕到底，不如順應局勢，換個方式會更輕鬆。", "射手座": "靈感爆發的一天！把腦中閃過的點子立刻記下來，未來會派上用場。", "摩羯座": "情緒稍顯低落，給自己泡杯好茶或咖啡，安靜獨處半小時能滿血復活。"};
+
+        // 徹底將音樂庫內建於網頁，解決找不到 __FORTUNE_JS__ 的當機問題
+        const localFortunes = [
+            { music_text: "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", yt_id: "kgx4WGK0oNU" },
+            { music_text: "🎶 輕快 Lofi Beats - 保持心情平靜", yt_id: "1fueZCTYkpA" },
+            { music_text: "🎶 史詩氛圍 Epic Ambient - 迎接未知挑戰", yt_id: "a2v_zFOnoDM" },
+            { music_text: "🎶 原聲吉他 Acoustic Folk - 專注與純粹", yt_id: "1mRE2VzS10c" },
+            { music_text: "🎶 靜謐時光 - 療癒心靈", yt_id: "jfKfPfyJRdk" }
+        ];
 
         const promptGenres = [
             "Cozy lifestyle editorial photography", "Cinematic neo-noir street photography",
@@ -393,7 +401,7 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-        // 深澤直人：撕紙動畫觸發器
+        // 撕紙動畫觸發器
         function triggerTearAnimation() {
             const paper = document.getElementById('calendar-paper');
             paper.classList.remove('anim-appear');
@@ -403,7 +411,7 @@
                 randomizeAll();
                 paper.classList.remove('anim-tear');
                 paper.classList.add('anim-appear');
-            }, 500); // 等待撕下動畫完成後更新內容並落下新紙
+            }, 500); 
         }
 
         function applyDateChange() {
@@ -415,7 +423,6 @@
         }
 
         function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
-            // 解析日期給巨大字體
             const dObj = new Date(currentDate + "T00:00:00");
             const dayStr = String(dObj.getDate()).padStart(2, '0');
             const ymStr = `${dObj.getFullYear()}.${String(dObj.getMonth()+1).padStart(2, '0')}`;
@@ -436,7 +443,7 @@
             document.getElementById('ui-lunar-zodiac').innerHTML = `${lunarDisplay}<br>✨ ${payload.star_sign}`;
 
             const selectedData = Array.isArray(quotesData) ? getRandomItem(quotesData) : quotesData;
-            const selectedFortune = Array.isArray(fortunes) ? getRandomItem(fortunes) : { music_text: "🎶 靜謐時光", yt_id: "kgx4WGK0oNU" };
+            const selectedFortune = getRandomItem(localFortunes);
             
             const style = selectedData.style || "微小幸運";
             const doAction = selectedData.do || "呼吸";
@@ -451,8 +458,8 @@
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('ui-quote').innerText = `「${quoteText}」`;
 
-            document.getElementById('ui-fortune-music').innerText = "建議配樂：" + (selectedFortune.music_text || "🎶 輕快純音樂");
-            const ytId = selectedFortune.yt_id || "kgx4WGK0oNU";
+            document.getElementById('ui-fortune-music').innerText = "建議配樂：" + selectedFortune.music_text;
+            const ytId = selectedFortune.yt_id;
             document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             document.getElementById('yt-fallback-link').href = `https://www.youtube.com/watch?v=${ytId}`;
 
