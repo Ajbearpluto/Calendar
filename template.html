@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Creator - Minimalist Edition</title>
+    <title>TAIJI Omniverse Creator - Grandmaster UI Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
-        /* 引入無印良品風的高級無襯線字體 */
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&display=swap');
+        /* 引入無印良品風黑體 (Sans) 與 文學感宋體 (Serif) */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
         
         :root {
             --text-main: #2D3436;
             --text-sub: #636E72;
             --glass-bg: rgba(255, 255, 255, 0.65);
             --glass-border: rgba(255, 255, 255, 0.4);
-            --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
-            --shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.12);
+            /* 宗師級陰影：大範圍、極低透明度的空氣感 */
+            --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.04);
+            --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.08);
+            
+            /* 莫蘭迪色系 */
+            --color-do: #7FA071; /* 鼠尾草綠 */
+            --color-dont: #C07C7C; /* 乾燥玫瑰紅 */
         }
 
         /* 優雅的動態流動漸層背景 */
@@ -26,7 +31,7 @@
             animation: gradientBG 15s ease infinite;
             color: var(--text-main);
             margin: 0;
-            padding: 40px 20px;
+            padding: 50px 20px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -44,19 +49,19 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 35px;
         }
 
         /* 核心組件：毛玻璃懸浮卡片 */
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             box-shadow: var(--shadow-soft);
-            padding: 40px;
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+            padding: 45px;
+            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.5s ease;
         }
         .glass-card:hover {
             transform: translateY(-4px);
@@ -68,17 +73,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
+            padding: 15px 35px;
             border-radius: 50px;
         }
         .control-panel input {
             background: transparent;
             border: none;
             font-family: inherit;
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: var(--text-main);
             font-weight: 700;
             outline: none;
+            cursor: pointer;
         }
         .btn-refresh {
             cursor: pointer;
@@ -88,128 +94,159 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 1.05rem;
         }
-        .btn-refresh:hover { opacity: 0.6; }
+        .btn-refresh:hover { opacity: 0.5; }
 
         /* 日期與宜忌區塊 */
         .header-section { text-align: center; }
         .date-title {
             font-weight: 900;
-            font-size: 3rem;
+            font-size: 3.5rem;
             letter-spacing: 2px;
             margin: 0 0 10px 0;
+            color: var(--text-main);
         }
         .date-subtitle {
             font-size: 1.1rem;
             color: var(--text-sub);
             letter-spacing: 4px;
-            margin: 0 0 30px 0;
-            font-weight: 300;
+            margin: 0 0 35px 0;
+            font-weight: 400;
         }
         .do-dont-box {
             display: inline-flex;
-            gap: 30px;
-            background: rgba(255, 255, 255, 0.5);
-            padding: 15px 40px;
-            border-radius: 12px;
+            gap: 40px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 18px 50px;
+            border-radius: 16px;
             font-size: 1.2rem;
             font-weight: 700;
+            box-shadow: inset 0 2px 5px rgba(255,255,255,0.8), 0 4px 15px rgba(0,0,0,0.02);
         }
-        .do-dont-box .do { color: #27ae60; }
-        .do-dont-box .dont { color: #d63031; }
+        .do-dont-box .do { color: var(--color-do); }
+        .do-dont-box .dont { color: var(--color-dont); }
 
         /* 故事與金句區塊 */
-        .story-section { position: relative; }
+        .story-section { position: relative; text-align: center; padding-top: 50px; }
+        
+        /* 標籤置中、帶有呼吸感與毛玻璃 */
         .badge-style {
             position: absolute;
-            top: -15px;
-            left: 40px;
-            background: var(--text-main);
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(45, 52, 54, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
             color: #fff;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 3px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
+        
         .story-content {
             font-size: 1.15rem;
-            line-height: 1.8;
+            line-height: 1.9;
             font-weight: 400;
-            margin: 20px 0 30px 0;
+            color: var(--text-sub);
+            margin: 0 auto 35px auto;
             white-space: pre-line;
+            max-width: 90%;
         }
+
+        /* 賈伯斯指令：宋體金句與中文引號 */
         .quote-content {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.7rem;
+            font-weight: 900;
             line-height: 1.6;
-            border-left: 4px solid var(--text-main);
-            padding-left: 20px;
+            color: var(--text-main);
             margin: 0;
+            letter-spacing: 1px;
         }
 
         /* 創作者雙欄輸出區 */
         .creator-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            gap: 30px;
         }
         .output-box {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
-        .output-box h3 { margin: 0; font-size: 1.1rem; font-weight: 700; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; }
+        .output-box h3 { margin: 0; font-size: 1.1rem; font-weight: 700; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; color: var(--text-main); }
         
+        /* 賈伯斯指令：Lickable 玻璃按鈕 */
         .btn-action {
-            background: var(--text-main);
-            color: #ffffff;
-            border: none;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            color: var(--text-main);
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 16px;
             font-family: inherit;
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
         .btn-action:hover {
-            background: #000000;
+            background: rgba(255, 255, 255, 0.8);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
         textarea.code-box {
             width: 100%;
             flex-grow: 1;
-            min-height: 220px;
-            background: rgba(255, 255, 255, 0.4);
+            min-height: 240px;
+            background: rgba(255, 255, 255, 0.3);
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 25px;
             font-family: 'Noto Sans TC', monospace;
             font-size: 0.95rem;
-            line-height: 1.6;
+            line-height: 1.7;
             color: var(--text-sub);
             resize: none;
             outline: none;
             box-sizing: border-box;
+            transition: 0.3s;
+        }
+        textarea.code-box:focus {
+            background: rgba(255, 255, 255, 0.6);
+            border-color: rgba(255, 255, 255, 1);
         }
 
+        /* 原研哉指令：圖片專屬畫框與一致的圓角 */
         .preview-img {
             width: 100%;
             aspect-ratio: 9/16;
             object-fit: cover;
-            border-radius: 12px;
-            box-shadow: var(--shadow-soft);
-            background: rgba(255,255,255,0.2);
+            border-radius: 14px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            background-color: #ffffff;
+            padding: 10px; /* 留白畫框 */
+            box-sizing: border-box;
+            transition: transform 0.4s ease;
+        }
+        .preview-img:hover {
+            transform: scale(1.02);
         }
 
         @media (max-width: 768px) {
             .creator-grid { grid-template-columns: 1fr; }
-            .do-dont-box { flex-direction: column; gap: 10px; }
-            .date-title { font-size: 2.2rem; }
+            .do-dont-box { flex-direction: column; gap: 15px; padding: 20px 40px; }
+            .date-title { font-size: 2.5rem; }
+            .quote-content { font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -237,7 +274,8 @@
         <div class="glass-card story-section">
             <div class="badge-style" id="ui-style-badge">極致反差</div>
             <div class="story-content" id="ui-article">盯著這片佈滿水珠的蕨類，感覺心靈都被洗滌了。<br>就像我現在坐在辦公桌前，盯著滿滿的待辦清單，眼角滑落的社畜之淚一樣，晶瑩剔透。</div>
-            <h2 class="quote-content" id="ui-quote">"大家都說生活不只有詩和遠方。對，因為還有眼前的無薪加班。"</h2>
+            <!-- 宋體金句與中文引號 -->
+            <h2 class="quote-content" id="ui-quote">「大家都說生活不只有詩和遠方。對，因為還有眼前的無薪加班。」</h2>
         </div>
 
         <!-- 產出區 -->
@@ -247,7 +285,7 @@
                 <h3>🎨 視覺產出 (Visual Prompt)</h3>
                 <button class="btn-action" onclick="copyText('rawPrompt', 'btnMsgAI')" id="btnMsgAI">📸 複製大師級算圖指令</button>
                 <textarea id="rawPrompt" class="code-box" readonly></textarea>
-                <span style="font-size: 0.85rem; color: var(--text-sub); margin-top: 10px;">✨ AI 草圖預覽 (靈感參考，高純度請依賴上方 Prompt)：</span>
+                <span style="font-size: 0.85rem; color: var(--text-sub); margin-top: 5px; text-align: center;">✨ AI 草圖預覽 (請以 Prompt 交由專業工具算圖)</span>
                 <img id="ai-image-result" class="preview-img" src="" alt="AI Preview">
             </div>
 
@@ -264,7 +302,6 @@
         const quotesData = __QUOTES_JS__; 
         let payload = __PAYLOAD_JSON__;
         
-        // 🌟 階段三：視文連動引擎 (將 LLM 產出的情緒 Style，強制對齊神級光學參數)
         const visualMapping = {
             "極致反差": { 
                 genre: "Cinematic neo-noir macro photography", 
@@ -311,11 +348,9 @@
         }
 
         function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
-            // 處理日期格式 (將 - 換成 .)
             const displayDate = currentDate.replace(/-/g, '.');
             document.getElementById('display-date').innerText = displayDate;
 
-            // 處理農曆
             let lunarDisplay = "農曆查無資料";
             try {
                 const d = new Date(currentDate + "T00:00:00");
@@ -329,7 +364,6 @@
             
             document.getElementById('display-lunar').innerText = `${lunarDisplay} ｜ ${payload.star_sign}`;
 
-            // 抽取故事與情緒
             const selectedData = Array.isArray(quotesData) ? getRandomItem(quotesData) : quotesData;
             
             const style = selectedData.style || "微小幸運";
@@ -343,19 +377,18 @@
             document.getElementById('ui-do').innerText = doAction;
             document.getElementById('ui-dont').innerText = dontAction;
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
-            document.getElementById('ui-quote').innerText = `"${quoteText}"`;
+            
+            // 寫入中文標準引號
+            document.getElementById('ui-quote').innerText = `「${quoteText}」`;
 
-            // 🔥 視文連動：根據抽到的情緒 Style，精準抓取對應的視覺光學參數
             const visual = visualMapping[style] || visualMapping["微小幸運"];
             const fullPrompt = `${visual.genre} of ${visual.subject}. ${visual.modifier}, masterpiece, award-winning, photorealistic --ar 9:16 --v 6.0`;
             document.getElementById('rawPrompt').value = fullPrompt;
 
-            // 更新預覽圖 (傳送簡化版 prompt 給免費 API)
             const safeUrlPrompt = encodeURIComponent(`${visual.genre} of ${visual.subject}, highly detailed`);
             document.getElementById('ai-image-result').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
 
-            // 📱 Threads 專屬排版文案
-            const threadsText = `📅 ${displayDate}｜${lunarDisplay}｜${payload.star_sign}\n💡 今日指南：宜 ${doAction}｜忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n"${quoteText}"\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
+            const threadsText = `📅 ${displayDate}｜${lunarDisplay}｜${payload.star_sign}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
             document.getElementById('igCaption').value = threadsText;
         }
 
