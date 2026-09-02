@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Composite Engine Edition</title>
+    <title>TAIJI Omniverse Calendar - UX Master Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
+        /* 引入無印良品風黑體 (Sans) 與 傳統文學感宋體 (Serif) */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
         
         :root {
             --paper-bg: #FDFBF7;
@@ -38,7 +39,6 @@
         .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 10px 20px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .btn-tear:hover { background: #333; transform: translateY(-2px); }
 
-        /* 紙張本體 */
         .calendar-page {
             background-color: var(--paper-bg);
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
@@ -55,11 +55,20 @@
         .anim-tear { animation: tearOff 0.6s forwards cubic-bezier(0.55, 0.085, 0.68, 0.53); }
         .anim-appear { animation: fallIn 0.5s forwards ease-out; }
 
-        .date-hero { display: flex; align-items: baseline; gap: 20px; border-bottom: 2px solid var(--ink-black); padding-bottom: 15px; margin-bottom: 30px; }
-        .giant-day { font-size: 8rem; font-weight: 900; line-height: 0.75; letter-spacing: -4px; color: var(--ink-black); }
-        .date-meta { display: flex; flex-direction: column; gap: 5px; }
-        .meta-ym { font-size: 1.5rem; font-weight: 700; color: var(--ink-black); }
-        .meta-lunar { font-size: 0.95rem; color: var(--ink-gray); border-left: 2px solid var(--line-color); padding-left: 12px; line-height: 1.4; }
+        /* 聶永真重構：淨化日期區塊，改為橫向純淨排版 */
+        .date-hero { border-bottom: 1px solid var(--line-color); padding-bottom: 20px; margin-bottom: 25px; }
+        .giant-day { font-size: 7.5rem; font-weight: 900; line-height: 0.8; letter-spacing: -4px; color: var(--ink-black); margin-bottom: 15px; }
+        .date-meta-horizontal { font-size: 1.1rem; color: var(--ink-gray); font-weight: 500; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; letter-spacing: 1px; }
+        .date-meta-horizontal .separator { color: var(--line-color); font-weight: 300; }
+
+        /* 聶永真：今日宇宙寵兒 (幸運星與生肖) */
+        .lucky-module { margin-bottom: 35px; background: rgba(255,255,255,0.4); padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.03); }
+        .lucky-title { font-size: 0.85rem; font-weight: 700; color: var(--ink-gray); margin-bottom: 10px; letter-spacing: 1px; }
+        .lucky-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+        .lucky-tags:last-child { margin-bottom: 0; }
+        .tag-pill { padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .tag-pill.star { background: #FDF3E7; color: #D38C44; border: 1px solid rgba(211, 140, 68, 0.2); }
+        .tag-pill.zodiac { background: #EAF0EE; color: #5B8266; border: 1px solid rgba(91, 130, 102, 0.2); }
 
         .fortune-grid { display: flex; align-items: center; gap: 15px; margin-bottom: 35px; flex-wrap: wrap; }
         .badge-style { background: var(--ink-black); color: #fff; padding: 4px 12px; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; }
@@ -70,8 +79,10 @@
         .story-content { font-size: 1.15rem; line-height: 2; font-weight: 400; color: var(--ink-black); margin: 0 0 30px 0; text-align: justify; white-space: pre-line; }
         .quote-content { font-family: 'Noto Serif TC', serif; font-size: 1.6rem; font-weight: 900; line-height: 1.6; color: var(--ink-black); margin: 0 0 40px 0; padding-left: 20px; border-left: 4px solid var(--ink-black); }
 
-        .music-player { margin-bottom: 40px; border-top: 1px solid var(--line-color); padding-top: 20px; }
-        .music-title { font-size: 0.85rem; color: var(--ink-gray); margin-bottom: 10px; font-weight: 700; }
+        /* 賈伯斯重構：純按鈕式音樂播放器，告別黑畫面 */
+        .music-player { margin-bottom: 40px; border-top: 1px solid var(--line-color); padding-top: 25px; display: flex; justify-content: center; }
+        .btn-music { background: rgba(255,255,255,0.8); border: 1px solid var(--line-color); padding: 12px 28px; border-radius: 30px; font-size: 0.95rem; font-weight: 700; color: var(--ink-black); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.03); backdrop-filter: blur(10px); }
+        .btn-music:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); color: #000; border-color: rgba(0,0,0,0.2); }
 
         .creator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; border-top: 2px dashed var(--line-color); padding-top: 40px; }
         .output-box { background: #F4F6F8; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
@@ -82,35 +93,18 @@
         .btn-action.primary { background: var(--ink-black); color: #fff; }
         .btn-action.primary:hover { background: #333; }
 
-        textarea.code-box { width: 100%; flex-grow: 1; min-height: 250px; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: vertical; outline: none; box-sizing: border-box; }
+        textarea.code-box { width: 100%; flex-grow: 1; min-height: 200px; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: vertical; outline: none; box-sizing: border-box; }
 
-        /* 🔥 零一的 HTML 實時合成海報引擎 */
-        .html-poster {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 9/16;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            background-color: #E0E0E0;
-        }
+        /* HTML 實時合成海報引擎 */
+        .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); cursor: pointer; transition: transform 0.3s ease; background-color: #E0E0E0; }
         .html-poster:hover { transform: scale(1.02); }
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
         .html-poster:hover .poster-bg { filter: brightness(0.7) blur(2px); }
         
-        .poster-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2;
-            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%);
-            color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box;
-            pointer-events: none;
-        }
-        /* 海報上方大字 */
+        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
         .p-top { display: flex; align-items: baseline; gap: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .p-day { font-size: 5rem; font-weight: 900; line-height: 0.8; font-family: 'Noto Sans TC'; }
-        .p-meta { font-size: 0.95rem; line-height: 1.4; font-weight: 400; opacity: 0.9; border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
-        /* 海報下方金句與印章 */
+        .p-meta { font-size: 0.9rem; line-height: 1.4; font-weight: 400; opacity: 0.9; border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; display: flex; flex-direction: column; gap: 2px; }
         .p-bottom { display: flex; flex-direction: column; gap: 15px; }
         .p-fortune { display: flex; gap: 10px; }
         .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700; backdrop-filter: blur(4px); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
@@ -118,18 +112,10 @@
         .p-stamp.dont { background: rgba(192, 90, 80, 0.6); }
         .p-quote { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 900; line-height: 1.6; text-shadow: 0 2px 8px rgba(0,0,0,0.9); margin: 0; }
         
-        .upload-hint {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.7); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700;
-            z-index: 3; opacity: 0; transition: 0.3s; pointer-events: none; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
+        .upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; z-index: 3; opacity: 0; transition: 0.3s; pointer-events: none; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .html-poster:hover .upload-hint { opacity: 1; }
 
-        @media (max-width: 768px) {
-            .calendar-page { padding: 30px 20px; }
-            .giant-day { font-size: 6rem; }
-            .creator-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 768px) { .calendar-page { padding: 30px 20px; } .giant-day { font-size: 6rem; } .creator-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -145,12 +131,23 @@
         <!-- 紙張本體 -->
         <div class="calendar-page" id="calendar-paper">
             
+            <!-- 聶永真：淨化橫向日期區塊 -->
             <div class="date-hero">
                 <div class="giant-day" id="ui-day">02</div>
-                <div class="date-meta">
-                    <div class="meta-ym" id="ui-ym">2026.09</div>
-                    <div class="meta-lunar" id="ui-lunar-zodiac">農曆七月廿一<br>♉ 金牛座</div>
+                <div class="date-meta-horizontal">
+                    <span id="ui-ym">2026.09</span>
+                    <span class="separator">｜</span>
+                    <span id="ui-lunar">農曆七月廿一</span>
+                    <span class="separator">｜</span>
+                    <span id="ui-star-sign">♍ 處女座</span>
                 </div>
+            </div>
+
+            <!-- 聶永真：宇宙寵兒幸運標籤 -->
+            <div class="lucky-module">
+                <div class="lucky-title">✨ 今日宇宙寵兒</div>
+                <div class="lucky-tags" id="ui-lucky-stars"></div>
+                <div class="lucky-tags" id="ui-lucky-zodiacs"></div>
             </div>
 
             <div class="fortune-grid">
@@ -162,29 +159,27 @@
             <div class="story-content" id="ui-article">故事載入中...</div>
             <h2 class="quote-content" id="ui-quote">「金句載入中...」</h2>
 
+            <!-- 賈伯斯：高純度音樂按鈕 -->
             <div class="music-player">
-                <div class="music-title" id="ui-fortune-music">建議配樂：載入中...</div>
-                <div id="yt-player-container" style="border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);"></div>
-                <p style="font-size: 0.8rem; margin-top: 8px; text-align: right;"><a id="yt-fallback-link" href="#" target="_blank" style="color: var(--ink-gray); text-decoration: none;">🎧 備用聆聽連結</a></p>
+                <a id="ui-music-btn" href="#" target="_blank" class="btn-music">
+                    <span id="ui-music-text">🎵 播放今日專屬 Lo-Fi</span>
+                </a>
             </div>
 
             <div class="creator-grid">
-                <!-- 左側：視覺產出區 (移除爛排版海報指令，專注出大片) -->
                 <div class="output-box">
                     <h3>🎨 視覺產出 (Visual Prompt)</h3>
                     <button class="btn-action primary" onclick="copyText('purePrompt', 'btnPure')" id="btnPure">🖼️ 複製大師級算圖指令</button>
                     <textarea id="purePrompt" class="code-box" readonly title="複製這串去 Midjourney 產出極致美圖"></textarea>
                 </div>
 
-                <!-- 右側：貼文與實時合成海報 -->
                 <div class="output-box">
                     <h3>📱 脆 (Threads) 專屬排版</h3>
                     <button class="btn-action" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📝 複製 Threads 貼文</button>
                     <textarea id="igCaption" class="code-box" style="min-height: 120px; color: var(--ink-black); font-weight: 500;" readonly></textarea>
                     
-                    <!-- 零一特製：HTML 合成引擎 -->
                     <span style="font-size: 0.85rem; color: var(--ink-gray); text-align: center; margin-top: 15px; margin-bottom: 5px;">
-                        ✨ 點擊圖片上傳您的 Midjourney 作品，實時生成日曆海報
+                        ✨ 點擊圖片上傳底圖，實時生成日曆海報
                     </span>
                     <div class="html-poster" onclick="document.getElementById('bg-uploader').click()">
                         <img id="poster-bg-img" class="poster-bg" src="" alt="Background">
@@ -205,7 +200,6 @@
                             </div>
                         </div>
                         <div class="upload-hint">📸 點擊替換底圖</div>
-                        <!-- 隱藏的檔案上傳器 -->
                         <input type="file" id="bg-uploader" style="display:none;" accept="image/*" onchange="loadCustomBg(event)">
                     </div>
                 </div>
@@ -215,15 +209,14 @@
     </div>
 
     <script>
-        const quotesData = [{"style": "極致反差", "article": "晨光灑落辦公桌，咖啡香氣漫溢，打開電腦那一刻，主管的賴瞬間彈出，夢想直接碎滿地。", "q": "生活虐我千百遍，我拿生活當白癡。", "p": "不想上班想離職", "do": "準時登出", "dont": "點開群組"}, {"style": "滿血復活", "article": "本以為這個月又要吃土到見骨，一查帳戶竟然多出了一筆莫名的加班費，瞬間覺得人生充滿希望。", "q": "錢不是真的不見了，只是變成我喜歡的形狀活在戶頭裡。", "p": "存不到錢好焦慮", "do": "大口喝珍奶", "dont": "查存款餘額"}, {"style": "人間清醒", "article": "職場上沒有真正的朋友，只有永遠的利益。既然大家都在演，那我也只好拿一座金馬獎再來下班。", "q": "不努力看看，你永遠不知道自己絕望的極限在哪裡。", "p": "職場假面具", "do": "敷衍點頭", "dont": "掏心掏肺"}, {"style": "躺平無罪", "article": "房貸繳不起、頭期款沒著落，看著不斷飆升的物價，我決定先躺為敬，反正地板真的很舒服。", "q": "只要我夠廢，這個世界就沒有人能壓榨我。", "p": "躺平最舒服", "do": "原地躺平", "dont": "看房市新聞"}, {"style": "微小幸運", "article": "下班路上的晚霞美得像一幅畫，走到巷口竟然還買到最後一個最愛的芋泥麵包，今天我就是幸運兒。", "q": "小確幸不用多，夠撐過明天就好。", "p": "日常小美好", "do": "大吃麵包", "dont": "量體重"}]; 
-        let payload = {"date": "2026-09-02", "star_sign": "金牛座", "zodiac_sign": "羊"};
-
+        const quotesData = [{"style": "極致反差", "article": "看著陽光灑在辦公桌的植栽上，生機盎然。就像我滿滿的待辦事項，永遠長不完。", "q": "生活不只有詩和遠方，還有眼前的無薪加班。", "p": "社畜之淚", "do": "喝杯手搖", "dont": "看存摺"}, {"style": "躺平無罪", "article": "今天鬧鐘響了三次，我終於領悟了一個宇宙真理。", "q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學", "do": "準時下班", "dont": "自找麻煩"}]; 
+        
         const localFortunes = [
-            { music_text: "🎶 迷幻爵士 Jazz Hop - 適合沉澱焦慮", yt_id: "5qap5aO4i9A" },
-            { music_text: "🎶 輕快 Lofi Beats - 保持心情平靜", yt_id: "8XigHnczVOw" }, 
-            { music_text: "🎶 史詩氛圍 Epic Ambient - 迎接未知挑戰", yt_id: "ASj8VN0mdo4" },
-            { music_text: "🎶 原聲吉他 Acoustic Folk - 專注與純粹", yt_id: "CcsUYu0PVxY" },
-            { music_text: "🎶 靜謐時光 - 療癒心靈", yt_id: "lCOF9LN_Zxs" }
+            { music_text: "迷幻爵士 Jazz Hop - 適合沉澱焦慮", yt_id: "5qap5aO4i9A" },
+            { music_text: "輕快 Lofi Beats - 保持心情平靜", yt_id: "8XigHnczVOw" }, 
+            { music_text: "史詩氛圍 Epic Ambient - 迎接未知挑戰", yt_id: "ASj8VN0mdo4" },
+            { music_text: "原聲吉他 Acoustic Folk - 專注與純粹", yt_id: "CcsUYu0PVxY" },
+            { music_text: "靜謐時光 - 療癒心靈", yt_id: "lCOF9LN_Zxs" }
         ];
 
         const promptGenres = [
@@ -251,11 +244,37 @@
             "vibrant pastel colors, dreamy and ethereal atmosphere"
         ];
 
-        function getAstrologySignsByDate(dateStr) {
-            const d = new Date(dateStr + "T00:00:00");
-            const year = d.getFullYear(); const month = d.getMonth() + 1; const day = d.getDate();
-            const stars = ["水瓶座", "雙魚座", "牡羊座", "金牛座", "雙子座", "巨蟹座", "獅子座", "處女座", "天秤座", "天蠍座", "射手座", "摩羯座"];
-            return { star: stars[(year + month + day + 6) % 12] };
+        // 精確的西洋星座曆法
+        function getAstrologySign(month, day) {
+            if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "♈ 牡羊座";
+            if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "♉ 金牛座";
+            if ((month == 5 && day >= 21) || (month == 6 && day <= 21)) return "♊ 雙子座";
+            if ((month == 6 && day >= 22) || (month == 7 && day <= 22)) return "♋ 巨蟹座";
+            if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return "♌ 獅子座";
+            if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return "♍ 處女座";
+            if ((month == 9 && day >= 23) || (month == 10 && day <= 23)) return "♎ 天秤座";
+            if ((month == 10 && day >= 24) || (month == 11 && day <= 22)) return "♏ 天蠍座";
+            if ((month == 11 && day >= 23) || (month == 12 && day <= 21)) return "♐ 射手座";
+            if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) return "♑ 摩羯座";
+            if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "♒ 水瓶座";
+            return "♓ 雙魚座";
+        }
+
+        // 幸運標籤演算法 (根據日期作為種子產生穩定隨機)
+        function seededRandom(seed) {
+            let x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        }
+        function getLuckyItems(seed, array, count) {
+            let result = [];
+            let tempArray = [...array];
+            let currentSeed = seed;
+            for(let i=0; i<count; i++) {
+                let idx = Math.floor(seededRandom(currentSeed++) * tempArray.length);
+                result.push(tempArray[idx]);
+                tempArray.splice(idx, 1);
+            }
+            return result;
         }
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
@@ -268,14 +287,9 @@
         }
 
         function applyDateChange() {
-            const dateVal = document.getElementById('ui-date-picker').value;
-            if(!dateVal) return;
-            const luckySigns = getAstrologySignsByDate(dateVal);
-            payload.star_sign = luckySigns.star;
             triggerTearAnimation();
         }
 
-        // 用戶自定義上傳底圖
         function loadCustomBg(event) {
             const file = event.target.files[0];
             if (file) {
@@ -287,26 +301,44 @@
 
         function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
             const dObj = new Date(currentDate + "T00:00:00");
-            const dayStr = String(dObj.getDate()).padStart(2, '0');
-            const ymStr = `${dObj.getFullYear()}.${String(dObj.getMonth()+1).padStart(2, '0')}`;
+            const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
+            const dayStr = String(d).padStart(2, '0');
+            const ymStr = `${y}.${String(m).padStart(2, '0')}`;
+            const numericSeed = parseInt(`${y}${String(m).padStart(2, '0')}${dayStr}`);
+            
+            // 寫入精確星座
+            const exactStarSign = getAstrologySign(m, d);
             
             document.getElementById('ui-day').innerText = dayStr;
             document.getElementById('ui-ym').innerText = ymStr;
+            document.getElementById('ui-star-sign').innerText = exactStarSign;
+            
             document.getElementById('p-day').innerText = dayStr;
             document.getElementById('p-ym').innerText = ymStr;
 
             let lunarDisplay = "農曆查無資料";
+            let lunarPure = "農曆查無資料";
             try {
                 if (typeof Lunar !== 'undefined') {
                     const lunar = Lunar.fromDate(dObj);
-                    lunarDisplay = `農曆${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
+                    lunarPure = `農曆${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
+                    lunarDisplay = lunarPure;
                     const jieQi = lunar.getJieQi();
-                    if(jieQi) lunarDisplay += `<br>節氣：${jieQi}`;
+                    if(jieQi) lunarDisplay += ` ｜ 節氣：${jieQi}`;
                 }
             } catch (e) {}
             
-            document.getElementById('ui-lunar-zodiac').innerHTML = `${lunarDisplay}<br>✨ ${payload.star_sign}`;
-            document.getElementById('p-lunar').innerHTML = `${lunarDisplay}<br>${payload.star_sign}`;
+            document.getElementById('ui-lunar').innerText = lunarDisplay;
+            document.getElementById('p-lunar').innerText = lunarPure; // 海報顯示簡潔版
+
+            // 生成今日幸運星與生肖
+            const allStars = ["♈ 牡羊", "♉ 金牛", "♊ 雙子", "♋ 巨蟹", "♌ 獅子", "♍ 處女", "♎ 天秤", "♏ 天蠍", "♐ 射手", "♑ 摩羯", "♒ 水瓶", "♓ 雙魚"];
+            const allZodiacs = ["🐭 肖鼠", "🐮 肖牛", "🐯 肖虎", "🐰 肖兔", "🐲 肖龍", "🐍 肖蛇", "🐴 肖馬", "🐑 肖羊", "🐵 肖猴", "🐔 肖雞", "🐶 肖狗", "🐷 肖豬"];
+            const luckyStars = getLuckyItems(numericSeed, allStars, 3);
+            const luckyZodiacs = getLuckyItems(numericSeed + 999, allZodiacs, 3);
+            
+            document.getElementById('ui-lucky-stars').innerHTML = luckyStars.map(s => `<span class="tag-pill star">${s}</span>`).join('');
+            document.getElementById('ui-lucky-zodiacs').innerHTML = luckyZodiacs.map(z => `<span class="tag-pill zodiac">${z}</span>`).join('');
 
             const selectedData = Array.isArray(quotesData) ? getRandomItem(quotesData) : quotesData;
             const selectedFortune = getRandomItem(localFortunes);
@@ -328,25 +360,21 @@
             document.getElementById('ui-quote').innerText = `「${quoteText}」`;
             document.getElementById('p-quote').innerText = `「${quoteText}」`;
 
-            document.getElementById('ui-fortune-music').innerText = "建議配樂：" + selectedFortune.music_text;
-            const ytId = selectedFortune.yt_id;
-            document.getElementById('yt-player-container').innerHTML = `<iframe width="100%" height="80" src="https://www.youtube.com/embed/${ytId}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            document.getElementById('yt-fallback-link').href = `https://www.youtube.com/watch?v=${ytId}`;
+            // 乾淨的按鈕式音樂播放
+            document.getElementById('ui-music-text').innerText = "🎵 點擊播放・" + selectedFortune.music_text;
+            document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${selectedFortune.yt_id}`;
 
             const genre = getRandomItem(promptGenres);
             const subject = getRandomItem(promptSubjects);
             const modifier = getRandomItem(promptModifiers);
             
-            // 寫入純圖文字框 (捨棄排版指令)
             const purePrompt = `${genre} of ${subject}. ${modifier} --ar 9:16 --style raw --v 6.0`;
             document.getElementById('purePrompt').value = purePrompt;
             
-            // 更新網頁預覽底圖
             const safeUrlPrompt = encodeURIComponent(`${genre} of ${subject}, highly detailed`);
             document.getElementById('poster-bg-img').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
             
-            const lunarClean = lunarDisplay.replace('<br>', '｜');
-            const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarClean}｜${payload.star_sign}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
+            const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n✨ 宇宙寵兒：${luckyStars.join(' ')} ${luckyZodiacs.join(' ')}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
             document.getElementById('igCaption').value = threadsText;
         }
 
