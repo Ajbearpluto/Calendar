@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Balanced Universe Edition</title>
+    <title>TAIJI Omniverse Calendar - Editorial Poster Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -71,21 +71,30 @@
 
         textarea.code-box { width: 100%; flex-grow: 1; min-height: 120px; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: vertical; outline: none; box-sizing: border-box; }
 
+        /* 🔥 實時海報引擎 - 聶永真版面優化 */
         .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); cursor: pointer; transition: transform 0.3s ease; background-color: #E0E0E0; }
         .html-poster:hover { transform: scale(1.02); }
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
         .html-poster:hover .poster-bg { filter: brightness(0.7) blur(2px); }
         
-        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
+        /* 加深漸層確保白色文字清晰 */
+        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.9) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
+        
         .p-top { display: flex; align-items: baseline; gap: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .p-day { font-size: 5rem; font-weight: 900; line-height: 0.8; font-family: 'Noto Sans TC'; }
         .p-meta { font-size: 0.9rem; line-height: 1.4; font-weight: 400; opacity: 0.9; border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; display: flex; flex-direction: column; gap: 2px; }
-        .p-bottom { display: flex; flex-direction: column; gap: 15px; }
-        .p-fortune { display: flex; gap: 10px; }
+        
+        /* 底部圖文層次 */
+        .p-bottom { display: flex; flex-direction: column; gap: 10px; }
+        .p-fortune { display: flex; gap: 10px; margin-bottom: 5px; }
         .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700; backdrop-filter: blur(4px); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .p-stamp.do { background: rgba(91, 130, 102, 0.6); }
         .p-stamp.dont { background: rgba(192, 90, 80, 0.6); }
-        .p-quote { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 900; line-height: 1.6; text-shadow: 0 2px 8px rgba(0,0,0,0.9); margin: 0; }
+        
+        /* 新增的引言小故事 */
+        .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.9; margin: 0 0 5px 0; text-shadow: 0 2px 6px rgba(0,0,0,0.8); }
+        /* 強調的宋體大金句 */
+        .p-quote { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 900; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin: 0; border-left: 3px solid #fff; padding-left: 12px; }
         
         .upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; z-index: 3; opacity: 0; transition: 0.3s; pointer-events: none; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .html-poster:hover .upload-hint { opacity: 1; }
@@ -151,7 +160,7 @@
                         ✨ 點擊圖片上傳底圖，實時生成日曆海報
                     </span>
                     <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
-                        <img id="poster-bg-img" class="poster-bg" src="" alt="Background" crossorigin="anonymous">
+                        <img id="poster-bg-img" class="poster-bg" src="" alt="Background">
                         <div class="poster-overlay">
                             <div class="p-top">
                                 <div class="p-day" id="p-day">02</div>
@@ -165,6 +174,8 @@
                                     <span class="p-stamp do">宜 <span id="p-do">摸魚</span></span>
                                     <span class="p-stamp dont">忌 <span id="p-dont">群組</span></span>
                                 </div>
+                                <!-- 🔥 零一決議：加入引言小故事區塊，創造字體對比張力 -->
+                                <p class="p-article" id="p-article">故事載入中...</p>
                                 <p class="p-quote" id="p-quote">「生活不只有詩和遠方，還有眼前的無薪加班。」</p>
                             </div>
                         </div>
@@ -214,49 +225,12 @@
             { track: "The Scientist", artist: "Coldplay", yt_id: "RB-RcX5DS5A" }
         ];
 
-        // 🔥 零一決議：前田約翰的「五大分類絕對平衡」演算法
-        // 將指令徹底分類，確保抽籤的母群體永遠是 20%
         const promptCategories = {
-            landscapes: {
-                weight: 1, // 權重
-                subjects: [
-                    "a breathtaking panoramic view of a lush green valley and a pristine alpine lake",
-                    "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds",
-                    "a quiet misty morning in a dense bamboo forest with soft light rays"
-                ]
-            },
-            macro: {
-                weight: 1,
-                subjects: [
-                    "an extreme close-up of crystal clear morning dew resting on a vibrant green fern leaf",
-                    "macro photography of a delicate dandelion bathed in warm golden hour sunlight",
-                    "close-up of intricate frost patterns on a glass window reflecting morning light"
-                ]
-            },
-            people: {
-                weight: 1,
-                subjects: [
-                    "a young Asian woman peacefully drinking coffee and reading a book by a sunlit window",
-                    "a smiling barista gracefully crafting latte art in a bright bustling morning cafe",
-                    "a person in a cozy sweater writing in a journal at a sun-drenched wooden dining table"
-                ]
-            },
-            animals: {
-                weight: 1,
-                subjects: [
-                    "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
-                    "a cheerful golden retriever resting happily on a sun-drenched wooden porch",
-                    "a small bird perched perfectly on a blooming cherry blossom branch"
-                ]
-            },
-            objects: {
-                weight: 1,
-                subjects: [
-                    "a vintage glass siphon coffee maker actively brewing coffee with rich steam rising",
-                    "a beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs",
-                    "a sleek minimalist concrete staircase with dramatic geometric light and shadow"
-                ]
-            }
+            landscapes: { weight: 1, subjects: ["a breathtaking panoramic view of a lush green valley and a pristine alpine lake", "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds", "a quiet misty morning in a dense bamboo forest with soft light rays"] },
+            macro: { weight: 1, subjects: ["an extreme close-up of crystal clear morning dew resting on a vibrant green fern leaf", "macro photography of a delicate dandelion bathed in warm golden hour sunlight", "close-up of intricate frost patterns on a glass window reflecting morning light"] },
+            people: { weight: 1, subjects: ["a young Asian woman peacefully drinking coffee and reading a book by a sunlit window", "a smiling barista gracefully crafting latte art in a bright bustling morning cafe", "a person in a cozy sweater writing in a journal at a sun-drenched wooden dining table"] },
+            animals: { weight: 1, subjects: ["a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight", "a cheerful golden retriever resting happily on a sun-drenched wooden porch", "a small bird perched perfectly on a blooming cherry blossom branch"] },
+            objects: { weight: 1, subjects: ["a vintage glass siphon coffee maker actively brewing coffee with rich steam rising", "a beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs", "a sleek minimalist concrete staircase with dramatic geometric light and shadow"] }
         };
 
         const promptModifiers = [
@@ -343,12 +317,10 @@
             const dayStr = String(d).padStart(2, '0');
             const ymStr = `${y}.${String(m).padStart(2, '0')}`;
             const numericSeed = parseInt(`${y}${String(m).padStart(2, '0')}${dayStr}`);
-            
             const exactStarSign = getAstrologySign(m, d);
             
             document.getElementById('ui-day').innerText = dayStr; document.getElementById('ui-ym').innerText = ymStr;
             document.getElementById('ui-star-sign').innerText = exactStarSign;
-            
             document.getElementById('p-day').innerText = dayStr; document.getElementById('p-ym').innerText = ymStr;
 
             let lunarDisplay = "農曆查無資料"; let lunarPure = "農曆查無資料";
@@ -395,22 +367,22 @@
             document.getElementById('p-do').innerText = doAction; document.getElementById('p-dont').innerText = dontAction;
             
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
-            document.getElementById('ui-quote').innerText = `「${quoteText}」`; document.getElementById('p-quote').innerText = `「${quoteText}」`;
+            document.getElementById('ui-quote').innerText = `「${quoteText}」`; 
+            
+            // 🔥 同步將小故事寫入海報之中，支援多行換行
+            document.getElementById('p-article').innerHTML = articleText.replace(/\n/g, '<br>');
+            document.getElementById('p-quote').innerText = `「${quoteText}」`;
 
             const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
             document.getElementById('ui-music-text').innerText = "IG 配樂建議：" + fullSongInfo;
             document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${igMusic.yt_id}`;
 
-            // 🔥 零一：兩段式絕對公平抽籤 (Category -> Subject)
             const categoriesKeys = Object.keys(promptCategories);
             const selectedCategoryKey = getRandomItem(categoriesKeys);
             const selectedCategoryGroup = promptCategories[selectedCategoryKey];
             
-            // 由於前置風格通常綁定在主題內，這裡簡化為直接套用主體
             const subject = getRandomItem(selectedCategoryGroup.subjects);
             const modifier = getRandomItem(promptModifiers);
-            
-            // 加入通用基礎攝影修飾 (可自定) 以確保高質感
             const baseStyle = "A highly detailed, award-winning photography of";
             
             const purePrompt = `${baseStyle} ${subject}. ${modifier} --ar 9:16 --style raw --v 6.0`;
