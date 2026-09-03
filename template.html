@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Ultimate Masterpiece</title>
+    <title>TAIJI Omniverse Calendar - Absolute Perfection Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -19,10 +19,21 @@
             --env-bg: #EAEAE4;
         }
 
+        /* 原研哉：極簡卷軸覆蓋 */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
+
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 40px 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
         .container { max-width: 800px; width: 100%; display: flex; flex-direction: column; gap: 20px; }
         .control-panel { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
-        .control-panel input { background: transparent; border: 1px solid var(--line-color); padding: 8px 15px; border-radius: 8px; font-family: inherit; font-size: 1rem; color: var(--ink-gray); font-weight: 700; outline: none; cursor: pointer; }
+        
+        /* 隱藏原生醜陋的日曆 Icon */
+        .control-panel input { background: transparent; border: 1px solid var(--line-color); padding: 8px 15px; border-radius: 8px; font-family: inherit; font-size: 1rem; color: var(--ink-gray); font-weight: 700; outline: none; cursor: pointer; transition: 0.3s; }
+        .control-panel input:hover { border-color: var(--ink-gray); }
+        .control-panel input::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
+
         .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 10px 20px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .btn-tear:hover { background: #333; transform: translateY(-2px); }
 
@@ -53,9 +64,6 @@
         .stamp.do { border-color: var(--stamp-green); color: var(--stamp-green); transform: rotate(-2deg); }
         .stamp.dont { border-color: var(--stamp-red); color: var(--stamp-red); transform: rotate(1deg); }
 
-        .story-content { font-size: 1.15rem; line-height: 2; font-weight: 400; color: var(--ink-black); margin: 0 0 30px 0; text-align: justify; white-space: pre-line; }
-        .quote-content { font-family: 'Noto Serif TC', serif; font-size: 1.6rem; font-weight: 900; line-height: 1.6; color: var(--ink-black); margin: 0 0 40px 0; padding-left: 20px; border-left: 4px solid var(--ink-black); }
-
         .music-player { margin-bottom: 40px; border-top: 1px solid var(--line-color); padding-top: 25px; display: flex; justify-content: center; }
         .btn-music { background: rgba(255,255,255,0.8); border: 1px solid var(--line-color); padding: 12px 28px; border-radius: 30px; font-size: 0.95rem; font-weight: 700; color: var(--ink-black); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.03); backdrop-filter: blur(10px); }
         .btn-music:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); color: #000; border-color: rgba(0,0,0,0.2); }
@@ -69,31 +77,16 @@
         .btn-action.primary { background: var(--ink-black); color: #fff; }
         .btn-action.primary:hover { background: #333; }
 
-        /* 迪特·拉姆斯：優化文字框高度，確保海報預覽第一眼可見 */
         textarea.code-box { width: 100%; flex-grow: 1; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: none; outline: none; box-sizing: border-box; }
         #purePrompt { min-height: 100px; }
         #igCaption { height: 100px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.05); padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.5); }
 
-        /* 原研哉：藝廊級海報畫框 */
-        .poster-wrapper {
-            position: relative;
-            width: 100%;
-            border-radius: 16px;
-            padding: 4px; /* 留出白邊畫框 */
-            background: #ffffff;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .poster-wrapper:hover {
-            transform: scale(1.02);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-        }
-
+        .poster-wrapper { position: relative; width: 100%; border-radius: 16px; padding: 4px; background: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .poster-wrapper:hover { transform: scale(1.02); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
         .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; cursor: pointer; background-color: #E0E0E0; }
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
         .poster-wrapper:hover .poster-bg { filter: brightness(0.7) blur(2px); }
         
-        /* 聶永真：加高、加深黑色漸層，完美防禦亮色底圖 */
         .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.95) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
         .p-top { display: flex; align-items: baseline; gap: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .p-day { font-size: 5rem; font-weight: 900; line-height: 0.8; font-family: 'Noto Sans TC'; }
@@ -103,8 +96,6 @@
         .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700; backdrop-filter: blur(4px); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .p-stamp.do { background: rgba(91, 130, 102, 0.6); }
         .p-stamp.dont { background: rgba(192, 90, 80, 0.6); }
-        
-        /* 聶永真：字數防禦機制 (Line-clamp) */
         .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.9; margin: 0; text-shadow: 0 2px 6px rgba(0,0,0,0.8); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         .p-quote { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 900; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin: 0; border-left: 3px solid #fff; padding-left: 12px; }
         
@@ -147,9 +138,6 @@
                 <span class="stamp dont">忌 <span id="ui-dont">群組</span></span>
             </div>
 
-            <div class="story-content" id="ui-article">故事載入中...</div>
-            <h2 class="quote-content" id="ui-quote">「金句載入中...」</h2>
-
             <div class="music-player">
                 <a id="ui-music-btn" href="#" target="_blank" class="btn-music">
                     <span id="ui-music-text">🎵 播放今日專屬 Lo-Fi</span>
@@ -160,7 +148,7 @@
                 <div class="output-box">
                     <h3>🎨 視覺產出 (Visual Prompt)</h3>
                     <button class="btn-action primary" onclick="copyText('purePrompt', 'btnPure')" id="btnPure">🖼️ 複製大師級算圖指令</button>
-                    <textarea id="purePrompt" class="code-box" readonly title="複製這串去 Midjourney 產出極致美圖"></textarea>
+                    <textarea id="purePrompt" class="code-box" readonly></textarea>
                 </div>
 
                 <div class="output-box">
@@ -172,7 +160,6 @@
                         ✨ 點擊圖片上傳底圖，實時生成日曆海報
                     </span>
                     
-                    <!-- 藝廊畫框外層 -->
                     <div class="poster-wrapper">
                         <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
                             <img id="poster-bg-img" class="poster-bg" src="" alt="Background" crossorigin="anonymous">
@@ -199,14 +186,12 @@
                     </div>
                     
                     <div style="margin-top: 10px;">
-                        <!-- IG 社群行動呼籲 -->
                         <button class="btn-action primary" onclick="downloadPoster()" id="btnDownload" style="background-color: #E1306C; border-color: #E1306C;">
                             📸 下載 IG 限動海報
                         </button>
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 
@@ -219,16 +204,10 @@
             { style: "躺平無罪", article: "買了一堆精緻的效率手帳和無印良品的筆，結果最常用的功能是拿來墊泡麵。", q: "只要我不求長進，就沒人能用責任綁架我。", p: "效率假象", do: "吃泡麵", dont: "寫計畫" },
             { style: "極致反差", article: "精挑細選買了昂貴的單品咖啡豆，用最講究的手沖壺慢慢萃取。", q: "喝下去的第一口，才想起今天還要見那個難搞的客戶，滿嘴只剩苦澀。", p: "社畜品味", do: "嘆氣", dont: "查餘額" },
             { style: "極致反差", article: "窗外的夕陽把城市染成一片絕美的金黃，彷彿所有的煩惱都會隨風而逝。", q: "但我知道，明天的早八會議依然會準時要我的命。", p: "社畜之淚", do: "拍夕陽", dont: "看群組" },
-            { style: "極致反差", article: "看著體重計上的數字，我下定決心今晚只吃燙青菜和雞胸肉。", q: "然後在晚上十一點，準時打開了外送APP的炸雞鹽酥雞分類。", p: "減肥日常", do: "加辣", dont: "看熱量" },
             { style: "人間清醒", article: "看到前任發了結婚的限動，內心毫無波瀾，甚至有點想吃巷口的鹽酥雞。", q: "愛恨情仇都是假的，只有肚子餓是真的。", p: "單身萬歲", do: "點大份", dont: "懷念" },
             { style: "人間清醒", article: "以前總覺得要討好所有人，現在發現連討好自己都很吃力了。", q: "放過別人，就是放過自己的髮際線。", p: "職場生存", do: "已讀不回", dont: "走心" },
-            { style: "人間清醒", article: "打開社群軟體，看著大家在歐洲度假、吃米其林、買名牌包。", q: "我不羨慕，因為我也正在體驗『極簡風』的窮困生活。", p: "比較心態", do: "喝白水", dont: "滑 IG" },
-            { style: "滿血復活", article: "連續加班三天，感覺靈魂都要被抽乾了。下班路上突然吹來一陣涼爽的晚風。", q: "只要還能感受到風，這場仗我就還沒輸。", p: "深夜感悟", do: "深呼吸", dont: "認輸" },
             { style: "滿血復活", article: "企劃案被老闆退了第五次，看著滿江紅的修改建議，我深吸了一口氣。", q: "打不倒我的，只會讓我產出更無懈可擊的簡報。", p: "鋼鐵意志", do: "喝黑咖啡", dont: "抱怨" },
-            { style: "滿血復活", article: "不小心把熱咖啡打翻在白襯衫上，今天簡直糟透了。", q: "轉念一想，這不就是今年最流行的『拿鐵漸層風』嗎？", p: "樂觀精神", do: "自拍", dont: "崩潰" },
-            { style: "微小幸運", article: "今天走進超商，剛好拿到架上最後一個打折的鮪魚御飯糰。", q: "宇宙沒有忘記我，它只是用比較便宜的方式愛我。", p: "日常碎片", do: "慢慢吃", dont: "挑剔" },
-            { style: "微小幸運", article: "走在下過雨的巷弄裡，一隻圓滾滾的橘貓主動走過來蹭了蹭我的褲管。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
-            { style: "微小幸運", article: "戴上耳機，播放清單剛好隨機跳到了我最喜歡的那首老歌。", q: "那一瞬間，整個捷運車廂都變成了我的專屬電影場景。", p: "BGM切換", do: "閉上眼", dont: "快轉" }
+            { style: "微小幸運", article: "走在下過雨的巷弄裡，一隻圓滾滾的橘貓主動走過來蹭了蹭我的褲管。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" }
         ];
         
         const igMusicLibrary = [
@@ -237,24 +216,54 @@
             { track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" },
             { track: "A Sky Full of Stars", artist: "Coldplay", yt_id: "VPRjCeoBqrI" },
             { track: "Ditto", artist: "NewJeans", yt_id: "pSUydWEqKwE" },
-            { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" },
-            { track: "The Scientist", artist: "Coldplay", yt_id: "RB-RcX5DS5A" }
+            { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }
         ];
 
+        // 🔥 前田約翰：動態解耦的指令庫 (Base Style 綁定 Category)
         const promptCategories = {
-            landscapes: { weight: 1, subjects: ["a breathtaking panoramic view of a lush green valley and a pristine alpine lake", "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds", "a quiet misty morning in a dense bamboo forest with soft light rays"] },
-            macro: { weight: 1, subjects: ["an extreme close-up of crystal clear morning dew resting on a vibrant green fern leaf", "macro photography of a delicate dandelion bathed in warm golden hour sunlight", "close-up of intricate frost patterns on a glass window reflecting morning light"] },
-            people: { weight: 1, subjects: ["a young Asian woman peacefully drinking coffee and reading a book by a sunlit window", "a smiling barista gracefully crafting latte art in a bright bustling morning cafe", "a person in a cozy sweater writing in a journal at a sun-drenched wooden dining table"] },
-            animals: { weight: 1, subjects: ["a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight", "a cheerful golden retriever resting happily on a sun-drenched wooden porch", "a small bird perched perfectly on a blooming cherry blossom branch"] },
-            objects: { weight: 1, subjects: ["a vintage glass siphon coffee maker actively brewing coffee with rich steam rising", "a beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs", "a sleek minimalist concrete staircase with dramatic geometric light and shadow"] }
+            photography: {
+                weight: 1,
+                base: "A highly detailed, award-winning photography of",
+                subjects: [
+                    "a young Asian woman peacefully drinking coffee and reading a book by a sunlit window",
+                    "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
+                    "a vintage glass siphon coffee maker actively brewing coffee with rich steam rising"
+                ]
+            },
+            macro: {
+                weight: 1,
+                base: "An extreme close-up macro photography of",
+                subjects: [
+                    "crystal clear morning dew resting on a vibrant green fern leaf",
+                    "delicate dandelion seeds bathed in warm golden hour sunlight",
+                    "intricate frost patterns on a glass window reflecting morning light"
+                ]
+            },
+            anime: {
+                weight: 1,
+                base: "A beautiful Studio Ghibli anime style illustration of",
+                subjects: [
+                    "a cozy cluttered bedroom with a cat sleeping on a desk in the afternoon sun",
+                    "a peaceful train ride through a lush green countryside overlooking the ocean",
+                    "a magical bakery in a fantasy town with fresh bread steaming in the window"
+                ]
+            },
+            landscape: {
+                weight: 1,
+                base: "An epic National Geographic landscape photography of",
+                subjects: [
+                    "a breathtaking panoramic view of a lush green valley and a pristine alpine lake",
+                    "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds",
+                    "a quiet misty morning in a dense bamboo forest with soft light rays"
+                ]
+            }
         };
 
         const promptModifiers = [
-            "bathed in bright morning sunlight, warm and cheerful atmosphere, soft shadows, 8k, photorealistic",
-            "shot on 35mm lens, Fujifilm Superia 400 simulation, bright and airy, natural daylight, masterpiece",
-            "soft pastel color palette, gentle golden hour sunlight streaming through windows, cozy and uplifting mood",
-            "vibrant natural colors, crystal clear focus, high definition, deeply emotional and serene",
-            "sun-drenched, glowing light leaks, pure and peaceful vibe, highly detailed, photorealistic"
+            "warm and cheerful atmosphere, soft shadows, 8k, photorealistic",
+            "bright and airy, natural daylight, masterpiece",
+            "soft pastel color palette, gentle golden hour sunlight, cozy and uplifting mood",
+            "vibrant natural colors, crystal clear focus, high definition, deeply emotional and serene"
         ];
 
         function getAstrologySign(month, day) {
@@ -284,10 +293,18 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
+        // 🔥 深澤直人：撕頁後，日期自動前進一天！
         function triggerTearAnimation() {
             const paper = document.getElementById('calendar-paper');
             paper.classList.remove('anim-appear');
             paper.classList.add('anim-tear');
+            
+            // 物理推進時間
+            const dateInput = document.getElementById('ui-date-picker');
+            let currentDate = new Date(dateInput.value);
+            currentDate.setDate(currentDate.getDate() + 1);
+            dateInput.value = currentDate.toISOString().split('T')[0];
+
             setTimeout(() => { randomizeAll(); paper.classList.remove('anim-tear'); paper.classList.add('anim-appear'); }, 500); 
         }
 
@@ -303,7 +320,6 @@
         }
 
         function downloadPoster() {
-            // 下載時，針對包裹海報的外框 (poster-wrapper) 進行截圖，確保白邊畫框也被保留
             const posterWrapper = document.querySelector('.poster-wrapper');
             const btn = document.getElementById('btnDownload');
             const originalText = btn.innerHTML;
@@ -385,7 +401,6 @@
             
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('ui-quote').innerText = `「${quoteText}」`; 
-            
             document.getElementById('p-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('p-quote').innerText = `「${quoteText}」`;
 
@@ -393,18 +408,19 @@
             document.getElementById('ui-music-text').innerText = "IG 配樂建議：" + fullSongInfo;
             document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${igMusic.yt_id}`;
 
+            // 動態指令生成 (Base Style 解耦)
             const categoriesKeys = Object.keys(promptCategories);
             const selectedCategoryKey = getRandomItem(categoriesKeys);
             const selectedCategoryGroup = promptCategories[selectedCategoryKey];
             
-            const subject = getRandomItem(selectedCategoryGroup.subjects);
-            const modifier = getRandomItem(promptModifiers);
-            const baseStyle = "A highly detailed, award-winning photography of";
+            const baseStr = selectedCategoryGroup.base;
+            const subjectStr = getRandomItem(selectedCategoryGroup.subjects);
+            const modifierStr = getRandomItem(promptModifiers);
             
-            const purePrompt = `${baseStyle} ${subject}. ${modifier} --ar 9:16 --style raw --v 6.0`;
+            const purePrompt = `${baseStr} ${subjectStr}. ${modifierStr} --ar 9:16 --style raw --v 6.0`;
             document.getElementById('purePrompt').value = purePrompt;
             
-            const safeUrlPrompt = encodeURIComponent(`${subject}, highly detailed`);
+            const safeUrlPrompt = encodeURIComponent(`${subjectStr}, highly detailed`);
             document.getElementById('poster-bg-img').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
             
             const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n✨ 宇宙寵兒：${luckyStars.join(' ')} ${luckyZodiacs.join(' ')}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
@@ -412,6 +428,11 @@
         }
 
         window.onload = function() { 
+            // 系統初始化，確保日期抓取正確
+            if(document.getElementById('ui-date-picker').value === "__PAYLOAD_DATE__" || !document.getElementById('ui-date-picker').value) {
+                const today = new Date();
+                document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
+            }
             setTimeout(() => { 
                 randomizeAll(); 
                 document.getElementById('calendar-paper').classList.add('anim-appear'); 
