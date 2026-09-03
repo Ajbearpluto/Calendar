@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Infinite Stories Edition</title>
+    <title>TAIJI Omniverse Calendar - Balanced Universe Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -184,12 +184,8 @@
     </div>
 
     <script>
-        // 來自 Python 大腦的今日資料 (僅有 5 筆)
-        const dailyQuotesData = [{"style": "極致反差", "article": "看著陽光灑在辦公桌的植栽上，生機盎然。就像我滿滿的待辦事項，永遠長不完。", "q": "生活不只有詩和遠方，還有眼前的無薪加班。", "p": "社畜之淚", "do": "喝杯手搖", "dont": "看存摺"}, {"style": "躺平無罪", "article": "今天鬧鐘響了三次，我終於領悟了一個宇宙真理。", "q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學", "do": "準時下班", "dont": "自找麻煩"}]; 
-        let payload = {"date": "2026-09-03", "star_sign": "雙子座", "zodiac_sign": "猴"};
+        const quotesData = [{"style": "極致反差", "article": "看著陽光灑在辦公桌的植栽上，生機盎然。就像我滿滿的待辦事項，永遠長不完。", "q": "生活不只有詩和遠方，還有眼前的無薪加班。", "p": "社畜之淚", "do": "喝杯手搖", "dont": "看存摺"}, {"style": "躺平無罪", "article": "今天鬧鐘響了三次，我終於領悟了一個宇宙真理。", "q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學", "do": "準時下班", "dont": "自找麻煩"}]; 
         
-        // 🔥 零一特製：無限靈感擴充包 (Expansion Pack)
-        // 確保按 F5 刷新時有數十種無盡的變化
         const localExpansionQuotes = [
             { style: "躺平無罪", article: "看著同事們在群組裡熱烈討論下半年的 KPI，我默默把手機螢幕蓋上，翻了個身。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
             { style: "躺平無罪", article: "原本計畫週末要大掃除、看書、去健身房。結果兩天都在沙發上滑短影音。", q: "計畫是用來打破的，沙發是用來生根的。", p: "週末日常", do: "廢物躺", dont: "看行事曆" },
@@ -208,7 +204,6 @@
             { style: "微小幸運", article: "戴上耳機，播放清單剛好隨機跳到了我最喜歡的那首老歌。", q: "那一瞬間，整個捷運車廂都變成了我的專屬電影場景。", p: "BGM切換", do: "閉上眼", dont: "快轉" }
         ];
         
-        // IG 音樂庫熱門單曲資料庫
         const igMusicLibrary = [
             { track: "Merry-Go-Round of Life", artist: "Joe Hisaishi", yt_id: "HMGetv40FQU" },
             { track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" },
@@ -219,26 +214,51 @@
             { track: "The Scientist", artist: "Coldplay", yt_id: "RB-RcX5DS5A" }
         ];
 
-        // 溫暖陽光指令庫
-        const promptGenres = [
-            "Japanese slice-of-life photography", "Bright and airy lifestyle editorial",
-            "National Geographic award winning photography", "Vibrant macro nature photography",
-            "Candid street photography", "Cozy minimalist interior photography", "Epic landscape photography"
-        ];
-        
-        const promptSubjects = [
-            "a young Asian woman peacefully drinking coffee and reading a book by a sunlit window",
-            "a smiling barista gracefully crafting latte art in a bright bustling morning cafe",
-            "a person in a cozy sweater writing in a journal at a sun-drenched wooden dining table",
-            "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
-            "a cheerful golden retriever resting happily on a sun-drenched wooden porch",
-            "a small bird perched perfectly on a blooming cherry blossom branch",
-            "an extreme close-up of crystal clear morning dew resting on a vibrant green fern leaf",
-            "a breathtaking panoramic view of a lush green valley and a pristine alpine lake",
-            "a beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs",
-            "a vintage glass siphon coffee maker actively brewing coffee with rich steam rising"
-        ];
-        
+        // 🔥 零一決議：前田約翰的「五大分類絕對平衡」演算法
+        // 將指令徹底分類，確保抽籤的母群體永遠是 20%
+        const promptCategories = {
+            landscapes: {
+                weight: 1, // 權重
+                subjects: [
+                    "a breathtaking panoramic view of a lush green valley and a pristine alpine lake",
+                    "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds",
+                    "a quiet misty morning in a dense bamboo forest with soft light rays"
+                ]
+            },
+            macro: {
+                weight: 1,
+                subjects: [
+                    "an extreme close-up of crystal clear morning dew resting on a vibrant green fern leaf",
+                    "macro photography of a delicate dandelion bathed in warm golden hour sunlight",
+                    "close-up of intricate frost patterns on a glass window reflecting morning light"
+                ]
+            },
+            people: {
+                weight: 1,
+                subjects: [
+                    "a young Asian woman peacefully drinking coffee and reading a book by a sunlit window",
+                    "a smiling barista gracefully crafting latte art in a bright bustling morning cafe",
+                    "a person in a cozy sweater writing in a journal at a sun-drenched wooden dining table"
+                ]
+            },
+            animals: {
+                weight: 1,
+                subjects: [
+                    "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
+                    "a cheerful golden retriever resting happily on a sun-drenched wooden porch",
+                    "a small bird perched perfectly on a blooming cherry blossom branch"
+                ]
+            },
+            objects: {
+                weight: 1,
+                subjects: [
+                    "a vintage glass siphon coffee maker actively brewing coffee with rich steam rising",
+                    "a beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs",
+                    "a sleek minimalist concrete staircase with dramatic geometric light and shadow"
+                ]
+            }
+        };
+
         const promptModifiers = [
             "bathed in bright morning sunlight, warm and cheerful atmosphere, soft shadows, 8k, photorealistic",
             "shot on 35mm lens, Fujifilm Superia 400 simulation, bright and airy, natural daylight, masterpiece",
@@ -353,12 +373,11 @@
             document.getElementById('ui-lucky-stars').innerHTML = luckyStars.map(s => `<span class="tag-pill star">${s}</span>`).join('');
             document.getElementById('ui-lucky-zodiacs').innerHTML = luckyZodiacs.map(z => `<span class="tag-pill zodiac">${z}</span>`).join('');
 
-            // 🔥 零一擴充：將 AI 每日抓取的資料庫與內建擴充庫結合，確保無盡變化！
             let allAvailableQuotes = [...localExpansionQuotes];
-            if (Array.isArray(dailyQuotesData)) {
-                allAvailableQuotes = allAvailableQuotes.concat(dailyQuotesData);
-            } else if (dailyQuotesData && dailyQuotesData.style) {
-                allAvailableQuotes.push(dailyQuotesData);
+            if (Array.isArray(quotesData)) {
+                allAvailableQuotes = allAvailableQuotes.concat(quotesData);
+            } else if (quotesData && quotesData.style) {
+                allAvailableQuotes.push(quotesData);
             }
             
             const selectedData = getRandomItem(allAvailableQuotes);
@@ -382,14 +401,22 @@
             document.getElementById('ui-music-text').innerText = "IG 配樂建議：" + fullSongInfo;
             document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${igMusic.yt_id}`;
 
-            const genre = getRandomItem(promptGenres);
-            const subject = getRandomItem(promptSubjects);
+            // 🔥 零一：兩段式絕對公平抽籤 (Category -> Subject)
+            const categoriesKeys = Object.keys(promptCategories);
+            const selectedCategoryKey = getRandomItem(categoriesKeys);
+            const selectedCategoryGroup = promptCategories[selectedCategoryKey];
+            
+            // 由於前置風格通常綁定在主題內，這裡簡化為直接套用主體
+            const subject = getRandomItem(selectedCategoryGroup.subjects);
             const modifier = getRandomItem(promptModifiers);
             
-            const purePrompt = `${genre} of ${subject}. ${modifier} --ar 9:16 --style raw --v 6.0`;
+            // 加入通用基礎攝影修飾 (可自定) 以確保高質感
+            const baseStyle = "A highly detailed, award-winning photography of";
+            
+            const purePrompt = `${baseStyle} ${subject}. ${modifier} --ar 9:16 --style raw --v 6.0`;
             document.getElementById('purePrompt').value = purePrompt;
             
-            const safeUrlPrompt = encodeURIComponent(`${genre} of ${subject}, highly detailed`);
+            const safeUrlPrompt = encodeURIComponent(`${subject}, highly detailed`);
             document.getElementById('poster-bg-img').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
             
             const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n✨ 宇宙寵兒：${luckyStars.join(' ')} ${luckyZodiacs.join(' ')}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
