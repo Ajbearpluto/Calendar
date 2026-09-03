@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Editorial Poster Edition</title>
+    <title>TAIJI Omniverse Calendar - Ultimate Masterpiece</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -69,35 +69,47 @@
         .btn-action.primary { background: var(--ink-black); color: #fff; }
         .btn-action.primary:hover { background: #333; }
 
-        textarea.code-box { width: 100%; flex-grow: 1; min-height: 120px; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: vertical; outline: none; box-sizing: border-box; }
+        /* 迪特·拉姆斯：優化文字框高度，確保海報預覽第一眼可見 */
+        textarea.code-box { width: 100%; flex-grow: 1; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: none; outline: none; box-sizing: border-box; }
+        #purePrompt { min-height: 100px; }
+        #igCaption { height: 100px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.05); padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.5); }
 
-        /* 🔥 實時海報引擎 - 聶永真版面優化 */
-        .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); cursor: pointer; transition: transform 0.3s ease; background-color: #E0E0E0; }
-        .html-poster:hover { transform: scale(1.02); }
+        /* 原研哉：藝廊級海報畫框 */
+        .poster-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 16px;
+            padding: 4px; /* 留出白邊畫框 */
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .poster-wrapper:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; cursor: pointer; background-color: #E0E0E0; }
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
-        .html-poster:hover .poster-bg { filter: brightness(0.7) blur(2px); }
+        .poster-wrapper:hover .poster-bg { filter: brightness(0.7) blur(2px); }
         
-        /* 加深漸層確保白色文字清晰 */
-        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.9) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
-        
+        /* 聶永真：加高、加深黑色漸層，完美防禦亮色底圖 */
+        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.95) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
         .p-top { display: flex; align-items: baseline; gap: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .p-day { font-size: 5rem; font-weight: 900; line-height: 0.8; font-family: 'Noto Sans TC'; }
         .p-meta { font-size: 0.9rem; line-height: 1.4; font-weight: 400; opacity: 0.9; border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; display: flex; flex-direction: column; gap: 2px; }
-        
-        /* 底部圖文層次 */
-        .p-bottom { display: flex; flex-direction: column; gap: 10px; }
-        .p-fortune { display: flex; gap: 10px; margin-bottom: 5px; }
+        .p-bottom { display: flex; flex-direction: column; gap: 12px; }
+        .p-fortune { display: flex; gap: 10px; margin-bottom: 2px; }
         .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700; backdrop-filter: blur(4px); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .p-stamp.do { background: rgba(91, 130, 102, 0.6); }
         .p-stamp.dont { background: rgba(192, 90, 80, 0.6); }
         
-        /* 新增的引言小故事 */
-        .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.9; margin: 0 0 5px 0; text-shadow: 0 2px 6px rgba(0,0,0,0.8); }
-        /* 強調的宋體大金句 */
+        /* 聶永真：字數防禦機制 (Line-clamp) */
+        .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.9; margin: 0; text-shadow: 0 2px 6px rgba(0,0,0,0.8); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         .p-quote { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 900; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin: 0; border-left: 3px solid #fff; padding-left: 12px; }
         
         .upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; z-index: 3; opacity: 0; transition: 0.3s; pointer-events: none; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .html-poster:hover .upload-hint { opacity: 1; }
+        .poster-wrapper:hover .upload-hint { opacity: 1; }
 
         @media (max-width: 768px) { .calendar-page { padding: 30px 20px; } .giant-day { font-size: 6rem; } .creator-grid { grid-template-columns: 1fr; } }
     </style>
@@ -154,38 +166,42 @@
                 <div class="output-box">
                     <h3>📱 脆 (Threads) 專屬排版</h3>
                     <button class="btn-action" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📝 複製 Threads 貼文</button>
-                    <textarea id="igCaption" class="code-box" style="min-height: 120px; color: var(--ink-black); font-weight: 500;" readonly></textarea>
+                    <textarea id="igCaption" class="code-box" readonly></textarea>
                     
                     <span style="font-size: 0.85rem; color: var(--ink-gray); text-align: center; margin-top: 15px; margin-bottom: 5px;">
                         ✨ 點擊圖片上傳底圖，實時生成日曆海報
                     </span>
-                    <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
-                        <img id="poster-bg-img" class="poster-bg" src="" alt="Background">
-                        <div class="poster-overlay">
-                            <div class="p-top">
-                                <div class="p-day" id="p-day">02</div>
-                                <div class="p-meta">
-                                    <div id="p-ym">2026.09</div>
-                                    <div id="p-lunar">農曆七月廿一</div>
+                    
+                    <!-- 藝廊畫框外層 -->
+                    <div class="poster-wrapper">
+                        <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
+                            <img id="poster-bg-img" class="poster-bg" src="" alt="Background" crossorigin="anonymous">
+                            <div class="poster-overlay">
+                                <div class="p-top">
+                                    <div class="p-day" id="p-day">02</div>
+                                    <div class="p-meta">
+                                        <div id="p-ym">2026.09</div>
+                                        <div id="p-lunar">農曆七月廿一</div>
+                                    </div>
+                                </div>
+                                <div class="p-bottom">
+                                    <div class="p-fortune">
+                                        <span class="p-stamp do">宜 <span id="p-do">摸魚</span></span>
+                                        <span class="p-stamp dont">忌 <span id="p-dont">群組</span></span>
+                                    </div>
+                                    <p class="p-article" id="p-article">故事載入中...</p>
+                                    <p class="p-quote" id="p-quote">「生活不只有詩和遠方，還有眼前的無薪加班。」</p>
                                 </div>
                             </div>
-                            <div class="p-bottom">
-                                <div class="p-fortune">
-                                    <span class="p-stamp do">宜 <span id="p-do">摸魚</span></span>
-                                    <span class="p-stamp dont">忌 <span id="p-dont">群組</span></span>
-                                </div>
-                                <!-- 🔥 零一決議：加入引言小故事區塊，創造字體對比張力 -->
-                                <p class="p-article" id="p-article">故事載入中...</p>
-                                <p class="p-quote" id="p-quote">「生活不只有詩和遠方，還有眼前的無薪加班。」</p>
-                            </div>
+                            <div class="upload-hint" data-html2canvas-ignore="true">📸 點擊替換底圖</div>
+                            <input type="file" id="bg-uploader" style="display:none;" accept="image/*" onchange="loadCustomBg(event)">
                         </div>
-                        <div class="upload-hint" data-html2canvas-ignore="true">📸 點擊替換底圖</div>
-                        <input type="file" id="bg-uploader" style="display:none;" accept="image/*" onchange="loadCustomBg(event)">
                     </div>
                     
                     <div style="margin-top: 10px;">
-                        <button class="btn-action primary" onclick="downloadPoster()" id="btnDownload">
-                            📥 下載 IG 限動海報
+                        <!-- IG 社群行動呼籲 -->
+                        <button class="btn-action primary" onclick="downloadPoster()" id="btnDownload" style="background-color: #E1306C; border-color: #E1306C;">
+                            📸 下載 IG 限動海報
                         </button>
                     </div>
                 </div>
@@ -287,14 +303,15 @@
         }
 
         function downloadPoster() {
-            const poster = document.getElementById('ig-poster-canvas');
+            // 下載時，針對包裹海報的外框 (poster-wrapper) 進行截圖，確保白邊畫框也被保留
+            const posterWrapper = document.querySelector('.poster-wrapper');
             const btn = document.getElementById('btnDownload');
             const originalText = btn.innerHTML;
             
             btn.innerHTML = "⏳ 魔法渲染中 (請稍候)...";
             btn.style.opacity = "0.7"; btn.style.pointerEvents = "none";
 
-            html2canvas(poster, { scale: 3, useCORS: true, backgroundColor: "#1A1A1A" }).then(canvas => {
+            html2canvas(posterWrapper, { scale: 3, useCORS: true, backgroundColor: "transparent" }).then(canvas => {
                 const ym = document.getElementById('p-ym').innerText.replace('.', '');
                 const day = document.getElementById('p-day').innerText;
                 const fileName = `Taiji_Calendar_${ym}${day}.png`;
@@ -369,7 +386,6 @@
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('ui-quote').innerText = `「${quoteText}」`; 
             
-            // 🔥 同步將小故事寫入海報之中，支援多行換行
             document.getElementById('p-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('p-quote').innerText = `「${quoteText}」`;
 
