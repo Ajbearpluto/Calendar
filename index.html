@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Absolute Perfection Edition</title>
+    <title>TAIJI Omniverse Calendar - Ultimate Masterpiece</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -19,7 +19,7 @@
             --env-bg: #EAEAE4;
         }
 
-        /* 原研哉：極簡卷軸覆蓋 */
+        /* 極簡卷軸覆蓋 */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
@@ -63,6 +63,9 @@
         .stamp { border: 2px solid; padding: 4px 12px; font-weight: 900; font-size: 0.95rem; background: transparent; }
         .stamp.do { border-color: var(--stamp-green); color: var(--stamp-green); transform: rotate(-2deg); }
         .stamp.dont { border-color: var(--stamp-red); color: var(--stamp-red); transform: rotate(1deg); }
+
+        .story-content { font-size: 1.15rem; line-height: 2; font-weight: 400; color: var(--ink-black); margin: 0 0 30px 0; text-align: justify; white-space: pre-line; }
+        .quote-content { font-family: 'Noto Serif TC', serif; font-size: 1.6rem; font-weight: 900; line-height: 1.6; color: var(--ink-black); margin: 0 0 40px 0; padding-left: 20px; border-left: 4px solid var(--ink-black); }
 
         .music-player { margin-bottom: 40px; border-top: 1px solid var(--line-color); padding-top: 25px; display: flex; justify-content: center; }
         .btn-music { background: rgba(255,255,255,0.8); border: 1px solid var(--line-color); padding: 12px 28px; border-radius: 30px; font-size: 0.95rem; font-weight: 700; color: var(--ink-black); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.03); backdrop-filter: blur(10px); }
@@ -138,6 +141,10 @@
                 <span class="stamp dont">忌 <span id="ui-dont">群組</span></span>
             </div>
 
+            <!-- 🔥 零一緊急修復：就是這裡！這兩行被我誤刪了，現在已完美裝回 -->
+            <div class="story-content" id="ui-article">故事載入中...</div>
+            <h2 class="quote-content" id="ui-quote">「金句載入中...」</h2>
+
             <div class="music-player">
                 <a id="ui-music-btn" href="#" target="_blank" class="btn-music">
                     <span id="ui-music-text">🎵 播放今日專屬 Lo-Fi</span>
@@ -162,7 +169,7 @@
                     
                     <div class="poster-wrapper">
                         <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
-                            <img id="poster-bg-img" class="poster-bg" src="" alt="Background" crossorigin="anonymous">
+                            <img id="poster-bg-img" class="poster-bg" src="" alt="Background">
                             <div class="poster-overlay">
                                 <div class="p-top">
                                     <div class="p-day" id="p-day">02</div>
@@ -192,11 +199,12 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 
     <script>
-        const quotesData = [{"style": "極致反差", "article": "凌晨五點的城市，微光灑落露台，我優雅地沖泡著精品手沖咖啡，以為開啟了質感生活。下一秒，手機響起主管催命的群組鈴聲，那一刻，咖啡喝起來像洗碗水。", "q": "生活不是為了體驗美好，是為了付清下個月的帳單。", "p": "社畜日常, 夢想與現實", "do": "立刻靜音", "dont": "點開群組"}, {"style": "滿血復活", "article": "被報告轟炸了一整週，以為自己會倒下。結果在下班路上的便利商店，聽到店員喊了聲「辛苦了」，突然覺得這該死的日子，老娘還能再戰三百年。", "q": "只要還有氣，我就能把它氣死。", "p": "職場生存, 正能量", "do": "大口喝酒", "dont": "回頭抱怨"}, {"style": "人間清醒", "article": "職場上那些虛偽的交際，就像過期的泡麵，看著精緻，吃下去全是負擔。與其花時間討好別人，不如把時間留給自己的存摺，至少錢不會背叛我。", "q": "沒關係，大家只是利益共同體，不是好朋友。", "p": "職場人際, 活出自我", "do": "冷眼旁觀", "dont": "過度共情"}, {"style": "躺平無罪", "article": "看著帳戶餘額和房價的差距，焦慮已經進化成免疫。既然努力不一定會成功，那我選擇放棄掙扎，現在開始執行「廢物優化計畫」，床就是我的舒適圈。", "q": "躺平是為了，明天能更理直氣壯地廢下去。", "p": "躺平青年, 拒絕焦慮", "do": "全面斷網", "dont": "計算存款"}, {"style": "微小幸運", "article": "下班路過巷口，發現那家一直排隊的紅豆餅竟然沒人。咬下第一口，那種甜度簡直是宇宙給我的獎勵，覺得日子似乎也沒那麼糟了，好運正在排隊進場。", "q": "這世界很壞，但紅豆餅是甜的。", "p": "微小幸福, 治癒日常", "do": "獎勵自己", "dont": "拒絕甜食"}]; 
+        const quotesData = [{"style": "極致反差", "article": "晨光灑落，手沖咖啡的香氣在空氣中流轉，窗外鳥語花香彷彿人生正要起飛。結果一到公司，主管秒丟三份急件：「下午開會要看。」", "q": "生活不是遠方，是遠得要命的社畜墳場。", "p": "不想上班想離職", "do": "準時閃人", "dont": "點開群組"}, {"style": "滿血復活", "article": "打開網銀看見餘額只剩三位數，心裡瞬間涼透。轉念一想，反正本來就沒錢，這代表我沒有進步空間了，全方位都是成長底氣！", "q": "只要我夠廢，焦慮就追不上我。", "p": "存不到錢好焦慮", "do": "大口吃肉", "dont": "量體重"}, {"style": "人間清醒", "article": "同事在群組拍馬屁的功力堪比特技表演，看得我眼睛發酸。突然懂了，認真你就輸了，領多少錢就交出多少靈魂，別太愛公司。", "q": "職場不講武德，我們也別講道義。", "p": "不想上班想離職", "do": "摸魚發呆", "dont": "認真負責"}, {"style": "躺平無罪", "article": "房租、物價、通膨，每一樣都在逼我上進。但我選擇直接躺平，棉被蓋好，全世界的急事都跟此時此刻的我無關。", "q": "錢沒了可以再賺，但命沒了就是別人的。", "p": "存不到錢好焦慮", "do": "直接睡死", "dont": "自我反省"}, {"style": "微小幸運", "article": "下班路上突然下起暴雨，正想著倒楣，轉角走進騎樓竟然撿到一張沒中頭獎但可以買杯珍奶的發票。生活還是很甜的。", "q": "微小的快樂，是平凡日常裡最強的防護罩。", "p": "不想上班想離職", "do": "喝爆珍奶", "dont": "看氣象局"}]; 
         
         const localExpansionQuotes = [
             { style: "躺平無罪", article: "看著同事們在群組裡熱烈討論下半年的 KPI，我默默把手機螢幕蓋上，翻了個身。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
@@ -219,7 +227,6 @@
             { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }
         ];
 
-        // 🔥 前田約翰：動態解耦的指令庫 (Base Style 綁定 Category)
         const promptCategories = {
             photography: {
                 weight: 1,
@@ -293,13 +300,11 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-        // 🔥 深澤直人：撕頁後，日期自動前進一天！
         function triggerTearAnimation() {
             const paper = document.getElementById('calendar-paper');
             paper.classList.remove('anim-appear');
             paper.classList.add('anim-tear');
             
-            // 物理推進時間
             const dateInput = document.getElementById('ui-date-picker');
             let currentDate = new Date(dateInput.value);
             currentDate.setDate(currentDate.getDate() + 1);
@@ -399,8 +404,10 @@
             document.getElementById('ui-do').innerText = doAction; document.getElementById('ui-dont').innerText = dontAction;
             document.getElementById('p-do').innerText = doAction; document.getElementById('p-dont').innerText = dontAction;
             
+            // 🔥 失去的靈魂完美找回，文字會再度呈現在日曆本體上了！
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('ui-quote').innerText = `「${quoteText}」`; 
+            
             document.getElementById('p-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('p-quote').innerText = `「${quoteText}」`;
 
@@ -408,7 +415,6 @@
             document.getElementById('ui-music-text').innerText = "IG 配樂建議：" + fullSongInfo;
             document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${igMusic.yt_id}`;
 
-            // 動態指令生成 (Base Style 解耦)
             const categoriesKeys = Object.keys(promptCategories);
             const selectedCategoryKey = getRandomItem(categoriesKeys);
             const selectedCategoryGroup = promptCategories[selectedCategoryKey];
@@ -428,7 +434,6 @@
         }
 
         window.onload = function() { 
-            // 系統初始化，確保日期抓取正確
             if(document.getElementById('ui-date-picker').value === "2026-09-03" || !document.getElementById('ui-date-picker').value) {
                 const today = new Date();
                 document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
