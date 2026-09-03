@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Absolute Perfection Edition</title>
+    <title>TAIJI Omniverse Calendar - Ultimate Masterpiece</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -19,7 +19,7 @@
             --env-bg: #EAEAE4;
         }
 
-        /* 原研哉：極簡卷軸覆蓋 */
+        /* 極簡卷軸覆蓋 */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
@@ -63,6 +63,9 @@
         .stamp { border: 2px solid; padding: 4px 12px; font-weight: 900; font-size: 0.95rem; background: transparent; }
         .stamp.do { border-color: var(--stamp-green); color: var(--stamp-green); transform: rotate(-2deg); }
         .stamp.dont { border-color: var(--stamp-red); color: var(--stamp-red); transform: rotate(1deg); }
+
+        .story-content { font-size: 1.15rem; line-height: 2; font-weight: 400; color: var(--ink-black); margin: 0 0 30px 0; text-align: justify; white-space: pre-line; }
+        .quote-content { font-family: 'Noto Serif TC', serif; font-size: 1.6rem; font-weight: 900; line-height: 1.6; color: var(--ink-black); margin: 0 0 40px 0; padding-left: 20px; border-left: 4px solid var(--ink-black); }
 
         .music-player { margin-bottom: 40px; border-top: 1px solid var(--line-color); padding-top: 25px; display: flex; justify-content: center; }
         .btn-music { background: rgba(255,255,255,0.8); border: 1px solid var(--line-color); padding: 12px 28px; border-radius: 30px; font-size: 0.95rem; font-weight: 700; color: var(--ink-black); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.03); backdrop-filter: blur(10px); }
@@ -138,6 +141,10 @@
                 <span class="stamp dont">忌 <span id="ui-dont">群組</span></span>
             </div>
 
+            <!-- 🔥 零一緊急修復：就是這裡！這兩行被我誤刪了，現在已完美裝回 -->
+            <div class="story-content" id="ui-article">故事載入中...</div>
+            <h2 class="quote-content" id="ui-quote">「金句載入中...」</h2>
+
             <div class="music-player">
                 <a id="ui-music-btn" href="#" target="_blank" class="btn-music">
                     <span id="ui-music-text">🎵 播放今日專屬 Lo-Fi</span>
@@ -162,7 +169,7 @@
                     
                     <div class="poster-wrapper">
                         <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
-                            <img id="poster-bg-img" class="poster-bg" src="" alt="Background" crossorigin="anonymous">
+                            <img id="poster-bg-img" class="poster-bg" src="" alt="Background">
                             <div class="poster-overlay">
                                 <div class="p-top">
                                     <div class="p-day" id="p-day">02</div>
@@ -192,6 +199,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 
@@ -219,7 +227,6 @@
             { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }
         ];
 
-        // 🔥 前田約翰：動態解耦的指令庫 (Base Style 綁定 Category)
         const promptCategories = {
             photography: {
                 weight: 1,
@@ -293,13 +300,11 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-        // 🔥 深澤直人：撕頁後，日期自動前進一天！
         function triggerTearAnimation() {
             const paper = document.getElementById('calendar-paper');
             paper.classList.remove('anim-appear');
             paper.classList.add('anim-tear');
             
-            // 物理推進時間
             const dateInput = document.getElementById('ui-date-picker');
             let currentDate = new Date(dateInput.value);
             currentDate.setDate(currentDate.getDate() + 1);
@@ -399,8 +404,10 @@
             document.getElementById('ui-do').innerText = doAction; document.getElementById('ui-dont').innerText = dontAction;
             document.getElementById('p-do').innerText = doAction; document.getElementById('p-dont').innerText = dontAction;
             
+            // 🔥 失去的靈魂完美找回，文字會再度呈現在日曆本體上了！
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('ui-quote').innerText = `「${quoteText}」`; 
+            
             document.getElementById('p-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('p-quote').innerText = `「${quoteText}」`;
 
@@ -408,7 +415,6 @@
             document.getElementById('ui-music-text').innerText = "IG 配樂建議：" + fullSongInfo;
             document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${igMusic.yt_id}`;
 
-            // 動態指令生成 (Base Style 解耦)
             const categoriesKeys = Object.keys(promptCategories);
             const selectedCategoryKey = getRandomItem(categoriesKeys);
             const selectedCategoryGroup = promptCategories[selectedCategoryKey];
@@ -428,7 +434,6 @@
         }
 
         window.onload = function() { 
-            // 系統初始化，確保日期抓取正確
             if(document.getElementById('ui-date-picker').value === "__PAYLOAD_DATE__" || !document.getElementById('ui-date-picker').value) {
                 const today = new Date();
                 document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
