@@ -111,7 +111,7 @@
 <body>
     <div class="container">
         <div class="control-panel">
-            <input type="date" id="ui-date-picker" value="2026-09-03" onchange="applyDateChange()">
+            <input type="date" id="ui-date-picker" value="2026-09-04" onchange="applyDateChange()">
             <button class="btn-tear" onclick="triggerTearAnimation()">
                 <span>📄 撕下今日</span>
             </button>
@@ -433,7 +433,7 @@
         }
 
         window.onload = function() { 
-            if(document.getElementById('ui-date-picker').value === "2026-09-03" || !document.getElementById('ui-date-picker').value) {
+            if(document.getElementById('ui-date-picker').value === "2026-09-04" || !document.getElementById('ui-date-picker').value) {
                 const today = new Date();
                 document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
             }
