@@ -19,7 +19,6 @@
             --env-bg: #EAEAE4;
         }
 
-        /* 極簡卷軸覆蓋 */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
@@ -28,8 +27,6 @@
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 40px 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
         .container { max-width: 800px; width: 100%; display: flex; flex-direction: column; gap: 20px; }
         .control-panel { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
-        
-        /* 隱藏原生醜陋的日曆 Icon */
         .control-panel input { background: transparent; border: 1px solid var(--line-color); padding: 8px 15px; border-radius: 8px; font-family: inherit; font-size: 1rem; color: var(--ink-gray); font-weight: 700; outline: none; cursor: pointer; transition: 0.3s; }
         .control-panel input:hover { border-color: var(--ink-gray); }
         .control-panel input::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
@@ -90,7 +87,8 @@
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
         .poster-wrapper:hover .poster-bg { filter: brightness(0.7) blur(2px); }
         
-        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.95) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
+        /* 🔥 聶永真：柔化黑色漸層，讓暗角自然過渡 */
+        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 15%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
         .p-top { display: flex; align-items: baseline; gap: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .p-day { font-size: 5rem; font-weight: 900; line-height: 0.8; font-family: 'Noto Sans TC'; }
         .p-meta { font-size: 0.9rem; line-height: 1.4; font-weight: 400; opacity: 0.9; border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; display: flex; flex-direction: column; gap: 2px; }
@@ -100,7 +98,9 @@
         .p-stamp.do { background: rgba(91, 130, 102, 0.6); }
         .p-stamp.dont { background: rgba(192, 90, 80, 0.6); }
         .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.9; margin: 0; text-shadow: 0 2px 6px rgba(0,0,0,0.8); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .p-quote { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 900; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin: 0; border-left: 3px solid #fff; padding-left: 12px; }
+        
+        /* 🔥 原研哉：字體不強制切斷 (keep-all)，並允許長文字稍微縮小 */
+        .p-quote { font-family: 'Noto Serif TC', serif; font-size: clamp(1rem, 5vw, 1.3rem); font-weight: 900; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin: 0; border-left: 3px solid #fff; padding-left: 12px; word-break: keep-all; }
         
         .upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; z-index: 3; opacity: 0; transition: 0.3s; pointer-events: none; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .poster-wrapper:hover .upload-hint { opacity: 1; }
@@ -141,7 +141,6 @@
                 <span class="stamp dont">忌 <span id="ui-dont">群組</span></span>
             </div>
 
-            <!-- 🔥 零一緊急修復：就是這裡！這兩行被我誤刪了，現在已完美裝回 -->
             <div class="story-content" id="ui-article">故事載入中...</div>
             <h2 class="quote-content" id="ui-quote">「金句載入中...」</h2>
 
@@ -169,7 +168,7 @@
                     
                     <div class="poster-wrapper">
                         <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
-                            <img id="poster-bg-img" class="poster-bg" src="" alt="Background">
+                            <img id="poster-bg-img" class="poster-bg" src="" alt="Background" crossorigin="anonymous">
                             <div class="poster-overlay">
                                 <div class="p-top">
                                     <div class="p-day" id="p-day">02</div>
@@ -199,7 +198,6 @@
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 
@@ -404,10 +402,8 @@
             document.getElementById('ui-do').innerText = doAction; document.getElementById('ui-dont').innerText = dontAction;
             document.getElementById('p-do').innerText = doAction; document.getElementById('p-dont').innerText = dontAction;
             
-            // 🔥 失去的靈魂完美找回，文字會再度呈現在日曆本體上了！
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('ui-quote').innerText = `「${quoteText}」`; 
-            
             document.getElementById('p-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('p-quote').innerText = `「${quoteText}」`;
 
@@ -426,9 +422,12 @@
             const purePrompt = `${baseStr} ${subjectStr}. ${modifierStr} --ar 9:16 --style raw --v 6.0`;
             document.getElementById('purePrompt').value = purePrompt;
             
+            // 🔥 前田約翰：加入隨機亂數種子，打破圖片快取！
+            const randomSeed = Math.floor(Math.random() * 1000000);
             const safeUrlPrompt = encodeURIComponent(`${subjectStr}, highly detailed`);
-            document.getElementById('poster-bg-img').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
+            document.getElementById('poster-bg-img').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true&seed=${randomSeed}`;
             
+            // 🔥 凱文·斯特羅姆：確保 Threads 貼文日期絕對連動！
             const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n✨ 宇宙寵兒：${luckyStars.join(' ')} ${luckyZodiacs.join(' ')}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
             document.getElementById('igCaption').value = threadsText;
         }
