@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - UX Master Edition</title>
+    <title>TAIJI Omniverse Calendar - Sunny & Life Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
-    <!-- 🔥 導入高畫質截圖引擎 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* 引入無印良品風黑體 (Sans) 與 傳統文學感宋體 (Serif) */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
         
         :root {
@@ -92,16 +90,14 @@
         .btn-action.primary { background: var(--ink-black); color: #fff; }
         .btn-action.primary:hover { background: #333; }
 
-        textarea.code-box { width: 100%; flex-grow: 1; min-height: 200px; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: vertical; outline: none; box-sizing: border-box; }
+        textarea.code-box { width: 100%; flex-grow: 1; min-height: 120px; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: vertical; outline: none; box-sizing: border-box; }
 
-        /* HTML 實時合成海報引擎 */
         .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); cursor: pointer; transition: transform 0.3s ease; background-color: #E0E0E0; }
-        .html-poster:hover { transform: scale(1.01); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
-        /* 加入 crossorigin="anonymous" 確保高畫質截圖時不會被瀏覽器 CORS 阻擋 */
+        .html-poster:hover { transform: scale(1.02); }
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
         .html-poster:hover .poster-bg { filter: brightness(0.7) blur(2px); }
         
-        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
+        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
         .p-top { display: flex; align-items: baseline; gap: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .p-day { font-size: 5rem; font-weight: 900; line-height: 0.8; font-family: 'Noto Sans TC'; }
         .p-meta { font-size: 0.9rem; line-height: 1.4; font-weight: 400; opacity: 0.9; border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; display: flex; flex-direction: column; gap: 2px; }
@@ -120,7 +116,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- 頂部操作列 -->
         <div class="control-panel">
             <input type="date" id="ui-date-picker" value="__PAYLOAD_DATE__" onchange="applyDateChange()">
             <button class="btn-tear" onclick="triggerTearAnimation()">
@@ -128,9 +123,7 @@
             </button>
         </div>
 
-        <!-- 紙張本體 -->
         <div class="calendar-page" id="calendar-paper">
-            
             <div class="date-hero">
                 <div class="giant-day" id="ui-day">02</div>
                 <div class="date-meta-horizontal">
@@ -173,12 +166,11 @@
                 <div class="output-box">
                     <h3>📱 脆 (Threads) 專屬排版</h3>
                     <button class="btn-action" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📝 複製 Threads 貼文</button>
-                    <textarea id="igCaption" class="code-box" style="min-height: 120px; color: var(--ink-black); font-weight: 500;" readonly></textarea>
+                    <textarea id="igCaption" class="code-box" style="color: var(--ink-black); font-weight: 500;" readonly></textarea>
                     
                     <span style="font-size: 0.85rem; color: var(--ink-gray); text-align: center; margin-top: 15px; margin-bottom: 5px;">
                         ✨ 點擊圖片上傳底圖，實時生成日曆海報
                     </span>
-                    <!-- 🔥 綁定截圖目標 ID -->
                     <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
                         <img id="poster-bg-img" class="poster-bg" src="" alt="Background" crossorigin="anonymous">
                         <div class="poster-overlay">
@@ -197,18 +189,15 @@
                                 <p class="p-quote" id="p-quote">「生活不只有詩和遠方，還有眼前的無薪加班。」</p>
                             </div>
                         </div>
-                        <!-- 🔥 原研哉的隱形結界：下載時自動隱藏此提示 -->
                         <div class="upload-hint" data-html2canvas-ignore="true">📸 點擊替換底圖</div>
                         <input type="file" id="bg-uploader" style="display:none;" accept="image/*" onchange="loadCustomBg(event)">
                     </div>
                     
-                    <!-- 🔥 賈伯斯的完美下載按鈕 -->
                     <div style="margin-top: 10px;">
                         <button class="btn-action primary" onclick="downloadPoster()" id="btnDownload">
                             📥 下載 IG 限動海報
                         </button>
                     </div>
-
                 </div>
             </div>
             
@@ -226,29 +215,40 @@
             { music_text: "靜謐時光 - 療癒心靈", yt_id: "lCOF9LN_Zxs" }
         ];
 
+        // 🔥 零一的「陽光與生命力」指令庫大升級
         const promptGenres = [
-            "Cozy lifestyle editorial photography", "Cinematic neo-noir street photography",
-            "Hyper-realistic macro photography", "Minimalist architectural photography",
-            "Studio Ghibli anime style illustration", "Vintage 35mm film photography",
-            "Epic National Geographic astrophotography", "Moody food magazine editorial photography"
+            "Japanese slice-of-life photography", // 日系生活感
+            "Bright and airy lifestyle editorial", // 明亮空氣感生活雜誌
+            "National Geographic award winning photography", // 國家地理大獎 (涵蓋萬物)
+            "Vibrant macro nature photography", // 鮮豔微距生態
+            "Candid street photography", // 街頭抓拍
+            "Cozy minimalist interior photography", // 溫馨極簡室內
+            "Epic landscape photography" // 壯闊風景
         ];
+        
         const promptSubjects = [
-            "a vintage glass siphon coffee maker actively brewing coffee, rich steam",
-            "freshly baked Spanish churros with a steaming cup of hot chocolate",
-            "an advanced 3D printer crafting a geometric sculpture in a high-tech workshop",
-            "a pristine high-altitude alpine lake reflecting a magnificent Milky Way galaxy",
-            "a solitary figure walking down a rain-drenched neon-lit city street at midnight",
-            "extreme close-up of morning dew resting on a lush green fern leaf",
-            "a sleek minimalist concrete staircase with dramatic geometric light and shadow",
-            "a cute fluffy cat sleeping next to a pile of old books near a sunlit window",
-            "a beautifully plated rustic Spanish potato tortilla on a ceramic dish"
+            // 👩👨 真實人物與生活溫度
+            "a young Asian woman peacefully drinking coffee and reading a book by a sunlit window",
+            "a smiling barista gracefully crafting latte art in a bright bustling morning cafe",
+            "a person in a cozy sweater writing in a journal at a sun-drenched wooden dining table",
+            // 🐱🐶 動物與療癒生命
+            "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
+            "a cheerful golden retriever resting happily on a sun-drenched wooden porch",
+            "a small bird perched perfectly on a blooming cherry blossom branch",
+            // 🏞️ 風景與微觀宇宙
+            "an extreme close-up of crystal clear morning dew resting on a vibrant green fern leaf",
+            "a breathtaking panoramic view of a lush green valley and a pristine alpine lake",
+            "a beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs",
+            "a vintage glass siphon coffee maker actively brewing coffee with rich steam rising"
         ];
+        
         const promptModifiers = [
-            "shot on 50mm lens, f/1.8, warm golden hour sunlight, volumetric lighting, 8k",
-            "dramatic lighting, cinematic composition, photorealistic, highly detailed, Unreal Engine 5",
-            "soft ambient daylight, beautiful shallow depth of field, sharp focus",
-            "shot with an ultra-wide 14mm lens, long exposure, award-winning",
-            "vibrant pastel colors, dreamy and ethereal atmosphere"
+            // ☀️ 擺脫陰暗，全面擁抱陽光與自然光
+            "bathed in bright morning sunlight, warm and cheerful atmosphere, soft shadows, 8k, photorealistic",
+            "shot on 35mm lens, Fujifilm Superia 400 simulation, bright and airy, natural daylight, masterpiece",
+            "soft pastel color palette, gentle golden hour sunlight streaming through windows, cozy and uplifting mood",
+            "vibrant natural colors, crystal clear focus, high definition, deeply emotional and serene",
+            "sun-drenched, glowing light leaks, pure and peaceful vibe, highly detailed, photorealistic"
         ];
 
         function getAstrologySign(month, day) {
@@ -266,18 +266,12 @@
             return "♓ 雙魚座";
         }
 
-        function seededRandom(seed) {
-            let x = Math.sin(seed++) * 10000;
-            return x - Math.floor(x);
-        }
+        function seededRandom(seed) { let x = Math.sin(seed++) * 10000; return x - Math.floor(x); }
         function getLuckyItems(seed, array, count) {
-            let result = [];
-            let tempArray = [...array];
-            let currentSeed = seed;
+            let result = []; let tempArray = [...array]; let currentSeed = seed;
             for(let i=0; i<count; i++) {
                 let idx = Math.floor(seededRandom(currentSeed++) * tempArray.length);
-                result.push(tempArray[idx]);
-                tempArray.splice(idx, 1);
+                result.push(tempArray[idx]); tempArray.splice(idx, 1);
             }
             return result;
         }
@@ -302,47 +296,27 @@
             }
         }
 
-        // 🔥 零一的高畫質渲染與下載核心
         function downloadPoster() {
             const poster = document.getElementById('ig-poster-canvas');
             const btn = document.getElementById('btnDownload');
             const originalText = btn.innerHTML;
             
-            // UX 回饋：讓使用者知道系統正在運作
             btn.innerHTML = "⏳ 魔法渲染中 (請稍候)...";
-            btn.style.opacity = "0.7";
-            btn.style.pointerEvents = "none";
+            btn.style.opacity = "0.7"; btn.style.pointerEvents = "none";
 
-            // 啟動 3 倍超高解析度渲染 (Retina 畫質)
-            html2canvas(poster, {
-                scale: 3, 
-                useCORS: true, // 允許跨網域載入底圖
-                backgroundColor: "#1A1A1A"
-            }).then(canvas => {
+            html2canvas(poster, { scale: 3, useCORS: true, backgroundColor: "#1A1A1A" }).then(canvas => {
                 const ym = document.getElementById('p-ym').innerText.replace('.', '');
                 const day = document.getElementById('p-day').innerText;
                 const fileName = `Taiji_Calendar_${ym}${day}.png`;
 
-                const link = document.createElement('a');
-                link.download = fileName;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
+                const link = document.createElement('a'); link.download = fileName;
+                link.href = canvas.toDataURL('image/png'); link.click();
 
-                // 恢復按鈕狀態
                 btn.innerHTML = "✅ 海報下載完成！";
-                setTimeout(() => { 
-                    btn.innerHTML = originalText; 
-                    btn.style.opacity = "1";
-                    btn.style.pointerEvents = "auto";
-                }, 2000);
+                setTimeout(() => { btn.innerHTML = originalText; btn.style.opacity = "1"; btn.style.pointerEvents = "auto"; }, 2000);
             }).catch(err => {
-                console.error("渲染失敗:", err);
                 btn.innerHTML = "❌ 渲染失敗";
-                setTimeout(() => { 
-                    btn.innerHTML = originalText; 
-                    btn.style.opacity = "1";
-                    btn.style.pointerEvents = "auto";
-                }, 2000);
+                setTimeout(() => { btn.innerHTML = originalText; btn.style.opacity = "1"; btn.style.pointerEvents = "auto"; }, 2000);
             });
         }
 
@@ -352,30 +326,23 @@
             const dayStr = String(d).padStart(2, '0');
             const ymStr = `${y}.${String(m).padStart(2, '0')}`;
             const numericSeed = parseInt(`${y}${String(m).padStart(2, '0')}${dayStr}`);
-            
             const exactStarSign = getAstrologySign(m, d);
             
-            document.getElementById('ui-day').innerText = dayStr;
-            document.getElementById('ui-ym').innerText = ymStr;
+            document.getElementById('ui-day').innerText = dayStr; document.getElementById('ui-ym').innerText = ymStr;
             document.getElementById('ui-star-sign').innerText = exactStarSign;
-            
-            document.getElementById('p-day').innerText = dayStr;
-            document.getElementById('p-ym').innerText = ymStr;
+            document.getElementById('p-day').innerText = dayStr; document.getElementById('p-ym').innerText = ymStr;
 
-            let lunarDisplay = "農曆查無資料";
-            let lunarPure = "農曆查無資料";
+            let lunarDisplay = "農曆查無資料"; let lunarPure = "農曆查無資料";
             try {
                 if (typeof Lunar !== 'undefined') {
                     const lunar = Lunar.fromDate(dObj);
                     lunarPure = `農曆${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
                     lunarDisplay = lunarPure;
-                    const jieQi = lunar.getJieQi();
-                    if(jieQi) lunarDisplay += ` ｜ 節氣：${jieQi}`;
+                    const jieQi = lunar.getJieQi(); if(jieQi) lunarDisplay += ` ｜ 節氣：${jieQi}`;
                 }
             } catch (e) {}
             
-            document.getElementById('ui-lunar').innerText = lunarDisplay;
-            document.getElementById('p-lunar').innerText = lunarPure; 
+            document.getElementById('ui-lunar').innerText = lunarDisplay; document.getElementById('p-lunar').innerText = lunarPure; 
 
             const allStars = ["♈ 牡羊", "♉ 金牛", "♊ 雙子", "♋ 巨蟹", "♌ 獅子", "♍ 處女", "♎ 天秤", "♏ 天蠍", "♐ 射手", "♑ 摩羯", "♒ 水瓶", "♓ 雙魚"];
             const allZodiacs = ["🐭 肖鼠", "🐮 肖牛", "🐯 肖虎", "🐰 肖兔", "🐲 肖龍", "🐍 肖蛇", "🐴 肖馬", "🐑 肖羊", "🐵 肖猴", "🐔 肖雞", "🐶 肖狗", "🐷 肖豬"];
@@ -396,14 +363,11 @@
             const painTag = selectedData.p || "日常碎片";
 
             document.getElementById('ui-style-badge').innerText = style;
-            document.getElementById('ui-do').innerText = doAction;
-            document.getElementById('ui-dont').innerText = dontAction;
-            document.getElementById('p-do').innerText = doAction;
-            document.getElementById('p-dont').innerText = dontAction;
+            document.getElementById('ui-do').innerText = doAction; document.getElementById('ui-dont').innerText = dontAction;
+            document.getElementById('p-do').innerText = doAction; document.getElementById('p-dont').innerText = dontAction;
             
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
-            document.getElementById('ui-quote').innerText = `「${quoteText}」`;
-            document.getElementById('p-quote').innerText = `「${quoteText}」`;
+            document.getElementById('ui-quote').innerText = `「${quoteText}」`; document.getElementById('p-quote').innerText = `「${quoteText}」`;
 
             document.getElementById('ui-music-text').innerText = "🎵 點擊播放・" + selectedFortune.music_text;
             document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${selectedFortune.yt_id}`;
@@ -426,11 +390,9 @@
 
         function copyText(elementId, btnId) {
             var copyText = document.getElementById(elementId);
-            copyText.select(); 
-            document.execCommand("copy");
+            copyText.select(); document.execCommand("copy");
             var btn = document.getElementById(btnId);
-            var originalText = btn.innerHTML;
-            btn.innerHTML = "✅ 已複製！";
+            var originalText = btn.innerHTML; btn.innerHTML = "✅ 已複製！";
             setTimeout(function() { btn.innerHTML = originalText; }, 2000);
         }
     </script>
