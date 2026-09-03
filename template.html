@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TAIJI Omniverse Calendar - UX Master Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
+    <!-- 🔥 導入高畫質截圖引擎 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* 引入無印良品風黑體 (Sans) 與 傳統文學感宋體 (Serif) */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
@@ -55,13 +57,11 @@
         .anim-tear { animation: tearOff 0.6s forwards cubic-bezier(0.55, 0.085, 0.68, 0.53); }
         .anim-appear { animation: fallIn 0.5s forwards ease-out; }
 
-        /* 聶永真重構：淨化日期區塊，改為橫向純淨排版 */
         .date-hero { border-bottom: 1px solid var(--line-color); padding-bottom: 20px; margin-bottom: 25px; }
         .giant-day { font-size: 7.5rem; font-weight: 900; line-height: 0.8; letter-spacing: -4px; color: var(--ink-black); margin-bottom: 15px; }
         .date-meta-horizontal { font-size: 1.1rem; color: var(--ink-gray); font-weight: 500; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; letter-spacing: 1px; }
         .date-meta-horizontal .separator { color: var(--line-color); font-weight: 300; }
 
-        /* 聶永真：今日宇宙寵兒 (幸運星與生肖) */
         .lucky-module { margin-bottom: 35px; background: rgba(255,255,255,0.4); padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.03); }
         .lucky-title { font-size: 0.85rem; font-weight: 700; color: var(--ink-gray); margin-bottom: 10px; letter-spacing: 1px; }
         .lucky-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
@@ -79,7 +79,6 @@
         .story-content { font-size: 1.15rem; line-height: 2; font-weight: 400; color: var(--ink-black); margin: 0 0 30px 0; text-align: justify; white-space: pre-line; }
         .quote-content { font-family: 'Noto Serif TC', serif; font-size: 1.6rem; font-weight: 900; line-height: 1.6; color: var(--ink-black); margin: 0 0 40px 0; padding-left: 20px; border-left: 4px solid var(--ink-black); }
 
-        /* 賈伯斯重構：純按鈕式音樂播放器，告別黑畫面 */
         .music-player { margin-bottom: 40px; border-top: 1px solid var(--line-color); padding-top: 25px; display: flex; justify-content: center; }
         .btn-music { background: rgba(255,255,255,0.8); border: 1px solid var(--line-color); padding: 12px 28px; border-radius: 30px; font-size: 0.95rem; font-weight: 700; color: var(--ink-black); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.03); backdrop-filter: blur(10px); }
         .btn-music:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); color: #000; border-color: rgba(0,0,0,0.2); }
@@ -97,7 +96,8 @@
 
         /* HTML 實時合成海報引擎 */
         .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); cursor: pointer; transition: transform 0.3s ease; background-color: #E0E0E0; }
-        .html-poster:hover { transform: scale(1.02); }
+        .html-poster:hover { transform: scale(1.01); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
+        /* 加入 crossorigin="anonymous" 確保高畫質截圖時不會被瀏覽器 CORS 阻擋 */
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
         .html-poster:hover .poster-bg { filter: brightness(0.7) blur(2px); }
         
@@ -131,7 +131,6 @@
         <!-- 紙張本體 -->
         <div class="calendar-page" id="calendar-paper">
             
-            <!-- 聶永真：淨化橫向日期區塊 -->
             <div class="date-hero">
                 <div class="giant-day" id="ui-day">02</div>
                 <div class="date-meta-horizontal">
@@ -143,7 +142,6 @@
                 </div>
             </div>
 
-            <!-- 聶永真：宇宙寵兒幸運標籤 -->
             <div class="lucky-module">
                 <div class="lucky-title">✨ 今日宇宙寵兒</div>
                 <div class="lucky-tags" id="ui-lucky-stars"></div>
@@ -159,7 +157,6 @@
             <div class="story-content" id="ui-article">故事載入中...</div>
             <h2 class="quote-content" id="ui-quote">「金句載入中...」</h2>
 
-            <!-- 賈伯斯：高純度音樂按鈕 -->
             <div class="music-player">
                 <a id="ui-music-btn" href="#" target="_blank" class="btn-music">
                     <span id="ui-music-text">🎵 播放今日專屬 Lo-Fi</span>
@@ -181,8 +178,9 @@
                     <span style="font-size: 0.85rem; color: var(--ink-gray); text-align: center; margin-top: 15px; margin-bottom: 5px;">
                         ✨ 點擊圖片上傳底圖，實時生成日曆海報
                     </span>
-                    <div class="html-poster" onclick="document.getElementById('bg-uploader').click()">
-                        <img id="poster-bg-img" class="poster-bg" src="" alt="Background">
+                    <!-- 🔥 綁定截圖目標 ID -->
+                    <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
+                        <img id="poster-bg-img" class="poster-bg" src="" alt="Background" crossorigin="anonymous">
                         <div class="poster-overlay">
                             <div class="p-top">
                                 <div class="p-day" id="p-day">02</div>
@@ -199,9 +197,18 @@
                                 <p class="p-quote" id="p-quote">「生活不只有詩和遠方，還有眼前的無薪加班。」</p>
                             </div>
                         </div>
-                        <div class="upload-hint">📸 點擊替換底圖</div>
+                        <!-- 🔥 原研哉的隱形結界：下載時自動隱藏此提示 -->
+                        <div class="upload-hint" data-html2canvas-ignore="true">📸 點擊替換底圖</div>
                         <input type="file" id="bg-uploader" style="display:none;" accept="image/*" onchange="loadCustomBg(event)">
                     </div>
+                    
+                    <!-- 🔥 賈伯斯的完美下載按鈕 -->
+                    <div style="margin-top: 10px;">
+                        <button class="btn-action primary" onclick="downloadPoster()" id="btnDownload">
+                            📥 下載 IG 限動海報
+                        </button>
+                    </div>
+
                 </div>
             </div>
             
@@ -244,7 +251,6 @@
             "vibrant pastel colors, dreamy and ethereal atmosphere"
         ];
 
-        // 精確的西洋星座曆法
         function getAstrologySign(month, day) {
             if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "♈ 牡羊座";
             if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "♉ 金牛座";
@@ -260,7 +266,6 @@
             return "♓ 雙魚座";
         }
 
-        // 幸運標籤演算法 (根據日期作為種子產生穩定隨機)
         function seededRandom(seed) {
             let x = Math.sin(seed++) * 10000;
             return x - Math.floor(x);
@@ -286,9 +291,7 @@
             setTimeout(() => { randomizeAll(); paper.classList.remove('anim-tear'); paper.classList.add('anim-appear'); }, 500); 
         }
 
-        function applyDateChange() {
-            triggerTearAnimation();
-        }
+        function applyDateChange() { triggerTearAnimation(); }
 
         function loadCustomBg(event) {
             const file = event.target.files[0];
@@ -299,6 +302,50 @@
             }
         }
 
+        // 🔥 零一的高畫質渲染與下載核心
+        function downloadPoster() {
+            const poster = document.getElementById('ig-poster-canvas');
+            const btn = document.getElementById('btnDownload');
+            const originalText = btn.innerHTML;
+            
+            // UX 回饋：讓使用者知道系統正在運作
+            btn.innerHTML = "⏳ 魔法渲染中 (請稍候)...";
+            btn.style.opacity = "0.7";
+            btn.style.pointerEvents = "none";
+
+            // 啟動 3 倍超高解析度渲染 (Retina 畫質)
+            html2canvas(poster, {
+                scale: 3, 
+                useCORS: true, // 允許跨網域載入底圖
+                backgroundColor: "#1A1A1A"
+            }).then(canvas => {
+                const ym = document.getElementById('p-ym').innerText.replace('.', '');
+                const day = document.getElementById('p-day').innerText;
+                const fileName = `Taiji_Calendar_${ym}${day}.png`;
+
+                const link = document.createElement('a');
+                link.download = fileName;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                // 恢復按鈕狀態
+                btn.innerHTML = "✅ 海報下載完成！";
+                setTimeout(() => { 
+                    btn.innerHTML = originalText; 
+                    btn.style.opacity = "1";
+                    btn.style.pointerEvents = "auto";
+                }, 2000);
+            }).catch(err => {
+                console.error("渲染失敗:", err);
+                btn.innerHTML = "❌ 渲染失敗";
+                setTimeout(() => { 
+                    btn.innerHTML = originalText; 
+                    btn.style.opacity = "1";
+                    btn.style.pointerEvents = "auto";
+                }, 2000);
+            });
+        }
+
         function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
             const dObj = new Date(currentDate + "T00:00:00");
             const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
@@ -306,7 +353,6 @@
             const ymStr = `${y}.${String(m).padStart(2, '0')}`;
             const numericSeed = parseInt(`${y}${String(m).padStart(2, '0')}${dayStr}`);
             
-            // 寫入精確星座
             const exactStarSign = getAstrologySign(m, d);
             
             document.getElementById('ui-day').innerText = dayStr;
@@ -329,9 +375,8 @@
             } catch (e) {}
             
             document.getElementById('ui-lunar').innerText = lunarDisplay;
-            document.getElementById('p-lunar').innerText = lunarPure; // 海報顯示簡潔版
+            document.getElementById('p-lunar').innerText = lunarPure; 
 
-            // 生成今日幸運星與生肖
             const allStars = ["♈ 牡羊", "♉ 金牛", "♊ 雙子", "♋ 巨蟹", "♌ 獅子", "♍ 處女", "♎ 天秤", "♏ 天蠍", "♐ 射手", "♑ 摩羯", "♒ 水瓶", "♓ 雙魚"];
             const allZodiacs = ["🐭 肖鼠", "🐮 肖牛", "🐯 肖虎", "🐰 肖兔", "🐲 肖龍", "🐍 肖蛇", "🐴 肖馬", "🐑 肖羊", "🐵 肖猴", "🐔 肖雞", "🐶 肖狗", "🐷 肖豬"];
             const luckyStars = getLuckyItems(numericSeed, allStars, 3);
@@ -360,7 +405,6 @@
             document.getElementById('ui-quote').innerText = `「${quoteText}」`;
             document.getElementById('p-quote').innerText = `「${quoteText}」`;
 
-            // 乾淨的按鈕式音樂播放
             document.getElementById('ui-music-text').innerText = "🎵 點擊播放・" + selectedFortune.music_text;
             document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${selectedFortune.yt_id}`;
 
