@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Sunny & Life Edition</title>
+    <title>TAIJI Omniverse Calendar - IG Social Master Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -19,35 +19,14 @@
             --env-bg: #EAEAE4;
         }
 
-        body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background-color: var(--env-bg);
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
-            color: var(--ink-black);
-            margin: 0;
-            padding: 40px 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 40px 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
         .container { max-width: 800px; width: 100%; display: flex; flex-direction: column; gap: 20px; }
-
         .control-panel { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
         .control-panel input { background: transparent; border: 1px solid var(--line-color); padding: 8px 15px; border-radius: 8px; font-family: inherit; font-size: 1rem; color: var(--ink-gray); font-weight: 700; outline: none; cursor: pointer; }
         .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 10px 20px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .btn-tear:hover { background: #333; transform: translateY(-2px); }
 
-        .calendar-page {
-            background-color: var(--paper-bg);
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-            border-radius: 2px;
-            padding: 50px;
-            position: relative;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.05), 0 4px 0 -1px var(--paper-bg), 0 4px 1px -1px rgba(0,0,0,0.05), 0 8px 0 -2px var(--paper-bg), 0 8px 1px -2px rgba(0,0,0,0.05), 0 25px 50px rgba(0,0,0,0.08);
-            transform-origin: top center;
-        }
+        .calendar-page { background-color: var(--paper-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E"); border-radius: 2px; padding: 50px; position: relative; box-shadow: 0 1px 1px rgba(0,0,0,0.05), 0 4px 0 -1px var(--paper-bg), 0 4px 1px -1px rgba(0,0,0,0.05), 0 8px 0 -2px var(--paper-bg), 0 8px 1px -2px rgba(0,0,0,0.05), 0 25px 50px rgba(0,0,0,0.08); transform-origin: top center; }
         .calendar-page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-image: radial-gradient(circle at 10px 0, transparent 3px, var(--paper-bg) 4px); background-size: 20px 6px; background-repeat: repeat-x; opacity: 0.5; }
 
         @keyframes tearOff { 0% { transform: translateY(0) rotate(0deg); opacity: 1; filter: blur(0); } 100% { transform: translateY(150px) rotate(4deg); opacity: 0; filter: blur(5px); } }
@@ -77,9 +56,11 @@
         .story-content { font-size: 1.15rem; line-height: 2; font-weight: 400; color: var(--ink-black); margin: 0 0 30px 0; text-align: justify; white-space: pre-line; }
         .quote-content { font-family: 'Noto Serif TC', serif; font-size: 1.6rem; font-weight: 900; line-height: 1.6; color: var(--ink-black); margin: 0 0 40px 0; padding-left: 20px; border-left: 4px solid var(--ink-black); }
 
+        /* 零一：音樂按鈕更新為包含歌手與歌名的寬按鈕 */
         .music-player { margin-bottom: 40px; border-top: 1px solid var(--line-color); padding-top: 25px; display: flex; justify-content: center; }
         .btn-music { background: rgba(255,255,255,0.8); border: 1px solid var(--line-color); padding: 12px 28px; border-radius: 30px; font-size: 0.95rem; font-weight: 700; color: var(--ink-black); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.03); backdrop-filter: blur(10px); }
         .btn-music:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); color: #000; border-color: rgba(0,0,0,0.2); }
+        .music-icon { font-size: 1.1rem; }
 
         .creator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; border-top: 2px dashed var(--line-color); padding-top: 40px; }
         .output-box { background: #F4F6F8; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
@@ -150,9 +131,11 @@
             <div class="story-content" id="ui-article">故事載入中...</div>
             <h2 class="quote-content" id="ui-quote">「金句載入中...」</h2>
 
+            <!-- 🎵 音樂區塊：改為明確的單曲與歌手名稱 -->
             <div class="music-player">
                 <a id="ui-music-btn" href="#" target="_blank" class="btn-music">
-                    <span id="ui-music-text">🎵 播放今日專屬 Lo-Fi</span>
+                    <span class="music-icon">🎵</span>
+                    <span id="ui-music-text">IG 配樂建議：載入中...</span>
                 </a>
             </div>
 
@@ -166,7 +149,7 @@
                 <div class="output-box">
                     <h3>📱 脆 (Threads) 專屬排版</h3>
                     <button class="btn-action" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📝 複製 Threads 貼文</button>
-                    <textarea id="igCaption" class="code-box" style="color: var(--ink-black); font-weight: 500;" readonly></textarea>
+                    <textarea id="igCaption" class="code-box" style="min-height: 120px; color: var(--ink-black); font-weight: 500;" readonly></textarea>
                     
                     <span style="font-size: 0.85rem; color: var(--ink-gray); text-align: center; margin-top: 15px; margin-bottom: 5px;">
                         ✨ 點擊圖片上傳底圖，實時生成日曆海報
@@ -207,35 +190,30 @@
     <script>
         const quotesData = __QUOTES_JS__; 
         
-        const localFortunes = [
-            { music_text: "迷幻爵士 Jazz Hop - 適合沉澱焦慮", yt_id: "5qap5aO4i9A" },
-            { music_text: "輕快 Lofi Beats - 保持心情平靜", yt_id: "8XigHnczVOw" }, 
-            { music_text: "史詩氛圍 Epic Ambient - 迎接未知挑戰", yt_id: "ASj8VN0mdo4" },
-            { music_text: "原聲吉他 Acoustic Folk - 專注與純粹", yt_id: "CcsUYu0PVxY" },
-            { music_text: "靜謐時光 - 療癒心靈", yt_id: "lCOF9LN_Zxs" }
+        // 🔥 零一特製：IG 音樂庫熱門單曲資料庫 (包含曲名與歌手，方便直接在 IG 搜尋)
+        const igMusicLibrary = [
+            { track: "Merry-Go-Round of Life", artist: "Joe Hisaishi", yt_id: "HMGetv40FQU" }, // 宮崎駿/久石讓 經典療癒
+            { track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" }, // 極簡鋼琴/人間清醒
+            { track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" }, // 躺平無罪
+            { track: "A Sky Full of Stars", artist: "Coldplay", yt_id: "VPRjCeoBqrI" }, // 滿血復活/史詩感
+            { track: "Ditto", artist: "NewJeans", yt_id: "pSUydWEqKwE" }, // 都會質感/Y2K
+            { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }, // 溫暖陽光
+            { track: "The Scientist", artist: "Coldplay", yt_id: "RB-RcX5DS5A" } // 唯美反差/憂鬱
         ];
 
-        // 🔥 零一的「陽光與生命力」指令庫大升級
         const promptGenres = [
-            "Japanese slice-of-life photography", // 日系生活感
-            "Bright and airy lifestyle editorial", // 明亮空氣感生活雜誌
-            "National Geographic award winning photography", // 國家地理大獎 (涵蓋萬物)
-            "Vibrant macro nature photography", // 鮮豔微距生態
-            "Candid street photography", // 街頭抓拍
-            "Cozy minimalist interior photography", // 溫馨極簡室內
-            "Epic landscape photography" // 壯闊風景
+            "Japanese slice-of-life photography", "Bright and airy lifestyle editorial",
+            "National Geographic award winning photography", "Vibrant macro nature photography",
+            "Candid street photography", "Cozy minimalist interior photography", "Epic landscape photography"
         ];
         
         const promptSubjects = [
-            // 👩👨 真實人物與生活溫度
             "a young Asian woman peacefully drinking coffee and reading a book by a sunlit window",
             "a smiling barista gracefully crafting latte art in a bright bustling morning cafe",
             "a person in a cozy sweater writing in a journal at a sun-drenched wooden dining table",
-            // 🐱🐶 動物與療癒生命
             "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
             "a cheerful golden retriever resting happily on a sun-drenched wooden porch",
             "a small bird perched perfectly on a blooming cherry blossom branch",
-            // 🏞️ 風景與微觀宇宙
             "an extreme close-up of crystal clear morning dew resting on a vibrant green fern leaf",
             "a breathtaking panoramic view of a lush green valley and a pristine alpine lake",
             "a beautifully plated rustic Spanish potato tortilla on a ceramic dish surrounded by fresh herbs",
@@ -243,7 +221,6 @@
         ];
         
         const promptModifiers = [
-            // ☀️ 擺脫陰暗，全面擁抱陽光與自然光
             "bathed in bright morning sunlight, warm and cheerful atmosphere, soft shadows, 8k, photorealistic",
             "shot on 35mm lens, Fujifilm Superia 400 simulation, bright and airy, natural daylight, masterpiece",
             "soft pastel color palette, gentle golden hour sunlight streaming through windows, cozy and uplifting mood",
@@ -353,7 +330,7 @@
             document.getElementById('ui-lucky-zodiacs').innerHTML = luckyZodiacs.map(z => `<span class="tag-pill zodiac">${z}</span>`).join('');
 
             const selectedData = Array.isArray(quotesData) ? getRandomItem(quotesData) : quotesData;
-            const selectedFortune = getRandomItem(localFortunes);
+            const igMusic = getRandomItem(igMusicLibrary);
             
             const style = selectedData.style || "微小幸運";
             const doAction = selectedData.do || "呼吸";
@@ -369,8 +346,10 @@
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('ui-quote').innerText = `「${quoteText}」`; document.getElementById('p-quote').innerText = `「${quoteText}」`;
 
-            document.getElementById('ui-music-text').innerText = "🎵 點擊播放・" + selectedFortune.music_text;
-            document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${selectedFortune.yt_id}`;
+            // 🔥 寫入明確的 IG 歌曲名稱與歌手，讓使用者一目了然
+            const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
+            document.getElementById('ui-music-text').innerText = "IG 配樂建議：" + fullSongInfo;
+            document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${igMusic.yt_id}`;
 
             const genre = getRandomItem(promptGenres);
             const subject = getRandomItem(promptSubjects);
@@ -382,7 +361,8 @@
             const safeUrlPrompt = encodeURIComponent(`${genre} of ${subject}, highly detailed`);
             document.getElementById('poster-bg-img').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true`;
             
-            const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n✨ 宇宙寵兒：${luckyStars.join(' ')} ${luckyZodiacs.join(' ')}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
+            // 🔥 將音樂資訊同步寫入自動生成的 Threads 貼文，方便使用者複製搜尋
+            const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n✨ 宇宙寵兒：${luckyStars.join(' ')} ${luckyZodiacs.join(' ')}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
             document.getElementById('igCaption').value = threadsText;
         }
 
