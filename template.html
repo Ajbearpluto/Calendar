@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Multiverse Edition</title>
+    <title>TAIJI Omniverse Calendar - Multiverse Creator Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -26,18 +26,15 @@
 
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 30px 20px; min-height: 100vh; display: flex; justify-content: center; }
         
-        /* 左右雙欄佈局 */
-        .container { max-width: 1200px; width: 100%; display: grid; grid-template-columns: 300px 1fr; gap: 30px; align-items: start; }
-        
+        .container { max-width: 1200px; width: 100%; display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start; }
         @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
 
         /* 左側控制台 */
         .sidebar { background: rgba(255,255,255,0.6); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 20px; position: sticky; top: 30px; }
-        
         .sidebar h1 { font-size: 1.2rem; font-weight: 900; margin: 0; color: var(--ink-black); letter-spacing: 1px; }
         
         .control-panel { display: flex; flex-direction: column; gap: 15px; }
-        .control-panel input { background: #fff; border: 1px solid var(--line-color); padding: 12px 15px; border-radius: 8px; font-family: inherit; font-size: 1rem; color: var(--ink-gray); font-weight: 700; outline: none; cursor: pointer; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+        .control-panel input { background: #fff; border: 1px solid var(--line-color); padding: 12px 15px; border-radius: 8px; font-family: inherit; font-size: 1rem; color: var(--ink-gray); font-weight: 700; outline: none; cursor: pointer; transition: 0.3s; }
         .control-panel input:hover { border-color: var(--ink-gray); }
 
         .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -46,27 +43,28 @@
         .today-info { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid var(--line-color); font-size: 0.9rem; font-weight: 500; color: var(--ink-gray); line-height: 1.6; }
         .today-info strong { color: var(--ink-black); font-size: 1.1rem; }
 
-        /* 右側四宮格展廳 */
-        .gallery-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .poster-card { display: flex; flex-direction: column; gap: 12px; background: rgba(255,255,255,0.3); padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.6); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        /* 右側四宮格 */
+        .gallery-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .poster-card { display: flex; flex-direction: column; gap: 12px; background: rgba(255,255,255,0.4); padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.6); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
         
-        .poster-label { font-size: 0.9rem; font-weight: 900; color: var(--ink-black); display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
-        .poster-label span { font-weight: 500; color: var(--ink-gray); font-size: 0.75rem; background: #fff; padding: 2px 8px; border-radius: 12px; }
+        .poster-label { font-size: 0.95rem; font-weight: 900; color: var(--ink-black); display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
+        .poster-label span { font-weight: 500; color: var(--ink-gray); font-size: 0.75rem; background: #fff; padding: 3px 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
+        /* 海報主體 */
         .poster-wrapper { position: relative; width: 100%; border-radius: 12px; padding: 0; background: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s ease; }
         .poster-wrapper:hover { transform: scale(1.02); z-index: 10; box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
         .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; background-color: #E0E0E0; }
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
         
-        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 20px; box-sizing: border-box; pointer-events: none; }
+        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 25px; box-sizing: border-box; pointer-events: none; }
         
-        /* 海報內文字與陰影 */
+        /* 內部排版元素 */
         .p-top { display: flex; text-shadow: 0 1px 3px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.4); }
         .p-day { font-family: 'Noto Sans TC'; font-weight: 900; line-height: 0.8; }
         .p-meta { font-size: 0.8rem; line-height: 1.4; font-weight: 400; opacity: 0.95; display: flex; flex-direction: column; gap: 2px; }
         .p-bottom { width: 100%; box-sizing: border-box; }
         .p-fortune { display: flex; gap: 8px; }
-        .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; backdrop-filter: blur(2px); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 3px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700; backdrop-filter: blur(2px); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .p-stamp.do { background: rgba(91, 130, 102, 0.7); }
         .p-stamp.dont { background: rgba(192, 90, 80, 0.7); }
         .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.5; text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.5); margin: 0; overflow-wrap: break-word; word-wrap: break-word; width: 100%; box-sizing: border-box; }
@@ -77,14 +75,14 @@
         .layout-bottom .p-day { font-size: 4rem; }
         .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.5); padding-left: 8px; }
         .layout-bottom .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
-        .layout-bottom .p-quote { font-size: clamp(1rem, 5vw, 1.25rem); border-left: 2px solid rgba(255,255,255,0.9); padding-left: 12px; padding-right: 5px; }
+        .layout-bottom .p-quote { font-size: clamp(1.1rem, 5vw, 1.3rem); border-left: 2px solid rgba(255,255,255,0.9); padding-left: 12px; padding-right: 5px; }
 
         .layout-top { background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: flex-start; gap: 25px; }
         .layout-top .p-top { align-items: baseline; gap: 12px; }
         .layout-top .p-day { font-size: 4rem; }
         .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.5); padding-left: 8px; }
         .layout-top .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
-        .layout-top .p-quote { font-size: clamp(1rem, 5vw, 1.25rem); border-left: 2px solid rgba(255,255,255,0.9); padding-left: 12px; padding-right: 5px; }
+        .layout-top .p-quote { font-size: clamp(1.1rem, 5vw, 1.3rem); border-left: 2px solid rgba(255,255,255,0.9); padding-left: 12px; padding-right: 5px; }
 
         .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 30px; }
         .layout-center .p-top { flex-direction: column; align-items: center; gap: 5px; }
@@ -92,115 +90,192 @@
         .layout-center .p-meta { flex-direction: row; gap: 10px; border-top: 1px solid rgba(255,255,255,0.5); padding-top: 8px; border-left: none; padding-left: 0; }
         .layout-center .p-bottom { display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .layout-center .p-fortune { justify-content: center; }
-        .layout-center .p-quote { font-size: clamp(1rem, 5vw, 1.25rem); border-left: none; border-bottom: 2px solid rgba(255,255,255,0.9); padding-bottom: 12px; padding-left: 0; padding-right: 0; }
+        .layout-center .p-quote { font-size: clamp(1.1rem, 5vw, 1.3rem); border-left: none; border-bottom: 2px solid rgba(255,255,255,0.9); padding-bottom: 12px; padding-left: 0; padding-right: 0; }
 
-        .layout-editorial { background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.7) 100%); flex-direction: row; justify-content: space-between; }
+        .layout-editorial { background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%); flex-direction: row; justify-content: space-between; }
         .layout-editorial .p-top { flex-direction: column; gap: 10px; width: 40%; }
-        .layout-editorial .p-day { font-size: 3.5rem; line-height: 0.9; }
+        .layout-editorial .p-day { font-size: 3.8rem; line-height: 0.9; }
         .layout-editorial .p-meta { border-top: 2px solid rgba(255,255,255,0.5); padding-top: 8px; border-left: none; padding-left: 0; }
         .layout-editorial .p-bottom { width: 50%; display: flex; flex-direction: row-reverse; gap: 10px; align-items: flex-start; justify-content: flex-start; }
         .layout-editorial .p-fortune { flex-direction: column; align-items: flex-end; }
-        .layout-editorial .p-quote { writing-mode: vertical-rl; text-align: left; font-size: 1.15rem; border-top: 2px solid #fff; padding-top: 10px; line-height: 1.6; max-height: 90%; border-left: none; border-bottom: none; padding-left: 0; }
+        .layout-editorial .p-quote { writing-mode: vertical-rl; text-align: left; font-size: 1.25rem; border-top: 2px solid #fff; padding-top: 15px; line-height: 1.6; max-height: 90%; border-left: none; border-bottom: none; padding-left: 0; }
 
-        .btn-action { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.05); color: var(--ink-black); padding: 10px; border-radius: 8px; font-family: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .btn-action:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-1px); }
-        .btn-action.primary { background: var(--accent-color); color: #fff; border: none; }
-        .btn-action.primary:hover { background: #c12258; }
+        /* 按鈕與工具區 (重製優化) */
+        .btn-action { background: var(--accent-color); color: #fff; border: none; padding: 12px; border-radius: 8px; font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 5px; }
+        .btn-action:hover { background: #c12258; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+
+        /* 🔥 Jony Ive: 優雅摺疊武器庫 */
+        .creator-tools { background: #fff; border-radius: 8px; border: 1px solid var(--line-color); overflow: hidden; margin-top: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .creator-tools summary { padding: 12px 15px; font-size: 0.85rem; font-weight: 700; cursor: pointer; color: var(--ink-black); list-style: none; display: flex; align-items: center; gap: 8px; user-select: none; }
+        .creator-tools summary::-webkit-details-marker { display: none; }
+        .creator-tools summary:hover { background: #fafafa; }
+        .creator-tools[open] summary { border-bottom: 1px solid var(--line-color); background: #fafafa; }
+        
+        .tool-panel { padding: 15px; display: flex; flex-direction: column; gap: 15px; background: #fafafa; }
+        .tool-group { display: flex; flex-direction: column; gap: 6px; }
+        .tool-group label { font-size: 0.75rem; font-weight: 700; color: var(--ink-gray); }
+        .tool-group textarea { width: 100%; box-sizing: border-box; background: #fff; border: 1px solid var(--line-color); border-radius: 6px; padding: 8px; font-family: monospace; font-size: 0.75rem; color: var(--ink-gray); resize: vertical; min-height: 60px; outline: none; }
+        .tool-group textarea:focus { border-color: var(--ink-gray); }
+        
+        .btn-mini { background: #fff; border: 1px solid var(--line-color); color: var(--ink-black); padding: 6px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.2s; align-self: flex-start; }
+        .btn-mini:hover { background: var(--ink-black); color: #fff; border-color: var(--ink-black); }
 
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 左側：控制台 -->
+        <!-- 左側：極簡控制台 -->
         <div class="sidebar">
             <h1>TAIJI Omniverse</h1>
             <div class="control-panel">
                 <input type="date" id="ui-date-picker" value="__PAYLOAD_DATE__" onchange="applyDateChange()">
                 <button class="btn-tear" onclick="triggerTearAnimation()">
-                    🌌 生成今日多重宇宙
+                    🌌 刷新今日多重宇宙
                 </button>
             </div>
             <div class="today-info" id="today-stats">
                 <strong>載入中...</strong><br>農曆資料計算中
             </div>
-            <div style="font-size: 0.8rem; color: var(--ink-gray); line-height: 1.5; margin-top: auto;">
-                ✨ 系統已同時為您生成今天的四種生活切片。每一張都擁有獨立的光影算圖、專屬金句與專屬排版。請挑選最喜歡的下載。
+            <div style="font-size: 0.8rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
+                ✨ 每張海報皆為獨立運算的宇宙切片。點開圖片下方的「🛠️ 工具」即可獲取專屬高畫質算圖指令與社群文案。
             </div>
         </div>
 
-        <!-- 右側：四宮格平行宇宙展廳 -->
+        <!-- 右側：四宮格平行宇宙 -->
         <div class="gallery-wrapper">
             
             <!-- 宇宙 1：日常社畜 (經典沉底) -->
-            <div class="poster-card">
+            <div class="poster-card" id="card-worklife">
                 <div class="poster-label">🪐 宇宙一：日常視角 <span>經典沉底</span></div>
                 <div class="poster-wrapper" id="poster-worklife">
                     <div class="html-poster">
-                        <img class="poster-bg" id="bg-worklife" src="" crossorigin="anonymous">
+                        <img class="poster-bg" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-bottom">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
                             <div class="p-bottom">
-                                <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do">摸魚</span></span><span class="p-stamp dont">忌 <span class="p-dont">加班</span></span></div>
-                                <p class="p-quote" id="quote-worklife">「金句載入中...」</p>
+                                <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
+                                <p class="p-quote">「金句載入中...」</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button class="btn-action primary" onclick="downloadPoster('poster-worklife', this)">⬇️ 下載日常版</button>
+                <button class="btn-action" onclick="downloadPoster('poster-worklife', this)">⬇️ 下載海報</button>
+                
+                <!-- 🔥 武器庫折疊面板 -->
+                <details class="creator-tools">
+                    <summary>🛠️ 展開算圖指令與貼文</summary>
+                    <div class="tool-panel">
+                        <div class="tool-group">
+                            <label>🎨 Midjourney 高解析指令 (自動複製)</label>
+                            <textarea class="prompt-box" readonly></textarea>
+                            <button class="btn-mini" onclick="copyCardText(this, '.prompt-box')">📋 複製指令</button>
+                        </div>
+                        <div class="tool-group">
+                            <label>📱 Threads / IG 專屬排版文案</label>
+                            <textarea class="caption-box" readonly style="height: 100px;"></textarea>
+                            <button class="btn-mini" onclick="copyCardText(this, '.caption-box')">📝 複製貼文</button>
+                        </div>
+                    </div>
+                </details>
             </div>
             
             <!-- 宇宙 2：動物療癒 (天際懸浮) -->
-            <div class="poster-card">
+            <div class="poster-card" id="card-animals">
                 <div class="poster-label">🪐 宇宙二：療癒視角 <span>天際懸浮</span></div>
                 <div class="poster-wrapper" id="poster-animals">
                     <div class="html-poster">
-                        <img class="poster-bg" id="bg-animals" src="" crossorigin="anonymous">
+                        <img class="poster-bg" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-top">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
                             <div class="p-bottom">
-                                <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do">摸魚</span></span><span class="p-stamp dont">忌 <span class="p-dont">加班</span></span></div>
-                                <p class="p-quote" id="quote-animals">「金句載入中...」</p>
+                                <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
+                                <p class="p-quote">「金句載入中...」</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button class="btn-action primary" onclick="downloadPoster('poster-animals', this)">⬇️ 下載療癒版</button>
+                <button class="btn-action" onclick="downloadPoster('poster-animals', this)">⬇️ 下載海報</button>
+                <details class="creator-tools">
+                    <summary>🛠️ 展開算圖指令與貼文</summary>
+                    <div class="tool-panel">
+                        <div class="tool-group">
+                            <label>🎨 Midjourney 高解析指令</label>
+                            <textarea class="prompt-box" readonly></textarea>
+                            <button class="btn-mini" onclick="copyCardText(this, '.prompt-box')">📋 複製指令</button>
+                        </div>
+                        <div class="tool-group">
+                            <label>📱 Threads / IG 專屬排版文案</label>
+                            <textarea class="caption-box" readonly style="height: 100px;"></textarea>
+                            <button class="btn-mini" onclick="copyCardText(this, '.caption-box')">📝 複製貼文</button>
+                        </div>
+                    </div>
+                </details>
             </div>
 
             <!-- 宇宙 3：壯闊大景 (史詩置中) -->
-            <div class="poster-card">
+            <div class="poster-card" id="card-epic">
                 <div class="poster-label">🪐 宇宙三：史詩視角 <span>極致置中</span></div>
                 <div class="poster-wrapper" id="poster-epic">
                     <div class="html-poster">
-                        <img class="poster-bg" id="bg-epic" src="" crossorigin="anonymous">
+                        <img class="poster-bg" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-center">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
                             <div class="p-bottom">
-                                <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do">摸魚</span></span><span class="p-stamp dont">忌 <span class="p-dont">加班</span></span></div>
-                                <p class="p-quote" id="quote-epic">「金句載入中...」</p>
+                                <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
+                                <p class="p-quote">「金句載入中...」</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button class="btn-action primary" onclick="downloadPoster('poster-epic', this)">⬇️ 下載史詩版</button>
+                <button class="btn-action" onclick="downloadPoster('poster-epic', this)">⬇️ 下載海報</button>
+                <details class="creator-tools">
+                    <summary>🛠️ 展開算圖指令與貼文</summary>
+                    <div class="tool-panel">
+                        <div class="tool-group">
+                            <label>🎨 Midjourney 高解析指令</label>
+                            <textarea class="prompt-box" readonly></textarea>
+                            <button class="btn-mini" onclick="copyCardText(this, '.prompt-box')">📋 複製指令</button>
+                        </div>
+                        <div class="tool-group">
+                            <label>📱 Threads / IG 專屬排版文案</label>
+                            <textarea class="caption-box" readonly style="height: 100px;"></textarea>
+                            <button class="btn-mini" onclick="copyCardText(this, '.caption-box')">📝 複製貼文</button>
+                        </div>
+                    </div>
+                </details>
             </div>
 
             <!-- 宇宙 4：微觀禪意 (日系直書) -->
-            <div class="poster-card">
+            <div class="poster-card" id="card-macro">
                 <div class="poster-label">🪐 宇宙四：禪意視角 <span>日系直書</span></div>
                 <div class="poster-wrapper" id="poster-macro">
                     <div class="html-poster">
-                        <img class="poster-bg" id="bg-macro" src="" crossorigin="anonymous">
+                        <img class="poster-bg" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-editorial">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
                             <div class="p-bottom">
-                                <div class="p-fortune"><span class="p-stamp do">宜<br><span class="p-do">摸魚</span></span><span class="p-stamp dont">忌<br><span class="p-dont">加班</span></span></div>
-                                <p class="p-quote" id="quote-macro">「金句載入中...」</p>
+                                <div class="p-fortune"><span class="p-stamp do">宜<br><span class="p-do"></span></span><span class="p-stamp dont">忌<br><span class="p-dont"></span></span></div>
+                                <p class="p-quote">「金句載入中...」</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button class="btn-action primary" onclick="downloadPoster('poster-macro', this)">⬇️ 下載禪意版</button>
+                <button class="btn-action" onclick="downloadPoster('poster-macro', this)">⬇️ 下載海報</button>
+                <details class="creator-tools">
+                    <summary>🛠️ 展開算圖指令與貼文</summary>
+                    <div class="tool-panel">
+                        <div class="tool-group">
+                            <label>🎨 Midjourney 高解析指令</label>
+                            <textarea class="prompt-box" readonly></textarea>
+                            <button class="btn-mini" onclick="copyCardText(this, '.prompt-box')">📋 複製指令</button>
+                        </div>
+                        <div class="tool-group">
+                            <label>📱 Threads / IG 專屬排版文案</label>
+                            <textarea class="caption-box" readonly style="height: 100px;"></textarea>
+                            <button class="btn-mini" onclick="copyCardText(this, '.caption-box')">📝 複製貼文</button>
+                        </div>
+                    </div>
+                </details>
             </div>
 
         </div>
@@ -210,61 +285,61 @@
         const quotesData = typeof __QUOTES_JS__ !== 'undefined' ? __QUOTES_JS__ : []; 
         
         const localExpansionQuotes = [
-            { style: "躺平無罪", article: "生活就像一面鏡子。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
-            { style: "微小幸運", article: "生活就像一面鏡子。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
-            { style: "浩瀚宇宙", article: "生活就像一面鏡子。", q: "世界這麼大，何必把自己困在三坪的辦公室裡。", p: "放寬心", do: "深呼吸", dont: "鑽牛角尖" },
-            { style: "禪意留白", article: "生活就像一面鏡子。", q: "不一定要做大洋裡的鯨魚，做一片葉子上的露水也很好。", p: "安於平凡", do: "觀察", dont: "比較" }
+            { style: "躺平無罪", article: "有時候覺得進度就像讀不完的進度條，卡在99%。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
+            { style: "微小幸運", article: "下雨天遇見一隻不怕人的小野貓。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
+            { style: "浩瀚宇宙", article: "從山頂往下看，煩惱變得很小。", q: "世界這麼大，何必把自己困在三坪的辦公室裡。", p: "放寬心", do: "深呼吸", dont: "鑽牛角尖" },
+            { style: "禪意留白", article: "花時間觀察一滴水的形狀，也是一種收穫。", q: "不一定要做大洋裡的鯨魚，做一片葉子上的露水也很好。", p: "安於平凡", do: "觀察", dont: "比較" }
         ];
 
-        // 萬象矩陣 (確保四個宇宙的血統純正)
         const omniverseMatrix = {
             worklife: {
                 basePrompt: "A highly detailed, editorial lifestyle photography of",
                 subjects: ["a young Asian woman peacefully drinking coffee by a sunlit window", "a person writing in a journal at a sun-drenched wooden dining table", "a vintage glass siphon coffee maker actively brewing coffee"],
                 modifiers: ["shot on 35mm lens, soft natural daylight, indoor lifestyle, 8k, extremely photorealistic", "Fujifilm Superia 400 simulation, beautiful natural lighting, documentary photography"],
-                quotes: [] 
+                music: [{ track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" }]
             },
             animals: {
                 basePrompt: "A heartwarming, award-winning photorealistic photography of",
                 subjects: ["a sleepy tabby cat curled up on a pile of old books bathed in warm sunlight", "a cheerful golden retriever resting happily on a sun-drenched wooden porch"],
                 modifiers: ["shot on 50mm lens, f/1.8, beautiful shallow depth of field, real life, 8k", "soft morning sunlight, sharp focus on fur, National Geographic animal portrait"],
-                quotes: [] 
+                music: [{ track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }]
             },
             epic_nature: {
                 basePrompt: "An epic National Geographic landscape photography of",
                 subjects: ["a breathtaking panoramic view of a lush green valley and a pristine alpine lake", "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds"],
                 modifiers: ["dramatic cinematic lighting, breathtaking scale, highly detailed, 8k resolution", "vibrant natural colors, crystal clear focus, deeply emotional and serene"],
-                quotes: [] 
+                music: [{ track: "A Sky Full of Stars", artist: "Coldplay", yt_id: "VPRjCeoBqrI" }]
             },
             macro_zen: {
                 basePrompt: "An extreme close-up macro photography of",
                 subjects: ["crystal clear morning dew resting on a vibrant green fern leaf", "delicate dandelion seeds bathed in warm golden hour sunlight"],
                 modifiers: ["extreme shallow depth of field, sharp focus on subject, beautiful bokeh, 8k", "ethereal atmosphere, photorealistic macro masterpiece, real life"],
-                quotes: [] 
+                music: [{ track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" }]
             }
+        };
+
+        const parsedMatrix = {
+            worklife: { quotes: [] }, animals: { quotes: [] }, epic: { quotes: [] }, macro: { quotes: [] }
         };
 
         function injectQuotesToMatrix() {
             let allAvailableQuotes = [...localExpansionQuotes];
-            if (Array.isArray(quotesData)) {
-                allAvailableQuotes = allAvailableQuotes.concat(quotesData);
-            } else if (quotesData && quotesData.style) {
-                allAvailableQuotes.push(quotesData);
-            }
+            if (Array.isArray(quotesData)) allAvailableQuotes = allAvailableQuotes.concat(quotesData);
+            else if (quotesData && quotesData.style) allAvailableQuotes.push(quotesData);
 
             allAvailableQuotes.forEach(q => {
                 let style = q.style || "";
-                if (["躺平無罪", "極致反差", "滿血復活"].includes(style)) omniverseMatrix.worklife.quotes.push(q);
-                else if (["微小幸運", "童話角落"].includes(style)) omniverseMatrix.animals.quotes.push(q);
-                else if (["浩瀚宇宙"].includes(style)) omniverseMatrix.epic_nature.quotes.push(q);
-                else if (["人間清醒", "禪意留白"].includes(style)) omniverseMatrix.macro_zen.quotes.push(q);
-                else omniverseMatrix.worklife.quotes.push(q);
+                if (["躺平無罪", "極致反差", "滿血復活"].includes(style)) parsedMatrix.worklife.quotes.push(q);
+                else if (["微小幸運", "童話角落"].includes(style)) parsedMatrix.animals.quotes.push(q);
+                else if (["浩瀚宇宙"].includes(style)) parsedMatrix.epic.quotes.push(q);
+                else if (["人間清醒", "禪意留白"].includes(style)) parsedMatrix.macro.quotes.push(q);
+                else parsedMatrix.worklife.quotes.push(q);
             });
 
-            // 確保每種風格至少有一句話
-            Object.values(omniverseMatrix).forEach((matrix, index) => {
-                if(matrix.quotes.length === 0) matrix.quotes.push(localExpansionQuotes[index]);
-            });
+            if(parsedMatrix.worklife.quotes.length === 0) parsedMatrix.worklife.quotes.push(localExpansionQuotes[0]);
+            if(parsedMatrix.animals.quotes.length === 0) parsedMatrix.animals.quotes.push(localExpansionQuotes[1]);
+            if(parsedMatrix.epic.quotes.length === 0) parsedMatrix.epic.quotes.push(localExpansionQuotes[2]);
+            if(parsedMatrix.macro.quotes.length === 0) parsedMatrix.macro.quotes.push(localExpansionQuotes[3]);
         }
 
         function getAstrologySign(month, day) {
@@ -284,8 +359,18 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
+        function copyCardText(btnElement, selector) {
+            const card = btnElement.closest('.poster-card');
+            const textarea = card.querySelector(selector);
+            textarea.select();
+            document.execCommand("copy");
+            
+            const originalText = btnElement.innerHTML;
+            btnElement.innerHTML = "✅ 已複製！";
+            setTimeout(() => { btnElement.innerHTML = originalText; }, 2000);
+        }
+
         function triggerTearAnimation() {
-            // 這裡不需要撕紙動畫了，直接刷新四宮格
             const dateInput = document.getElementById('ui-date-picker');
             let currentDate = new Date(dateInput.value);
             currentDate.setDate(currentDate.getDate() + 1);
@@ -317,7 +402,7 @@
             });
         }
 
-        // 🔥 零一引擎：一次為四個宇宙賦予獨立靈魂與圖片！
+        // 🔥 核心生成邏輯
         function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
             const dObj = new Date(currentDate + "T00:00:00");
             const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
@@ -334,42 +419,51 @@
                 }
             } catch (e) {}
 
-            // 更新左側控制台資訊
             document.getElementById('today-stats').innerHTML = `
                 <strong>${ymStr}.${dayStr}</strong><br>
                 ${lunarDisplay} ｜ ${exactStarSign}
             `;
 
-            // 定義四個平行宇宙的綁定關係
             const universes = [
-                { id: 'worklife', catKey: 'worklife' },
-                { id: 'animals', catKey: 'animals' },
-                { id: 'epic', catKey: 'epic_nature' },
-                { id: 'macro', catKey: 'macro_zen' }
+                { id: 'worklife', catKey: 'worklife', parseKey: 'worklife' },
+                { id: 'animals', catKey: 'animals', parseKey: 'animals' },
+                { id: 'epic', catKey: 'epic_nature', parseKey: 'epic' },
+                { id: 'macro', catKey: 'macro_zen', parseKey: 'macro' }
             ];
 
-            // 迴圈遍歷四張海報，分別給予獨立的生命！
             universes.forEach(universe => {
                 const matrix = omniverseMatrix[universe.catKey];
+                const pMatrix = parsedMatrix[universe.parseKey];
                 
-                // 1. 抽出不同的字
-                const quoteObj = getRandomItem(matrix.quotes);
+                // 1. 金句與故事
+                const quoteObj = getRandomItem(pMatrix.quotes);
                 const doAction = quoteObj.do || "呼吸";
                 const dontAction = quoteObj.dont || "焦慮";
                 const quoteText = quoteObj.q || "努力活著。";
+                const articleText = quoteObj.article || "";
+                const painTag = quoteObj.p || "日常碎片";
+                
+                const igMusic = getRandomItem(matrix.music);
+                const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
 
-                // 2. 抽出不同的圖片 Prompt 並加上獨立亂數
+                // 2. 高畫質 Prompt
                 const subjectStr = getRandomItem(matrix.subjects);
                 const modifierStr = getRandomItem(matrix.modifiers);
-                const fullPrompt = `${matrix.basePrompt} ${subjectStr}. ${modifierStr}`;
+                const fullPrompt = `${matrix.basePrompt} ${subjectStr}. ${modifierStr} --ar 9:16 --style raw --v 6.0`;
                 
                 const randomSeed = Math.floor(Math.random() * 1000000);
-                const safeUrlPrompt = encodeURIComponent(`${fullPrompt}, photorealistic`);
+                const safeUrlPrompt = encodeURIComponent(`${matrix.basePrompt} ${subjectStr}, photorealistic`);
                 const imgUrl = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true&seed=${randomSeed}`;
 
-                // 3. 注入到對應的海報 HTML 節點中 (保留相同的日期，不同的圖片與文字)
-                const wrapper = document.getElementById(`poster-${universe.id}`);
+                // 3. 完整社群文案
+                const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
+
+                // 4. 寫入節點
+                const wrapper = document.getElementById(`card-${universe.id}`);
                 
+                wrapper.querySelector('.prompt-box').value = fullPrompt;
+                wrapper.querySelector('.caption-box').value = threadsText;
+
                 wrapper.querySelector('.poster-bg').src = imgUrl;
                 wrapper.querySelector('.p-day').innerText = dayStr;
                 wrapper.querySelector('.p-ym').innerText = ymStr;
