@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Full Arsenal Edition</title>
+    <title>TAIJI Omniverse Calendar - Async Stable Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -53,8 +53,11 @@
         .poster-wrapper { position: relative; width: 100%; border-radius: 12px; padding: 0; background: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s ease; }
         .poster-wrapper:hover { transform: scale(1.02); z-index: 10; box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
         .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; background-color: #E0E0E0; }
-        .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
+        .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.5s ease; }
         
+        /* 🔥 新增：載入中遮罩，確保排隊生成時畫面不顯得突兀 */
+        .loading-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #E0E0E0; z-index: 1; display: flex; justify-content: center; align-items: center; color: var(--ink-gray); font-weight: 700; transition: opacity 0.5s; }
+
         .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 25px; box-sizing: border-box; pointer-events: none; }
         
         /* 內部排版元素 */
@@ -102,7 +105,7 @@
         .btn-action { background: var(--accent-color); color: #fff; border: none; padding: 12px; border-radius: 8px; font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 5px; }
         .btn-action:hover { background: #c12258; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
-        /* 🔥 零一：全新常駐型資料儀表板 (不再隱藏) */
+        /* 常駐武器庫面板 */
         .tool-panel { background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 12px; margin-top: 5px; }
         .tool-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700; color: var(--ink-black); }
         .btn-icon { background: #fff; border: 1px solid var(--line-color); color: var(--ink-black); padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
@@ -141,7 +144,8 @@
                 <div class="poster-label">🪐 宇宙一：日常視角 <span>經典沉底</span></div>
                 <div class="poster-wrapper" id="poster-worklife">
                     <div class="html-poster">
-                        <img class="poster-bg" src="" crossorigin="anonymous">
+                        <div class="loading-mask" id="mask-worklife">載入宇宙中...</div>
+                        <img class="poster-bg" id="bg-worklife" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-bottom">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
                             <div class="p-bottom">
@@ -153,7 +157,6 @@
                 </div>
                 <button class="btn-action" onclick="downloadPoster('poster-worklife', this)">⬇️ 下載海報</button>
                 
-                <!-- 常駐型武器庫面板 -->
                 <div class="tool-panel">
                     <div class="tool-header">
                         <span>🎨 MJ 高解析指令</span>
@@ -174,7 +177,8 @@
                 <div class="poster-label">🪐 宇宙二：療癒視角 <span>天際懸浮</span></div>
                 <div class="poster-wrapper" id="poster-animals">
                     <div class="html-poster">
-                        <img class="poster-bg" src="" crossorigin="anonymous">
+                        <div class="loading-mask" id="mask-animals">等待算圖資源...</div>
+                        <img class="poster-bg" id="bg-animals" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-top">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
                             <div class="p-bottom">
@@ -204,7 +208,8 @@
                 <div class="poster-label">🪐 宇宙三：史詩視角 <span>極致置中</span></div>
                 <div class="poster-wrapper" id="poster-epic">
                     <div class="html-poster">
-                        <img class="poster-bg" src="" crossorigin="anonymous">
+                        <div class="loading-mask" id="mask-epic">等待算圖資源...</div>
+                        <img class="poster-bg" id="bg-epic" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-center">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
                             <div class="p-bottom">
@@ -234,7 +239,8 @@
                 <div class="poster-label">🪐 宇宙四：禪意視角 <span>日系直書</span></div>
                 <div class="poster-wrapper" id="poster-macro">
                     <div class="html-poster">
-                        <img class="poster-bg" src="" crossorigin="anonymous">
+                        <div class="loading-mask" id="mask-macro">等待算圖資源...</div>
+                        <img class="poster-bg" id="bg-macro" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-editorial">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
                             <div class="p-bottom">
@@ -363,8 +369,12 @@
 
         function downloadPoster(wrapperId, btnElement) {
             const posterWrapper = document.getElementById(wrapperId);
-            const originalText = btnElement.innerHTML;
+            const mask = document.getElementById(wrapperId.replace('poster-', 'mask-'));
             
+            // 下載前確保遮罩隱藏
+            if (mask) mask.style.opacity = '0';
+
+            const originalText = btnElement.innerHTML;
             btnElement.innerHTML = "⏳ 渲染中...";
             btnElement.style.opacity = "0.7"; btnElement.style.pointerEvents = "none";
 
@@ -383,8 +393,8 @@
             });
         }
 
-        // 🔥 核心生成邏輯：雙軌制算圖防破圖
-        function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
+        // 🔥 非同步陣列產生器 (解決 API 塞車破圖問題)
+        async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
             const dObj = new Date(currentDate + "T00:00:00");
             const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
             
@@ -412,11 +422,19 @@
                 { id: 'macro', catKey: 'macro_zen', parseKey: 'macro' }
             ];
 
+            // 1. 先將四個宇宙的文字都印上去，並重置遮罩
             universes.forEach(universe => {
+                const wrapper = document.getElementById(`card-${universe.id}`);
+                const mask = document.getElementById(`mask-${universe.id}`);
+                const bgImg = document.getElementById(`bg-${universe.id}`);
+                
+                // 重置狀態
+                if (mask) { mask.style.opacity = '1'; mask.innerText = '等待算圖資源...'; }
+                bgImg.src = ''; 
+                
                 const matrix = omniverseMatrix[universe.catKey];
                 const pMatrix = parsedMatrix[universe.parseKey];
                 
-                // 1. 金句與故事
                 const quoteObj = getRandomItem(pMatrix.quotes);
                 const doAction = quoteObj.do || "呼吸";
                 const dontAction = quoteObj.dont || "焦慮";
@@ -427,42 +445,59 @@
                 const igMusic = getRandomItem(matrix.music);
                 const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
 
-                // 2. 算圖邏輯分流 (防破圖機制)
+                // 準備 Prompt
                 const subjectStr = getRandomItem(matrix.subjects);
                 const modifierStr = getRandomItem(matrix.modifiers);
-                
-                // 👉 餵給使用者的完整 MJ 大師級指令
                 const fullMjPrompt = `${matrix.basePrompt} ${subjectStr}. ${modifierStr} --ar 9:16 --style raw --v 6.0`;
                 
-                // 👉 餵給網頁預覽引擎的精簡指令 (移除複雜修飾詞，解析度降至 720x1280 保證不超時)
-                const randomSeed = Math.floor(Math.random() * 1000000);
-                const safeUrlPrompt = encodeURIComponent(`${matrix.basePrompt} ${subjectStr}`);
-                const imgUrl = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
+                // 暫存簡化版的算圖咒語，供下一步的非同步迴圈使用
+                universe.safeUrlPrompt = encodeURIComponent(`${matrix.basePrompt} ${subjectStr}`);
 
-                // 3. 完整社群文案
+                // 寫入文字
                 const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
-
-                // 4. 寫入節點
-                const wrapper = document.getElementById(`card-${universe.id}`);
                 
                 wrapper.querySelector('.prompt-box').value = fullMjPrompt;
                 wrapper.querySelector('.caption-box').value = threadsText;
 
-                const bgImg = wrapper.querySelector('.poster-bg');
-                bgImg.src = imgUrl;
-                // 加入圖片載入失敗的防呆機制
-                bgImg.onerror = function() {
-                    this.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=720&auto=format&fit=crop';
-                };
-
                 wrapper.querySelector('.p-day').innerText = dayStr;
                 wrapper.querySelector('.p-ym').innerText = ymStr;
                 wrapper.querySelector('.p-lunar').innerText = lunarDisplay;
-                
                 wrapper.querySelectorAll('.p-do').forEach(el => el.innerText = doAction);
                 wrapper.querySelectorAll('.p-dont').forEach(el => el.innerText = dontAction);
                 wrapper.querySelector('.p-quote').innerText = `「${quoteText}」`;
             });
+
+            // 2. 非同步 (Async) 依序向伺服器要圖，避免被擋！
+            for (let i = 0; i < universes.length; i++) {
+                const universe = universes[i];
+                const mask = document.getElementById(`mask-${universe.id}`);
+                const bgImg = document.getElementById(`bg-${universe.id}`);
+                
+                if (mask) mask.innerText = '✨ 魔法演算中...';
+
+                // 生成隨機圖片網址 (降頻率防塞車)
+                const randomSeed = Math.floor(Math.random() * 1000000);
+                const imgUrl = `https://image.pollinations.ai/prompt/${universe.safeUrlPrompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
+
+                // 等待圖片載入完成
+                await new Promise((resolve) => {
+                    bgImg.onload = () => {
+                        if (mask) mask.style.opacity = '0';
+                        resolve();
+                    };
+                    bgImg.onerror = () => {
+                        if (mask) mask.innerText = '⚠️ 載入超時，使用備用圖';
+                        bgImg.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=720&auto=format&fit=crop';
+                        resolve();
+                    };
+                    bgImg.src = imgUrl;
+                });
+
+                // 每張圖成功後，強制停頓 1.5 秒再要下一張 (非常關鍵的禮貌延遲！)
+                if (i < universes.length - 1) {
+                    await new Promise(r => setTimeout(r, 1500));
+                }
+            }
         }
 
         window.onload = function() { 
