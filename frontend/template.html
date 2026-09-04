@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - True Quantum & Film Edition</title>
+    <title>TAIJI Omniverse - True Random Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -27,7 +27,6 @@
         .container { max-width: 1600px; width: 100%; display: grid; grid-template-columns: 260px 1fr; gap: 25px; align-items: start; }
         @media (max-width: 1200px) { .container { grid-template-columns: 1fr; } }
 
-        /* 左側極簡控制台 */
         .sidebar { background: rgba(255,255,255,0.85); padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 15px; position: sticky; top: 25px; border: 1px solid rgba(255,255,255,1); }
         .sidebar h1 { font-size: 1.1rem; font-weight: 900; margin: 0; color: var(--ink-black); letter-spacing: 1px; }
         
@@ -40,17 +39,14 @@
         .today-info { background: #fff; padding: 12px; border-radius: 8px; border: 1px solid var(--line-color); font-size: 0.85rem; font-weight: 500; color: var(--ink-gray); line-height: 1.5; }
         .today-info strong { color: var(--ink-black); font-size: 1rem; }
 
-        /* 右側四排畫廊 */
         .gallery-wrapper { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
         @media (max-width: 1400px) { .gallery-wrapper { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { .gallery-wrapper { grid-template-columns: 1fr; } }
 
         .poster-card { display: flex; flex-direction: column; gap: 10px; background: rgba(255,255,255,0.7); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,1); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-        
         .poster-label { font-size: 0.85rem; font-weight: 900; color: var(--ink-black); display: flex; justify-content: space-between; align-items: center; padding: 0 4px; }
         .poster-label span { font-weight: 500; color: var(--ink-gray); font-size: 0.7rem; background: #fff; padding: 2px 8px; border-radius: 10px; }
 
-        /* 海報主體 */
         .poster-wrapper { position: relative; width: 100%; border-radius: 10px; padding: 0; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: transform 0.3s ease; }
         .poster-wrapper:hover { transform: scale(1.03); z-index: 10; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
         .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 10px; overflow: hidden; background-color: #E8E8E8; }
@@ -70,7 +66,7 @@
         .p-stamp.dont { background: rgba(192, 90, 80, 0.75); }
         .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.5; text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 2px 8px rgba(0,0,0,0.6); margin: 0; overflow-wrap: break-word; word-wrap: break-word; width: 100%; box-sizing: border-box; }
 
-        /* 四種排版模態 (分離套用) */
+        /* 四種排版模態 */
         .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.85) 100%); flex-direction: column; justify-content: space-between; }
         .layout-bottom .p-top { align-items: baseline; gap: 10px; }
         .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.6); padding-left: 6px; }
@@ -99,7 +95,6 @@
         .layout-editorial .p-fortune { flex-direction: column; align-items: flex-end; }
         .layout-editorial .p-quote { writing-mode: vertical-rl; text-align: left; font-size: 1.1rem; border-top: 2px solid #fff; padding-top: 10px; line-height: 1.6; max-height: 90%; }
 
-        /* 按鈕與工具列 */
         .btn-action { background: var(--accent-color); color: #fff; border: none; padding: 10px; border-radius: 8px; font-family: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .btn-action:hover { background: #c12258; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
 
@@ -121,14 +116,14 @@
             <div class="control-panel">
                 <input type="date" id="ui-date-picker" value="__PAYLOAD_DATE__" onchange="applyDateChange()">
                 <button class="btn-tear" onclick="triggerTearAnimation()">
-                    🌌 刷新量子平行宇宙
+                    🌌 骰出全新平行宇宙
                 </button>
             </div>
             <div class="today-info" id="today-stats">
                 <strong>載入中...</strong><br>農曆資料計算中
             </div>
             <div style="font-size: 0.75rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
-                ✨ 已啟動<b>量子洗牌引擎</b>與<b>底片紀實濾鏡</b>。每次刷新將呈現人類肉眼所見的高純度真實瞬間。
+                ✨ 系統已切換為<b>真・量子獨立機率</b>。每次刷新，四個格子將各自獨立擲骰決定主題與排版，組合無窮無盡！
             </div>
         </div>
 
@@ -137,10 +132,10 @@
             
             <!-- 容器 0 -->
             <div class="poster-card" id="card-0">
-                <div class="poster-label" id="label-0">🪐 宇宙一 <span>載入中...</span></div>
+                <div class="poster-label" id="label-0">🪐 觀測中... <span>載入中</span></div>
                 <div class="poster-wrapper" id="poster-0">
                     <div class="html-poster">
-                        <div class="loading-mask" id="mask-0"><span>📸 宇宙觀測中...</span></div>
+                        <div class="loading-mask" id="mask-0"><span>📸 宇宙成形中...</span></div>
                         <img class="poster-bg" id="bg-0" src="" crossorigin="anonymous">
                         <div class="poster-overlay" id="overlay-0">
                             <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
@@ -162,7 +157,7 @@
             
             <!-- 容器 1 -->
             <div class="poster-card" id="card-1">
-                <div class="poster-label" id="label-1">🪐 宇宙二 <span>載入中...</span></div>
+                <div class="poster-label" id="label-1">🪐 觀測中... <span>載入中</span></div>
                 <div class="poster-wrapper" id="poster-1">
                     <div class="html-poster">
                         <div class="loading-mask" id="mask-1"><span>等候算圖...</span></div>
@@ -187,7 +182,7 @@
 
             <!-- 容器 2 -->
             <div class="poster-card" id="card-2">
-                <div class="poster-label" id="label-2">🪐 宇宙三 <span>載入中...</span></div>
+                <div class="poster-label" id="label-2">🪐 觀測中... <span>載入中</span></div>
                 <div class="poster-wrapper" id="poster-2">
                     <div class="html-poster">
                         <div class="loading-mask" id="mask-2"><span>等候算圖...</span></div>
@@ -212,7 +207,7 @@
 
             <!-- 容器 3 -->
             <div class="poster-card" id="card-3">
-                <div class="poster-label" id="label-3">🪐 宇宙四 <span>載入中...</span></div>
+                <div class="poster-label" id="label-3">🪐 觀測中... <span>載入中</span></div>
                 <div class="poster-wrapper" id="poster-3">
                     <div class="html-poster">
                         <div class="loading-mask" id="mask-3"><span>等候算圖...</span></div>
@@ -248,7 +243,7 @@
             { style: "禪意留白", article: "花時間觀察一滴水的形狀，也是一種收穫。", q: "不一定要做大洋裡的鯨魚，做一片葉子上的露水也很好。", p: "安於平凡", do: "觀察", dont: "比較" }
         ];
 
-        // 🔥 高純度紀實攝影指令 (消除 AI 塑料感，追求肉眼真實)
+        // 高純度紀實攝影指令
         const omniverseMatrix = {
             worklife: {
                 basePrompt: "A candid documentary photography of",
@@ -317,19 +312,6 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-        // 🔥 洗牌演算法 (Fisher-Yates Shuffle)
-        function shuffleArray(array) {
-            let curId = array.length;
-            while (0 !== curId) {
-                let randId = Math.floor(Math.random() * curId);
-                curId -= 1;
-                let tmp = array[curId];
-                array[curId] = array[randId];
-                array[randId] = tmp;
-            }
-            return array;
-        }
-
         function copyCardText(btnElement, selector) {
             const card = btnElement.closest('.poster-card');
             const textarea = card.querySelector(selector);
@@ -377,7 +359,7 @@
         const layoutNames = { 'layout-bottom': '經典沉底', 'layout-top': '天際懸浮', 'layout-center': '極致置中', 'layout-editorial': '日系直書' };
         const uniTitles = ['宇宙一', '宇宙二', '宇宙三', '宇宙四'];
 
-        // 🔥 量子引擎：雙重洗牌與非同步渲染
+        // 🔥 真・量子引擎：廢除洗牌，每個格子獨立擲骰子！
         async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
             const dObj = new Date(currentDate + "T00:00:00");
             const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
@@ -395,15 +377,16 @@
 
             document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><br>${lunarDisplay} ｜ ${exactStarSign}`;
 
-            // 🔥 核心：每次都將「主題」與「排版」打亂洗牌！
-            let shuffledCategories = shuffleArray(['worklife', 'animals', 'epic_nature', 'macro_zen']);
-            let shuffledLayouts = shuffleArray(['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial']);
+            const allCategories = ['worklife', 'animals', 'epic_nature', 'macro_zen'];
+            const allLayouts = ['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial'];
 
-            // 1. 初始化 4 個容器
+            // 1. 初始化 4 個容器 (完全獨立隨機)
             let renderQueue = [];
             for (let i = 0; i < 4; i++) {
-                const catKey = shuffledCategories[i];
-                const layoutKey = shuffledLayouts[i];
+                // 🎲 每個格子都自己丟骰子！有可能出現 4 個日常、或是 3 個直書排版，這才是真正的無限可能！
+                const catKey = getRandomItem(allCategories);
+                const layoutKey = getRandomItem(allLayouts);
+                
                 const wrapper = document.getElementById(`card-${i}`);
                 const mask = document.getElementById(`mask-${i}`);
                 const bgImg = document.getElementById(`bg-${i}`);
@@ -435,13 +418,14 @@
                 const igMusic = getRandomItem(matrix.music);
                 const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
 
+                // 隨機選取畫面主體
                 const subjectStr = getRandomItem(matrix.subjects);
                 
-                // 完整高階咒語
+                // 完整大師級 MJ 咒語 (留給指揮官手動算高畫質)
                 const fullMjPrompt = `${matrix.basePrompt} ${subjectStr}, ${matrix.modifiers} --style raw --v 6.0 --ar 9:16`;
                 
-                // 🔥 餵給網頁預覽引擎的防破圖「直球咒語」，強制套用底片紀實風格
-                const safeUrlPrompt = encodeURIComponent(`Untouched candid smartphone photo of ${subjectStr}, natural daylight, film grain, unedited`);
+                // 🔥 極簡預覽咒語：砍掉所有冗長形容詞，只保留「寫實照片+主體」，減輕伺服器負擔避免紫屏破圖！
+                const safeUrlPrompt = encodeURIComponent(`hyper realistic photo of ${subjectStr}`);
                 
                 const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
                 
@@ -457,7 +441,7 @@
                 renderQueue.push({ id: i, prompt: safeUrlPrompt });
             }
 
-            // 2. 嚴格依序向伺服器要圖 (2 秒間隔防破圖)
+            // 2. 嚴格依序向伺服器要圖
             for (let i = 0; i < renderQueue.length; i++) {
                 const target = renderQueue[i];
                 const mask = document.getElementById(`mask-${target.id}`);
@@ -471,14 +455,16 @@
                 await new Promise((resolve) => {
                     bgImg.onload = () => { if (mask) mask.style.opacity = '0'; resolve(); };
                     bgImg.onerror = () => {
-                        if (mask) mask.innerHTML = '<span>⚠️ 網路壅塞，使用備用圖</span>';
-                        bgImg.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=720&auto=format&fit=crop';
+                        if (mask) mask.innerHTML = '<span>⚠️ 伺服器擁塞，載入備用底片</span>';
+                        // 備用圖換成比較低調真實的灰階自然照片，不再是突兀的紫屏！
+                        bgImg.src = 'https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?q=80&w=720&auto=format&fit=crop';
                         resolve();
                     };
                     bgImg.src = imgUrl;
                 });
 
-                if (i < renderQueue.length - 1) await new Promise(r => setTimeout(r, 2000));
+                // 2.5 秒的停頓：給免費伺服器喘息空間
+                if (i < renderQueue.length - 1) await new Promise(r => setTimeout(r, 2500));
             }
         }
 
