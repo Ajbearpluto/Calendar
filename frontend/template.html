@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Async Stable Edition</title>
+    <title>TAIJI Omniverse Calendar - Hyper-Realistic Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -14,106 +14,104 @@
             --ink-black: #1A1A1A;
             --ink-gray: #757575;
             --line-color: #E0E0E0;
-            --stamp-red: #C05A50;
-            --stamp-green: #5B8266;
-            --env-bg: #EAEAE4;
             --accent-color: #E1306C;
+            --env-bg: #F0F0EE;
         }
 
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
 
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 30px 20px; min-height: 100vh; display: flex; justify-content: center; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 25px; min-height: 100vh; display: flex; justify-content: center; }
         
-        .container { max-width: 1400px; width: 100%; display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start; }
-        @media (max-width: 1024px) { .container { grid-template-columns: 1fr; } }
+        /* 🔥 原研哉的空間重塑：強制 4 排並列，縮小卡片比例 */
+        .container { max-width: 1600px; width: 100%; display: grid; grid-template-columns: 260px 1fr; gap: 25px; align-items: start; }
+        @media (max-width: 1200px) { .container { grid-template-columns: 1fr; } }
 
-        /* 左側控制台 */
-        .sidebar { background: rgba(255,255,255,0.7); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 20px; position: sticky; top: 30px; }
-        .sidebar h1 { font-size: 1.2rem; font-weight: 900; margin: 0; color: var(--ink-black); letter-spacing: 1px; }
+        /* 左側極簡控制台 */
+        .sidebar { background: rgba(255,255,255,0.85); padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 15px; position: sticky; top: 25px; border: 1px solid rgba(255,255,255,1); }
+        .sidebar h1 { font-size: 1.1rem; font-weight: 900; margin: 0; color: var(--ink-black); letter-spacing: 1px; }
         
-        .control-panel { display: flex; flex-direction: column; gap: 15px; }
-        .control-panel input { background: #fff; border: 1px solid var(--line-color); padding: 12px 15px; border-radius: 8px; font-family: inherit; font-size: 1rem; color: var(--ink-gray); font-weight: 700; outline: none; cursor: pointer; transition: 0.3s; }
+        .control-panel { display: flex; flex-direction: column; gap: 10px; }
+        .control-panel input { background: #fff; border: 1px solid var(--line-color); padding: 10px 15px; border-radius: 8px; font-family: inherit; font-size: 0.95rem; font-weight: 700; outline: none; cursor: pointer; transition: 0.3s; }
         
-        .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .btn-tear:hover { background: #333; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 12px; border-radius: 8px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-tear:hover { background: #333; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
-        .today-info { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid var(--line-color); font-size: 0.9rem; font-weight: 500; color: var(--ink-gray); line-height: 1.6; }
-        .today-info strong { color: var(--ink-black); font-size: 1.1rem; }
+        .today-info { background: #fff; padding: 12px; border-radius: 8px; border: 1px solid var(--line-color); font-size: 0.85rem; font-weight: 500; color: var(--ink-gray); line-height: 1.5; }
+        .today-info strong { color: var(--ink-black); font-size: 1rem; }
 
-        /* 右側四宮格 */
-        .gallery-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 25px; }
-        .poster-card { display: flex; flex-direction: column; gap: 12px; background: rgba(255,255,255,0.5); padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        /* 🔥 右側畫廊：強制定寬與 4 欄網格 */
+        .gallery-wrapper { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        @media (max-width: 1400px) { .gallery-wrapper { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .gallery-wrapper { grid-template-columns: 1fr; } }
+
+        .poster-card { display: flex; flex-direction: column; gap: 10px; background: rgba(255,255,255,0.7); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,1); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
         
-        .poster-label { font-size: 0.95rem; font-weight: 900; color: var(--ink-black); display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
-        .poster-label span { font-weight: 500; color: var(--ink-gray); font-size: 0.75rem; background: #fff; padding: 3px 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .poster-label { font-size: 0.85rem; font-weight: 900; color: var(--ink-black); display: flex; justify-content: space-between; align-items: center; padding: 0 4px; }
+        .poster-label span { font-weight: 500; color: var(--ink-gray); font-size: 0.7rem; background: #fff; padding: 2px 8px; border-radius: 10px; }
 
-        /* 海報主體 */
-        .poster-wrapper { position: relative; width: 100%; border-radius: 12px; padding: 0; background: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s ease; }
-        .poster-wrapper:hover { transform: scale(1.02); z-index: 10; box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
-        .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; background-color: #E0E0E0; }
+        /* 海報主體縮小比例 */
+        .poster-wrapper { position: relative; width: 100%; border-radius: 10px; padding: 0; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: transform 0.3s ease; }
+        .poster-wrapper:hover { transform: scale(1.03); z-index: 10; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 10px; overflow: hidden; background-color: #E8E8E8; }
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.5s ease; }
         
-        /* 載入中遮罩，確保排隊生成時畫面不顯得突兀 */
-        .loading-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #E0E0E0; z-index: 1; display: flex; justify-content: center; align-items: center; color: var(--ink-gray); font-weight: 700; transition: opacity 0.5s; }
+        .loading-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #E8E8E8; z-index: 1; display: flex; justify-content: center; align-items: center; color: var(--ink-gray); font-size: 0.85rem; font-weight: 700; transition: opacity 0.5s; flex-direction: column; gap: 10px; }
 
-        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 25px; box-sizing: border-box; pointer-events: none; }
+        /* 🔥 排版元素因應卡片縮小，進行字體與間距微調 */
+        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 20px; box-sizing: border-box; pointer-events: none; }
         
-        /* 內部排版元素 */
-        .p-top { display: flex; text-shadow: 0 1px 3px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.4); }
-        .p-day { font-family: 'Noto Sans TC'; font-weight: 900; line-height: 0.8; }
-        .p-meta { font-size: 0.8rem; line-height: 1.4; font-weight: 400; opacity: 0.95; display: flex; flex-direction: column; gap: 2px; }
+        .p-top { display: flex; text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.5); }
+        .p-day { font-family: 'Noto Sans TC'; font-weight: 900; line-height: 0.8; font-size: 3.5rem; }
+        .p-meta { font-size: 0.7rem; line-height: 1.4; font-weight: 400; opacity: 0.95; display: flex; flex-direction: column; gap: 1px; }
         .p-bottom { width: 100%; box-sizing: border-box; }
-        .p-fortune { display: flex; gap: 8px; }
-        .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 3px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700; backdrop-filter: blur(2px); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .p-stamp.do { background: rgba(91, 130, 102, 0.7); }
-        .p-stamp.dont { background: rgba(192, 90, 80, 0.7); }
-        .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.5; text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.5); margin: 0; overflow-wrap: break-word; word-wrap: break-word; width: 100%; box-sizing: border-box; }
+        .p-fortune { display: flex; gap: 6px; }
+        .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; backdrop-filter: blur(2px); box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .p-stamp.do { background: rgba(91, 130, 102, 0.75); }
+        .p-stamp.dont { background: rgba(192, 90, 80, 0.75); }
+        .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.5; text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 2px 8px rgba(0,0,0,0.6); margin: 0; overflow-wrap: break-word; word-wrap: break-word; width: 100%; box-sizing: border-box; }
 
-        /* 四種排版模態 */
-        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.95) 100%); flex-direction: column; justify-content: space-between; }
-        .layout-bottom .p-top { align-items: baseline; gap: 12px; }
-        .layout-bottom .p-day { font-size: 4rem; }
-        .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.5); padding-left: 8px; }
-        .layout-bottom .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
-        .layout-bottom .p-quote { font-size: clamp(1.1rem, 5vw, 1.3rem); border-left: 2px solid rgba(255,255,255,0.9); padding-left: 12px; padding-right: 5px; }
+        /* 四種排版模態精緻化 */
+        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.85) 100%); flex-direction: column; justify-content: space-between; }
+        .layout-bottom .p-top { align-items: baseline; gap: 10px; }
+        .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.6); padding-left: 6px; }
+        .layout-bottom .p-bottom { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-align: left; }
+        .layout-bottom .p-quote { font-size: clamp(0.95rem, 4vw, 1.15rem); border-left: 2px solid rgba(255,255,255,0.9); padding-left: 10px; padding-right: 5px; }
 
-        .layout-top { background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: flex-start; gap: 25px; }
-        .layout-top .p-top { align-items: baseline; gap: 12px; }
-        .layout-top .p-day { font-size: 4rem; }
-        .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.5); padding-left: 8px; }
-        .layout-top .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
-        .layout-top .p-quote { font-size: clamp(1.1rem, 5vw, 1.3rem); border-left: 2px solid rgba(255,255,255,0.9); padding-left: 12px; padding-right: 5px; }
+        .layout-top { background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 50%); flex-direction: column; justify-content: flex-start; gap: 20px; }
+        .layout-top .p-top { align-items: baseline; gap: 10px; }
+        .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.6); padding-left: 6px; }
+        .layout-top .p-bottom { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-align: left; }
+        .layout-top .p-quote { font-size: clamp(0.95rem, 4vw, 1.15rem); border-left: 2px solid rgba(255,255,255,0.9); padding-left: 10px; padding-right: 5px; }
 
-        .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 30px; }
+        .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 70%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 20px; }
         .layout-center .p-top { flex-direction: column; align-items: center; gap: 5px; }
-        .layout-center .p-day { font-size: 4.5rem; }
-        .layout-center .p-meta { flex-direction: row; gap: 10px; border-top: 1px solid rgba(255,255,255,0.5); padding-top: 8px; border-left: none; padding-left: 0; }
-        .layout-center .p-bottom { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .layout-center .p-day { font-size: 4rem; }
+        .layout-center .p-meta { flex-direction: row; gap: 8px; border-top: 1px solid rgba(255,255,255,0.6); padding-top: 6px; border-left: none; padding-left: 0; }
+        .layout-center .p-bottom { display: flex; flex-direction: column; align-items: center; gap: 12px; }
         .layout-center .p-fortune { justify-content: center; }
-        .layout-center .p-quote { font-size: clamp(1.1rem, 5vw, 1.3rem); border-left: none; border-bottom: 2px solid rgba(255,255,255,0.9); padding-bottom: 12px; padding-left: 0; padding-right: 0; }
+        .layout-center .p-quote { font-size: clamp(0.95rem, 4vw, 1.15rem); border-left: none; border-bottom: 2px solid rgba(255,255,255,0.9); padding-bottom: 8px; }
 
-        .layout-editorial { background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%); flex-direction: row; justify-content: space-between; }
-        .layout-editorial .p-top { flex-direction: column; gap: 10px; width: 40%; }
-        .layout-editorial .p-day { font-size: 3.8rem; line-height: 0.9; }
-        .layout-editorial .p-meta { border-top: 2px solid rgba(255,255,255,0.5); padding-top: 8px; border-left: none; padding-left: 0; }
-        .layout-editorial .p-bottom { width: 50%; display: flex; flex-direction: row-reverse; gap: 10px; align-items: flex-start; justify-content: flex-start; }
+        .layout-editorial { background: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.85) 100%); flex-direction: row; justify-content: space-between; }
+        .layout-editorial .p-top { flex-direction: column; gap: 8px; width: 40%; }
+        .layout-editorial .p-day { font-size: 3rem; line-height: 0.9; }
+        .layout-editorial .p-meta { border-top: 2px solid rgba(255,255,255,0.6); padding-top: 6px; border-left: none; padding-left: 0; }
+        .layout-editorial .p-bottom { width: 50%; display: flex; flex-direction: row-reverse; gap: 8px; align-items: flex-start; justify-content: flex-start; }
         .layout-editorial .p-fortune { flex-direction: column; align-items: flex-end; }
-        .layout-editorial .p-quote { writing-mode: vertical-rl; text-align: left; font-size: 1.25rem; border-top: 2px solid #fff; padding-top: 15px; line-height: 1.6; max-height: 90%; border-left: none; border-bottom: none; padding-left: 0; }
+        .layout-editorial .p-quote { writing-mode: vertical-rl; text-align: left; font-size: 1.1rem; border-top: 2px solid #fff; padding-top: 10px; line-height: 1.6; max-height: 90%; }
 
-        .btn-action { background: var(--accent-color); color: #fff; border: none; padding: 12px; border-radius: 8px; font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 5px; }
-        .btn-action:hover { background: #c12258; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        /* 按鈕與工具列縮小精緻化 */
+        .btn-action { background: var(--accent-color); color: #fff; border: none; padding: 10px; border-radius: 8px; font-family: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-action:hover { background: #c12258; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
 
-        /* 常駐武器庫面板 */
-        .tool-panel { background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 12px; margin-top: 5px; }
-        .tool-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700; color: var(--ink-black); }
-        .btn-icon { background: #fff; border: 1px solid var(--line-color); color: var(--ink-black); padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .tool-panel { background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 10px; margin-top: 2px; }
+        .tool-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: 700; color: var(--ink-black); }
+        .btn-icon { background: #fff; border: 1px solid var(--line-color); color: var(--ink-black); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
         .btn-icon:hover { background: var(--ink-black); color: #fff; border-color: var(--ink-black); }
-        .tool-panel textarea { width: 100%; box-sizing: border-box; background: #fff; border: 1px solid var(--line-color); border-radius: 8px; padding: 10px; font-family: monospace; font-size: 0.8rem; color: var(--ink-gray); resize: none; outline: none; }
-        .tool-panel textarea:focus { border-color: var(--ink-gray); }
-        .prompt-box { height: 60px; }
-        .caption-box { height: 100px; }
+        .tool-panel textarea { width: 100%; box-sizing: border-box; background: #fff; border: 1px solid var(--line-color); border-radius: 6px; padding: 8px; font-family: monospace; font-size: 0.75rem; color: var(--ink-gray); resize: none; outline: none; }
+        .prompt-box { height: 50px; }
+        .caption-box { height: 80px; }
 
     </style>
 </head>
@@ -125,26 +123,26 @@
             <div class="control-panel">
                 <input type="date" id="ui-date-picker" value="__PAYLOAD_DATE__" onchange="applyDateChange()">
                 <button class="btn-tear" onclick="triggerTearAnimation()">
-                    🌌 刷新今日多重宇宙
+                    🌌 刷新今日平行宇宙
                 </button>
             </div>
             <div class="today-info" id="today-stats">
                 <strong>載入中...</strong><br>農曆資料計算中
             </div>
-            <div style="font-size: 0.8rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
-                ✨ 每張海報皆為獨立運算的宇宙切片。下方工具列已為您準備好專屬的 MJ 算圖指令與社群文案，請直接複製取用。
+            <div style="font-size: 0.75rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
+                ✨ 已切換至<b>高純度寫實模式</b>。四張海報將依序載入以確保畫質與伺服器穩定。
             </div>
         </div>
 
-        <!-- 右側：四宮格平行宇宙 -->
+        <!-- 右側：四宮格平行宇宙 (精緻畫廊) -->
         <div class="gallery-wrapper">
             
             <!-- 宇宙 1：日常社畜 (經典沉底) -->
             <div class="poster-card" id="card-worklife">
-                <div class="poster-label">🪐 宇宙一：日常視角 <span>經典沉底</span></div>
+                <div class="poster-label">🪐 宇宙一：日常 <span>經典沉底</span></div>
                 <div class="poster-wrapper" id="poster-worklife">
                     <div class="html-poster">
-                        <div class="loading-mask" id="mask-worklife">載入宇宙中...</div>
+                        <div class="loading-mask" id="mask-worklife"><span>📸 快門準備中...</span></div>
                         <img class="poster-bg" id="bg-worklife" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-bottom">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
@@ -156,17 +154,15 @@
                     </div>
                 </div>
                 <button class="btn-action" onclick="downloadPoster('poster-worklife', this)">⬇️ 下載海報</button>
-                
                 <div class="tool-panel">
                     <div class="tool-header">
-                        <span>🎨 MJ 高解析指令</span>
-                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">📋 複製</button>
+                        <span>🎨 MJ 寫實指令</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button>
                     </div>
                     <textarea class="prompt-box" readonly></textarea>
-                    
                     <div class="tool-header">
                         <span>📱 Threads 貼文</span>
-                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">📝 複製</button>
+                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button>
                     </div>
                     <textarea class="caption-box" readonly></textarea>
                 </div>
@@ -174,10 +170,10 @@
             
             <!-- 宇宙 2：動物療癒 (天際懸浮) -->
             <div class="poster-card" id="card-animals">
-                <div class="poster-label">🪐 宇宙二：療癒視角 <span>天際懸浮</span></div>
+                <div class="poster-label">🪐 宇宙二：療癒 <span>天際懸浮</span></div>
                 <div class="poster-wrapper" id="poster-animals">
                     <div class="html-poster">
-                        <div class="loading-mask" id="mask-animals">等待算圖資源...</div>
+                        <div class="loading-mask" id="mask-animals"><span>排隊洗照片中...</span></div>
                         <img class="poster-bg" id="bg-animals" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-top">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
@@ -191,13 +187,13 @@
                 <button class="btn-action" onclick="downloadPoster('poster-animals', this)">⬇️ 下載海報</button>
                 <div class="tool-panel">
                     <div class="tool-header">
-                        <span>🎨 MJ 高解析指令</span>
-                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">📋 複製</button>
+                        <span>🎨 MJ 寫實指令</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button>
                     </div>
                     <textarea class="prompt-box" readonly></textarea>
                     <div class="tool-header">
                         <span>📱 Threads 貼文</span>
-                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">📝 複製</button>
+                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button>
                     </div>
                     <textarea class="caption-box" readonly></textarea>
                 </div>
@@ -205,10 +201,10 @@
 
             <!-- 宇宙 3：壯闊大景 (史詩置中) -->
             <div class="poster-card" id="card-epic">
-                <div class="poster-label">🪐 宇宙三：史詩視角 <span>極致置中</span></div>
+                <div class="poster-label">🪐 宇宙三：史詩 <span>極致置中</span></div>
                 <div class="poster-wrapper" id="poster-epic">
                     <div class="html-poster">
-                        <div class="loading-mask" id="mask-epic">等待算圖資源...</div>
+                        <div class="loading-mask" id="mask-epic"><span>排隊洗照片中...</span></div>
                         <img class="poster-bg" id="bg-epic" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-center">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
@@ -222,13 +218,13 @@
                 <button class="btn-action" onclick="downloadPoster('poster-epic', this)">⬇️ 下載海報</button>
                 <div class="tool-panel">
                     <div class="tool-header">
-                        <span>🎨 MJ 高解析指令</span>
-                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">📋 複製</button>
+                        <span>🎨 MJ 寫實指令</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button>
                     </div>
                     <textarea class="prompt-box" readonly></textarea>
                     <div class="tool-header">
                         <span>📱 Threads 貼文</span>
-                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">📝 複製</button>
+                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button>
                     </div>
                     <textarea class="caption-box" readonly></textarea>
                 </div>
@@ -236,10 +232,10 @@
 
             <!-- 宇宙 4：微觀禪意 (日系直書) -->
             <div class="poster-card" id="card-macro">
-                <div class="poster-label">🪐 宇宙四：禪意視角 <span>日系直書</span></div>
+                <div class="poster-label">🪐 宇宙四：禪意 <span>日系直書</span></div>
                 <div class="poster-wrapper" id="poster-macro">
                     <div class="html-poster">
-                        <div class="loading-mask" id="mask-macro">等待算圖資源...</div>
+                        <div class="loading-mask" id="mask-macro"><span>排隊洗照片中...</span></div>
                         <img class="poster-bg" id="bg-macro" src="" crossorigin="anonymous">
                         <div class="poster-overlay layout-editorial">
                             <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
@@ -253,13 +249,13 @@
                 <button class="btn-action" onclick="downloadPoster('poster-macro', this)">⬇️ 下載海報</button>
                 <div class="tool-panel">
                     <div class="tool-header">
-                        <span>🎨 MJ 高解析指令</span>
-                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">📋 複製</button>
+                        <span>🎨 MJ 寫實指令</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button>
                     </div>
                     <textarea class="prompt-box" readonly></textarea>
                     <div class="tool-header">
                         <span>📱 Threads 貼文</span>
-                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">📝 複製</button>
+                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button>
                     </div>
                     <textarea class="caption-box" readonly></textarea>
                 </div>
@@ -278,29 +274,30 @@
             { style: "禪意留白", article: "花時間觀察一滴水的形狀，也是一種收穫。", q: "不一定要做大洋裡的鯨魚，做一片葉子上的露水也很好。", p: "安於平凡", do: "觀察", dont: "比較" }
         ];
 
+        // 🔥 注入最高純度的寫實攝影指令 (Annie Leibovitz 的堅持)
         const omniverseMatrix = {
             worklife: {
-                basePrompt: "A highly detailed, editorial lifestyle photography of",
+                basePrompt: "A hyper-realistic raw photograph of",
                 subjects: ["a young Asian woman peacefully drinking coffee by a sunlit window", "a person writing in a journal at a sun-drenched wooden dining table", "a vintage glass siphon coffee maker actively brewing coffee"],
-                modifiers: ["shot on 35mm lens, soft natural daylight, indoor lifestyle, 8k, extremely photorealistic", "Fujifilm Superia 400 simulation, beautiful natural lighting, documentary photography"],
+                modifiers: "shot on 35mm lens, f/1.8, natural sunlight, highly detailed, lifelike, real world photography, candid shot, unedited, 8k",
                 music: [{ track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" }]
             },
             animals: {
-                basePrompt: "A heartwarming, award-winning photorealistic photography of",
+                basePrompt: "An award-winning hyper-realistic animal photography of",
                 subjects: ["a sleepy tabby cat curled up on a pile of old books bathed in warm sunlight", "a cheerful golden retriever resting happily on a sun-drenched wooden porch"],
-                modifiers: ["shot on 50mm lens, f/1.8, beautiful shallow depth of field, real life, 8k", "soft morning sunlight, sharp focus on fur, National Geographic animal portrait"],
+                modifiers: "shot on DSLR, 50mm lens, beautiful shallow depth of field, sharp focus on fur, real life, untouched photo, highly detailed, 8k",
                 music: [{ track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }]
             },
             epic_nature: {
-                basePrompt: "An epic National Geographic landscape photography of",
+                basePrompt: "An epic National Geographic raw landscape photograph of",
                 subjects: ["a breathtaking panoramic view of a lush green valley and a pristine alpine lake", "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds"],
-                modifiers: ["dramatic cinematic lighting, breathtaking scale, highly detailed, 8k resolution", "vibrant natural colors, crystal clear focus, deeply emotional and serene"],
+                modifiers: "dramatic natural lighting, wide angle lens, extremely detailed nature, real world, high purity photography, no CGI, 8k",
                 music: [{ track: "A Sky Full of Stars", artist: "Coldplay", yt_id: "VPRjCeoBqrI" }]
             },
             macro_zen: {
-                basePrompt: "An extreme close-up macro photography of",
+                basePrompt: "An extreme close-up hyper-realistic macro photography of",
                 subjects: ["crystal clear morning dew resting on a vibrant green fern leaf", "delicate dandelion seeds bathed in warm golden hour sunlight"],
-                modifiers: ["extreme shallow depth of field, sharp focus on subject, beautiful bokeh, 8k", "ethereal atmosphere, photorealistic macro masterpiece, real life"],
+                modifiers: "extreme shallow depth of field, razor sharp focus, real life natural textures, unedited raw photo, beautiful bokeh, 8k",
                 music: [{ track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" }]
             }
         };
@@ -392,7 +389,7 @@
             });
         }
 
-        // 🔥 非同步陣列產生器
+        // 🔥 高度穩定的非同步算圖引擎 (2 秒間隔防破圖)
         async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
             const dObj = new Date(currentDate + "T00:00:00");
             const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
@@ -421,13 +418,16 @@
                 { id: 'macro', catKey: 'macro_zen', parseKey: 'macro' }
             ];
 
-            // 1. 先將四個宇宙的文字都印上去，並重置遮罩
+            // 1. 初始化介面與文字
             universes.forEach(universe => {
                 const wrapper = document.getElementById(`card-${universe.id}`);
                 const mask = document.getElementById(`mask-${universe.id}`);
                 const bgImg = document.getElementById(`bg-${universe.id}`);
                 
-                if (mask) { mask.style.opacity = '1'; mask.innerText = '等待算圖資源...'; }
+                if (mask) { 
+                    mask.style.opacity = '1'; 
+                    if(universe.id !== 'worklife') mask.innerHTML = '<span>排隊洗照片中...</span>';
+                }
                 bgImg.src = ''; 
                 
                 const matrix = omniverseMatrix[universe.catKey];
@@ -444,10 +444,12 @@
                 const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
 
                 const subjectStr = getRandomItem(matrix.subjects);
-                const modifierStr = getRandomItem(matrix.modifiers);
-                const fullMjPrompt = `${matrix.basePrompt} ${subjectStr}. ${modifierStr} --ar 9:16 --style raw --v 6.0`;
                 
-                universe.safeUrlPrompt = encodeURIComponent(`${matrix.basePrompt} ${subjectStr}`);
+                // 完整高階咒語 (供手動複製去 MJ 算極致高畫質)
+                const fullMjPrompt = `${matrix.basePrompt} ${subjectStr}, ${matrix.modifiers} --style raw --v 6.0 --ar 9:16`;
+                
+                // 餵給網頁預覽引擎的防破圖超簡化咒語 (確保它只生寫實照片，不被長字串搞垮)
+                universe.safeUrlPrompt = encodeURIComponent(`Hyper-realistic raw photograph, ${subjectStr}, natural lighting`);
 
                 const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
                 
@@ -462,15 +464,16 @@
                 wrapper.querySelector('.p-quote').innerText = `「${quoteText}」`;
             });
 
-            // 2. 非同步 (Async) 依序向伺服器要圖
+            // 2. 嚴格依序向伺服器要圖 (間隔拉長至 2 秒確保 100% 成功)
             for (let i = 0; i < universes.length; i++) {
                 const universe = universes[i];
                 const mask = document.getElementById(`mask-${universe.id}`);
                 const bgImg = document.getElementById(`bg-${universe.id}`);
                 
-                if (mask) mask.innerText = '✨ 魔法演算中...';
+                if (mask) mask.innerHTML = '<span>✨ 顯影中...</span>';
 
                 const randomSeed = Math.floor(Math.random() * 1000000);
+                // 使用 720 寬度確保載入速度極快，降低伺服器負載
                 const imgUrl = `https://image.pollinations.ai/prompt/${universe.safeUrlPrompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
 
                 await new Promise((resolve) => {
@@ -479,16 +482,16 @@
                         resolve();
                     };
                     bgImg.onerror = () => {
-                        if (mask) mask.innerText = '⚠️ 載入超時，使用備用圖';
+                        if (mask) mask.innerHTML = '<span>⚠️ 網路壅塞，使用備用圖</span>';
                         bgImg.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=720&auto=format&fit=crop';
                         resolve();
                     };
                     bgImg.src = imgUrl;
                 });
 
-                // 每張圖成功後，強制停頓 1.5 秒再要下一張
+                // 強制停頓 2 秒再要下一張，極度溫柔地對待伺服器
                 if (i < universes.length - 1) {
-                    await new Promise(r => setTimeout(r, 1500));
+                    await new Promise(r => setTimeout(r, 2000));
                 }
             }
         }
