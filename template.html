@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Omniverse Stories</title>
+    <title>TAIJI Omniverse Calendar - True Dynamic Layout</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -34,7 +34,7 @@
         .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 10px 20px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .btn-tear:hover { background: #333; transform: translateY(-2px); }
 
-        .calendar-page { background-color: var(--paper-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E"); border-radius: 2px; padding: 50px; position: relative; box-shadow: 0 1px 1px rgba(0,0,0,0.05), 0 4px 0 -1px var(--paper-bg), 0 4px 1px -1px rgba(0,0,0,0.05), 0 8px 0 -2px var(--paper-bg), 0 8px 1px -2px rgba(0,0,0,0.05), 0 25px 50px rgba(0,0,0,0.08); transform-origin: top center; }
+        .calendar-page { background-color: var(--paper-bg); border-radius: 2px; padding: 50px; position: relative; box-shadow: 0 1px 1px rgba(0,0,0,0.05), 0 4px 0 -1px var(--paper-bg), 0 4px 1px -1px rgba(0,0,0,0.05), 0 8px 0 -2px var(--paper-bg), 0 8px 1px -2px rgba(0,0,0,0.05), 0 25px 50px rgba(0,0,0,0.08); transform-origin: top center; }
         .calendar-page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-image: radial-gradient(circle at 10px 0, transparent 3px, var(--paper-bg) 4px); background-size: 20px 6px; background-repeat: repeat-x; opacity: 0.5; }
 
         @keyframes tearOff { 0% { transform: translateY(0) rotate(0deg); opacity: 1; filter: blur(0); } 100% { transform: translateY(150px) rotate(4deg); opacity: 0; filter: blur(5px); } }
@@ -87,19 +87,52 @@
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
         .poster-wrapper:hover .poster-bg { filter: brightness(0.7) blur(2px); }
         
-        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 15%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
-        .p-top { display: flex; align-items: baseline; gap: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        .p-day { font-size: 5rem; font-weight: 900; line-height: 0.8; font-family: 'Noto Sans TC'; }
-        .p-meta { font-size: 0.9rem; line-height: 1.4; font-weight: 400; opacity: 0.9; border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; display: flex; flex-direction: column; gap: 2px; }
-        .p-bottom { display: flex; flex-direction: column; gap: 12px; }
-        .p-fortune { display: flex; gap: 10px; margin-bottom: 2px; }
+        /* =========================================
+           🔥 零一絕對安全動態版面引擎 (Safe Dynamic Layout Engine)
+           支援 html2canvas，放棄危險的垂直字體，改用語意化網格錨點
+           ========================================= */
+        
+        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 25px; box-sizing: border-box; pointer-events: none; transition: all 0.5s ease; }
+        
+        .p-top { display: flex; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .p-day { font-family: 'Noto Sans TC'; font-weight: 900; line-height: 0.8; }
+        .p-meta { font-size: 0.9rem; line-height: 1.4; font-weight: 400; opacity: 0.9; display: flex; flex-direction: column; gap: 2px; }
+        .p-fortune { display: flex; gap: 10px; }
         .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700; backdrop-filter: blur(4px); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .p-stamp.do { background: rgba(91, 130, 102, 0.6); }
         .p-stamp.dont { background: rgba(192, 90, 80, 0.6); }
-        .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.9; margin: 0; text-shadow: 0 2px 6px rgba(0,0,0,0.8); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        
-        .p-quote { font-family: 'Noto Serif TC', serif; font-size: clamp(1rem, 5vw, 1.3rem); font-weight: 900; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin: 0; border-left: 3px solid #fff; padding-left: 12px; word-break: keep-all; }
-        
+        .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.9; margin: 0; text-shadow: 0 2px 6px rgba(0,0,0,0.8); display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+        .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin: 0; word-break: keep-all; }
+
+        /* 模態 1：經典沉底 (layout-bottom) */
+        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 15%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%); flex-direction: column; justify-content: space-between; }
+        .layout-bottom .p-top { align-items: baseline; gap: 15px; }
+        .layout-bottom .p-day { font-size: 5rem; }
+        .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
+        .layout-bottom .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
+        .layout-bottom .p-fortune { margin-bottom: 2px; }
+        .layout-bottom .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 3px solid #fff; padding-left: 12px; }
+        .layout-bottom .p-article { -webkit-line-clamp: 3; }
+
+        /* 模態 2：天際懸浮 (layout-top) - 讓出底部畫面 */
+        .layout-top { background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.85) 100%); flex-direction: column; justify-content: flex-start; gap: 30px; }
+        .layout-top .p-top { align-items: baseline; gap: 15px; }
+        .layout-top .p-day { font-size: 4.5rem; }
+        .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
+        .layout-top .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
+        .layout-top .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 3px solid #fff; padding-left: 12px; }
+        .layout-top .p-article { -webkit-line-clamp: 3; }
+
+        /* 模態 3：史詩置中 (layout-center) */
+        .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.85) 100%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 40px; }
+        .layout-center .p-top { flex-direction: column; align-items: center; gap: 5px; }
+        .layout-center .p-day { font-size: 5.5rem; }
+        .layout-center .p-meta { flex-direction: row; gap: 10px; border-top: 1px solid rgba(255,255,255,0.4); padding-top: 8px; border-left: none; padding-left: 0; }
+        .layout-center .p-bottom { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .layout-center .p-fortune { justify-content: center; }
+        .layout-center .p-quote { font-size: 1.4rem; border-left: none; border-bottom: 3px solid #fff; padding-bottom: 12px; padding-left: 0; }
+        .layout-center .p-article { -webkit-line-clamp: 2; text-align: center; }
+
         .upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; z-index: 3; opacity: 0; transition: 0.3s; pointer-events: none; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .poster-wrapper:hover .upload-hint { opacity: 1; }
 
@@ -161,13 +194,15 @@
                     <textarea id="igCaption" class="code-box" readonly></textarea>
                     
                     <span style="font-size: 0.85rem; color: var(--ink-gray); text-align: center; margin-top: 15px; margin-bottom: 5px;">
-                        ✨ 點擊圖片上傳底圖，實時生成日曆海報
+                        ✨ 點擊圖片上傳底圖，實時生成動態海報
                     </span>
                     
                     <div class="poster-wrapper">
                         <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
                             <img id="poster-bg-img" class="poster-bg" src="" alt="Background" crossorigin="anonymous">
-                            <div class="poster-overlay">
+                            
+                            <!-- 🔥 零一動態引擎層：預設 layout-bottom -->
+                            <div class="poster-overlay layout-bottom" id="poster-overlay">
                                 <div class="p-top">
                                     <div class="p-day" id="p-day">02</div>
                                     <div class="p-meta">
@@ -200,6 +235,8 @@
     </div>
 
     <script>
+        const quotesData = __QUOTES_JS__; 
+        
         const igMusicLibrary = [
             { track: "Merry-Go-Round of Life", artist: "Joe Hisaishi", yt_id: "HMGetv40FQU" },
             { track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" },
@@ -209,10 +246,8 @@
             { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }
         ];
 
-        // 🔥 零一的終極核彈擴充：將「圖片主題」與「金句故事」強制鎖定在一起
         const omniverseMatrix = {
-            worklife: { // 社畜與躺平
-                weight: 2,
+            worklife: {
                 basePrompt: "A highly detailed, editorial photography of",
                 subjects: [
                     "a young Asian woman peacefully drinking coffee and reading a book by a sunlit window",
@@ -226,8 +261,7 @@
                     { style: "滿血復活", article: "不小心把熱咖啡打翻在白襯衫上，今天簡直糟透了。", q: "轉念一想，這不就是今年最流行的『拿鐵漸層風』嗎？", p: "樂觀精神", do: "自拍", dont: "崩潰" }
                 ]
             },
-            animals: { // 童話與微小幸運
-                weight: 1.5,
+            animals: {
                 basePrompt: "A beautiful Studio Ghibli anime style illustration of",
                 subjects: [
                     "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
@@ -240,8 +274,7 @@
                     { style: "童話角落", article: "小狗看著你的眼神，彷彿你就是牠的整個宇宙。", q: "我們總在尋找意義，卻忘了愛本身就是意義。", p: "純粹的愛", do: "摸摸頭", dont: "無視" }
                 ]
             },
-            epic_nature: { // 宇宙、風景與宏大敘事
-                weight: 1.5,
+            epic_nature: {
                 basePrompt: "An epic National Geographic landscape photography of",
                 subjects: [
                     "a breathtaking panoramic view of a lush green valley and a pristine alpine lake",
@@ -254,8 +287,7 @@
                     { style: "浩瀚宇宙", article: "星空閃爍，那些光芒可能是幾萬年前發出的，如今才抵達我們的眼底。", q: "在宇宙的時間尺度裡，我們連一瞬都稱不上。", p: "敬畏自然", do: "仰望", dont: "自大" }
                 ]
             },
-            macro_zen: { // 微距、靜物與人間清醒
-                weight: 1,
+            macro_zen: {
                 basePrompt: "An extreme close-up macro photography of",
                 subjects: [
                     "crystal clear morning dew resting on a vibrant green fern leaf",
@@ -276,6 +308,9 @@
             "soft pastel color palette, gentle golden hour sunlight, cozy and uplifting mood",
             "vibrant natural colors, crystal clear focus, high definition, deeply emotional and serene"
         ];
+
+        // 🔥 零一絕對安全排版庫 (Safe Layout Modes)
+        const layoutModes = ['layout-bottom', 'layout-top', 'layout-center'];
 
         function getAstrologySign(month, day) {
             if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "♈ 牡羊座";
@@ -387,12 +422,14 @@
             document.getElementById('ui-lucky-stars').innerHTML = luckyStars.map(s => `<span class="tag-pill star">${s}</span>`).join('');
             document.getElementById('ui-lucky-zodiacs').innerHTML = luckyZodiacs.map(z => `<span class="tag-pill zodiac">${z}</span>`).join('');
 
-            // 🔥 零一：核心更新 - 依據抽中的 Category，強制綁定其專屬的 Quotes 庫
+            // 🔥 零一：動態切換三種安全版面
+            const selectedLayoutMode = getRandomItem(layoutModes);
+            document.getElementById('poster-overlay').className = `poster-overlay ${selectedLayoutMode}`;
+
             const categoriesKeys = Object.keys(omniverseMatrix);
             const selectedCategoryKey = getRandomItem(categoriesKeys);
             const selectedMatrix = omniverseMatrix[selectedCategoryKey];
             
-            // 從綁定的矩陣中抽出圖片主題與對應金句
             const subjectStr = getRandomItem(selectedMatrix.subjects);
             const selectedData = getRandomItem(selectedMatrix.quotes);
             
