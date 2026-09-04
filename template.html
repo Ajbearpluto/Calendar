@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - True Dynamic Layout</title>
+    <title>TAIJI Omniverse Calendar - Ultimate Masterpiece</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -89,7 +89,7 @@
         
         /* =========================================
            🔥 零一絕對安全動態版面引擎 (Safe Dynamic Layout Engine)
-           支援 html2canvas，放棄危險的垂直字體，改用語意化網格錨點
+           搭配三種完美的跟隨式漸層護城河
            ========================================= */
         
         .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 25px; box-sizing: border-box; pointer-events: none; transition: all 0.5s ease; }
@@ -105,7 +105,7 @@
         .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin: 0; word-break: keep-all; }
 
         /* 模態 1：經典沉底 (layout-bottom) */
-        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 15%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%); flex-direction: column; justify-content: space-between; }
+        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%); flex-direction: column; justify-content: space-between; }
         .layout-bottom .p-top { align-items: baseline; gap: 15px; }
         .layout-bottom .p-day { font-size: 5rem; }
         .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
@@ -114,8 +114,8 @@
         .layout-bottom .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 3px solid #fff; padding-left: 12px; }
         .layout-bottom .p-article { -webkit-line-clamp: 3; }
 
-        /* 模態 2：天際懸浮 (layout-top) - 讓出底部畫面 */
-        .layout-top { background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.85) 100%); flex-direction: column; justify-content: flex-start; gap: 30px; }
+        /* 模態 2：天際懸浮 (layout-top) */
+        .layout-top { background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: flex-start; gap: 30px; }
         .layout-top .p-top { align-items: baseline; gap: 15px; }
         .layout-top .p-day { font-size: 4.5rem; }
         .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
@@ -124,7 +124,7 @@
         .layout-top .p-article { -webkit-line-clamp: 3; }
 
         /* 模態 3：史詩置中 (layout-center) */
-        .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.85) 100%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 40px; }
+        .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 40px; }
         .layout-center .p-top { flex-direction: column; align-items: center; gap: 5px; }
         .layout-center .p-day { font-size: 5.5rem; }
         .layout-center .p-meta { flex-direction: row; gap: 10px; border-top: 1px solid rgba(255,255,255,0.4); padding-top: 8px; border-left: none; padding-left: 0; }
@@ -246,6 +246,7 @@
             { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }
         ];
 
+        // 🔥 零一：萬象矩陣 (Omniverse Matrix)
         const omniverseMatrix = {
             worklife: {
                 basePrompt: "A highly detailed, editorial photography of",
