@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Quantum Random Edition</title>
+    <title>TAIJI Omniverse Calendar - True Quantum & Film Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -128,7 +128,7 @@
                 <strong>載入中...</strong><br>農曆資料計算中
             </div>
             <div style="font-size: 0.75rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
-                ✨ 已啟動<b>量子洗牌引擎</b>。每次刷新，主題與排版將重新隨機重組，展現無限可能。
+                ✨ 已啟動<b>量子洗牌引擎</b>與<b>底片紀實濾鏡</b>。每次刷新將呈現人類肉眼所見的高純度真實瞬間。
             </div>
         </div>
 
@@ -248,30 +248,30 @@
             { style: "禪意留白", article: "花時間觀察一滴水的形狀，也是一種收穫。", q: "不一定要做大洋裡的鯨魚，做一片葉子上的露水也很好。", p: "安於平凡", do: "觀察", dont: "比較" }
         ];
 
-        // 高純度寫實攝影指令
+        // 🔥 高純度紀實攝影指令 (消除 AI 塑料感，追求肉眼真實)
         const omniverseMatrix = {
             worklife: {
-                basePrompt: "A hyper-realistic raw photograph of",
-                subjects: ["a young Asian woman peacefully drinking coffee by a sunlit window", "a person writing in a journal at a sun-drenched wooden dining table", "a vintage glass siphon coffee maker actively brewing coffee"],
-                modifiers: "shot on 35mm lens, f/1.8, natural sunlight, highly detailed, lifelike, real world photography, candid shot, unedited, 8k",
+                basePrompt: "A candid documentary photography of",
+                subjects: ["a young Asian woman drinking coffee by a sunlit window", "a person writing in a journal at a sun-drenched wooden dining table", "a vintage glass siphon coffee maker actively brewing coffee"],
+                modifiers: "shot on Kodak Portra 400, amateur snapshot, natural mundane lighting, subtle film grain, untouched, unedited, lifelike realism, 35mm lens",
                 music: [{ track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" }]
             },
             animals: {
-                basePrompt: "An award-winning hyper-realistic animal photography of",
-                subjects: ["a sleepy tabby cat curled up on a pile of old books bathed in warm sunlight", "a cheerful golden retriever resting happily on a sun-drenched wooden porch"],
-                modifiers: "shot on DSLR, 50mm lens, beautiful shallow depth of field, sharp focus on fur, real life, untouched photo, highly detailed, 8k",
+                basePrompt: "An untouched candid photo of",
+                subjects: ["a sleepy tabby cat curled up on a pile of old books", "a golden retriever resting on a wooden porch"],
+                modifiers: "smartphone snapshot, natural ambient light, slightly imperfect framing, real life photography, subtle grain, no filters, highly detailed fur",
                 music: [{ track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }]
             },
             epic_nature: {
-                basePrompt: "An epic National Geographic raw landscape photograph of",
-                subjects: ["a breathtaking panoramic view of a lush green valley and a pristine alpine lake", "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds"],
-                modifiers: "dramatic natural lighting, wide angle lens, extremely detailed nature, real world, high purity photography, no CGI, 8k",
+                basePrompt: "A raw nature documentary photograph of",
+                subjects: ["a panoramic view of a green valley and an alpine lake", "a sunset over a calm ocean reflecting clouds"],
+                modifiers: "shot on Fujifilm, 24mm lens, harsh natural sunlight, realistic atmosphere, untouched raw file, national geographic archive, no CGI",
                 music: [{ track: "A Sky Full of Stars", artist: "Coldplay", yt_id: "VPRjCeoBqrI" }]
             },
             macro_zen: {
-                basePrompt: "An extreme close-up hyper-realistic macro photography of",
-                subjects: ["crystal clear morning dew resting on a vibrant green fern leaf", "delicate dandelion seeds bathed in warm golden hour sunlight"],
-                modifiers: "extreme shallow depth of field, razor sharp focus, real life natural textures, unedited raw photo, beautiful bokeh, 8k",
+                basePrompt: "A realistic macro snapshot of",
+                subjects: ["morning dew resting on a green fern leaf", "dandelion seeds bathed in afternoon sunlight"],
+                modifiers: "shot on DSLR macro lens, natural outdoor lighting, shallow depth of field, untouched raw photo, real world texture",
                 music: [{ track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" }]
             }
         };
@@ -372,7 +372,7 @@
             });
         }
 
-        // 字典對照表 (用於標籤顯示)
+        // 字典對照表
         const categoryNames = { 'worklife': '日常', 'animals': '療癒', 'epic_nature': '史詩', 'macro_zen': '禪意' };
         const layoutNames = { 'layout-bottom': '經典沉底', 'layout-top': '天際懸浮', 'layout-center': '極致置中', 'layout-editorial': '日系直書' };
         const uniTitles = ['宇宙一', '宇宙二', '宇宙三', '宇宙四'];
@@ -399,7 +399,7 @@
             let shuffledCategories = shuffleArray(['worklife', 'animals', 'epic_nature', 'macro_zen']);
             let shuffledLayouts = shuffleArray(['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial']);
 
-            // 1. 初始化 4 個容器 (注入洗牌後的屬性)
+            // 1. 初始化 4 個容器
             let renderQueue = [];
             for (let i = 0; i < 4; i++) {
                 const catKey = shuffledCategories[i];
@@ -436,8 +436,13 @@
                 const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
 
                 const subjectStr = getRandomItem(matrix.subjects);
+                
+                // 完整高階咒語
                 const fullMjPrompt = `${matrix.basePrompt} ${subjectStr}, ${matrix.modifiers} --style raw --v 6.0 --ar 9:16`;
-                const safeUrlPrompt = encodeURIComponent(`Hyper-realistic raw photograph, ${subjectStr}, natural lighting`);
+                
+                // 🔥 餵給網頁預覽引擎的防破圖「直球咒語」，強制套用底片紀實風格
+                const safeUrlPrompt = encodeURIComponent(`Untouched candid smartphone photo of ${subjectStr}, natural daylight, film grain, unedited`);
+                
                 const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
                 
                 wrapper.querySelector('.prompt-box').value = fullMjPrompt;
