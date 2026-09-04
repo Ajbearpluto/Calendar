@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Ultimate Masterpiece</title>
+    <title>TAIJI Omniverse Calendar - Omniverse Stories</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -87,7 +87,6 @@
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
         .poster-wrapper:hover .poster-bg { filter: brightness(0.7) blur(2px); }
         
-        /* 🔥 聶永真：柔化黑色漸層，讓暗角自然過渡 */
         .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 15%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; pointer-events: none; }
         .p-top { display: flex; align-items: baseline; gap: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .p-day { font-size: 5rem; font-weight: 900; line-height: 0.8; font-family: 'Noto Sans TC'; }
@@ -99,7 +98,6 @@
         .p-stamp.dont { background: rgba(192, 90, 80, 0.6); }
         .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.9; margin: 0; text-shadow: 0 2px 6px rgba(0,0,0,0.8); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         
-        /* 🔥 原研哉：字體不強制切斷 (keep-all)，並允許長文字稍微縮小 */
         .p-quote { font-family: 'Noto Serif TC', serif; font-size: clamp(1rem, 5vw, 1.3rem); font-weight: 900; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin: 0; border-left: 3px solid #fff; padding-left: 12px; word-break: keep-all; }
         
         .upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; z-index: 3; opacity: 0; transition: 0.3s; pointer-events: none; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
@@ -202,20 +200,6 @@
     </div>
 
     <script>
-        const quotesData = [{"style": "極致反差", "article": "看著陽光灑在辦公桌的植栽上，生機盎然。就像我滿滿的待辦事項，永遠長不完。", "q": "生活不只有詩和遠方，還有眼前的無薪加班。", "p": "社畜之淚", "do": "喝杯手搖", "dont": "看存摺"}, {"style": "躺平無罪", "article": "今天鬧鐘響了三次，我終於領悟了一個宇宙真理。", "q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學", "do": "準時下班", "dont": "自找麻煩"}]; 
-        
-        const localExpansionQuotes = [
-            { style: "躺平無罪", article: "看著同事們在群組裡熱烈討論下半年的 KPI，我默默把手機螢幕蓋上，翻了個身。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
-            { style: "躺平無罪", article: "原本計畫週末要大掃除、看書、去健身房。結果兩天都在沙發上滑短影音。", q: "計畫是用來打破的，沙發是用來生根的。", p: "週末日常", do: "廢物躺", dont: "看行事曆" },
-            { style: "躺平無罪", article: "買了一堆精緻的效率手帳和無印良品的筆，結果最常用的功能是拿來墊泡麵。", q: "只要我不求長進，就沒人能用責任綁架我。", p: "效率假象", do: "吃泡麵", dont: "寫計畫" },
-            { style: "極致反差", article: "精挑細選買了昂貴的單品咖啡豆，用最講究的手沖壺慢慢萃取。", q: "喝下去的第一口，才想起今天還要見那個難搞的客戶，滿嘴只剩苦澀。", p: "社畜品味", do: "嘆氣", dont: "查餘額" },
-            { style: "極致反差", article: "窗外的夕陽把城市染成一片絕美的金黃，彷彿所有的煩惱都會隨風而逝。", q: "但我知道，明天的早八會議依然會準時要我的命。", p: "社畜之淚", do: "拍夕陽", dont: "看群組" },
-            { style: "人間清醒", article: "看到前任發了結婚的限動，內心毫無波瀾，甚至有點想吃巷口的鹽酥雞。", q: "愛恨情仇都是假的，只有肚子餓是真的。", p: "單身萬歲", do: "點大份", dont: "懷念" },
-            { style: "人間清醒", article: "以前總覺得要討好所有人，現在發現連討好自己都很吃力了。", q: "放過別人，就是放過自己的髮際線。", p: "職場生存", do: "已讀不回", dont: "走心" },
-            { style: "滿血復活", article: "企劃案被老闆退了第五次，看著滿江紅的修改建議，我深吸了一口氣。", q: "打不倒我的，只會讓我產出更無懈可擊的簡報。", p: "鋼鐵意志", do: "喝黑咖啡", dont: "抱怨" },
-            { style: "微小幸運", article: "走在下過雨的巷弄裡，一隻圓滾滾的橘貓主動走過來蹭了蹭我的褲管。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" }
-        ];
-        
         const igMusicLibrary = [
             { track: "Merry-Go-Round of Life", artist: "Joe Hisaishi", yt_id: "HMGetv40FQU" },
             { track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" },
@@ -225,41 +209,63 @@
             { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }
         ];
 
-        const promptCategories = {
-            photography: {
-                weight: 1,
-                base: "A highly detailed, award-winning photography of",
+        // 🔥 零一的終極核彈擴充：將「圖片主題」與「金句故事」強制鎖定在一起
+        const omniverseMatrix = {
+            worklife: { // 社畜與躺平
+                weight: 2,
+                basePrompt: "A highly detailed, editorial photography of",
                 subjects: [
                     "a young Asian woman peacefully drinking coffee and reading a book by a sunlit window",
-                    "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
+                    "a person in a cozy sweater writing in a journal at a sun-drenched wooden dining table",
                     "a vintage glass siphon coffee maker actively brewing coffee with rich steam rising"
+                ],
+                quotes: [
+                    { style: "躺平無罪", article: "看著同事們在群組裡熱烈討論下半年的 KPI，我默默把手機螢幕蓋上，翻了個身。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
+                    { style: "躺平無罪", article: "原本計畫週末要大掃除、看書、去健身房。結果兩天都在沙發上滑短影音。", q: "計畫是用來打破的，沙發是用來生根的。", p: "週末日常", do: "廢物躺", dont: "看行事曆" },
+                    { style: "極致反差", article: "精挑細選買了昂貴的單品咖啡豆，用最講究的手沖壺慢慢萃取。", q: "喝下去的第一口，才想起今天還要見那個難搞的客戶，滿嘴只剩苦澀。", p: "社畜品味", do: "嘆氣", dont: "查餘額" },
+                    { style: "滿血復活", article: "不小心把熱咖啡打翻在白襯衫上，今天簡直糟透了。", q: "轉念一想，這不就是今年最流行的『拿鐵漸層風』嗎？", p: "樂觀精神", do: "自拍", dont: "崩潰" }
                 ]
             },
-            macro: {
-                weight: 1,
-                base: "An extreme close-up macro photography of",
+            animals: { // 童話與微小幸運
+                weight: 1.5,
+                basePrompt: "A beautiful Studio Ghibli anime style illustration of",
                 subjects: [
-                    "crystal clear morning dew resting on a vibrant green fern leaf",
-                    "delicate dandelion seeds bathed in warm golden hour sunlight",
-                    "intricate frost patterns on a glass window reflecting morning light"
+                    "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
+                    "a cheerful golden retriever resting happily on a sun-drenched wooden porch",
+                    "a cozy cluttered bedroom with a cat sleeping on a desk in the afternoon sun"
+                ],
+                quotes: [
+                    { style: "微小幸運", article: "走在下過雨的巷弄裡，一隻圓滾滾的橘貓主動走過來蹭了蹭我的褲管。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
+                    { style: "童話角落", article: "有時候覺得，動物比人類更懂得如何在這個複雜的世界裡簡單活著。", q: "睡一覺吧，醒來又是一個好天氣。", p: "療癒時刻", do: "伸懶腰", dont: "想太多" },
+                    { style: "童話角落", article: "小狗看著你的眼神，彷彿你就是牠的整個宇宙。", q: "我們總在尋找意義，卻忘了愛本身就是意義。", p: "純粹的愛", do: "摸摸頭", dont: "無視" }
                 ]
             },
-            anime: {
-                weight: 1,
-                base: "A beautiful Studio Ghibli anime style illustration of",
-                subjects: [
-                    "a cozy cluttered bedroom with a cat sleeping on a desk in the afternoon sun",
-                    "a peaceful train ride through a lush green countryside overlooking the ocean",
-                    "a magical bakery in a fantasy town with fresh bread steaming in the window"
-                ]
-            },
-            landscape: {
-                weight: 1,
-                base: "An epic National Geographic landscape photography of",
+            epic_nature: { // 宇宙、風景與宏大敘事
+                weight: 1.5,
+                basePrompt: "An epic National Geographic landscape photography of",
                 subjects: [
                     "a breathtaking panoramic view of a lush green valley and a pristine alpine lake",
                     "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds",
                     "a quiet misty morning in a dense bamboo forest with soft light rays"
+                ],
+                quotes: [
+                    { style: "浩瀚宇宙", article: "站在山頂俯瞰整片雲海，突然覺得糾結了一整個月的煩惱，其實根本微不足道。", q: "世界這麼大，何必把自己困在三坪的辦公室裡。", p: "放寬心", do: "深呼吸", dont: "鑽牛角尖" },
+                    { style: "禪意留白", article: "看著落日把天空染成一片絢爛，時間彷彿在這一刻靜止了。", q: "有些美好不需要擁有，光是看著就已足夠。", p: "自然治癒", do: "靜靜看", dont: "急著走" },
+                    { style: "浩瀚宇宙", article: "星空閃爍，那些光芒可能是幾萬年前發出的，如今才抵達我們的眼底。", q: "在宇宙的時間尺度裡，我們連一瞬都稱不上。", p: "敬畏自然", do: "仰望", dont: "自大" }
+                ]
+            },
+            macro_zen: { // 微距、靜物與人間清醒
+                weight: 1,
+                basePrompt: "An extreme close-up macro photography of",
+                subjects: [
+                    "crystal clear morning dew resting on a vibrant green fern leaf",
+                    "delicate dandelion seeds bathed in warm golden hour sunlight",
+                    "intricate frost patterns on a glass window reflecting morning light"
+                ],
+                quotes: [
+                    { style: "人間清醒", article: "以前總覺得要討好所有人，現在發現連討好自己都很吃力了。", q: "放過別人，就是放過自己的髮際線。", p: "職場生存", do: "已讀不回", dont: "走心" },
+                    { style: "禪意留白", article: "一滴露水裡，也藏著一個完整的微觀宇宙。", q: "不一定要做大洋裡的鯨魚，做一片葉子上的露水也很好。", p: "安於平凡", do: "觀察", dont: "比較" },
+                    { style: "微小幸運", article: "今天走進超商，剛好拿到架上最後一個打折的鮪魚御飯糰。", q: "宇宙沒有忘記我，它只是用比較便宜的方式愛我。", p: "日常碎片", do: "慢慢吃", dont: "挑剔" }
                 ]
             }
         };
@@ -381,14 +387,15 @@
             document.getElementById('ui-lucky-stars').innerHTML = luckyStars.map(s => `<span class="tag-pill star">${s}</span>`).join('');
             document.getElementById('ui-lucky-zodiacs').innerHTML = luckyZodiacs.map(z => `<span class="tag-pill zodiac">${z}</span>`).join('');
 
-            let allAvailableQuotes = [...localExpansionQuotes];
-            if (Array.isArray(quotesData)) {
-                allAvailableQuotes = allAvailableQuotes.concat(quotesData);
-            } else if (quotesData && quotesData.style) {
-                allAvailableQuotes.push(quotesData);
-            }
+            // 🔥 零一：核心更新 - 依據抽中的 Category，強制綁定其專屬的 Quotes 庫
+            const categoriesKeys = Object.keys(omniverseMatrix);
+            const selectedCategoryKey = getRandomItem(categoriesKeys);
+            const selectedMatrix = omniverseMatrix[selectedCategoryKey];
             
-            const selectedData = getRandomItem(allAvailableQuotes);
+            // 從綁定的矩陣中抽出圖片主題與對應金句
+            const subjectStr = getRandomItem(selectedMatrix.subjects);
+            const selectedData = getRandomItem(selectedMatrix.quotes);
+            
             const igMusic = getRandomItem(igMusicLibrary);
             
             const style = selectedData.style || "微小幸運";
@@ -411,23 +418,16 @@
             document.getElementById('ui-music-text').innerText = "IG 配樂建議：" + fullSongInfo;
             document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${igMusic.yt_id}`;
 
-            const categoriesKeys = Object.keys(promptCategories);
-            const selectedCategoryKey = getRandomItem(categoriesKeys);
-            const selectedCategoryGroup = promptCategories[selectedCategoryKey];
-            
-            const baseStr = selectedCategoryGroup.base;
-            const subjectStr = getRandomItem(selectedCategoryGroup.subjects);
+            const baseStr = selectedMatrix.basePrompt;
             const modifierStr = getRandomItem(promptModifiers);
             
             const purePrompt = `${baseStr} ${subjectStr}. ${modifierStr} --ar 9:16 --style raw --v 6.0`;
             document.getElementById('purePrompt').value = purePrompt;
             
-            // 🔥 前田約翰：加入隨機亂數種子，打破圖片快取！
             const randomSeed = Math.floor(Math.random() * 1000000);
             const safeUrlPrompt = encodeURIComponent(`${subjectStr}, highly detailed`);
             document.getElementById('poster-bg-img').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true&seed=${randomSeed}`;
             
-            // 🔥 凱文·斯特羅姆：確保 Threads 貼文日期絕對連動！
             const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n✨ 宇宙寵兒：${luckyStars.join(' ')} ${luckyZodiacs.join(' ')}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
             document.getElementById('igCaption').value = threadsText;
         }
