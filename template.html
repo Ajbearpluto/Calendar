@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Ultimate Masterpiece</title>
+    <title>TAIJI Omniverse Calendar - Synesthesia Masterpiece</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -87,11 +87,6 @@
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
         .poster-wrapper:hover .poster-bg { filter: brightness(0.7) blur(2px); }
         
-        /* =========================================
-           🔥 零一絕對安全動態版面引擎 (Safe Dynamic Layout Engine)
-           搭配三種完美的跟隨式漸層護城河
-           ========================================= */
-        
         .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 25px; box-sizing: border-box; pointer-events: none; transition: all 0.5s ease; }
         
         .p-top { display: flex; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
@@ -104,8 +99,8 @@
         .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.9; margin: 0; text-shadow: 0 2px 6px rgba(0,0,0,0.8); display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
         .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin: 0; word-break: keep-all; }
 
-        /* 模態 1：經典沉底 (layout-bottom) */
-        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%); flex-direction: column; justify-content: space-between; }
+        /* 動態排版模態 */
+        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.95) 100%); flex-direction: column; justify-content: space-between; }
         .layout-bottom .p-top { align-items: baseline; gap: 15px; }
         .layout-bottom .p-day { font-size: 5rem; }
         .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
@@ -114,8 +109,7 @@
         .layout-bottom .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 3px solid #fff; padding-left: 12px; }
         .layout-bottom .p-article { -webkit-line-clamp: 3; }
 
-        /* 模態 2：天際懸浮 (layout-top) */
-        .layout-top { background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: flex-start; gap: 30px; }
+        .layout-top { background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: flex-start; gap: 30px; }
         .layout-top .p-top { align-items: baseline; gap: 15px; }
         .layout-top .p-day { font-size: 4.5rem; }
         .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
@@ -123,7 +117,6 @@
         .layout-top .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 3px solid #fff; padding-left: 12px; }
         .layout-top .p-article { -webkit-line-clamp: 3; }
 
-        /* 模態 3：史詩置中 (layout-center) */
         .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 40px; }
         .layout-center .p-top { flex-direction: column; align-items: center; gap: 5px; }
         .layout-center .p-day { font-size: 5.5rem; }
@@ -201,7 +194,6 @@
                         <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
                             <img id="poster-bg-img" class="poster-bg" src="" alt="Background" crossorigin="anonymous">
                             
-                            <!-- 🔥 零一動態引擎層：預設 layout-bottom -->
                             <div class="poster-overlay layout-bottom" id="poster-overlay">
                                 <div class="p-top">
                                     <div class="p-day" id="p-day">02</div>
@@ -235,18 +227,8 @@
     </div>
 
     <script>
-        const quotesData = __QUOTES_JS__; 
-        
-        const igMusicLibrary = [
-            { track: "Merry-Go-Round of Life", artist: "Joe Hisaishi", yt_id: "HMGetv40FQU" },
-            { track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" },
-            { track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" },
-            { track: "A Sky Full of Stars", artist: "Coldplay", yt_id: "VPRjCeoBqrI" },
-            { track: "Ditto", artist: "NewJeans", yt_id: "pSUydWEqKwE" },
-            { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }
-        ];
-
-        // 🔥 零一：萬象矩陣 (Omniverse Matrix)
+        // 🔥 零一：超級封裝矩陣 (Super Encapsulated Matrix)
+        // 確保每一個主題，都有自己「血統純正」的光影、音樂、金句與專屬排版！
         const omniverseMatrix = {
             worklife: {
                 basePrompt: "A highly detailed, editorial photography of",
@@ -255,6 +237,16 @@
                     "a person in a cozy sweater writing in a journal at a sun-drenched wooden dining table",
                     "a vintage glass siphon coffee maker actively brewing coffee with rich steam rising"
                 ],
+                modifiers: [
+                    "soft natural daylight, warm and cheerful atmosphere, indoor lifestyle, 8k, photorealistic",
+                    "shot on 35mm lens, Fujifilm Superia 400 simulation, cozy and uplifting mood, masterpiece"
+                ],
+                layouts: ['layout-bottom', 'layout-top'], // 避開人臉置中
+                music: [
+                    { track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" },
+                    { track: "Ditto", artist: "NewJeans", yt_id: "pSUydWEqKwE" },
+                    { track: "Aesthetic Lofi Beats", artist: "Lofi Girl", yt_id: "jfKfPfyJRdk" }
+                ],
                 quotes: [
                     { style: "躺平無罪", article: "看著同事們在群組裡熱烈討論下半年的 KPI，我默默把手機螢幕蓋上，翻了個身。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
                     { style: "躺平無罪", article: "原本計畫週末要大掃除、看書、去健身房。結果兩天都在沙發上滑短影音。", q: "計畫是用來打破的，沙發是用來生根的。", p: "週末日常", do: "廢物躺", dont: "看行事曆" },
@@ -262,25 +254,23 @@
                     { style: "滿血復活", article: "不小心把熱咖啡打翻在白襯衫上，今天簡直糟透了。", q: "轉念一想，這不就是今年最流行的『拿鐵漸層風』嗎？", p: "樂觀精神", do: "自拍", dont: "崩潰" }
                 ]
             },
-            animals: {
-                basePrompt: "A beautiful Studio Ghibli anime style illustration of",
-                subjects: [
-                    "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
-                    "a cheerful golden retriever resting happily on a sun-drenched wooden porch",
-                    "a cozy cluttered bedroom with a cat sleeping on a desk in the afternoon sun"
-                ],
-                quotes: [
-                    { style: "微小幸運", article: "走在下過雨的巷弄裡，一隻圓滾滾的橘貓主動走過來蹭了蹭我的褲管。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
-                    { style: "童話角落", article: "有時候覺得，動物比人類更懂得如何在這個複雜的世界裡簡單活著。", q: "睡一覺吧，醒來又是一個好天氣。", p: "療癒時刻", do: "伸懶腰", dont: "想太多" },
-                    { style: "童話角落", article: "小狗看著你的眼神，彷彿你就是牠的整個宇宙。", q: "我們總在尋找意義，卻忘了愛本身就是意義。", p: "純粹的愛", do: "摸摸頭", dont: "無視" }
-                ]
-            },
             epic_nature: {
                 basePrompt: "An epic National Geographic landscape photography of",
                 subjects: [
                     "a breathtaking panoramic view of a lush green valley and a pristine alpine lake",
                     "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds",
-                    "a quiet misty morning in a dense bamboo forest with soft light rays"
+                    "a quiet misty morning in a dense bamboo forest with soft light rays",
+                    "a majestic snowy mountain peak under a clear starry night sky"
+                ],
+                modifiers: [
+                    "dramatic cinematic lighting, breathtaking scale, highly detailed, 8k resolution, nature masterpiece",
+                    "vibrant natural colors, crystal clear focus, deeply emotional and serene, wide angle lens"
+                ],
+                layouts: ['layout-center', 'layout-bottom'], // 適合大景
+                music: [
+                    { track: "A Sky Full of Stars", artist: "Coldplay", yt_id: "VPRjCeoBqrI" },
+                    { track: "The Scientist", artist: "Coldplay", yt_id: "RB-RcX5DS5A" },
+                    { track: "Cornfield Chase", artist: "Hans Zimmer", yt_id: "1VRZq3J0igM" }
                 ],
                 quotes: [
                     { style: "浩瀚宇宙", article: "站在山頂俯瞰整片雲海，突然覺得糾結了一整個月的煩惱，其實根本微不足道。", q: "世界這麼大，何必把自己困在三坪的辦公室裡。", p: "放寬心", do: "深呼吸", dont: "鑽牛角尖" },
@@ -295,23 +285,44 @@
                     "delicate dandelion seeds bathed in warm golden hour sunlight",
                     "intricate frost patterns on a glass window reflecting morning light"
                 ],
+                modifiers: [
+                    "extreme shallow depth of field, sharp focus on subject, beautiful bokeh, soft ambient lighting",
+                    "ethereal atmosphere, macro masterpiece, highly detailed texture, 8k"
+                ],
+                layouts: ['layout-center', 'layout-top'], // 微觀聚焦
+                music: [
+                    { track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" },
+                    { track: "Merry-Go-Round of Life", artist: "Joe Hisaishi", yt_id: "HMGetv40FQU" }
+                ],
                 quotes: [
                     { style: "人間清醒", article: "以前總覺得要討好所有人，現在發現連討好自己都很吃力了。", q: "放過別人，就是放過自己的髮際線。", p: "職場生存", do: "已讀不回", dont: "走心" },
                     { style: "禪意留白", article: "一滴露水裡，也藏著一個完整的微觀宇宙。", q: "不一定要做大洋裡的鯨魚，做一片葉子上的露水也很好。", p: "安於平凡", do: "觀察", dont: "比較" },
                     { style: "微小幸運", article: "今天走進超商，剛好拿到架上最後一個打折的鮪魚御飯糰。", q: "宇宙沒有忘記我，它只是用比較便宜的方式愛我。", p: "日常碎片", do: "慢慢吃", dont: "挑剔" }
                 ]
+            },
+            animals: {
+                basePrompt: "A beautiful Studio Ghibli anime style illustration of",
+                subjects: [
+                    "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
+                    "a cheerful golden retriever resting happily on a sun-drenched wooden porch",
+                    "a cozy cluttered bedroom with a cat sleeping on a desk in the afternoon sun"
+                ],
+                modifiers: [
+                    "vibrant pastel colors, dreamy and ethereal atmosphere, studio ghibli masterpiece, 8k",
+                    "soft glowing light leaks, pure and peaceful vibe, anime background art"
+                ],
+                layouts: ['layout-top', 'layout-bottom'], // 避開中間主體
+                music: [
+                    { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" },
+                    { track: "One Summer's Day", artist: "Joe Hisaishi", yt_id: "JtA9J-E5M4M" }
+                ],
+                quotes: [
+                    { style: "微小幸運", article: "走在下過雨的巷弄裡，一隻圓滾滾的橘貓主動走過來蹭了蹭我的褲管。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
+                    { style: "童話角落", article: "有時候覺得，動物比人類更懂得如何在這個複雜的世界裡簡單活著。", q: "睡一覺吧，醒來又是一個好天氣。", p: "療癒時刻", do: "伸懶腰", dont: "想太多" },
+                    { style: "童話角落", article: "小狗看著你的眼神，彷彿你就是牠的整個宇宙。", q: "我們總在尋找意義，卻忘了愛本身就是意義。", p: "純粹的愛", do: "摸摸頭", dont: "無視" }
+                ]
             }
         };
-
-        const promptModifiers = [
-            "warm and cheerful atmosphere, soft shadows, 8k, photorealistic",
-            "bright and airy, natural daylight, masterpiece",
-            "soft pastel color palette, gentle golden hour sunlight, cozy and uplifting mood",
-            "vibrant natural colors, crystal clear focus, high definition, deeply emotional and serene"
-        ];
-
-        // 🔥 零一絕對安全排版庫 (Safe Layout Modes)
-        const layoutModes = ['layout-bottom', 'layout-top', 'layout-center'];
 
         function getAstrologySign(month, day) {
             if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "♈ 牡羊座";
@@ -423,19 +434,22 @@
             document.getElementById('ui-lucky-stars').innerHTML = luckyStars.map(s => `<span class="tag-pill star">${s}</span>`).join('');
             document.getElementById('ui-lucky-zodiacs').innerHTML = luckyZodiacs.map(z => `<span class="tag-pill zodiac">${z}</span>`).join('');
 
-            // 🔥 零一：動態切換三種安全版面
-            const selectedLayoutMode = getRandomItem(layoutModes);
-            document.getElementById('poster-overlay').className = `poster-overlay ${selectedLayoutMode}`;
-
+            // 🔥 零一：全宇宙共覺啟動！
+            // 1. 抽出今日主題母體
             const categoriesKeys = Object.keys(omniverseMatrix);
             const selectedCategoryKey = getRandomItem(categoriesKeys);
             const selectedMatrix = omniverseMatrix[selectedCategoryKey];
             
+            // 2. 從該母體中抽出所有高度綁定的元素
             const subjectStr = getRandomItem(selectedMatrix.subjects);
+            const modifierStr = getRandomItem(selectedMatrix.modifiers);
             const selectedData = getRandomItem(selectedMatrix.quotes);
+            const igMusic = getRandomItem(selectedMatrix.music);
+            const selectedLayoutMode = getRandomItem(selectedMatrix.layouts);
             
-            const igMusic = getRandomItem(igMusicLibrary);
-            
+            // 寫入版型
+            document.getElementById('poster-overlay').className = `poster-overlay ${selectedLayoutMode}`;
+
             const style = selectedData.style || "微小幸運";
             const doAction = selectedData.do || "呼吸";
             const dontAction = selectedData.dont || "焦慮";
@@ -457,8 +471,6 @@
             document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${igMusic.yt_id}`;
 
             const baseStr = selectedMatrix.basePrompt;
-            const modifierStr = getRandomItem(promptModifiers);
-            
             const purePrompt = `${baseStr} ${subjectStr}. ${modifierStr} --ar 9:16 --style raw --v 6.0`;
             document.getElementById('purePrompt').value = purePrompt;
             
