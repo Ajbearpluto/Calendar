@@ -77,7 +77,6 @@
         .btn-action.primary { background: var(--ink-black); color: #fff; }
         .btn-action.primary:hover { background: #333; }
 
-        /* 🔥 原研哉：介面降噪，取消死板邊框，引入微擬物陰影 */
         textarea.code-box { width: 100%; flex-grow: 1; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: none; outline: none; box-sizing: border-box; }
         #purePrompt { min-height: 100px; padding: 10px; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); background: rgba(255,255,255,0.6); }
         #igCaption { height: 100px; overflow-y: auto; padding: 10px; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); background: rgba(255,255,255,0.6); }
@@ -90,8 +89,8 @@
         
         .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 25px; box-sizing: border-box; pointer-events: none; transition: all 0.5s ease; }
         
-        /* 🔥 聶永真：雙層立體陰影，防禦極白光與雜亂背景 */
-        .p-top { display: flex; text-shadow: 0 1px 4px rgba(0,0,0,0.8), 0 2px 15px rgba(0,0,0,0.5); }
+        /* 🔥 零一修復：大幅淨化文字陰影，消除混濁感 */
+        .p-top { display: flex; text-shadow: 0 1px 3px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.4); }
         .p-day { font-family: 'Noto Sans TC'; font-weight: 900; line-height: 0.8; }
         .p-meta { font-size: 0.9rem; line-height: 1.4; font-weight: 400; opacity: 0.9; display: flex; flex-direction: column; gap: 2px; }
         .p-fortune { display: flex; gap: 10px; }
@@ -99,24 +98,29 @@
         .p-stamp.do { background: rgba(91, 130, 102, 0.6); }
         .p-stamp.dont { background: rgba(192, 90, 80, 0.6); }
         
-        .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.95; margin: 0; text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 3px 10px rgba(0,0,0,0.6); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.6; text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 4px 15px rgba(0,0,0,0.6); margin: 0; word-break: keep-all; }
+        /* 🔥 零一修復：移除破壞斷行的 word-break: keep-all; 強制 100% 寬度防溢出 */
+        .p-bottom { width: 100%; box-sizing: border-box; }
+        .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.95; margin: 0; text-shadow: 0 1px 2px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.5); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; width: 100%; }
+        
+        /* 🔥 零一修復：精緻化引言邊框，確保文字優雅折行 */
+        .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.6; text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.5); margin: 0; overflow-wrap: break-word; word-wrap: break-word; width: 100%; box-sizing: border-box; }
 
-        /* 動態排版模態 */
-        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.95) 100%); flex-direction: column; justify-content: space-between; }
+        /* 動態排版模態更新 */
+        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.95) 100%); flex-direction: column; justify-content: space-between; }
         .layout-bottom .p-top { align-items: baseline; gap: 15px; }
         .layout-bottom .p-day { font-size: 5rem; }
         .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
         .layout-bottom .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
         .layout-bottom .p-fortune { margin-bottom: 2px; }
-        .layout-bottom .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 3px solid #fff; padding-left: 12px; }
+        /* 調整 border-left 粗細與 padding */
+        .layout-bottom .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 2px solid rgba(255,255,255,0.8); padding-left: 14px; padding-right: 5px; }
 
         .layout-top { background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: flex-start; gap: 30px; }
         .layout-top .p-top { align-items: baseline; gap: 15px; }
         .layout-top .p-day { font-size: 4.5rem; }
         .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
         .layout-top .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
-        .layout-top .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 3px solid #fff; padding-left: 12px; }
+        .layout-top .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 2px solid rgba(255,255,255,0.8); padding-left: 14px; padding-right: 5px; }
 
         .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 40px; }
         .layout-center .p-top { flex-direction: column; align-items: center; gap: 5px; }
@@ -124,7 +128,7 @@
         .layout-center .p-meta { flex-direction: row; gap: 10px; border-top: 1px solid rgba(255,255,255,0.4); padding-top: 8px; border-left: none; padding-left: 0; }
         .layout-center .p-bottom { display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .layout-center .p-fortune { justify-content: center; }
-        .layout-center .p-quote { font-size: 1.4rem; border-left: none; border-bottom: 3px solid #fff; padding-bottom: 12px; padding-left: 0; }
+        .layout-center .p-quote { font-size: 1.4rem; border-left: none; border-bottom: 2px solid rgba(255,255,255,0.8); padding-bottom: 12px; padding-left: 0; padding-right: 0; }
         .layout-center .p-article { -webkit-line-clamp: 2; text-align: center; }
 
         .upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; z-index: 3; opacity: 0; transition: 0.3s; pointer-events: none; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
@@ -228,20 +232,18 @@
     </div>
 
     <script>
-        // 每日由 Python 大腦注入的活水資料
-        const quotesData = [{"style": "極致反差", "article": "看著陽光灑在辦公桌的植栽上，生機盎然。就像我滿滿的待辦事項，永遠長不完。", "q": "生活不只有詩和遠方，還有眼前的無薪加班。", "p": "社畜之淚", "do": "喝杯手搖", "dont": "看存摺"}, {"style": "躺平無罪", "article": "今天鬧鐘響了三次，我終於領悟了一個宇宙真理。", "q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學", "do": "準時下班", "dont": "自找麻煩"}]; 
+        const quotesData = [{"style": "極致反差", "article": "窗外是2026年絕美的晨曦，咖啡香氣四溢。下一秒，打開電腦看到主管丟來的Excel，那份優雅碎得比我的存款還快。", "q": "生活不是詩，是這張怎麼填都填不滿的報表。", "p": "社畜日常, 離職衝動, 厭世美學", "do": "關閉通知", "dont": "點開郵件"}, {"style": "滿血復活", "article": "被會議轟炸到靈魂出竅，轉頭看見桌上的小盆栽冒出新芽。原來，只要還活著，就能繼續跟這世界硬碰硬。", "q": "只要錢到位，這場爛戲我陪你演到底。", "p": "職場生存, 正能量, 薪水小偷", "do": "瘋狂喝水", "dont": "過度思考"}, {"style": "人間清醒", "article": "辦公室裡的虛偽社交是場大型角色扮演。不必強求誰的認同，因為你的價值，從來不是由那群人決定的。", "q": "放過自己，是這世代最強大的反擊。", "p": "職場冷漠, 心理韌性, 斷捨離", "do": "冷眼旁觀", "dont": "討好他人"}, {"style": "躺平無罪", "article": "存不到錢的焦慮又來了？沒事，反正這通膨也沒打算讓我買得起房。既然翻不了身，那就躺得舒服一點。", "q": "躺平不可恥，廢得理直氣壯才是本事。", "p": "躺平主義, 財務焦慮, 快樂廢物", "do": "大口吃肉", "dont": "打開記帳"}, {"style": "微小幸運", "article": "下班路上的夕陽剛好灑在便利商店的飲料櫃上。那一刻，焦慮暫停了，生活似乎還留了一點點溫柔給我。", "q": "日子再爛，也總有一點甜能救贖你。", "p": "生活儀式感, 療癒時刻, 小確幸", "do": "準時閃人", "dont": "加班自虐"}]; 
         
         const localExpansionQuotes = [
             { style: "躺平無罪", article: "看著同事們在群組裡熱烈討論下半年的 KPI，我默默把手機螢幕蓋上，翻了個身。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
             { style: "躺平無罪", article: "原本計畫週末要大掃除、看書、去健身房。結果兩天都在沙發上滑短影音。", q: "計畫是用來打破的，沙發是用來生根的。", p: "週末日常", do: "廢物躺", dont: "看行事曆" },
             { style: "極致反差", article: "精挑細選買了昂貴的單品咖啡豆，用最講究的手沖壺慢慢萃取。", q: "喝下去的第一口，才想起今天還要見那個難搞的客戶，滿嘴只剩苦澀。", p: "社畜品味", do: "嘆氣", dont: "查餘額" },
-            { style: "滿血復活", article: "不小心把熱咖啡打翻在白襯衫上，今天簡直糟透了。", q: "轉念一想，這不就是今年最流行的『拿鐵漸層風』嗎？", p: "樂觀精神", do: "自拍", dont: "崩潰" },
+            { style: "滿血復活", article: "不小心把熱咖啡打翻在白襯衫上，今天簡直糟透了。", q: "轉念一想，這不offset就是今年最流行的『拿鐵漸層風』嗎？", p: "樂觀精神", do: "自拍", dont: "崩潰" },
             { style: "微小幸運", article: "走在下過雨的巷弄裡，一隻圓滾滾的橘貓主動走過來蹭了蹭我的褲管。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
             { style: "人間清醒", article: "看到前任發了結婚的限動，內心毫無波瀾，甚至有點想吃巷口的鹽酥雞。", q: "愛恨情仇都是假的，只有肚子餓是真的。", p: "單身萬歲", do: "點大份", dont: "懷念" },
             { style: "人間清醒", article: "以前總覺得要討好所有人，現在發現連討好自己都很吃力了。", q: "放過別人，就是放過自己的髮際線。", p: "職場生存", do: "已讀不回", dont: "走心" }
         ];
 
-        // 萬象矩陣 (Omniverse Matrix)
         const omniverseMatrix = {
             worklife: {
                 basePrompt: "A highly detailed, editorial lifestyle photography of",
@@ -259,7 +261,7 @@
                     { track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" },
                     { track: "Ditto", artist: "NewJeans", yt_id: "pSUydWEqKwE" }
                 ],
-                quotes: [] // 等等會動態注入
+                quotes: [] 
             },
             animals: {
                 basePrompt: "A heartwarming, award-winning photorealistic photography of",
@@ -316,8 +318,6 @@
             }
         };
 
-        // 🔥 零一決議：大腦資料庫智能注入演算法 (Dynamic Injection)
-        // 確保每日 Python 生成的故事與內建擴充包，能精準分發到對應的主題矩陣中
         function injectQuotesToMatrix() {
             let allAvailableQuotes = [...localExpansionQuotes];
             if (Array.isArray(quotesData)) {
@@ -337,12 +337,10 @@
                 } else if (["人間清醒", "禪意留白"].includes(style)) {
                     omniverseMatrix.macro_zen.quotes.push(q);
                 } else {
-                    // 如果 Python 生出了沒見過的新標籤，預設放進工作日常
                     omniverseMatrix.worklife.quotes.push(q);
                 }
             });
 
-            // 確保每個矩陣都至少有句子 (防呆機制)
             Object.values(omniverseMatrix).forEach(matrix => {
                 if(matrix.quotes.length === 0) {
                     matrix.quotes.push(localExpansionQuotes[0]);
@@ -462,7 +460,6 @@
             document.getElementById('ui-lucky-stars').innerHTML = luckyStars.map(s => `<span class="tag-pill star">${s}</span>`).join('');
             document.getElementById('ui-lucky-zodiacs').innerHTML = luckyZodiacs.map(z => `<span class="tag-pill zodiac">${z}</span>`).join('');
 
-            // 從封裝好的萬象矩陣中抽籤
             const categoriesKeys = Object.keys(omniverseMatrix);
             const selectedCategoryKey = getRandomItem(categoriesKeys);
             const selectedMatrix = omniverseMatrix[selectedCategoryKey];
@@ -509,9 +506,7 @@
         }
 
         window.onload = function() { 
-            // 啟動時先將 Python 資料注入矩陣
             injectQuotesToMatrix();
-            
             if(document.getElementById('ui-date-picker').value === "2026-09-04" || !document.getElementById('ui-date-picker').value) {
                 const today = new Date();
                 document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
