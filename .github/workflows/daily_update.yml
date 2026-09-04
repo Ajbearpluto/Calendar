@@ -2,40 +2,51 @@ name: Daily Taiji Calendar Update
 
 on:
   schedule:
-    # 設定為台灣時間每天 00:00 準時跨日執行 (UTC 時間 16:00)
+    # 每天台灣時間 00:00 執行 (對應 UTC 時間為 16:00)
     - cron: '0 16 * * *'
-  workflow_dispatch: # 允許您隨時手動按按鈕測試
+  workflow_dispatch: # 允許在 Actions 頁面手動點擊按鈕觸發
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # 允許機器人自動上傳更新後的網頁
 
     steps:
-    - name: 📥 降落並取得專案檔案
-      uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-    - name: 🐍 安裝 Python 系統
-      uses: actions/setup-python@v5
+    - name: Set up Python
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.12'
+        python-version: '3.x'
 
-    - name: ⚙️ 裝填通訊套件
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install google-generativeai requests
+        # 如果您的 taiji_engine.py 有用到特殊套件 (例如 requests, google-generativeai)
+        # 請確保這裡有將它們安裝起來，例如：
+        # pip install google-generativeai
 
-    - name: 🧠 啟動靈魂引擎 (執行您的 Python)
+    - name: Run Taiji Engine
       env:
-        # 🔑 機器人會在這裡秘密取出您剛才存的保險箱金鑰
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      run: python taiji_engine.py
-
-    - name: 🚀 自動上傳更新的網頁
+        # 如果您的大腦有使用 API Key (存在 GitHub Secrets 裡)，請在這裡呼叫它
+        # GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        TZ: 'Asia/Taipei' # 確保伺服器以台灣時區運行
       run: |
-        git config --global user.name "Taiji-Auto-Bot"
-        git config --global user.email "bot@taiji.system"
-        git add .
-        # 🔥 零一決議：加入台灣時區 (Asia/Taipei) 強制校準，並套用聶永真大師的 DevOps 排版美學
-        git diff --quiet && git diff --staged --quiet || (git commit -m "Taiji Engine 🌌 Omniverse Sync: $(TZ='Asia/Taipei' date +'%Y.%m.%d') 日常碎片已寫入" && git pull --rebase && git push)
+        # 🤖 零一：注意！大腦的呼叫路徑已經改到 backend 資料夾了！
+        python backend/taiji_engine.py
+
+    - name: Commit and Push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Taiji-Auto-Bot"
+        
+        # 📦 零一：將今日首頁 (index.html) 與時光機歷史 (archive/) 一起打包
+        git add index.html
+        git add archive/
+        
+        # 取得台灣時間的日期，用來寫精美的 Commit 紀錄
+        DATE=$(TZ='Asia/Taipei' date +'%Y.%m.%d')
+        
+        # 執行 Commit 與 Push (如果沒有檔案變動則跳過，避免報錯)
+        git diff --quiet && git diff --staged --quiet || git commit -m "Taiji Engine 🌌 Omniverse Sync: $DATE 日常碎片與歷史檔案已封存"
+        git push
