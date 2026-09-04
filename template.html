@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Ultimate Synesthesia</title>
+    <title>TAIJI Omniverse Calendar - Visual Pure Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -22,19 +22,16 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
 
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 40px 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
-        .container { max-width: 800px; width: 100%; display: flex; flex-direction: column; gap: 20px; }
+        .container { max-width: 900px; width: 100%; display: flex; flex-direction: column; gap: 20px; }
         .control-panel { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
         .control-panel input { background: transparent; border: 1px solid var(--line-color); padding: 8px 15px; border-radius: 8px; font-family: inherit; font-size: 1rem; color: var(--ink-gray); font-weight: 700; outline: none; cursor: pointer; transition: 0.3s; }
-        .control-panel input:hover { border-color: var(--ink-gray); }
-        .control-panel input::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
-
-        .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 10px 20px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 10px 20px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
         .btn-tear:hover { background: #333; transform: translateY(-2px); }
 
-        .calendar-page { background-color: var(--paper-bg); border-radius: 2px; padding: 50px; position: relative; box-shadow: 0 1px 1px rgba(0,0,0,0.05), 0 4px 0 -1px var(--paper-bg), 0 4px 1px -1px rgba(0,0,0,0.05), 0 8px 0 -2px var(--paper-bg), 0 8px 1px -2px rgba(0,0,0,0.05), 0 25px 50px rgba(0,0,0,0.08); transform-origin: top center; }
+        .calendar-page { background-color: var(--paper-bg); border-radius: 2px; padding: 50px; position: relative; box-shadow: 0 1px 1px rgba(0,0,0,0.05), 0 8px 50px rgba(0,0,0,0.08); transform-origin: top center; }
         .calendar-page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-image: radial-gradient(circle at 10px 0, transparent 3px, var(--paper-bg) 4px); background-size: 20px 6px; background-repeat: repeat-x; opacity: 0.5; }
 
         @keyframes tearOff { 0% { transform: translateY(0) rotate(0deg); opacity: 1; filter: blur(0); } 100% { transform: translateY(150px) rotate(4deg); opacity: 0; filter: blur(5px); } }
@@ -50,10 +47,9 @@
         .lucky-module { margin-bottom: 35px; background: rgba(255,255,255,0.4); padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.03); }
         .lucky-title { font-size: 0.85rem; font-weight: 700; color: var(--ink-gray); margin-bottom: 10px; letter-spacing: 1px; }
         .lucky-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
-        .lucky-tags:last-child { margin-bottom: 0; }
-        .tag-pill { padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .tag-pill.star { background: #FDF3E7; color: #D38C44; border: 1px solid rgba(211, 140, 68, 0.2); }
-        .tag-pill.zodiac { background: #EAF0EE; color: #5B8266; border: 1px solid rgba(91, 130, 102, 0.2); }
+        .tag-pill { padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
+        .tag-pill.star { background: #FDF3E7; color: #D38C44; }
+        .tag-pill.zodiac { background: #EAF0EE; color: #5B8266; }
 
         .fortune-grid { display: flex; align-items: center; gap: 15px; margin-bottom: 35px; flex-wrap: wrap; }
         .badge-style { background: var(--ink-black); color: #fff; padding: 4px 12px; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; }
@@ -65,76 +61,81 @@
         .quote-content { font-family: 'Noto Serif TC', serif; font-size: 1.6rem; font-weight: 900; line-height: 1.6; color: var(--ink-black); margin: 0 0 40px 0; padding-left: 20px; border-left: 4px solid var(--ink-black); }
 
         .music-player { margin-bottom: 40px; border-top: 1px solid var(--line-color); padding-top: 25px; display: flex; justify-content: center; }
-        .btn-music { background: rgba(255,255,255,0.8); border: 1px solid var(--line-color); padding: 12px 28px; border-radius: 30px; font-size: 0.95rem; font-weight: 700; color: var(--ink-black); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.03); backdrop-filter: blur(10px); }
-        .btn-music:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); color: #000; border-color: rgba(0,0,0,0.2); }
+        .btn-music { background: rgba(255,255,255,0.8); border: 1px solid var(--line-color); padding: 12px 28px; border-radius: 30px; font-size: 0.95rem; font-weight: 700; color: var(--ink-black); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; backdrop-filter: blur(10px); }
 
         .creator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; border-top: 2px dashed var(--line-color); padding-top: 40px; }
         .output-box { background: #F4F6F8; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         .output-box h3 { margin: 0; font-size: 1rem; font-weight: 700; color: var(--ink-black); display: flex; align-items: center; gap: 8px; }
         
-        .btn-action { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.05); color: var(--ink-black); padding: 12px; border-radius: 12px; font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; }
+        .btn-action { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.05); color: var(--ink-black); padding: 10px; border-radius: 8px; font-family: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; }
         .btn-action:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-1px); }
         .btn-action.primary { background: var(--ink-black); color: #fff; }
-        .btn-action.primary:hover { background: #333; }
 
-        textarea.code-box { width: 100%; flex-grow: 1; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: none; outline: none; box-sizing: border-box; }
-        #purePrompt { min-height: 100px; padding: 10px; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); background: rgba(255,255,255,0.6); }
-        #igCaption { height: 100px; overflow-y: auto; padding: 10px; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); background: rgba(255,255,255,0.6); }
+        textarea.code-box { width: 100%; flex-grow: 1; background: rgba(255,255,255,0.6); border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: none; outline: none; box-sizing: border-box; padding: 10px; border-radius: 8px; }
+        #purePrompt { min-height: 80px; }
+        #igCaption { height: 100px; overflow-y: auto; }
 
-        .poster-wrapper { position: relative; width: 100%; border-radius: 16px; padding: 4px; background: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .poster-wrapper:hover { transform: scale(1.02); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
+        /* 🔥 零一全新架構：4宮格海報畫廊 (Poster Gallery) */
+        .gallery-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
+        .poster-card { display: flex; flex-direction: column; gap: 10px; }
+        .poster-label { font-size: 0.8rem; font-weight: 700; color: var(--ink-gray); text-align: center; }
+        
+        .poster-wrapper { position: relative; width: 100%; border-radius: 12px; padding: 0; background: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s ease; }
+        .poster-wrapper:hover { transform: scale(1.02); z-index: 10; box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
         .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; cursor: pointer; background-color: #E0E0E0; }
         .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s; }
-        .poster-wrapper:hover .poster-bg { filter: brightness(0.7) blur(2px); }
+        .poster-wrapper:hover .poster-bg { filter: brightness(0.85) blur(1px); }
         
-        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 25px; box-sizing: border-box; pointer-events: none; transition: all 0.5s ease; }
+        /* 🔥 移除故事，大幅降低陰影濃度，還原影像質感 */
+        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 20px; box-sizing: border-box; pointer-events: none; }
         
-        /* 🔥 零一修復：大幅淨化文字陰影，消除混濁感 */
-        .p-top { display: flex; text-shadow: 0 1px 3px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.4); }
+        .p-top { display: flex; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
         .p-day { font-family: 'Noto Sans TC'; font-weight: 900; line-height: 0.8; }
-        .p-meta { font-size: 0.9rem; line-height: 1.4; font-weight: 400; opacity: 0.9; display: flex; flex-direction: column; gap: 2px; }
-        .p-fortune { display: flex; gap: 10px; }
-        .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700; backdrop-filter: blur(4px); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-        .p-stamp.do { background: rgba(91, 130, 102, 0.6); }
-        .p-stamp.dont { background: rgba(192, 90, 80, 0.6); }
-        
-        /* 🔥 零一修復：移除破壞斷行的 word-break: keep-all; 強制 100% 寬度防溢出 */
-        .p-bottom { width: 100%; box-sizing: border-box; }
-        .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.95; margin: 0; text-shadow: 0 1px 2px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.5); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; width: 100%; }
-        
-        /* 🔥 零一修復：精緻化引言邊框，確保文字優雅折行 */
-        .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.6; text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.5); margin: 0; overflow-wrap: break-word; word-wrap: break-word; width: 100%; box-sizing: border-box; }
+        .p-meta { font-size: 0.75rem; line-height: 1.4; font-weight: 400; opacity: 0.95; display: flex; flex-direction: column; gap: 2px; }
+        .p-fortune { display: flex; gap: 8px; }
+        .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; backdrop-filter: blur(2px); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .p-stamp.do { background: rgba(91, 130, 102, 0.7); }
+        .p-stamp.dont { background: rgba(192, 90, 80, 0.7); }
+        .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.5; text-shadow: 0 1px 4px rgba(0,0,0,0.8); margin: 0; overflow-wrap: break-word; word-wrap: break-word; width: 100%; box-sizing: border-box; }
 
-        /* 動態排版模態更新 */
-        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.95) 100%); flex-direction: column; justify-content: space-between; }
-        .layout-bottom .p-top { align-items: baseline; gap: 15px; }
-        .layout-bottom .p-day { font-size: 5rem; }
-        .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
-        .layout-bottom .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
-        .layout-bottom .p-fortune { margin-bottom: 2px; }
-        /* 調整 border-left 粗細與 padding */
-        .layout-bottom .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 2px solid rgba(255,255,255,0.8); padding-left: 14px; padding-right: 5px; }
+        /* 模態 1：經典沉底 (Bottom) - 極簡陰影 */
+        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 100%); flex-direction: column; justify-content: space-between; }
+        .layout-bottom .p-top { align-items: baseline; gap: 10px; }
+        .layout-bottom .p-day { font-size: 3.5rem; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+        .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.5); padding-left: 8px; }
+        .layout-bottom .p-bottom { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-align: left; }
+        .layout-bottom .p-quote { font-size: 1.1rem; border-left: 2px solid rgba(255,255,255,0.9); padding-left: 10px; }
 
-        .layout-top { background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: flex-start; gap: 30px; }
-        .layout-top .p-top { align-items: baseline; gap: 15px; }
-        .layout-top .p-day { font-size: 4.5rem; }
-        .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
-        .layout-top .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
-        .layout-top .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 2px solid rgba(255,255,255,0.8); padding-left: 14px; padding-right: 5px; }
+        /* 模態 2：天際懸浮 (Top) - 讓出底部 */
+        .layout-top { background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 40%); flex-direction: column; justify-content: flex-start; gap: 20px; }
+        .layout-top .p-top { align-items: baseline; gap: 10px; }
+        .layout-top .p-day { font-size: 3.5rem; }
+        .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.5); padding-left: 8px; }
+        .layout-top .p-bottom { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-align: left; }
+        .layout-top .p-quote { font-size: 1.1rem; border-left: 2px solid rgba(255,255,255,0.9); padding-left: 10px; }
 
-        .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 40px; }
+        /* 模態 3：史詩置中 (Center) */
+        .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 70%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 25px; }
         .layout-center .p-top { flex-direction: column; align-items: center; gap: 5px; }
-        .layout-center .p-day { font-size: 5.5rem; }
-        .layout-center .p-meta { flex-direction: row; gap: 10px; border-top: 1px solid rgba(255,255,255,0.4); padding-top: 8px; border-left: none; padding-left: 0; }
-        .layout-center .p-bottom { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .layout-center .p-day { font-size: 4rem; }
+        .layout-center .p-meta { flex-direction: row; gap: 8px; border-top: 1px solid rgba(255,255,255,0.5); padding-top: 6px; border-left: none; padding-left: 0; }
+        .layout-center .p-bottom { display: flex; flex-direction: column; align-items: center; gap: 12px; }
         .layout-center .p-fortune { justify-content: center; }
-        .layout-center .p-quote { font-size: 1.4rem; border-left: none; border-bottom: 2px solid rgba(255,255,255,0.8); padding-bottom: 12px; padding-left: 0; padding-right: 0; }
-        .layout-center .p-article { -webkit-line-clamp: 2; text-align: center; }
+        .layout-center .p-quote { font-size: 1.1rem; border-left: none; border-bottom: 2px solid rgba(255,255,255,0.9); padding-bottom: 8px; }
 
-        .upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; z-index: 3; opacity: 0; transition: 0.3s; pointer-events: none; backdrop-filter: blur(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        /* 模態 4：日系直書 (Editorial) */
+        .layout-editorial { background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.7) 100%); flex-direction: row; justify-content: space-between; }
+        .layout-editorial .p-top { flex-direction: column; gap: 10px; width: 40%; }
+        .layout-editorial .p-day { font-size: 3.5rem; line-height: 0.9; }
+        .layout-editorial .p-meta { border-top: 2px solid rgba(255,255,255,0.5); padding-top: 8px; }
+        .layout-editorial .p-bottom { width: 50%; display: flex; flex-direction: row-reverse; gap: 10px; align-items: flex-start; justify-content: flex-start; }
+        .layout-editorial .p-fortune { flex-direction: column; align-items: flex-end; }
+        .layout-editorial .p-quote { writing-mode: vertical-rl; text-align: left; font-size: 1.1rem; border-top: 2px solid #fff; padding-top: 10px; line-height: 1.6; max-height: 90%; }
+
+        .upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: white; padding: 10px 20px; border-radius: 30px; font-size: 0.8rem; font-weight: 700; z-index: 3; opacity: 0; transition: 0.3s; pointer-events: none; backdrop-filter: blur(4px); }
         .poster-wrapper:hover .upload-hint { opacity: 1; }
 
-        @media (max-width: 768px) { .calendar-page { padding: 30px 20px; } .giant-day { font-size: 6rem; } .creator-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .creator-grid { grid-template-columns: 1fr; } .gallery-wrapper { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
@@ -184,47 +185,95 @@
                     <h3>🎨 視覺產出 (Visual Prompt)</h3>
                     <button class="btn-action primary" onclick="copyText('purePrompt', 'btnPure')" id="btnPure">🖼️ 複製大師級算圖指令</button>
                     <textarea id="purePrompt" class="code-box" readonly></textarea>
+                    
+                    <h3 style="margin-top:15px;">📱 脆 (Threads) 專屬排版</h3>
+                    <button class="btn-action" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📝 複製 Threads 貼文</button>
+                    <textarea id="igCaption" class="code-box" readonly style="flex-grow:1;"></textarea>
                 </div>
 
-                <div class="output-box">
-                    <h3>📱 脆 (Threads) 專屬排版</h3>
-                    <button class="btn-action" onclick="copyText('igCaption', 'btnMsgIG')" id="btnMsgIG">📝 複製 Threads 貼文</button>
-                    <textarea id="igCaption" class="code-box" readonly></textarea>
+                <div class="output-box" style="background: transparent; padding: 0;">
+                    <h3 style="margin-left:5px;">✨ 選擇排版下載 (點圖可換底圖)</h3>
                     
-                    <span style="font-size: 0.85rem; color: var(--ink-gray); text-align: center; margin-top: 15px; margin-bottom: 5px;">
-                        ✨ 點擊圖片上傳底圖，實時生成動態海報
-                    </span>
+                    <input type="file" id="bg-uploader" style="display:none;" accept="image/*" onchange="loadCustomBg(event)">
                     
-                    <div class="poster-wrapper">
-                        <div class="html-poster" id="ig-poster-canvas" onclick="document.getElementById('bg-uploader').click()">
-                            <img id="poster-bg-img" class="poster-bg" src="" alt="Background" crossorigin="anonymous">
-                            
-                            <div class="poster-overlay layout-bottom" id="poster-overlay">
-                                <div class="p-top">
-                                    <div class="p-day" id="p-day">02</div>
-                                    <div class="p-meta">
-                                        <div id="p-ym">2026.09</div>
-                                        <div id="p-lunar">農曆七月廿一</div>
+                    <!-- 4宮格畫廊 -->
+                    <div class="gallery-wrapper">
+                        <!-- 模態 1 -->
+                        <div class="poster-card">
+                            <div class="poster-label">經典沉底</div>
+                            <div class="poster-wrapper" id="poster-1">
+                                <div class="html-poster" onclick="document.getElementById('bg-uploader').click()">
+                                    <img class="poster-bg" src="" alt="Bg" crossorigin="anonymous">
+                                    <div class="poster-overlay layout-bottom">
+                                        <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
+                                        <div class="p-bottom">
+                                            <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
+                                            <p class="p-quote">「金句載入中...」</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="p-bottom">
-                                    <div class="p-fortune">
-                                        <span class="p-stamp do">宜 <span id="p-do">摸魚</span></span>
-                                        <span class="p-stamp dont">忌 <span id="p-dont">群組</span></span>
-                                    </div>
-                                    <p class="p-article" id="p-article">故事載入中...</p>
-                                    <p class="p-quote" id="p-quote">「生活不只有詩和遠方，還有眼前的無薪加班。」</p>
+                                    <div class="upload-hint" data-html2canvas-ignore="true">📸 換圖</div>
                                 </div>
                             </div>
-                            <div class="upload-hint" data-html2canvas-ignore="true">📸 點擊替換底圖</div>
-                            <input type="file" id="bg-uploader" style="display:none;" accept="image/*" onchange="loadCustomBg(event)">
+                            <button class="btn-action primary" onclick="downloadPoster('poster-1', this)" style="background-color: #E1306C; font-size: 0.8rem; padding: 8px;">⬇️ 下載此款</button>
                         </div>
-                    </div>
-                    
-                    <div style="margin-top: 10px;">
-                        <button class="btn-action primary" onclick="downloadPoster()" id="btnDownload" style="background-color: #E1306C; border-color: #E1306C;">
-                            📸 下載 IG 限動海報
-                        </button>
+                        
+                        <!-- 模態 2 -->
+                        <div class="poster-card">
+                            <div class="poster-label">天際懸浮</div>
+                            <div class="poster-wrapper" id="poster-2">
+                                <div class="html-poster" onclick="document.getElementById('bg-uploader').click()">
+                                    <img class="poster-bg" src="" alt="Bg" crossorigin="anonymous">
+                                    <div class="poster-overlay layout-top">
+                                        <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
+                                        <div class="p-bottom">
+                                            <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
+                                            <p class="p-quote">「金句載入中...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="upload-hint" data-html2canvas-ignore="true">📸 換圖</div>
+                                </div>
+                            </div>
+                            <button class="btn-action primary" onclick="downloadPoster('poster-2', this)" style="background-color: #E1306C; font-size: 0.8rem; padding: 8px;">⬇️ 下載此款</button>
+                        </div>
+
+                        <!-- 模態 3 -->
+                        <div class="poster-card">
+                            <div class="poster-label">史詩置中</div>
+                            <div class="poster-wrapper" id="poster-3">
+                                <div class="html-poster" onclick="document.getElementById('bg-uploader').click()">
+                                    <img class="poster-bg" src="" alt="Bg" crossorigin="anonymous">
+                                    <div class="poster-overlay layout-center">
+                                        <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
+                                        <div class="p-bottom">
+                                            <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
+                                            <p class="p-quote">「金句載入中...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="upload-hint" data-html2canvas-ignore="true">📸 換圖</div>
+                                </div>
+                            </div>
+                            <button class="btn-action primary" onclick="downloadPoster('poster-3', this)" style="background-color: #E1306C; font-size: 0.8rem; padding: 8px;">⬇️ 下載此款</button>
+                        </div>
+
+                        <!-- 模態 4 -->
+                        <div class="poster-card">
+                            <div class="poster-label">日系直書</div>
+                            <div class="poster-wrapper" id="poster-4">
+                                <div class="html-poster" onclick="document.getElementById('bg-uploader').click()">
+                                    <img class="poster-bg" src="" alt="Bg" crossorigin="anonymous">
+                                    <div class="poster-overlay layout-editorial">
+                                        <div class="p-top"><div class="p-day">04</div><div class="p-meta"><div class="p-ym">2026.09</div><div class="p-lunar">農曆</div></div></div>
+                                        <div class="p-bottom">
+                                            <div class="p-fortune"><span class="p-stamp do">宜<br><span class="p-do"></span></span><span class="p-stamp dont">忌<br><span class="p-dont"></span></span></div>
+                                            <p class="p-quote">「金句載入中...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="upload-hint" data-html2canvas-ignore="true">📸 換圖</div>
+                                </div>
+                            </div>
+                            <button class="btn-action primary" onclick="downloadPoster('poster-4', this)" style="background-color: #E1306C; font-size: 0.8rem; padding: 8px;">⬇️ 下載此款</button>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -232,88 +281,42 @@
     </div>
 
     <script>
-        const quotesData = __QUOTES_JS__; 
+        const quotesData = typeof __QUOTES_JS__ !== 'undefined' ? __QUOTES_JS__ : []; 
         
         const localExpansionQuotes = [
             { style: "躺平無罪", article: "看著同事們在群組裡熱烈討論下半年的 KPI，我默默把手機螢幕蓋上，翻了個身。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
-            { style: "躺平無罪", article: "原本計畫週末要大掃除、看書、去健身房。結果兩天都在沙發上滑短影音。", q: "計畫是用來打破的，沙發是用來生根的。", p: "週末日常", do: "廢物躺", dont: "看行事曆" },
             { style: "極致反差", article: "精挑細選買了昂貴的單品咖啡豆，用最講究的手沖壺慢慢萃取。", q: "喝下去的第一口，才想起今天還要見那個難搞的客戶，滿嘴只剩苦澀。", p: "社畜品味", do: "嘆氣", dont: "查餘額" },
-            { style: "滿血復活", article: "不小心把熱咖啡打翻在白襯衫上，今天簡直糟透了。", q: "轉念一想，這不offset就是今年最流行的『拿鐵漸層風』嗎？", p: "樂觀精神", do: "自拍", dont: "崩潰" },
             { style: "微小幸運", article: "走在下過雨的巷弄裡，一隻圓滾滾的橘貓主動走過來蹭了蹭我的褲管。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
-            { style: "人間清醒", article: "看到前任發了結婚的限動，內心毫無波瀾，甚至有點想吃巷口的鹽酥雞。", q: "愛恨情仇都是假的，只有肚子餓是真的。", p: "單身萬歲", do: "點大份", dont: "懷念" },
             { style: "人間清醒", article: "以前總覺得要討好所有人，現在發現連討好自己都很吃力了。", q: "放過別人，就是放過自己的髮際線。", p: "職場生存", do: "已讀不回", dont: "走心" }
         ];
 
         const omniverseMatrix = {
             worklife: {
                 basePrompt: "A highly detailed, editorial lifestyle photography of",
-                subjects: [
-                    "a young Asian woman peacefully drinking coffee and reading a book by a sunlit window",
-                    "a person in a cozy sweater writing in a journal at a sun-drenched wooden dining table",
-                    "a vintage glass siphon coffee maker actively brewing coffee with rich steam rising"
-                ],
-                modifiers: [
-                    "shot on 35mm lens, soft natural daylight, indoor lifestyle, 8k, extremely photorealistic",
-                    "Fujifilm Superia 400 simulation, beautiful natural lighting, documentary photography, masterpiece"
-                ],
-                layouts: ['layout-bottom', 'layout-top'],
-                music: [
-                    { track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" },
-                    { track: "Ditto", artist: "NewJeans", yt_id: "pSUydWEqKwE" }
-                ],
+                subjects: ["a young Asian woman peacefully drinking coffee by a sunlit window", "a person writing in a journal at a sun-drenched wooden dining table", "a vintage glass siphon coffee maker actively brewing coffee"],
+                modifiers: ["shot on 35mm lens, soft natural daylight, indoor lifestyle, 8k, extremely photorealistic", "Fujifilm Superia 400 simulation, beautiful natural lighting, documentary photography"],
+                music: [{ track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" }, { track: "Ditto", artist: "NewJeans", yt_id: "pSUydWEqKwE" }],
                 quotes: [] 
             },
             animals: {
                 basePrompt: "A heartwarming, award-winning photorealistic photography of",
-                subjects: [
-                    "a sleepy tabby cat curled up on a pile of old books bathed in warm morning sunlight",
-                    "a cheerful golden retriever resting happily on a sun-drenched wooden porch",
-                    "a cute fluffy cat sleeping next to a sunlit window in a cozy room"
-                ],
-                modifiers: [
-                    "shot on 50mm lens, f/1.8, beautiful shallow depth of field, real life, 8k, hyper-detailed animal photography",
-                    "soft morning sunlight, sharp focus on fur, National Geographic animal portrait, photorealistic masterpiece"
-                ],
-                layouts: ['layout-top', 'layout-bottom'], 
-                music: [
-                    { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" },
-                    { track: "Merry-Go-Round of Life", artist: "Joe Hisaishi", yt_id: "HMGetv40FQU" }
-                ],
+                subjects: ["a sleepy tabby cat curled up on a pile of old books bathed in warm sunlight", "a cheerful golden retriever resting happily on a sun-drenched wooden porch"],
+                modifiers: ["shot on 50mm lens, f/1.8, beautiful shallow depth of field, real life, 8k", "soft morning sunlight, sharp focus on fur, National Geographic animal portrait"],
+                music: [{ track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }],
                 quotes: [] 
             },
             epic_nature: {
                 basePrompt: "An epic National Geographic landscape photography of",
-                subjects: [
-                    "a breathtaking panoramic view of a lush green valley and a pristine alpine lake",
-                    "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds",
-                    "a quiet misty morning in a dense bamboo forest with soft light rays"
-                ],
-                modifiers: [
-                    "dramatic cinematic lighting, breathtaking scale, highly detailed, 8k resolution, nature masterpiece",
-                    "vibrant natural colors, crystal clear focus, deeply emotional and serene, wide angle lens"
-                ],
-                layouts: ['layout-center', 'layout-bottom'],
-                music: [
-                    { track: "A Sky Full of Stars", artist: "Coldplay", yt_id: "VPRjCeoBqrI" },
-                    { track: "The Scientist", artist: "Coldplay", yt_id: "RB-RcX5DS5A" }
-                ],
+                subjects: ["a breathtaking panoramic view of a lush green valley and a pristine alpine lake", "a spectacular sunset over a calm ocean reflecting vibrant pastel clouds"],
+                modifiers: ["dramatic cinematic lighting, breathtaking scale, highly detailed, 8k resolution", "vibrant natural colors, crystal clear focus, deeply emotional and serene"],
+                music: [{ track: "A Sky Full of Stars", artist: "Coldplay", yt_id: "VPRjCeoBqrI" }],
                 quotes: [] 
             },
             macro_zen: {
                 basePrompt: "An extreme close-up macro photography of",
-                subjects: [
-                    "crystal clear morning dew resting on a vibrant green fern leaf",
-                    "delicate dandelion seeds bathed in warm golden hour sunlight",
-                    "intricate frost patterns on a glass window reflecting morning light"
-                ],
-                modifiers: [
-                    "extreme shallow depth of field, sharp focus on subject, beautiful bokeh, soft ambient daylight, 8k",
-                    "ethereal atmosphere, photorealistic macro masterpiece, highly detailed texture, real life"
-                ],
-                layouts: ['layout-center', 'layout-top'],
-                music: [
-                    { track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" }
-                ],
+                subjects: ["crystal clear morning dew resting on a vibrant green fern leaf", "delicate dandelion seeds bathed in warm golden hour sunlight"],
+                modifiers: ["extreme shallow depth of field, sharp focus on subject, beautiful bokeh, 8k", "ethereal atmosphere, photorealistic macro masterpiece, real life"],
+                music: [{ track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" }],
                 quotes: [] 
             }
         };
@@ -328,27 +331,17 @@
 
             allAvailableQuotes.forEach(q => {
                 let style = q.style || "";
-                if (["躺平無罪", "極致反差", "滿血復活"].includes(style)) {
-                    omniverseMatrix.worklife.quotes.push(q);
-                } else if (["微小幸運", "童話角落"].includes(style)) {
-                    omniverseMatrix.animals.quotes.push(q);
-                } else if (["浩瀚宇宙"].includes(style)) {
-                    omniverseMatrix.epic_nature.quotes.push(q);
-                } else if (["人間清醒", "禪意留白"].includes(style)) {
-                    omniverseMatrix.macro_zen.quotes.push(q);
-                } else {
-                    omniverseMatrix.worklife.quotes.push(q);
-                }
+                if (["躺平無罪", "極致反差", "滿血復活"].includes(style)) omniverseMatrix.worklife.quotes.push(q);
+                else if (["微小幸運", "童話角落"].includes(style)) omniverseMatrix.animals.quotes.push(q);
+                else if (["浩瀚宇宙"].includes(style)) omniverseMatrix.epic_nature.quotes.push(q);
+                else if (["人間清醒", "禪意留白"].includes(style)) omniverseMatrix.macro_zen.quotes.push(q);
+                else omniverseMatrix.worklife.quotes.push(q);
             });
 
             Object.values(omniverseMatrix).forEach(matrix => {
-                if(matrix.quotes.length === 0) {
-                    matrix.quotes.push(localExpansionQuotes[0]);
-                }
+                if(matrix.quotes.length === 0) matrix.quotes.push(localExpansionQuotes[0]);
             });
         }
-
-        const layoutModes = ['layout-bottom', 'layout-top', 'layout-center'];
 
         function getAstrologySign(month, day) {
             if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "♈ 牡羊座";
@@ -396,32 +389,35 @@
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) { document.getElementById('poster-bg-img').src = e.target.result; }
+                reader.onload = function(e) { 
+                    const bgElements = document.querySelectorAll('.poster-bg');
+                    bgElements.forEach(el => el.src = e.target.result);
+                }
                 reader.readAsDataURL(file);
             }
         }
 
-        function downloadPoster() {
-            const posterWrapper = document.querySelector('.poster-wrapper');
-            const btn = document.getElementById('btnDownload');
-            const originalText = btn.innerHTML;
+        function downloadPoster(wrapperId, btnElement) {
+            const posterWrapper = document.getElementById(wrapperId);
+            const originalText = btnElement.innerHTML;
             
-            btn.innerHTML = "⏳ 魔法渲染中 (請稍候)...";
-            btn.style.opacity = "0.7"; btn.style.pointerEvents = "none";
+            btnElement.innerHTML = "⏳ 渲染中...";
+            btnElement.style.opacity = "0.7"; btnElement.style.pointerEvents = "none";
+
+            // 抓取第一張海報的日期作為檔名
+            const ym = document.querySelector(`#${wrapperId} .p-ym`).innerText.replace('.', '');
+            const day = document.querySelector(`#${wrapperId} .p-day`).innerText;
+            const layoutName = wrapperId.replace('poster-', 'L');
+            const fileName = `Taiji_Calendar_${ym}${day}_${layoutName}.png`;
 
             html2canvas(posterWrapper, { scale: 3, useCORS: true, backgroundColor: "transparent" }).then(canvas => {
-                const ym = document.getElementById('p-ym').innerText.replace('.', '');
-                const day = document.getElementById('p-day').innerText;
-                const fileName = `Taiji_Calendar_${ym}${day}.png`;
-
                 const link = document.createElement('a'); link.download = fileName;
                 link.href = canvas.toDataURL('image/png'); link.click();
-
-                btn.innerHTML = "✅ 海報下載完成！";
-                setTimeout(() => { btn.innerHTML = originalText; btn.style.opacity = "1"; btn.style.pointerEvents = "auto"; }, 2000);
+                btnElement.innerHTML = "✅ 完成！";
+                setTimeout(() => { btnElement.innerHTML = originalText; btnElement.style.opacity = "1"; btnElement.style.pointerEvents = "auto"; }, 2000);
             }).catch(err => {
-                btn.innerHTML = "❌ 渲染失敗";
-                setTimeout(() => { btn.innerHTML = originalText; btn.style.opacity = "1"; btn.style.pointerEvents = "auto"; }, 2000);
+                btnElement.innerHTML = "❌ 失敗";
+                setTimeout(() => { btnElement.innerHTML = originalText; btnElement.style.opacity = "1"; btnElement.style.pointerEvents = "auto"; }, 2000);
             });
         }
 
@@ -436,7 +432,6 @@
             
             document.getElementById('ui-day').innerText = dayStr; document.getElementById('ui-ym').innerText = ymStr;
             document.getElementById('ui-star-sign').innerText = exactStarSign;
-            document.getElementById('p-day').innerText = dayStr; document.getElementById('p-ym').innerText = ymStr;
 
             let lunarDisplay = "農曆查無資料"; let lunarPure = "農曆查無資料";
             try {
@@ -450,7 +445,6 @@
             } catch (e) {}
             
             document.getElementById('ui-lunar').innerText = lunarDisplay;
-            document.getElementById('p-lunar').innerText = lunarPure; 
 
             const allStars = ["♈ 牡羊", "♉ 金牛", "♊ 雙子", "♋ 巨蟹", "♌ 獅子", "♍ 處女", "♎ 天秤", "♏ 天蠍", "♐ 射手", "♑ 摩羯", "♒ 水瓶", "♓ 雙魚"];
             const allZodiacs = ["🐭 肖鼠", "🐮 肖牛", "🐯 肖虎", "🐰 肖兔", "🐲 肖龍", "🐍 肖蛇", "🐴 肖馬", "🐑 肖羊", "🐵 肖猴", "🐔 肖雞", "🐶 肖狗", "🐷 肖豬"];
@@ -468,9 +462,6 @@
             const modifierStr = getRandomItem(selectedMatrix.modifiers);
             const selectedData = getRandomItem(selectedMatrix.quotes);
             const igMusic = getRandomItem(selectedMatrix.music);
-            const selectedLayoutMode = getRandomItem(selectedMatrix.layouts);
-            
-            document.getElementById('poster-overlay').className = `poster-overlay ${selectedLayoutMode}`;
 
             const style = selectedData.style || "微小幸運";
             const doAction = selectedData.do || "呼吸";
@@ -479,14 +470,26 @@
             const quoteText = selectedData.q || "努力活著。";
             const painTag = selectedData.p || "日常碎片";
 
+            // 更新網頁 UI 本體
             document.getElementById('ui-style-badge').innerText = style;
             document.getElementById('ui-do').innerText = doAction; document.getElementById('ui-dont').innerText = dontAction;
-            document.getElementById('p-do').innerText = doAction; document.getElementById('p-dont').innerText = dontAction;
-            
             document.getElementById('ui-article').innerHTML = articleText.replace(/\n/g, '<br>');
             document.getElementById('ui-quote').innerText = `「${quoteText}」`; 
-            document.getElementById('p-article').innerHTML = articleText.replace(/\n/g, '<br>');
-            document.getElementById('p-quote').innerText = `「${quoteText}」`;
+
+            // 更新 4 宮格畫廊的文字 (不再有 story)
+            const pDays = document.querySelectorAll('.p-day');
+            const pYms = document.querySelectorAll('.p-ym');
+            const pLunars = document.querySelectorAll('.p-lunar');
+            const pDos = document.querySelectorAll('.p-do');
+            const pDonts = document.querySelectorAll('.p-dont');
+            const pQuotes = document.querySelectorAll('.p-quote');
+
+            pDays.forEach(el => el.innerText = dayStr);
+            pYms.forEach(el => el.innerText = ymStr);
+            pLunars.forEach(el => el.innerText = lunarPure);
+            pDos.forEach(el => el.innerText = doAction);
+            pDonts.forEach(el => el.innerText = dontAction);
+            pQuotes.forEach(el => el.innerText = `「${quoteText}」`);
 
             const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
             document.getElementById('ui-music-text').innerText = "IG 配樂建議：" + fullSongInfo;
@@ -497,9 +500,13 @@
             
             document.getElementById('purePrompt').value = `${fullPromptText} --ar 9:16 --style raw --v 6.0`;
             
+            // 讓 4 張海報讀取同一張隨機背景圖
             const randomSeed = Math.floor(Math.random() * 1000000);
             const safeUrlPrompt = encodeURIComponent(`${fullPromptText}, highly detailed photorealistic`);
-            document.getElementById('poster-bg-img').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true&seed=${randomSeed}`;
+            const bgImageUrl = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true&seed=${randomSeed}`;
+            
+            const bgElements = document.querySelectorAll('.poster-bg');
+            bgElements.forEach(el => el.src = bgImageUrl);
             
             const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n✨ 宇宙寵兒：${luckyStars.join(' ')} ${luckyZodiacs.join(' ')}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
             document.getElementById('igCaption').value = threadsText;
