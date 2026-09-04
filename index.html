@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Photorealistic Edition</title>
+    <title>TAIJI Omniverse Calendar - Ultimate Synesthesia</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -77,9 +77,10 @@
         .btn-action.primary { background: var(--ink-black); color: #fff; }
         .btn-action.primary:hover { background: #333; }
 
+        /* 🔥 原研哉：介面降噪，取消死板邊框，引入微擬物陰影 */
         textarea.code-box { width: 100%; flex-grow: 1; background: transparent; border: none; font-family: 'Noto Sans TC', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--ink-gray); resize: none; outline: none; box-sizing: border-box; }
-        #purePrompt { min-height: 100px; }
-        #igCaption { height: 100px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.05); padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.5); }
+        #purePrompt { min-height: 100px; padding: 10px; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); background: rgba(255,255,255,0.6); }
+        #igCaption { height: 100px; overflow-y: auto; padding: 10px; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); background: rgba(255,255,255,0.6); }
 
         .poster-wrapper { position: relative; width: 100%; border-radius: 16px; padding: 4px; background: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .poster-wrapper:hover { transform: scale(1.02); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
@@ -89,16 +90,19 @@
         
         .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 25px; box-sizing: border-box; pointer-events: none; transition: all 0.5s ease; }
         
-        .p-top { display: flex; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        /* 🔥 聶永真：雙層立體陰影，防禦極白光與雜亂背景 */
+        .p-top { display: flex; text-shadow: 0 1px 4px rgba(0,0,0,0.8), 0 2px 15px rgba(0,0,0,0.5); }
         .p-day { font-family: 'Noto Sans TC'; font-weight: 900; line-height: 0.8; }
         .p-meta { font-size: 0.9rem; line-height: 1.4; font-weight: 400; opacity: 0.9; display: flex; flex-direction: column; gap: 2px; }
         .p-fortune { display: flex; gap: 10px; }
         .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700; backdrop-filter: blur(4px); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .p-stamp.do { background: rgba(91, 130, 102, 0.6); }
         .p-stamp.dont { background: rgba(192, 90, 80, 0.6); }
-        .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.9; margin: 0; text-shadow: 0 2px 6px rgba(0,0,0,0.8); display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
-        .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin: 0; word-break: keep-all; }
+        
+        .p-article { font-family: 'Noto Sans TC', sans-serif; font-size: 0.95rem; line-height: 1.6; font-weight: 400; opacity: 0.95; margin: 0; text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 3px 10px rgba(0,0,0,0.6); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.6; text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 4px 15px rgba(0,0,0,0.6); margin: 0; word-break: keep-all; }
 
+        /* 動態排版模態 */
         .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.95) 100%); flex-direction: column; justify-content: space-between; }
         .layout-bottom .p-top { align-items: baseline; gap: 15px; }
         .layout-bottom .p-day { font-size: 5rem; }
@@ -106,7 +110,6 @@
         .layout-bottom .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
         .layout-bottom .p-fortune { margin-bottom: 2px; }
         .layout-bottom .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 3px solid #fff; padding-left: 12px; }
-        .layout-bottom .p-article { -webkit-line-clamp: 3; }
 
         .layout-top { background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: flex-start; gap: 30px; }
         .layout-top .p-top { align-items: baseline; gap: 15px; }
@@ -114,7 +117,6 @@
         .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.4); padding-left: 10px; }
         .layout-top .p-bottom { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; text-align: left; }
         .layout-top .p-quote { font-size: clamp(1.1rem, 5vw, 1.4rem); border-left: 3px solid #fff; padding-left: 12px; }
-        .layout-top .p-article { -webkit-line-clamp: 3; }
 
         .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 40px; }
         .layout-center .p-top { flex-direction: column; align-items: center; gap: 5px; }
@@ -226,18 +228,20 @@
     </div>
 
     <script>
-        const quotesData = [{"style": "極致反差", "article": "夕陽餘暉灑在落地窗前，咖啡香氣瀰漫整個質感空間。打開信箱，主管傳來「明天假日需不需要順便進公司看一下報表呢？」的親切問候。完美的一天，毀於一旦。", "q": "生活總是要給你一巴掌，如果你嫌不夠，它會再補一腳。", "p": "不想上班想離職", "do": "秒關訊息", "dont": "已讀主管"}, {"style": "滿血復活", "article": "今天出門踩到狗屎，錢包還掉在捷運站，本以為是悲慘的一天。結果轉頭去買樂透竟然中了兩百塊，賺爛了，今天我就是天選之人！", "q": "只要我夠阿Q，厄運就追不上我。", "p": "時來運轉", "do": "買彩券", "dont": "看餘額"}, {"style": "人間清醒", "article": "職場上沒有真正的夥伴，大家只是剛好被綁在同一艘破船上的難兄難弟。老闆畫的大餅，熱量再高也填不飽我中午的便當。放過自己，準時下班最實際。", "q": "工作是公司的，生活是自己的，累壞了算你自己的。", "p": "存不到錢好焦慮", "do": "準時閃人", "dont": "加班奉獻"}, {"style": "躺平無罪", "article": "看著戶頭裡的餘額，再看看房價，我深刻體會到人類的極限在哪裡。那就是躺在床上滑手機，反正呼吸不用繳稅，活著就是賺到。", "q": "只要我躺得夠快，生活就割不到我。", "p": "躺平萬歲", "do": "當個廢物", "dont": "量體重"}, {"style": "微小幸運", "article": "走在路上突然迎面吹來一陣涼爽的秋風，超商的茶葉蛋剛好滷到最入味的那顆還沒被買走。世界雖然很破爛，但小確幸總能把我縫縫補補。", "q": "日子再苦，也要吃顆熱騰騰的茶葉蛋。", "p": "日常療癒", "do": "大口吃肉", "dont": "想未來"}]; 
+        // 每日由 Python 大腦注入的活水資料
+        const quotesData = [{"style": "極致反差", "article": "看著陽光灑在辦公桌的植栽上，生機盎然。就像我滿滿的待辦事項，永遠長不完。", "q": "生活不只有詩和遠方，還有眼前的無薪加班。", "p": "社畜之淚", "do": "喝杯手搖", "dont": "看存摺"}, {"style": "躺平無罪", "article": "今天鬧鐘響了三次，我終於領悟了一個宇宙真理。", "q": "努力不一定會成功，但不努力一定很輕鬆。", "p": "躺平哲學", "do": "準時下班", "dont": "自找麻煩"}]; 
         
-        const igMusicLibrary = [
-            { track: "Merry-Go-Round of Life", artist: "Joe Hisaishi", yt_id: "HMGetv40FQU" },
-            { track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" },
-            { track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" },
-            { track: "A Sky Full of Stars", artist: "Coldplay", yt_id: "VPRjCeoBqrI" },
-            { track: "Ditto", artist: "NewJeans", yt_id: "pSUydWEqKwE" },
-            { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" }
+        const localExpansionQuotes = [
+            { style: "躺平無罪", article: "看著同事們在群組裡熱烈討論下半年的 KPI，我默默把手機螢幕蓋上，翻了個身。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
+            { style: "躺平無罪", article: "原本計畫週末要大掃除、看書、去健身房。結果兩天都在沙發上滑短影音。", q: "計畫是用來打破的，沙發是用來生根的。", p: "週末日常", do: "廢物躺", dont: "看行事曆" },
+            { style: "極致反差", article: "精挑細選買了昂貴的單品咖啡豆，用最講究的手沖壺慢慢萃取。", q: "喝下去的第一口，才想起今天還要見那個難搞的客戶，滿嘴只剩苦澀。", p: "社畜品味", do: "嘆氣", dont: "查餘額" },
+            { style: "滿血復活", article: "不小心把熱咖啡打翻在白襯衫上，今天簡直糟透了。", q: "轉念一想，這不就是今年最流行的『拿鐵漸層風』嗎？", p: "樂觀精神", do: "自拍", dont: "崩潰" },
+            { style: "微小幸運", article: "走在下過雨的巷弄裡，一隻圓滾滾的橘貓主動走過來蹭了蹭我的褲管。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
+            { style: "人間清醒", article: "看到前任發了結婚的限動，內心毫無波瀾，甚至有點想吃巷口的鹽酥雞。", q: "愛恨情仇都是假的，只有肚子餓是真的。", p: "單身萬歲", do: "點大份", dont: "懷念" },
+            { style: "人間清醒", article: "以前總覺得要討好所有人，現在發現連討好自己都很吃力了。", q: "放過別人，就是放過自己的髮際線。", p: "職場生存", do: "已讀不回", dont: "走心" }
         ];
 
-        // 🔥 零一寫實化核彈更新：全面抹除動畫風格，注入「人類視角」的寫實鏡頭！
+        // 萬象矩陣 (Omniverse Matrix)
         const omniverseMatrix = {
             worklife: {
                 basePrompt: "A highly detailed, editorial lifestyle photography of",
@@ -255,11 +259,7 @@
                     { track: "The Lazy Song", artist: "Bruno Mars", yt_id: "fLexgOxsZu0" },
                     { track: "Ditto", artist: "NewJeans", yt_id: "pSUydWEqKwE" }
                 ],
-                quotes: [
-                    { style: "躺平無罪", article: "看著同事們在群組裡熱烈討論下半年的 KPI，我默默把手機螢幕蓋上，翻了個身。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
-                    { style: "躺平無罪", article: "原本計畫週末要大掃除、看書、去健身房。結果兩天都在沙發上滑短影音。", q: "計畫是用來打破的，沙發是用來生根的。", p: "週末日常", do: "廢物躺", dont: "看行事曆" },
-                    { style: "極致反差", article: "精挑細選買了昂貴的單品咖啡豆，用最講究的手沖壺慢慢萃取。", q: "喝下去的第一口，才想起今天還要見那個難搞的客戶，滿嘴只剩苦澀。", p: "社畜品味", do: "嘆氣", dont: "查餘額" }
-                ]
+                quotes: [] // 等等會動態注入
             },
             animals: {
                 basePrompt: "A heartwarming, award-winning photorealistic photography of",
@@ -277,10 +277,7 @@
                     { track: "Here Comes The Sun", artist: "The Beatles", yt_id: "KQetemT1sWc" },
                     { track: "Merry-Go-Round of Life", artist: "Joe Hisaishi", yt_id: "HMGetv40FQU" }
                 ],
-                quotes: [
-                    { style: "微小幸運", article: "走在下過雨的巷弄裡，一隻圓滾滾的橘貓主動走過來蹭了蹭我的褲管。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
-                    { style: "童話角落", article: "有時候覺得，動物比人類更懂得如何在這個複雜的世界裡簡單活著。", q: "睡一覺吧，醒來又是一個好天氣。", p: "療癒時刻", do: "伸懶腰", dont: "想太多" }
-                ]
+                quotes: [] 
             },
             epic_nature: {
                 basePrompt: "An epic National Geographic landscape photography of",
@@ -298,10 +295,7 @@
                     { track: "A Sky Full of Stars", artist: "Coldplay", yt_id: "VPRjCeoBqrI" },
                     { track: "The Scientist", artist: "Coldplay", yt_id: "RB-RcX5DS5A" }
                 ],
-                quotes: [
-                    { style: "浩瀚宇宙", article: "站在山頂俯瞰整片雲海，突然覺得糾結了一整個月的煩惱，其實根本微不足道。", q: "世界這麼大，何必把自己困在三坪的辦公室裡。", p: "放寬心", do: "深呼吸", dont: "鑽牛角尖" },
-                    { style: "禪意留白", article: "看著落日把天空染成一片絢爛，時間彷彿在這一刻靜止了。", q: "有些美好不需要擁有，光是看著就已足夠。", p: "自然治癒", do: "靜靜看", dont: "急著走" }
-                ]
+                quotes: [] 
             },
             macro_zen: {
                 basePrompt: "An extreme close-up macro photography of",
@@ -318,12 +312,43 @@
                 music: [
                     { track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" }
                 ],
-                quotes: [
-                    { style: "人間清醒", article: "以前總覺得要討好所有人，現在發現連討好自己都很吃力了。", q: "放過別人，就是放過自己的髮際線。", p: "職場生存", do: "已讀不回", dont: "走心" },
-                    { style: "禪意留白", article: "一滴露水裡，也藏著一個完整的微觀宇宙。", q: "不一定要做大洋裡的鯨魚，做一片葉子上的露水也很好。", p: "安於平凡", do: "觀察", dont: "比較" }
-                ]
+                quotes: [] 
             }
         };
+
+        // 🔥 零一決議：大腦資料庫智能注入演算法 (Dynamic Injection)
+        // 確保每日 Python 生成的故事與內建擴充包，能精準分發到對應的主題矩陣中
+        function injectQuotesToMatrix() {
+            let allAvailableQuotes = [...localExpansionQuotes];
+            if (Array.isArray(quotesData)) {
+                allAvailableQuotes = allAvailableQuotes.concat(quotesData);
+            } else if (quotesData && quotesData.style) {
+                allAvailableQuotes.push(quotesData);
+            }
+
+            allAvailableQuotes.forEach(q => {
+                let style = q.style || "";
+                if (["躺平無罪", "極致反差", "滿血復活"].includes(style)) {
+                    omniverseMatrix.worklife.quotes.push(q);
+                } else if (["微小幸運", "童話角落"].includes(style)) {
+                    omniverseMatrix.animals.quotes.push(q);
+                } else if (["浩瀚宇宙"].includes(style)) {
+                    omniverseMatrix.epic_nature.quotes.push(q);
+                } else if (["人間清醒", "禪意留白"].includes(style)) {
+                    omniverseMatrix.macro_zen.quotes.push(q);
+                } else {
+                    // 如果 Python 生出了沒見過的新標籤，預設放進工作日常
+                    omniverseMatrix.worklife.quotes.push(q);
+                }
+            });
+
+            // 確保每個矩陣都至少有句子 (防呆機制)
+            Object.values(omniverseMatrix).forEach(matrix => {
+                if(matrix.quotes.length === 0) {
+                    matrix.quotes.push(localExpansionQuotes[0]);
+                }
+            });
+        }
 
         const layoutModes = ['layout-bottom', 'layout-top', 'layout-center'];
 
@@ -437,11 +462,11 @@
             document.getElementById('ui-lucky-stars').innerHTML = luckyStars.map(s => `<span class="tag-pill star">${s}</span>`).join('');
             document.getElementById('ui-lucky-zodiacs').innerHTML = luckyZodiacs.map(z => `<span class="tag-pill zodiac">${z}</span>`).join('');
 
+            // 從封裝好的萬象矩陣中抽籤
             const categoriesKeys = Object.keys(omniverseMatrix);
             const selectedCategoryKey = getRandomItem(categoriesKeys);
             const selectedMatrix = omniverseMatrix[selectedCategoryKey];
             
-            // 🔥 零一修復：正確讀取該分類的專屬光影修飾詞 (Modifiers)
             const subjectStr = getRandomItem(selectedMatrix.subjects);
             const modifierStr = getRandomItem(selectedMatrix.modifiers);
             const selectedData = getRandomItem(selectedMatrix.quotes);
@@ -470,14 +495,11 @@
             document.getElementById('ui-music-text').innerText = "IG 配樂建議：" + fullSongInfo;
             document.getElementById('ui-music-btn').href = `https://www.youtube.com/watch?v=${igMusic.yt_id}`;
 
-            // 組合完整的高質感寫實咒語
             const baseStr = selectedMatrix.basePrompt;
             const fullPromptText = `${baseStr} ${subjectStr}. ${modifierStr}`;
             
-            // 餵給 Midjourney 的指令框 (帶有長寬比與版本號)
             document.getElementById('purePrompt').value = `${fullPromptText} --ar 9:16 --style raw --v 6.0`;
             
-            // 🔥 餵給網頁預覽引擎的指令 (排除 MJ 專用參數，加入隨機變數強制刷新寫實圖)
             const randomSeed = Math.floor(Math.random() * 1000000);
             const safeUrlPrompt = encodeURIComponent(`${fullPromptText}, highly detailed photorealistic`);
             document.getElementById('poster-bg-img').src = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true&seed=${randomSeed}`;
@@ -487,6 +509,9 @@
         }
 
         window.onload = function() { 
+            // 啟動時先將 Python 資料注入矩陣
+            injectQuotesToMatrix();
+            
             if(document.getElementById('ui-date-picker').value === "2026-09-04" || !document.getElementById('ui-date-picker').value) {
                 const today = new Date();
                 document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
