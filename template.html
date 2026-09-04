@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - Multiverse Creator Edition</title>
+    <title>TAIJI Omniverse Calendar - Full Arsenal Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -26,17 +26,16 @@
 
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 30px 20px; min-height: 100vh; display: flex; justify-content: center; }
         
-        .container { max-width: 1200px; width: 100%; display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start; }
-        @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
+        .container { max-width: 1400px; width: 100%; display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start; }
+        @media (max-width: 1024px) { .container { grid-template-columns: 1fr; } }
 
         /* 左側控制台 */
-        .sidebar { background: rgba(255,255,255,0.6); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 20px; position: sticky; top: 30px; }
+        .sidebar { background: rgba(255,255,255,0.7); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 20px; position: sticky; top: 30px; }
         .sidebar h1 { font-size: 1.2rem; font-weight: 900; margin: 0; color: var(--ink-black); letter-spacing: 1px; }
         
         .control-panel { display: flex; flex-direction: column; gap: 15px; }
         .control-panel input { background: #fff; border: 1px solid var(--line-color); padding: 12px 15px; border-radius: 8px; font-family: inherit; font-size: 1rem; color: var(--ink-gray); font-weight: 700; outline: none; cursor: pointer; transition: 0.3s; }
-        .control-panel input:hover { border-color: var(--ink-gray); }
-
+        
         .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .btn-tear:hover { background: #333; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
 
@@ -44,8 +43,8 @@
         .today-info strong { color: var(--ink-black); font-size: 1.1rem; }
 
         /* 右側四宮格 */
-        .gallery-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .poster-card { display: flex; flex-direction: column; gap: 12px; background: rgba(255,255,255,0.4); padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.6); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .gallery-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 25px; }
+        .poster-card { display: flex; flex-direction: column; gap: 12px; background: rgba(255,255,255,0.5); padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         
         .poster-label { font-size: 0.95rem; font-weight: 900; color: var(--ink-black); display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
         .poster-label span { font-weight: 500; color: var(--ink-gray); font-size: 0.75rem; background: #fff; padding: 3px 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -100,25 +99,18 @@
         .layout-editorial .p-fortune { flex-direction: column; align-items: flex-end; }
         .layout-editorial .p-quote { writing-mode: vertical-rl; text-align: left; font-size: 1.25rem; border-top: 2px solid #fff; padding-top: 15px; line-height: 1.6; max-height: 90%; border-left: none; border-bottom: none; padding-left: 0; }
 
-        /* 按鈕與工具區 (重製優化) */
         .btn-action { background: var(--accent-color); color: #fff; border: none; padding: 12px; border-radius: 8px; font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 5px; }
         .btn-action:hover { background: #c12258; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
-        /* 🔥 Jony Ive: 優雅摺疊武器庫 */
-        .creator-tools { background: #fff; border-radius: 8px; border: 1px solid var(--line-color); overflow: hidden; margin-top: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .creator-tools summary { padding: 12px 15px; font-size: 0.85rem; font-weight: 700; cursor: pointer; color: var(--ink-black); list-style: none; display: flex; align-items: center; gap: 8px; user-select: none; }
-        .creator-tools summary::-webkit-details-marker { display: none; }
-        .creator-tools summary:hover { background: #fafafa; }
-        .creator-tools[open] summary { border-bottom: 1px solid var(--line-color); background: #fafafa; }
-        
-        .tool-panel { padding: 15px; display: flex; flex-direction: column; gap: 15px; background: #fafafa; }
-        .tool-group { display: flex; flex-direction: column; gap: 6px; }
-        .tool-group label { font-size: 0.75rem; font-weight: 700; color: var(--ink-gray); }
-        .tool-group textarea { width: 100%; box-sizing: border-box; background: #fff; border: 1px solid var(--line-color); border-radius: 6px; padding: 8px; font-family: monospace; font-size: 0.75rem; color: var(--ink-gray); resize: vertical; min-height: 60px; outline: none; }
-        .tool-group textarea:focus { border-color: var(--ink-gray); }
-        
-        .btn-mini { background: #fff; border: 1px solid var(--line-color); color: var(--ink-black); padding: 6px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.2s; align-self: flex-start; }
-        .btn-mini:hover { background: var(--ink-black); color: #fff; border-color: var(--ink-black); }
+        /* 🔥 零一：全新常駐型資料儀表板 (不再隱藏) */
+        .tool-panel { background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 12px; margin-top: 5px; }
+        .tool-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700; color: var(--ink-black); }
+        .btn-icon { background: #fff; border: 1px solid var(--line-color); color: var(--ink-black); padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .btn-icon:hover { background: var(--ink-black); color: #fff; border-color: var(--ink-black); }
+        .tool-panel textarea { width: 100%; box-sizing: border-box; background: #fff; border: 1px solid var(--line-color); border-radius: 8px; padding: 10px; font-family: monospace; font-size: 0.8rem; color: var(--ink-gray); resize: none; outline: none; }
+        .tool-panel textarea:focus { border-color: var(--ink-gray); }
+        .prompt-box { height: 60px; }
+        .caption-box { height: 100px; }
 
     </style>
 </head>
@@ -137,7 +129,7 @@
                 <strong>載入中...</strong><br>農曆資料計算中
             </div>
             <div style="font-size: 0.8rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
-                ✨ 每張海報皆為獨立運算的宇宙切片。點開圖片下方的「🛠️ 工具」即可獲取專屬高畫質算圖指令與社群文案。
+                ✨ 每張海報皆為獨立運算的宇宙切片。下方工具列已為您準備好專屬的 MJ 算圖指令與社群文案，請直接複製取用。
             </div>
         </div>
 
@@ -161,22 +153,20 @@
                 </div>
                 <button class="btn-action" onclick="downloadPoster('poster-worklife', this)">⬇️ 下載海報</button>
                 
-                <!-- 🔥 武器庫折疊面板 -->
-                <details class="creator-tools">
-                    <summary>🛠️ 展開算圖指令與貼文</summary>
-                    <div class="tool-panel">
-                        <div class="tool-group">
-                            <label>🎨 Midjourney 高解析指令 (自動複製)</label>
-                            <textarea class="prompt-box" readonly></textarea>
-                            <button class="btn-mini" onclick="copyCardText(this, '.prompt-box')">📋 複製指令</button>
-                        </div>
-                        <div class="tool-group">
-                            <label>📱 Threads / IG 專屬排版文案</label>
-                            <textarea class="caption-box" readonly style="height: 100px;"></textarea>
-                            <button class="btn-mini" onclick="copyCardText(this, '.caption-box')">📝 複製貼文</button>
-                        </div>
+                <!-- 常駐型武器庫面板 -->
+                <div class="tool-panel">
+                    <div class="tool-header">
+                        <span>🎨 MJ 高解析指令</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">📋 複製</button>
                     </div>
-                </details>
+                    <textarea class="prompt-box" readonly></textarea>
+                    
+                    <div class="tool-header">
+                        <span>📱 Threads 貼文</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">📝 複製</button>
+                    </div>
+                    <textarea class="caption-box" readonly></textarea>
+                </div>
             </div>
             
             <!-- 宇宙 2：動物療癒 (天際懸浮) -->
@@ -195,21 +185,18 @@
                     </div>
                 </div>
                 <button class="btn-action" onclick="downloadPoster('poster-animals', this)">⬇️ 下載海報</button>
-                <details class="creator-tools">
-                    <summary>🛠️ 展開算圖指令與貼文</summary>
-                    <div class="tool-panel">
-                        <div class="tool-group">
-                            <label>🎨 Midjourney 高解析指令</label>
-                            <textarea class="prompt-box" readonly></textarea>
-                            <button class="btn-mini" onclick="copyCardText(this, '.prompt-box')">📋 複製指令</button>
-                        </div>
-                        <div class="tool-group">
-                            <label>📱 Threads / IG 專屬排版文案</label>
-                            <textarea class="caption-box" readonly style="height: 100px;"></textarea>
-                            <button class="btn-mini" onclick="copyCardText(this, '.caption-box')">📝 複製貼文</button>
-                        </div>
+                <div class="tool-panel">
+                    <div class="tool-header">
+                        <span>🎨 MJ 高解析指令</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">📋 複製</button>
                     </div>
-                </details>
+                    <textarea class="prompt-box" readonly></textarea>
+                    <div class="tool-header">
+                        <span>📱 Threads 貼文</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">📝 複製</button>
+                    </div>
+                    <textarea class="caption-box" readonly></textarea>
+                </div>
             </div>
 
             <!-- 宇宙 3：壯闊大景 (史詩置中) -->
@@ -228,21 +215,18 @@
                     </div>
                 </div>
                 <button class="btn-action" onclick="downloadPoster('poster-epic', this)">⬇️ 下載海報</button>
-                <details class="creator-tools">
-                    <summary>🛠️ 展開算圖指令與貼文</summary>
-                    <div class="tool-panel">
-                        <div class="tool-group">
-                            <label>🎨 Midjourney 高解析指令</label>
-                            <textarea class="prompt-box" readonly></textarea>
-                            <button class="btn-mini" onclick="copyCardText(this, '.prompt-box')">📋 複製指令</button>
-                        </div>
-                        <div class="tool-group">
-                            <label>📱 Threads / IG 專屬排版文案</label>
-                            <textarea class="caption-box" readonly style="height: 100px;"></textarea>
-                            <button class="btn-mini" onclick="copyCardText(this, '.caption-box')">📝 複製貼文</button>
-                        </div>
+                <div class="tool-panel">
+                    <div class="tool-header">
+                        <span>🎨 MJ 高解析指令</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">📋 複製</button>
                     </div>
-                </details>
+                    <textarea class="prompt-box" readonly></textarea>
+                    <div class="tool-header">
+                        <span>📱 Threads 貼文</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">📝 複製</button>
+                    </div>
+                    <textarea class="caption-box" readonly></textarea>
+                </div>
             </div>
 
             <!-- 宇宙 4：微觀禪意 (日系直書) -->
@@ -261,21 +245,18 @@
                     </div>
                 </div>
                 <button class="btn-action" onclick="downloadPoster('poster-macro', this)">⬇️ 下載海報</button>
-                <details class="creator-tools">
-                    <summary>🛠️ 展開算圖指令與貼文</summary>
-                    <div class="tool-panel">
-                        <div class="tool-group">
-                            <label>🎨 Midjourney 高解析指令</label>
-                            <textarea class="prompt-box" readonly></textarea>
-                            <button class="btn-mini" onclick="copyCardText(this, '.prompt-box')">📋 複製指令</button>
-                        </div>
-                        <div class="tool-group">
-                            <label>📱 Threads / IG 專屬排版文案</label>
-                            <textarea class="caption-box" readonly style="height: 100px;"></textarea>
-                            <button class="btn-mini" onclick="copyCardText(this, '.caption-box')">📝 複製貼文</button>
-                        </div>
+                <div class="tool-panel">
+                    <div class="tool-header">
+                        <span>🎨 MJ 高解析指令</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">📋 複製</button>
                     </div>
-                </details>
+                    <textarea class="prompt-box" readonly></textarea>
+                    <div class="tool-header">
+                        <span>📱 Threads 貼文</span>
+                        <button class="btn-icon" onclick="copyCardText(this, '.caption-box')">📝 複製</button>
+                    </div>
+                    <textarea class="caption-box" readonly></textarea>
+                </div>
             </div>
 
         </div>
@@ -366,7 +347,7 @@
             document.execCommand("copy");
             
             const originalText = btnElement.innerHTML;
-            btnElement.innerHTML = "✅ 已複製！";
+            btnElement.innerHTML = "✅ 已複製";
             setTimeout(() => { btnElement.innerHTML = originalText; }, 2000);
         }
 
@@ -384,7 +365,7 @@
             const posterWrapper = document.getElementById(wrapperId);
             const originalText = btnElement.innerHTML;
             
-            btnElement.innerHTML = "⏳ 魔法渲染中...";
+            btnElement.innerHTML = "⏳ 渲染中...";
             btnElement.style.opacity = "0.7"; btnElement.style.pointerEvents = "none";
 
             const ym = document.querySelector(`#${wrapperId} .p-ym`).innerText.replace('.', '');
@@ -402,7 +383,7 @@
             });
         }
 
-        // 🔥 核心生成邏輯
+        // 🔥 核心生成邏輯：雙軌制算圖防破圖
         function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
             const dObj = new Date(currentDate + "T00:00:00");
             const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
@@ -446,14 +427,17 @@
                 const igMusic = getRandomItem(matrix.music);
                 const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
 
-                // 2. 高畫質 Prompt
+                // 2. 算圖邏輯分流 (防破圖機制)
                 const subjectStr = getRandomItem(matrix.subjects);
                 const modifierStr = getRandomItem(matrix.modifiers);
-                const fullPrompt = `${matrix.basePrompt} ${subjectStr}. ${modifierStr} --ar 9:16 --style raw --v 6.0`;
                 
+                // 👉 餵給使用者的完整 MJ 大師級指令
+                const fullMjPrompt = `${matrix.basePrompt} ${subjectStr}. ${modifierStr} --ar 9:16 --style raw --v 6.0`;
+                
+                // 👉 餵給網頁預覽引擎的精簡指令 (移除複雜修飾詞，解析度降至 720x1280 保證不超時)
                 const randomSeed = Math.floor(Math.random() * 1000000);
-                const safeUrlPrompt = encodeURIComponent(`${matrix.basePrompt} ${subjectStr}, photorealistic`);
-                const imgUrl = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=1080&height=1920&nologo=true&seed=${randomSeed}`;
+                const safeUrlPrompt = encodeURIComponent(`${matrix.basePrompt} ${subjectStr}`);
+                const imgUrl = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
 
                 // 3. 完整社群文案
                 const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
@@ -461,10 +445,16 @@
                 // 4. 寫入節點
                 const wrapper = document.getElementById(`card-${universe.id}`);
                 
-                wrapper.querySelector('.prompt-box').value = fullPrompt;
+                wrapper.querySelector('.prompt-box').value = fullMjPrompt;
                 wrapper.querySelector('.caption-box').value = threadsText;
 
-                wrapper.querySelector('.poster-bg').src = imgUrl;
+                const bgImg = wrapper.querySelector('.poster-bg');
+                bgImg.src = imgUrl;
+                // 加入圖片載入失敗的防呆機制
+                bgImg.onerror = function() {
+                    this.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=720&auto=format&fit=crop';
+                };
+
                 wrapper.querySelector('.p-day').innerText = dayStr;
                 wrapper.querySelector('.p-ym').innerText = ymStr;
                 wrapper.querySelector('.p-lunar').innerText = lunarDisplay;
