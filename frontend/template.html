@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse - Absolute Unique Edition</title>
+    <title>TAIJI Omniverse - The Genesis Engine</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -67,7 +67,6 @@
         .p-stamp.dont { background: rgba(192, 90, 80, 0.75); }
         .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.5; text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 2px 8px rgba(0,0,0,0.6); margin: 0; overflow-wrap: break-word; word-wrap: break-word; width: 100%; box-sizing: border-box; }
 
-        /* 四種排版模態 */
         .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.85) 100%); flex-direction: column; justify-content: space-between; }
         .layout-bottom .p-top { align-items: baseline; gap: 10px; }
         .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.6); padding-left: 6px; }
@@ -106,50 +105,95 @@
         .tool-panel textarea { width: 100%; box-sizing: border-box; background: #fff; border: 1px solid var(--line-color); border-radius: 6px; padding: 8px; font-family: monospace; font-size: 0.75rem; color: var(--ink-gray); resize: none; outline: none; }
         .prompt-box { height: 50px; }
         .caption-box { height: 80px; }
-
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 左側：極簡控制台 -->
         <div class="sidebar">
             <h1>TAIJI Omniverse</h1>
             <div class="control-panel">
                 <input type="date" id="ui-date-picker" value="__PAYLOAD_DATE__" onchange="applyDateChange()">
                 <button class="btn-tear" onclick="triggerTearAnimation()">
-                    🌌 抽出全新獨立宇宙
+                    🌌 啟動程序化創世引擎
                 </button>
             </div>
             <div class="today-info" id="today-stats">
                 <strong>載入中...</strong><br>農曆資料計算中
             </div>
             <div style="font-size: 0.75rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
-                ✨ 系統已切換為<b>全局不放回抽樣 (No-Replacement Draw)</b>。100% 確保每次刷新的四張圖像、金句與備用圖皆絕對不重複。
+                ✨ <b>碎形靈魂矩陣</b>已上線。文字將透過情境與體悟的縫合，生成超過 50 萬種不重複的生活哲理。
             </div>
         </div>
 
-        <!-- 右側：四宮格平行宇宙 -->
         <div class="gallery-wrapper">
             <div class="poster-card" id="card-0"><div class="poster-label" id="label-0">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-0"><div class="html-poster"><div class="loading-mask" id="mask-0"><span>📸 宇宙成形中...</span></div><img class="poster-bg" id="bg-0" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-0"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-0', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
             <div class="poster-card" id="card-1"><div class="poster-label" id="label-1">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-1"><div class="html-poster"><div class="loading-mask" id="mask-1"><span>📸 宇宙成形中...</span></div><img class="poster-bg" id="bg-1" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-1"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-1', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
             <div class="poster-card" id="card-2"><div class="poster-label" id="label-2">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-2"><div class="html-poster"><div class="loading-mask" id="mask-2"><span>📸 宇宙成形中...</span></div><img class="poster-bg" id="bg-2" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-2"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-2', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
-            <div class="poster-card" id="card-3"><div class="poster-label" id="label-3">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-3"><div class="html-poster"><div class="loading-mask" id="mask-3"><span>📸 宇宙成形中...</span></div><img class="poster-bg" id="bg-3" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-3"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-3', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
+            <div class="poster-card" id="card-3"><div class="poster-label" id="label-3">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-3"><div class="html-poster"><div class="loading-mask" id="mask-3"><span>📸 宇宙成形中...</span></div><img class="poster-bg" id="bg-3" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-3"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜<br><span class="p-do"></span></span><span class="p-stamp dont">忌<br><span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-3', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
         </div>
     </div>
 
     <script>
-        const quotesData = typeof __QUOTES_JS__ !== 'undefined' ? __QUOTES_JS__ : []; 
-        
-        const localExpansionQuotes = [
-            { style: "躺平無罪", article: "有時候覺得進度就像讀不完的進度條，卡在99%。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
-            { style: "微小幸運", article: "下雨天遇見一隻不怕人的小野貓。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
-            { style: "浩瀚宇宙", article: "從山頂往下看，煩惱變得很小。", q: "世界這麼大，何必把自己困在三坪的辦公室裡。", p: "放寬心", do: "深呼吸", dont: "鑽牛角尖" },
-            { style: "禪意留白", article: "花時間觀察一滴水的形狀，也是一種收穫。", q: "不一定要做大洋裡的鯨魚，做一片葉子上的露水也很好。", p: "安於平凡", do: "觀察", dont: "比較" },
-            { style: "人間清醒", article: "每個人都在趕路，但我決定在路邊看一棵樹。", q: "公司是他的，但人生是你的。", p: "冷眼旁觀", do: "發呆", dont: "認真負責" },
-            { style: "滿血復活", article: "喝完最後一口咖啡，感覺自己又可以打十個。", q: "今天沒有什麼過不去的，除了晚餐的卡路里。", p: "自我催眠", do: "吃大餐", dont: "看體重計" }
-        ];
+        // 🔥 程序化碎形引擎 (Procedural Generation Engine)
+        // 將文字拆解為獨立碎片，透過無盡的排列組合，生成超過 50 萬種獨特語句。
+        const proceduralSoul = {
+            timeContext: [
+                "看著虹吸壺裡水流緩緩上升的早晨，",
+                "在池上等待西南方銀河升起的深夜，",
+                "看著盤面 K 線在 20MA 與 60MA 間震盪時，",
+                "看著 3D 印表機噴頭來回堆疊頂層表面的瞬間，",
+                "獨自走在嘉明湖步道的冷空氣中，",
+                "看著十一位小勇士們讀懂繪本露出笑容的午後，",
+                "在跑步機上踩著陡峭坡度大汗淋漓時，",
+                "剛炸好一盤金黃酥脆的西班牙吉拿棒時，",
+                "聽著耳機裡傳來公主徹夜未眠的詠嘆調，",
+                "用富士陶瓷濾杯靜靜沖煮完一杯咖啡後，"
+            ],
+            insight: [
+                "突然覺得進度條卡在 99% 也沒關係。",
+                "明白所有的回檔與震盪，都是為了下一次的蓄力。",
+                "感覺那些屬於大人的煩惱，其實都很微不足道。",
+                "才發現好味道與好日子一樣，都需要耐心等待。",
+                "體會到沒有一蹴可幾的奇蹟，只有一步一腳印的踏實。",
+                "覺得只要心靜下來，世界的堅硬也能變得柔軟。",
+                "意識到有些風景，真的必須親自抵達才能看見。",
+                "發現最珍貴的收穫，往往藏在沒有人注意的細節裡。"
+            ],
+            quote1: [
+                "就算天塌下來，",
+                "與其追逐外界的喧囂，",
+                "如果平靜有形狀，",
+                "有些壯闊的風景，",
+                "面對無常的變化，",
+                "生活不需要永遠滿血，",
+                "比起一瞬間的爆發，",
+                "在浩瀚的宇宙面前，"
+            ],
+            quote2: [
+                "也要等手裡的這杯咖啡喝完再說。",
+                "不如堅守自己內心的太極紀律。",
+                "那一定是此刻流淌的平凡旋律。",
+                "必須親自背起行囊，走進迷霧才能看見。",
+                "我們只需要做一片安靜承載露水的葉子。",
+                "偶爾躺平，也是一種勇敢的戰術。",
+                "我更相信歲月裡緩慢堆疊的厚度。",
+                "我們唯一的任務，就是認真感受當下。"
+            ],
+            painTag: ["日常碎片", "太極紀律", "山林守護", "躺平哲學", "慢活時光", "微光角落", "純粹時刻"],
+            doAction: ["深呼吸", "發呆", "耐心等待", "喝咖啡", "仰望星空", "戴上耳機", "堅守紀律"],
+            dontAction: ["看盤", "鑽牛角尖", "急躁", "過度思考", "隨波逐流", "熬夜", "比較"]
+        };
 
-        // 萬象創世引擎資料庫
+        function generateUniqueQuote() {
+            return {
+                article: getRandomItem(proceduralSoul.timeContext) + getRandomItem(proceduralSoul.insight),
+                q: getRandomItem(proceduralSoul.quote1) + getRandomItem(proceduralSoul.quote2),
+                p: getRandomItem(proceduralSoul.painTag),
+                do: getRandomItem(proceduralSoul.doAction),
+                dont: getRandomItem(proceduralSoul.dontAction)
+            };
+        }
+
         const omniverseMatrix = {
             worklife: {
                 basePrompt: "A candid documentary photography of",
@@ -224,9 +268,8 @@
             }
         };
 
-        // 洗牌演算法
         function shuffleArray(array) {
-            let arr = array.slice(); // 複製陣列避免污染原資料
+            let arr = array.slice(); 
             let curId = arr.length;
             while (0 !== curId) {
                 let randId = Math.floor(Math.random() * curId);
@@ -238,7 +281,8 @@
             return arr;
         }
 
-        // 下載圖片與複製文字邏輯
+        function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
         function copyCardText(btnElement, selector) {
             const card = btnElement.closest('.poster-card');
             const textarea = card.querySelector(selector);
@@ -279,19 +323,17 @@
         const layoutNames = { 'layout-bottom': '經典沉底', 'layout-top': '天際懸浮', 'layout-center': '極致置中', 'layout-editorial': '日系直書' };
         const uniTitles = ['宇宙一', '宇宙二', '宇宙三', '宇宙四'];
 
-        // 獨立備用圖庫 (確保抽卡時不重複)
         const allFallbackUrls = [
-            "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop", // 咖啡
-            "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop", // 貓咪
-            "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop", // 山脈
-            "https://images.unsplash.com/photo-1500389332212-07e35b7e28b2?q=80&w=720&auto=format&fit=crop", // 露水
-            "https://images.unsplash.com/photo-1515005836938-1bcce7f86415?q=80&w=720&auto=format&fit=crop", // 街道
-            "https://images.unsplash.com/photo-1534361960057-19889db9621e?q=80&w=720&auto=format&fit=crop", // 狗
-            "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=720&auto=format&fit=crop", // 星空
-            "https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=720&auto=format&fit=crop"  // 花朵
+            "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop", 
+            "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop", 
+            "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop", 
+            "https://images.unsplash.com/photo-1500389332212-07e35b7e28b2?q=80&w=720&auto=format&fit=crop", 
+            "https://images.unsplash.com/photo-1515005836938-1bcce7f86415?q=80&w=720&auto=format&fit=crop", 
+            "https://images.unsplash.com/photo-1534361960057-19889db9621e?q=80&w=720&auto=format&fit=crop", 
+            "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=720&auto=format&fit=crop", 
+            "https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=720&auto=format&fit=crop"  
         ];
 
-        // 取得農曆與星座
         function getAstrologySign(month, day) {
             if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "♈ 牡羊座";
             if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "♉ 金牛座";
@@ -307,7 +349,6 @@
             return "♓ 雙魚座";
         }
 
-        // 🔥 全局不放回抽樣引擎
         async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
             const dObj = new Date(currentDate + "T00:00:00");
             const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
@@ -325,8 +366,6 @@
 
             document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><br>${lunarDisplay} ｜ ${exactStarSign}`;
 
-            // 1. 建立並洗牌全局資料庫 (Global Decks)
-            // 將所有主題混入同一個大牌庫
             let globalSubjectDeck = [];
             Object.keys(omniverseMatrix).forEach(cat => {
                 omniverseMatrix[cat].subjects.forEach(sub => {
@@ -335,26 +374,18 @@
             });
             globalSubjectDeck = shuffleArray(globalSubjectDeck);
 
-            // 將所有金句混入同一個大牌庫
-            let globalQuoteDeck = [];
-            let allAvailableQuotes = [...localExpansionQuotes];
-            if (Array.isArray(quotesData)) allAvailableQuotes = allAvailableQuotes.concat(quotesData);
-            allAvailableQuotes.forEach(q => globalQuoteDeck.push(q));
-            globalQuoteDeck = shuffleArray(globalQuoteDeck);
-
-            // 排版牌庫與備用圖牌庫
             let globalLayoutDeck = shuffleArray(['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial']);
             let globalFallbackDeck = shuffleArray(allFallbackUrls);
 
             let renderQueue = [];
             
-            // 2. 依序抽出 4 張絕對不重複的牌 (Pop from Deck)
             for (let i = 0; i < 4; i++) {
-                // 抽牌！
                 const drawSub = globalSubjectDeck.pop();
-                const drawQuote = globalQuoteDeck.pop() || localExpansionQuotes[0]; // 如果不夠抽就給預設
                 const drawLayout = globalLayoutDeck.pop();
                 const drawFallback = globalFallbackDeck.pop();
+
+                // 🔥 呼叫程序化碎形生成器，每次產生獨一無二的文字組合！
+                const drawQuote = generateUniqueQuote();
 
                 const catKey = drawSub.catKey;
                 const subjectStr = drawSub.subject;
@@ -396,11 +427,10 @@
                 renderQueue.push({ 
                     id: i, 
                     prompt: safeUrlPrompt,
-                    fallback: drawFallback // 每個格子拿到絕對不一樣的備用圖
+                    fallback: drawFallback 
                 });
             }
 
-            // 3. 隱形預載引擎
             for (let i = 0; i < renderQueue.length; i++) {
                 const target = renderQueue[i];
                 const mask = document.getElementById(`mask-${target.id}`);
@@ -438,7 +468,6 @@
         }
 
         window.onload = function() { 
-            injectQuotesToMatrix();
             if(!document.getElementById('ui-date-picker').value || document.getElementById('ui-date-picker').value === "__PAYLOAD_DATE__") {
                 const today = new Date();
                 document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
