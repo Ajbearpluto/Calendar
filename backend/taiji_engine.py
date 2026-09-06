@@ -3,12 +3,15 @@ import json
 import datetime
 import urllib.request
 import urllib.error
+import time
 
 def generate_omniverse_data():
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
     
+    # 【零一決議】：已徹底移除愚蠢的 AIza 開頭檢查，全面支援 AQ. 等合法金鑰。
+
     tz = datetime.timezone(datetime.timedelta(hours=8))
     today_str = datetime.datetime.now(tz).strftime('%Y-%m-%d')
 
@@ -44,32 +47,30 @@ def generate_omniverse_data():
     }
     data = json.dumps(payload).encode('utf-8')
     
-    # 宗師級動態尋標陣列 (精準鎖定最新現役的 3.8 Flash 模型)
-    endpoints = [
-        "v1beta/models/gemini-3.8-flash",
-        "v1/models/gemini-3.8-flash",
-        "v1beta/models/gemini-flash"
-    ]
+    # 回歸唯一真理端點
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+    req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
     
-    raw_text = None
-    
-    for endpoint in endpoints:
-        url = f"https://generativelanguage.googleapis.com/{endpoint}:generateContent?key={api_key}"
-        req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
-        
+    max_retries = 3
+    for attempt in range(max_retries):
         try:
-            print(f"📡 嘗試連線端點: {endpoint} ...")
+            print(f"📡 嘗試連線 (第 {attempt + 1}/{max_retries} 次)...")
             with urllib.request.urlopen(req) as response:
                 result = json.loads(response.read().decode('utf-8'))
                 raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
-                print(f"✅ 連線成功！成功使用端點: {endpoint}")
+                print("✅ API 連線成功！")
                 break 
         except urllib.error.HTTPError as e:
-            print(f"⚠️ {endpoint} 連線失敗 (狀態碼: {e.code})，自動切換備用端點...")
-            continue
-            
-    if not raw_text:
-        raise ValueError("❌ 慘烈失敗：所有現役模型端點皆陣亡，請確認 Google 伺服器狀態。")
+            if e.code in [503, 500, 429]: # 遇到伺服器忙碌或限流，進行重試
+                print(f"⚠️ 伺服器忙碌 (狀態碼: {e.code})，2秒後進行重試...")
+                time.sleep(2)
+                continue
+            else:
+                # 其他嚴重錯誤 (如 400 格式錯, 403 沒權限) 直接拋出
+                error_info = e.read().decode('utf-8')
+                raise ValueError(f"❌ 致命連線錯誤 (狀態碼: {e.code}): {error_info}")
+    else:
+        raise ValueError("❌ 慘烈失敗：已達最大重試次數，Google 伺服器無回應。")
             
     # 暴力清理 Markdown
     if raw_text.startswith("```json"): raw_text = raw_text[7:]
@@ -88,7 +89,7 @@ def generate_omniverse_data():
         raise e
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動原生動態尋標大腦...")
+    print("🚀 Taiji Genesis Engine: 啟動覺醒版原生大腦...")
     
     try:
         quotes_data, today_str = generate_omniverse_data()
