@@ -7,7 +7,7 @@ import urllib.error
 def generate_omniverse_data():
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定，無法喚醒大腦。")
+        raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
     
     tz = datetime.timezone(datetime.timedelta(hours=8))
     today_str = datetime.datetime.now(tz).strftime('%Y-%m-%d')
@@ -36,50 +36,67 @@ def generate_omniverse_data():
     ]
     """
 
-    # 100% 原生 HTTP 請求，直接對接最穩定的 REST API 端點
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
-    
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "responseMimeType": "application/json"
         }
     }
-    
     data = json.dumps(payload).encode('utf-8')
-    req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+    
+    # 宗師級動態尋標陣列 (由最新別名測試到最穩定的舊版)
+    endpoints = [
+        "v1beta/models/gemini-1.5-flash-latest",
+        "v1/models/gemini-1.5-flash",
+        "v1beta/models/gemini-1.5-pro",
+        "v1beta/models/gemini-pro",
+        "v1/models/gemini-pro"
+    ]
+    
+    raw_text = None
+    
+    for endpoint in endpoints:
+        url = f"https://generativelanguage.googleapis.com/{endpoint}:generateContent?key={api_key}"
+        req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+        
+        try:
+            print(f"📡 嘗試連線端點: {endpoint} ...")
+            with urllib.request.urlopen(req) as response:
+                result = json.loads(response.read().decode('utf-8'))
+                raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
+                print(f"✅ 連線成功！成功使用端點: {endpoint}")
+                break # 成功取得資料，立刻跳出迴圈
+        except urllib.error.HTTPError as e:
+            # 若發生 404 等錯誤，安靜地攔截並繼續下一次迴圈
+            print(f"⚠️ {endpoint} 連線失敗 (狀態碼: {e.code})，自動切換備用端點...")
+            continue
+            
+    if not raw_text:
+        raise ValueError("❌ 慘烈失敗：所有備用模型端點皆陣亡，請確認 Google 伺服器狀態。")
+            
+    # 暴力清理 Markdown
+    if raw_text.startswith("```json"): raw_text = raw_text[7:]
+    elif raw_text.startswith("```"): raw_text = raw_text[3:]
+    if raw_text.endswith("```"): raw_text = raw_text[:-3]
+    raw_text = raw_text.strip()
     
     try:
-        with urllib.request.urlopen(req) as response:
-            result = json.loads(response.read().decode('utf-8'))
-            raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
-            
-            # 暴力清理 Markdown (防止 Gemini 偶發性的格式包裝)
-            if raw_text.startswith("```json"): raw_text = raw_text[7:]
-            elif raw_text.startswith("```"): raw_text = raw_text[3:]
-            if raw_text.endswith("```"): raw_text = raw_text[:-3]
-            raw_text = raw_text.strip()
-            
-            quotes_data = json.loads(raw_text)
-            if not isinstance(quotes_data, list) or len(quotes_data) != 4:
-                raise ValueError("JSON 結構長度錯誤：必須是 4 個物件的陣列。")
-            return quotes_data, today_str
-            
-    except urllib.error.HTTPError as e:
-        error_info = e.read().decode('utf-8')
-        print(f"❌ API 請求失敗！狀態碼: {e.code}, 詳情: {error_info}")
-        raise e
+        quotes_data = json.loads(raw_text)
+        if not isinstance(quotes_data, list) or len(quotes_data) != 4:
+            raise ValueError("JSON 結構長度錯誤：必須是 4 個物件的陣列。")
+        return quotes_data, today_str
+        
     except Exception as e:
-        print(f"❌ 解析失敗！錯誤詳情: {e}")
+        print(f"❌ JSON 格式解析失敗！原始回應內容如下：\n{raw_text}")
         raise e
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動原生大腦...")
+    print("🚀 Taiji Genesis Engine: 啟動原生動態尋標大腦...")
     
     try:
         quotes_data, today_str = generate_omniverse_data()
         quotes_js_string = json.dumps(quotes_data, ensure_ascii=False)
-        print("✅ 大腦生成成功！請檢視以下 JSON 結構是否符合對照表：")
+        print("✅ 大腦生成成功！請檢視以下 JSON 結構：")
         print(json.dumps(quotes_data, ensure_ascii=False, indent=2))
     except Exception as e:
         raise SystemExit(f"💀 大腦創世失敗，停止注入皮囊。錯誤原因: {e}")
@@ -91,7 +108,6 @@ def main():
     with open(template_path, 'r', encoding='utf-8') as f:
         html_content = f.read()
 
-    # 精準替換佔位符
     html_content = html_content.replace('__PAYLOAD_DATE__', today_str)
     html_content = html_content.replace('__QUOTES_JS__', quotes_js_string)
 
