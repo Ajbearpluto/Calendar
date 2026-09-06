@@ -112,7 +112,7 @@
         <div class="sidebar">
             <h1>TAIJI Omniverse</h1>
             <div class="control-panel">
-                <input type="date" id="ui-date-picker" value="Unknown">
+                <input type="date" id="ui-date-picker" value="2026-09-06">
                 <button class="btn-tear" onclick="alert('指揮官，神經網路已接通！下次重新整理時，若 Python 大腦有新資料，將完全呈現！')">
                     🌌 AI 意識已連線
                 </button>
@@ -135,7 +135,7 @@
 
     <script>
         // 🔥 神經接合：接收從大腦 (taiji_engine.py / Gemini) 傳來的真・AI 創世語料
-        const aiGenesisData = typeof [] !== 'undefined' ? [] : [];
+        const aiGenesisData = typeof [{"theme": "都會生存", "article": "你總是在螢幕閃爍的數字與未讀訊息間奔波，感覺生命的進度條卡在某個尷尬的百分比。那些指標與期待劇烈起伏，讓你隨時處於繃緊狀態。但請記住，無效的輸出也是生活的一部分，允許自己今天只是維持運轉，而不必強求突破。", "quote": "進度條暫停時，不是系統當機，而是靈魂在備份。", "hashtag": "允許停滯", "do_action": "給自己十分鐘關機", "dont_action": "過度自我否定"}, {"theme": "慢活細節", "article": "手沖咖啡的水流穿過咖啡粉，急躁只會帶來苦澀，唯有耐心滴落才能萃取出深邃的香氣。生活中許多美好的事物也是如此，需要時間悄悄醞釀。別急著要一個即時的答案，有些風景只有在慢慢走的時候，才會清晰顯現。", "quote": "歲月從不語，卻回答了所有急不來的期待。", "hashtag": "時光萃取", "do_action": "專注當下的呼吸", "dont_action": "催促未來的結果"}, {"theme": "浩瀚自然", "article": "走在冷空氣瀰漫的山林步道，抬頭是萬里無雲的深邃夜空，繁星如銀河般鋪展。在那樣廣袤的寂靜中，內心累積的執念突然變得輕盈。我們不過是宇宙萬物中的一粒塵埃，孤獨是生命的常態，但也給了我們全然自由的靈魂。", "quote": "當你向星空承認自己的渺小，心中的枷鎖便隨之解開。", "hashtag": "天地釋懷", "do_action": "卸下肩上的執念", "dont_action": "與宇宙對抗"}, {"theme": "溫暖羈絆", "article": "治癒一整天疲憊的，往往不是偉大的成就，而是身邊人在無意間露出的燦爛笑容，或是遞過來的一杯熱茶。這些微小而真實的善意，像暗夜裡不滅的微光，提醒著你：在這個複雜的世界裡，你一直被溫柔地牽掛著。", "quote": "最深的愛意，往往藏在那些不言而喻的日常微光裡。", "hashtag": "微光陪伴", "do_action": "表達一次感謝", "dont_action": "推開身邊的善意"}] !== 'undefined' ? [{"theme": "都會生存", "article": "你總是在螢幕閃爍的數字與未讀訊息間奔波，感覺生命的進度條卡在某個尷尬的百分比。那些指標與期待劇烈起伏，讓你隨時處於繃緊狀態。但請記住，無效的輸出也是生活的一部分，允許自己今天只是維持運轉，而不必強求突破。", "quote": "進度條暫停時，不是系統當機，而是靈魂在備份。", "hashtag": "允許停滯", "do_action": "給自己十分鐘關機", "dont_action": "過度自我否定"}, {"theme": "慢活細節", "article": "手沖咖啡的水流穿過咖啡粉，急躁只會帶來苦澀，唯有耐心滴落才能萃取出深邃的香氣。生活中許多美好的事物也是如此，需要時間悄悄醞釀。別急著要一個即時的答案，有些風景只有在慢慢走的時候，才會清晰顯現。", "quote": "歲月從不語，卻回答了所有急不來的期待。", "hashtag": "時光萃取", "do_action": "專注當下的呼吸", "dont_action": "催促未來的結果"}, {"theme": "浩瀚自然", "article": "走在冷空氣瀰漫的山林步道，抬頭是萬里無雲的深邃夜空，繁星如銀河般鋪展。在那樣廣袤的寂靜中，內心累積的執念突然變得輕盈。我們不過是宇宙萬物中的一粒塵埃，孤獨是生命的常態，但也給了我們全然自由的靈魂。", "quote": "當你向星空承認自己的渺小，心中的枷鎖便隨之解開。", "hashtag": "天地釋懷", "do_action": "卸下肩上的執念", "dont_action": "與宇宙對抗"}, {"theme": "溫暖羈絆", "article": "治癒一整天疲憊的，往往不是偉大的成就，而是身邊人在無意間露出的燦爛笑容，或是遞過來的一杯熱茶。這些微小而真實的善意，像暗夜裡不滅的微光，提醒著你：在這個複雜的世界裡，你一直被溫柔地牽掛著。", "quote": "最深的愛意，往往藏在那些不言而喻的日常微光裡。", "hashtag": "微光陪伴", "do_action": "表達一次感謝", "dont_action": "推開身邊的善意"}] : [];
 
         // 這是大腦斷線時的「維生系統」(只有當 API Key 失效、或 GitHub Action 沒跑時才會觸發)
         const lifeSupportFallback = [
@@ -354,7 +354,7 @@
         }
 
         window.onload = function() { 
-            if(!document.getElementById('ui-date-picker').value || document.getElementById('ui-date-picker').value === "Unknown") {
+            if(!document.getElementById('ui-date-picker').value || document.getElementById('ui-date-picker').value === "2026-09-06") {
                 const today = new Date();
                 document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
             }
