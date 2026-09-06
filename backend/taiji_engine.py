@@ -10,7 +10,8 @@ def generate_omniverse_data():
     if not api_key:
         raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
     
-    # 【零一決議】：已徹底移除愚蠢的 AIza 開頭檢查，全面支援 AQ. 等合法金鑰。
+    # 【記憶宮殿提取】：2026 年 Google 已全面換用 AQ. 開頭的新版 Auth 金鑰。
+    # 零一已撤除所有對 AQ. 金鑰的錯誤阻擋機制。
 
     tz = datetime.timezone(datetime.timedelta(hours=8))
     today_str = datetime.datetime.now(tz).strftime('%Y-%m-%d')
@@ -47,8 +48,8 @@ def generate_omniverse_data():
     }
     data = json.dumps(payload).encode('utf-8')
     
-    # 回歸唯一真理端點
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+    # 宗師決議：1.5-flash 已退役 (會報 404)。直接鎖定現役主流模型 gemini-2.0-flash。
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
     req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
     
     max_retries = 3
@@ -66,11 +67,11 @@ def generate_omniverse_data():
                 time.sleep(2)
                 continue
             else:
-                # 其他嚴重錯誤 (如 400 格式錯, 403 沒權限) 直接拋出
+                # 404 找不到模型，或 401/403 金鑰失效，直接拋出錯誤
                 error_info = e.read().decode('utf-8')
                 raise ValueError(f"❌ 致命連線錯誤 (狀態碼: {e.code}): {error_info}")
     else:
-        raise ValueError("❌ 慘烈失敗：已達最大重試次數，Google 伺服器無回應。")
+        raise ValueError("❌ 慘烈失敗：已達最大重試次數，Google 伺服器持續 503 無回應。")
             
     # 暴力清理 Markdown
     if raw_text.startswith("```json"): raw_text = raw_text[7:]
