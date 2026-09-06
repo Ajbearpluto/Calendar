@@ -23,7 +23,7 @@ def generate_omniverse_data():
     4. 溫暖羈絆：寫身邊在意的人露出的笑容、微小善意的陪伴，傳達純粹的治癒力量。
     
     【極度重要】：
-    必須輸出為 JSON 陣列，每個物件必須完全符合以下 6 個 Key 值，絕不可更改名稱：
+    必須輸出為純 JSON 陣列，每個物件必須完全符合以下 6 個 Key 值，絕不可更改名稱：
     [
       {
         "theme": "都會生存",
@@ -36,47 +36,59 @@ def generate_omniverse_data():
     ]
     """
 
-    # 100% 原生 HTTP 請求，直接對接最穩定的 gemini-1.5-flash 端點
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
-    
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "responseMimeType": "application/json"
         }
     }
-    
     data = json.dumps(payload).encode('utf-8')
-    req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+    
+    # 動態端點尋標器：依序測試穩定版與備用模型，徹底解決 404 問題
+    models_to_try = [
+        "v1/models/gemini-1.5-flash",
+        "v1beta/models/gemini-1.5-flash",
+        "v1/models/gemini-pro",
+        "v1beta/models/gemini-pro"
+    ]
+    
+    result_text = None
+    
+    for model_path in models_to_try:
+        url = f"https://generativelanguage.googleapis.com/{model_path}:generateContent?key={api_key}"
+        req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+        
+        try:
+            print(f"📡 嘗試連線端點: {model_path} ...")
+            with urllib.request.urlopen(req) as response:
+                result = json.loads(response.read().decode('utf-8'))
+                result_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
+                print(f"✅ 連線成功！使用端點: {model_path}")
+                break 
+        except urllib.error.HTTPError as e:
+            print(f"⚠️ {model_path} 連線失敗 (狀態碼: {e.code})，自動切換備用端點...")
+            continue 
+            
+    if not result_text:
+        raise ValueError("❌ 所有備用模型端點皆連線失敗，請確認 Google API 伺服器狀態。")
+            
+    # 暴力清理 Markdown
+    if result_text.startswith("```json"): result_text = result_text[7:]
+    elif result_text.startswith("```"): result_text = result_text[3:]
+    if result_text.endswith("```"): result_text = result_text[:-3]
+    result_text = result_text.strip()
     
     try:
-        with urllib.request.urlopen(req) as response:
-            result = json.loads(response.read().decode('utf-8'))
-            
-            # 從原生 API 回應中萃取文字
-            raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
-            
-            # 暴力清理 Markdown
-            if raw_text.startswith("```json"): raw_text = raw_text[7:]
-            elif raw_text.startswith("```"): raw_text = raw_text[3:]
-            if raw_text.endswith("```"): raw_text = raw_text[:-3]
-            raw_text = raw_text.strip()
-            
-            quotes_data = json.loads(raw_text)
-            if not isinstance(quotes_data, list) or len(quotes_data) != 4:
-                raise ValueError("JSON 結構長度錯誤")
-            return quotes_data, today_str
-            
-    except urllib.error.HTTPError as e:
-        error_info = e.read().decode('utf-8')
-        print(f"❌ API 請求失敗！狀態碼: {e.code}, 錯誤詳情: {error_info}")
-        raise e
+        quotes_data = json.loads(result_text)
+        if not isinstance(quotes_data, list) or len(quotes_data) != 4:
+            raise ValueError("JSON 結構長度錯誤")
+        return quotes_data, today_str
     except Exception as e:
-        print(f"❌ 解析失敗！錯誤詳情: {e}")
+        print(f"❌ JSON 格式解析失敗！原始回應內容如下：\n{result_text}")
         raise e
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動原生大腦...")
+    print("🚀 Taiji Genesis Engine: 啟動原生自動尋標大腦...")
     
     try:
         quotes_data, today_str = generate_omniverse_data()
