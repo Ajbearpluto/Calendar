@@ -2,8 +2,8 @@ name: Daily Taiji Calendar Update
 
 on:
   schedule:
-    - cron: '0 16 * * *'
-  workflow_dispatch:
+    - cron: '0 16 * * *' # 每天 UTC 16:00 (台灣時間半夜 00:00) 自動執行
+  workflow_dispatch:      # 允許我們手動點擊按鈕執行
 
 jobs:
   build:
@@ -17,6 +17,9 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
+
+      # 注意：我們已經砍掉了 Install dependencies 這個步驟，
+      # 因為新大腦將使用 100% Python 原生庫，不再需要 pip install 任何東西。
 
       - name: ⚙️ 零一：啟動原生 HTTP 創世大腦
         env:
