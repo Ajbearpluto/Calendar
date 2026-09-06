@@ -2,51 +2,37 @@ name: Daily Taiji Calendar Update
 
 on:
   schedule:
-    # 每天台灣時間 00:00 執行 (對應 UTC 時間為 16:00)
-    - cron: '0 16 * * *'
-  workflow_dispatch: # 允許在 Actions 頁面手動點擊按鈕觸發
+    - cron: '0 16 * * *' # 每天 UTC 16:00 (台灣時間半夜 00:00) 自動執行
+  workflow_dispatch:      # 允許我們像現在一樣手動點擊按鈕執行
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        # 如果您的 taiji_engine.py 有用到特殊套件 (例如 requests, google-generativeai)
-        # 請確保這裡有將它們安裝起來，例如：
-        # pip install google-generativeai
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-generativeai
 
-    - name: Run Taiji Engine
-      env:
-        # 如果您的大腦有使用 API Key (存在 GitHub Secrets 裡)，請在這裡呼叫它
-        # GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        TZ: 'Asia/Taipei' # 確保伺服器以台灣時區運行
-      run: |
-        # 🤖 零一：注意！大腦的呼叫路徑已經改到 backend 資料夾了！
-        python backend/taiji_engine.py
+      - name: ⚙️ 零一：注意！大腦的呼叫路徑已經改到 backend 資料夾了！
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python backend/taiji_engine.py
 
-    - name: Commit and Push changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "Taiji-Auto-Bot"
-        
-        # 📦 零一：將今日首頁 (index.html) 與時光機歷史 (archive/) 一起打包
-        git add index.html
-        git add archive/
-        
-        # 取得台灣時間的日期，用來寫精美的 Commit 紀錄
-        DATE=$(TZ='Asia/Taipei' date +'%Y.%m.%d')
-        
-        # 執行 Commit 與 Push (如果沒有檔案變動則跳過，避免報錯)
-        git diff --quiet && git diff --staged --quiet || git commit -m "Taiji Engine 🌌 Omniverse Sync: $DATE 日常碎片與歷史檔案已封存"
-        git push
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add index.html archive/
+          git commit -m "Taiji Engine 🌌 Omniverse Sync: $(date +'%Y.%m.%d') 日常碎片與歷史檔案已封存" || echo "No changes to commit"
+          git push
