@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse - True AI Genesis</title>
+    <title>TAIJI Omniverse - Neural Sync Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -112,60 +112,58 @@
         <div class="sidebar">
             <h1>TAIJI Omniverse</h1>
             <div class="control-panel">
-                <input type="date" id="ui-date-picker" value="__PAYLOAD_DATE__" onchange="applyDateChange()">
-                <button class="btn-tear" onclick="triggerTearAnimation()">
-                    🌌 下一個平行宇宙
+                <input type="date" id="ui-date-picker" value="__PAYLOAD_DATE__">
+                <button class="btn-tear" onclick="alert('指揮官，神經網路已接通！下次重新整理時，若 Python 大腦有新資料，將完全呈現！')">
+                    🌌 AI 意識已連線
                 </button>
             </div>
             <div class="today-info" id="today-stats">
                 <strong>載入中...</strong><br>農曆資料計算中
             </div>
             <div style="font-size: 0.75rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
-                ✨ <b>真・AI 創世時代</b>。文字由 Gemini Spark 每日量身寫下，絕不重複。配合不重複洗牌與無聲預載引擎，確保每一次重新整理都是真正的驚喜。
+                ✨ <b>神經接合完畢</b>。前端已徹底放棄文字重組邏輯。所有畫面上的文字與靈魂，皆 100% 忠實轉播自後端大腦（Gemini Spark）。
             </div>
         </div>
 
         <div class="gallery-wrapper">
-            <div class="poster-card" id="card-0"><div class="poster-label" id="label-0">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-0"><div class="html-poster"><div class="loading-mask" id="mask-0"><span>📸 AI 創世算圖中...</span></div><img class="poster-bg" id="bg-0" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-0"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-0', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
-            <div class="poster-card" id="card-1"><div class="poster-label" id="label-1">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-1"><div class="html-poster"><div class="loading-mask" id="mask-1"><span>📸 AI 創世算圖中...</span></div><img class="poster-bg" id="bg-1" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-1"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-1', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
-            <div class="poster-card" id="card-2"><div class="poster-label" id="label-2">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-2"><div class="html-poster"><div class="loading-mask" id="mask-2"><span>📸 AI 創世算圖中...</span></div><img class="poster-bg" id="bg-2" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-2"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-2', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
-            <div class="poster-card" id="card-3"><div class="poster-label" id="label-3">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-3"><div class="html-poster"><div class="loading-mask" id="mask-3"><span>📸 AI 創世算圖中...</span></div><img class="poster-bg" id="bg-3" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-3"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜<br><span class="p-do"></span></span><span class="p-stamp dont">忌<br><span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-3', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
+            <div class="poster-card" id="card-0"><div class="poster-label" id="label-0">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-0"><div class="html-poster"><div class="loading-mask" id="mask-0"><span>📸 AI 意識下載中...</span></div><img class="poster-bg" id="bg-0" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-0"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-0', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
+            <div class="poster-card" id="card-1"><div class="poster-label" id="label-1">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-1"><div class="html-poster"><div class="loading-mask" id="mask-1"><span>📸 AI 意識下載中...</span></div><img class="poster-bg" id="bg-1" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-1"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-1', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
+            <div class="poster-card" id="card-2"><div class="poster-label" id="label-2">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-2"><div class="html-poster"><div class="loading-mask" id="mask-2"><span>📸 AI 意識下載中...</span></div><img class="poster-bg" id="bg-2" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-2"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-2', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
+            <div class="poster-card" id="card-3"><div class="poster-label" id="label-3">🪐 觀測中... <span>載入中</span></div><div class="poster-wrapper" id="poster-3"><div class="html-poster"><div class="loading-mask" id="mask-3"><span>📸 AI 意識下載中...</span></div><img class="poster-bg" id="bg-3" src="" crossorigin="anonymous"><div class="poster-overlay" id="overlay-3"><div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div><div class="p-bottom"><div class="p-fortune"><span class="p-stamp do">宜<br><span class="p-do"></span></span><span class="p-stamp dont">忌<br><span class="p-dont"></span></span></div><p class="p-quote">「金句載入中...」</p></div></div></div></div><button class="btn-action" onclick="downloadPoster('poster-3', this)">⬇️ 下載海報</button><div class="tool-panel"><div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div><textarea class="prompt-box" readonly></textarea><div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div><textarea class="caption-box" readonly></textarea></div></div>
         </div>
     </div>
 
     <script>
-        // 核心：由 Python 大腦注入的 AI 生成語料陣列
-        // 為了演示，這裡先用舊的排列組合版代替，真正上線時會被 Gemini 覆蓋。
-        const universal巴納姆矩陣 = [
-            {
-                tag: "都會生存", context: "捷運車廂裡陌生人的疲憊側臉、雨天便利商店門口的傘陣、洗衣機運轉的低頻白噪音。你被這些都會切片包圍時，", 
-                insight: "突然意識到，世界不會因為你停下五分鐘而崩塌。那些看似完美的假象，承認脆弱反而需要勇氣。",
-                quote: "「生活不需要永遠滿血，偶爾斷線也是一種戰術。」", do: "躺平", dont: "與人攀比", fallback: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?q=80&w=720&auto=format&fit=crop"
-            },
-            {
-                tag: "微小幸運", context: "看著手機未讀訊息不斷增加、進度條卡在 99% 的午後。你在無力感中抬起頭，看著剛沖好的 Amber 琥珀色咖啡液慢慢滴落，",
-                insight: "體會到苦澀過後的回甘，才是值得反覆品味的層次。你給自己一杯咖啡的時間，世界就不會崩塌。",
-                quote: "「急不來的，往往都是生命裡最好的安排。」", do: "喝茶", dont: "鑽牛角尖", fallback: "https://images.unsplash.com/photo-1500389332212-07e35b7e28b2?q=80&w=720&auto=format&fit=crop"
-            },
-            {
-                tag: "浩瀚自然", context: "獨自站在冷空氣中的步道、抬頭看著沒有盡頭的夜空、聽著鍋裡的食物嘶嘶作響。你置身於大自然的溫柔與冷酷中，",
-                insight: "意識到萬物都有自己的節奏，你無需去催促。即使不被看見的日子，也要像植物一樣努力扎根。",
-                quote: "「如果快樂有形狀，那一定藏在大自然的角落裡。」", do: "散步", dont: "恐懼未知", fallback: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop"
-            },
-            {
-                tag: "工藝粹取", context: "富士陶瓷濾杯、Garmin 手錶的活動達標通知、剛炸好的西班牙吉拿棒氣味。你沉浸在生活的儀式感與細節中，",
-                insight: "體會到對生活講究不將就的回報。簡單的事情重複做，人生也是這樣一层一层堆疊出來的。",
-                quote: "「所有高貴的靈魂，都願意為美好的事物浪費時間。」", do: "專注", dont: "倉促行事", fallback: "https://images.unsplash.com/photo-1515003197210-ce9c1d06ff9d?q=80&w=720&auto=format&fit=crop"
-            }
+        // 🔥 神經接合：接收從大腦 (taiji_engine.py / Gemini) 傳來的真・AI 創世語料
+        const aiGenesisData = typeof __QUOTES_JS__ !== 'undefined' ? __QUOTES_JS__ : [];
+
+        // 這是大腦斷線時的「維生系統」(只有當 API Key 失效、或 GitHub Action 沒跑時才會觸發)
+        const lifeSupportFallback = [
+            { style: "都會生存", article: "系統與 AI 大腦連線中斷。捷運車廂裡陌生人的疲憊側臉，提醒我們允許偶爾的停滯。", q: "「生活不需要永遠滿血，偶爾斷線也是一種戰術。」", p: "斷線", do: "躺平", dont: "焦慮", fallback: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?q=80&w=720&auto=format&fit=crop" },
+            { style: "微小幸運", article: "系統與 AI 大腦連線中斷。看著剛沖好的琥珀色咖啡液慢慢滴落，體會到苦澀過後的回甘。", q: "「急不來的，往往都是生命裡最好的安排。」", p: "等待", do: "喝茶", dont: "鑽牛角尖", fallback: "https://images.unsplash.com/photo-1500389332212-07e35b7e28b2?q=80&w=720&auto=format&fit=crop" },
+            { style: "浩瀚自然", article: "系統與 AI 大腦連線中斷。抬頭看著沒有盡頭的夜空，意識到萬物都有自己的節奏。", q: "「如果快樂有形狀，那一定藏在大自然的角落裡。」", p: "仰望", do: "散步", dont: "恐懼", fallback: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop" },
+            { style: "工藝粹取", article: "系統與 AI 大腦連線中斷。富士陶瓷濾杯的熱氣，提醒我們對生活講究不將就的回報。", q: "「所有高貴的靈魂，都願意為美好的事物浪費時間。」", p: "專注", do: "靜心", dont: "促促", fallback: "https://images.unsplash.com/photo-1515003197210-ce9c1d06ff9d?q=80&w=720&auto=format&fit=crop" }
         ];
 
-        // 視覺對應庫 (與語意基因綁定)
+        // 視覺基因庫 (前端只負責配圖，不再負責文字生成)
         const visualMatrix = {
-            "都會生存": { subjects: ["solitary person rainy window modern city", "quiet subway train interior golden hour sunlight"], modifiers: "cinematic moody urban photography, Kodak Portra 400" },
-            "微小幸運": { subjects: ["富士陶瓷濾杯沖咖啡下午茶", "熱咖啡 Amber 液體滴落近攝"], modifiers: "macro snapshot, shallow depth of field, warm natural afternoon light" },
-            "浩瀚自然": { subjects: ["獨自走在冷空氣步道上的背影", "Milky Way galaxy starry night sky over forest"], modifiers: "National Geographic style, dramatic lighting, epic wide angle" },
-            "工藝粹取": { subjects: ["Garmin 手錶活動達標通知近攝", " Spanish churros rustic table"], modifiers: "close-up documentary style, authentic real life colors" }
+            "人間": { subjects: ["solitary person rainy window modern city", "quiet subway train interior golden hour sunlight"], modifiers: "cinematic moody urban photography, Kodak Portra 400" },
+            "都會": { subjects: ["solitary person rainy window modern city", "quiet subway train interior golden hour sunlight"], modifiers: "cinematic moody urban photography, Kodak Portra 400" },
+            "細節": { subjects: ["富士陶瓷濾杯沖咖啡下午茶", "熱咖啡 Amber 液體滴落近攝"], modifiers: "macro snapshot, shallow depth of field, warm natural afternoon light" },
+            "慢活": { subjects: ["富士陶瓷濾杯沖咖啡下午茶", "熱咖啡 Amber 液體滴落近攝"], modifiers: "macro snapshot, shallow depth of field, warm natural afternoon light" },
+            "浩瀚": { subjects: ["獨自走在冷空氣步道上的背影", "Milky Way galaxy starry night sky over forest"], modifiers: "National Geographic style, dramatic lighting, epic wide angle" },
+            "自然": { subjects: ["獨自走在冷空氣步道上的背影", "Milky Way galaxy starry night sky over forest"], modifiers: "National Geographic style, dramatic lighting, epic wide angle" },
+            "萬物": { subjects: ["a sleepy tabby cat curled up bathed in warm sunlight", "a small bird resting on a tree branch"], modifiers: "untouched candid smartphone photo, natural ambient light" },
+            "溫暖": { subjects: ["two cups of hot coffee on a wooden table in a cozy cafe", "an elderly couple walking slowly down a quiet street holding hands"], modifiers: "warm natural sunlight, candid documentary" },
+            "工藝": { subjects: ["Garmin 手錶活動達標通知近攝", " Spanish churros rustic table"], modifiers: "close-up documentary style, authentic real life colors" }
         };
+
+        const fallbackImages = [
+            "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?q=80&w=720&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1500389332212-07e35b7e28b2?q=80&w=720&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop"
+        ];
 
         const layoutNames = { 'layout-bottom': '經典沉底', 'layout-top': '天際懸浮', 'layout-center': '極致置中', 'layout-editorial': '日系直書' };
         const uniTitles = ['宇宙一', '宇宙二', '宇宙三', '宇宙四'];
@@ -194,9 +192,6 @@
             btnElement.innerHTML = "✅ 已複製";
             setTimeout(() => { btnElement.innerHTML = originalText; }, 2000);
         }
-
-        function triggerTearAnimation() { randomizeAll(); }
-        function applyDateChange() { randomizeAll(); }
 
         function downloadPoster(wrapperId, btnElement) {
             const posterWrapper = document.getElementById(wrapperId);
@@ -236,8 +231,9 @@
             return "♓ 雙魚座";
         }
 
-        async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
-            const dObj = new Date(currentDate + "T00:00:00");
+        async function renderUniverse() {
+            const dateInput = document.getElementById('ui-date-picker').value;
+            const dObj = new Date(dateInput + "T00:00:00");
             const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
             const dayStr = String(d).padStart(2, '0');
             const ymStr = `${y}.${String(m).padStart(2, '0')}`;
@@ -253,19 +249,31 @@
 
             document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><br>${lunarDisplay} ｜ ${exactStarSign}`;
 
-            // 1. 真・全域不放回洗牌：確保 4 張卡片絕對不會選到相同主題
-            let shuffled巴納姆陣列 = shuffleArray(universal巴納姆矩陣);
             let globalLayoutDeck = shuffleArray(['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial']);
-
             let renderQueue = [];
             
+            // 決定要用 AI 大腦的資料，還是維生系統的資料
+            // 如果 AI 大腦傳來的陣列不是空的，就代表神經接合成功
+            const dataSource = (Array.isArray(aiGenesisData) && aiGenesisData.length >= 4) ? aiGenesisData : lifeSupportFallback;
+            
+            // 在前端打亂這 4 筆大腦給的資料，確保重新整理時排版與位置會變動
+            const activeDataDeck = shuffleArray(dataSource);
+
             for (let i = 0; i < 4; i++) {
-                // 從洗過牌的矩陣中直接 `pop()` 彈出主題，物理上絕對不重複
-                const active巴納姆 = shuffled巴納姆陣列.pop();
+                const activeData = activeDataDeck.pop();
                 const drawLayout = globalLayoutDeck.pop();
                 
-                // 視覺語意基因綁定：用巴納姆主題標籤去抓取對應的指令與備用圖
-                const visualData = visualMatrix[active巴納姆.tag];
+                // 模糊比對：讓前端聰明地配對視覺主題
+                let matchedTheme = "人間"; // 預設值
+                const styleStr = activeData.style || "";
+                for (const key in visualMatrix) {
+                    if (styleStr.includes(key)) {
+                        matchedTheme = key;
+                        break;
+                    }
+                }
+                
+                const visualData = visualMatrix[matchedTheme];
                 const subjectStr = getRandomItem(visualData.subjects);
                 
                 const wrapper = document.getElementById(`card-${i}`);
@@ -274,49 +282,47 @@
                 const overlay = document.getElementById(`overlay-${i}`);
                 const label = document.getElementById(`label-${i}`);
                 
-                // 顯示加載罩，顯示語意基因標籤
-                if (mask) { mask.style.opacity = '1'; mask.innerHTML = '<span>📡 語意演算中...</span>'; }
+                if (mask) { mask.style.opacity = '1'; mask.innerHTML = '<span>📡 讀取大腦意識中...</span>'; }
                 bgImg.classList.remove('loaded');
                 bgImg.src = ''; 
                 
                 overlay.className = `poster-overlay ${drawLayout}`;
-                label.innerHTML = `🪐 ${uniTitles[i]}：${active巴納姆.tag} <span>${layoutNames[drawLayout]}</span>`;
+                label.innerHTML = `🪐 ${uniTitles[i]}：${activeData.style} <span>${layoutNames[drawLayout]}</span>`;
                 
                 const isEditorial = (drawLayout === 'layout-editorial');
                 const pDoLabel = isEditorial ? '宜<br><span class="p-do"></span>' : '宜 <span class="p-do"></span>';
                 const pDontLabel = isEditorial ? '忌<br><span class="p-dont"></span>' : '忌 <span class="p-dont"></span>';
                 wrapper.querySelector('.p-fortune').innerHTML = `<span class="p-stamp do">${pDoLabel}</span><span class="p-stamp dont">${pDontLabel}</span>`;
                 
-                const fullSongInfo = `${active巴納姆.music?.track || "Time"} - ${active巴納姆.music?.artist || "Hans Zimmer"}`;
-                const fullMjPrompt = `hyper-realistic photo of ${subjectStr}, amateur snapshot, documentary photography, untouched, Kodak Portra 400 --style raw --v 6.0 --ar 9:16`;
+                const fullMjPrompt = `hyper-realistic photo of ${subjectStr}, ${visualData.modifiers} --style raw --v 6.0 --ar 9:16`;
                 const safeUrlPrompt = encodeURIComponent(`hyper realistic photo of ${subjectStr}`);
                 
-                // 生成 Threads 貼文內容
-                const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${active巴納姆.do} ｜ 忌 ${active巴納姆.dont}\n\n【萬象紀錄】\n${active巴納姆.context}${active巴納姆.insight}\n\n${active巴納姆.quote}\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${active巴納姆.p} #攝影紀錄`;
+                const articleText = activeData.article || activeData.context + activeData.insight;
+                
+                const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${activeData.do} ｜ 忌 ${activeData.dont}\n\n【萬象紀錄】\n${articleText}\n\n${activeData.quote || activeData.q}\n\n#日曆 #生活碎片 #${activeData.p} #攝影紀錄`;
                 
                 wrapper.querySelector('.prompt-box').value = fullMjPrompt;
                 wrapper.querySelector('.caption-box').value = threadsText;
                 wrapper.querySelector('.p-day').innerText = dayStr;
                 wrapper.querySelector('.p-ym').innerText = ymStr;
                 wrapper.querySelector('.p-lunar').innerText = lunarDisplay;
-                wrapper.querySelectorAll('.p-do').forEach(el => el.innerText = active巴納姆.do);
-                wrapper.querySelectorAll('.p-dont').forEach(el => el.innerText = active巴納姆.dont);
-                wrapper.querySelector('.p-quote').innerText = active巴納姆.quote;
+                wrapper.querySelectorAll('.p-do').forEach(el => el.innerText = activeData.do);
+                wrapper.querySelectorAll('.p-dont').forEach(el => el.innerText = activeData.dont);
+                wrapper.querySelector('.p-quote').innerText = activeData.quote || activeData.q;
 
                 renderQueue.push({ 
                     id: i, 
                     prompt: safeUrlPrompt,
-                    fallback: active巴納姆.fallback 
+                    fallback: activeData.fallback || fallbackImages[i]
                 });
             }
 
-            // 2. 無聲預載引擎 (Silent Preloader)：彻底消滅破圖與複製人打字機
             for (let i = 0; i < renderQueue.length; i++) {
                 const target = renderQueue[i];
                 const mask = document.getElementById(`mask-${target.id}`);
                 const bgImg = document.getElementById(`bg-${target.id}`);
                 
-                if (mask) mask.innerHTML = '<span>✨ 萬象顯影中...</span>';
+                if (mask) mask.innerHTML = '<span>✨ 意識顯影中...</span>';
 
                 const randomSeed = Math.floor(Math.random() * 1000000);
                 const imgUrl = `https://image.pollinations.ai/prompt/${target.prompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
@@ -333,7 +339,6 @@
                     };
                     
                     img.onerror = () => {
-                        // 當 API 破圖時，載入綁定該宇宙語意的備用圖，消滅複製人打字機
                         if (mask) mask.innerHTML = '<span>⚠️ 啟用語意備份</span>';
                         bgImg.src = target.fallback; 
                         bgImg.classList.add('loaded');
@@ -344,7 +349,6 @@
                     img.src = imgUrl; 
                 });
 
-                // 每個卡片載入間隔 2 秒，防範 API 當機
                 if (i < renderQueue.length - 1) await new Promise(r => setTimeout(r, 2000));
             }
         }
@@ -354,7 +358,7 @@
                 const today = new Date();
                 document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
             }
-            randomizeAll();
+            renderUniverse();
         };
     </script>
 </body>
