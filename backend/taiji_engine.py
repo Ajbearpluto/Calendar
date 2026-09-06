@@ -23,7 +23,7 @@ def generate_omniverse_data():
     4. 溫暖羈絆：寫身邊在意的人露出的笑容、微小善意的陪伴，傳達純粹的治癒力量。
     
     【極度重要】：
-    必須輸出為 JSON 陣列，每個物件必須完全符合以下 6 個 Key 值，絕不可更改名稱：
+    必須輸出為純 JSON 陣列，每個物件必須完全符合以下 6 個 Key 值，絕不可更改名稱：
     [
       {
         "theme": "都會生存",
@@ -44,13 +44,11 @@ def generate_omniverse_data():
     }
     data = json.dumps(payload).encode('utf-8')
     
-    # 宗師級動態尋標陣列 (由最新別名測試到最穩定的舊版)
+    # 宗師級動態尋標陣列 (精準鎖定最新現役的 3.8 Flash 模型)
     endpoints = [
-        "v1beta/models/gemini-1.5-flash-latest",
-        "v1/models/gemini-1.5-flash",
-        "v1beta/models/gemini-1.5-pro",
-        "v1beta/models/gemini-pro",
-        "v1/models/gemini-pro"
+        "v1beta/models/gemini-3.8-flash",
+        "v1/models/gemini-3.8-flash",
+        "v1beta/models/gemini-flash"
     ]
     
     raw_text = None
@@ -65,14 +63,13 @@ def generate_omniverse_data():
                 result = json.loads(response.read().decode('utf-8'))
                 raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
                 print(f"✅ 連線成功！成功使用端點: {endpoint}")
-                break # 成功取得資料，立刻跳出迴圈
+                break 
         except urllib.error.HTTPError as e:
-            # 若發生 404 等錯誤，安靜地攔截並繼續下一次迴圈
             print(f"⚠️ {endpoint} 連線失敗 (狀態碼: {e.code})，自動切換備用端點...")
             continue
             
     if not raw_text:
-        raise ValueError("❌ 慘烈失敗：所有備用模型端點皆陣亡，請確認 Google 伺服器狀態。")
+        raise ValueError("❌ 慘烈失敗：所有現役模型端點皆陣亡，請確認 Google 伺服器狀態。")
             
     # 暴力清理 Markdown
     if raw_text.startswith("```json"): raw_text = raw_text[7:]
