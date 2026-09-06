@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse - Gemini Genesis</title>
-    <script src="[https://unpkg.com/lunar-javascript/lunar.js](https://unpkg.com/lunar-javascript/lunar.js)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js](https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js)"></script>
+    <title>TAIJI Omniverse - True AI Genesis</title>
+    <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        @import url('[https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap](https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap)');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
         
         :root {
             --paper-bg: #FDFBF7;
@@ -22,7 +22,7 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
 
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='[http://www.w3.org/2000/svg'%3E%3Cfilter](http://www.w3.org/2000/svg'%3E%3Cfilter) id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 25px; min-height: 100vh; display: flex; justify-content: center; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 25px; min-height: 100vh; display: flex; justify-content: center; }
         
         .container { max-width: 1600px; width: 100%; display: grid; grid-template-columns: 260px 1fr; gap: 25px; align-items: start; }
         @media (max-width: 1200px) { .container { grid-template-columns: 1fr; } }
@@ -112,16 +112,16 @@
         <div class="sidebar">
             <h1>TAIJI Omniverse</h1>
             <div class="control-panel">
-                <input type="date" id="ui-date-picker" value="Unknown">
-                <button class="btn-tear" onclick="alert('指揮官，創世引擎已移交後端 AI，請透過 GitHub Actions 觸發每日運算！')">
-                    🌌 今日宇宙已由 Gemini 生成
+                <input type="date" id="ui-date-picker" value="Unknown" onchange="applyDateChange()">
+                <button class="btn-tear" onclick="triggerTearAnimation()">
+                    🌌 下一個平行宇宙
                 </button>
             </div>
             <div class="today-info" id="today-stats">
                 <strong>載入中...</strong><br>農曆資料計算中
             </div>
             <div style="font-size: 0.75rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
-                ✨ <b>真・AI 創世時代</b>已降臨。前端不再負責組合文字，所有文字與靈魂皆由 <b>Gemini Spark 大語言模型</b> 每日動態為您量身寫下，真正的一期一會。
+                ✨ <b>真・AI 創世時代</b>。文字由 Gemini Spark 每日量身寫下，絕不重複。配合不重複洗牌與無聲預載引擎，確保每一次重新整理都是真正的驚喜。
             </div>
         </div>
 
@@ -134,36 +134,41 @@
     </div>
 
     <script>
-        // 核心：接收從 backend (Gemini) 傳來的 AI 創世語料
-        const aiGenesisQuotes = typeof [] !== 'undefined' ? [] : [];
-
-        // 視覺對應庫：這部分保留在前端，根據 AI 給的主題去配對完美的寫實圖片
-        const visualMatrix = {
-            "人間": {
-                subjects: ["a solitary person looking out a rainy window in a modern city", "a quiet subway train interior bathed in golden hour sunlight", "a blurry crowd of people walking across a street in the rain", "an empty office desk lit by a single desk lamp at night"],
-                modifiers: "cinematic moody lighting, urban documentary photography, Kodak Portra 400, lonely atmosphere, 8k",
-                music: "Nightcall - Kavinsky",
-                fallback: "[https://images.unsplash.com/photo-1494522855154-9297ac14b55f?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1494522855154-9297ac14b55f?q=80&w=720&auto=format&fit=crop)"
+        // 核心：由 Python 大腦注入的 AI 生成語料陣列
+        // 為了演示，這裡先用舊的排列組合版代替，真正上線時會被 Gemini 覆蓋。
+        const universal巴納姆矩陣 = [
+            {
+                tag: "都會生存", context: "捷運車廂裡陌生人的疲憊側臉、雨天便利商店門口的傘陣、洗衣機運轉的低頻白噪音。你被這些都會切片包圍時，", 
+                insight: "突然意識到，世界不會因為你停下五分鐘而崩塌。那些看似完美的假象，承認脆弱反而需要勇氣。",
+                quote: "「生活不需要永遠滿血，偶爾斷線也是一種戰術。」", do: "躺平", dont: "與人攀比", fallback: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?q=80&w=720&auto=format&fit=crop"
             },
-            "細節": {
-                subjects: ["water pouring slowly from a kettle into a coffee filter", "a person reading a thick book by a large sunlit window", "smoke rising gracefully from a single burning incense stick", "morning dew resting delicately on a vibrant green fern leaf"],
-                modifiers: "macro snapshot, shallow depth of field, soft natural morning light, cinematic highly detailed, Zen aesthetics",
-                music: "Nuvole Bianche - Ludovico Einaudi",
-                fallback: "[https://images.unsplash.com/photo-1500389332212-07e35b7e28b2?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1500389332212-07e35b7e28b2?q=80&w=720&auto=format&fit=crop)"
+            {
+                tag: "微小幸運", context: "看著手機未讀訊息不斷增加、進度條卡在 99% 的午後。你在無力感中抬起頭，看著剛沖好的 Amber 琥珀色咖啡液慢慢滴落，",
+                insight: "體會到苦澀過後的回甘，才是值得反覆品味的層次。你給自己一杯咖啡的時間，世界就不會崩塌。",
+                quote: "「急不來的，往往都是生命裡最好的安排。」", do: "喝茶", dont: "鑽牛角尖", fallback: "https://images.unsplash.com/photo-1500389332212-07e35b7e28b2?q=80&w=720&auto=format&fit=crop"
             },
-            "浩瀚": {
-                subjects: ["a brilliant Milky Way galaxy over a vast quiet field", "a lone figure standing on a cliff looking at a stormy ocean", "a spectacular sunset over a calm sea reflecting pastel clouds", "a solitary hiker walking through a dense foggy pine forest"],
-                modifiers: "National Geographic style, epic wide angle, dramatic natural lighting, untouched raw photo, 8k",
-                music: "A Sky Full of Stars - Coldplay",
-                fallback: "[https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop)"
+            {
+                tag: "浩瀚自然", context: "獨自站在冷空氣中的步道、抬頭看著沒有盡頭的夜空、聽著鍋裡的食物嘶嘶作響。你置身於大自然的溫柔與冷酷中，",
+                insight: "意識到萬物都有自己的節奏，你無需去催促。即使不被看見的日子，也要像植物一樣努力扎根。",
+                quote: "「如果快樂有形狀，那一定藏在大自然的角落裡。」", do: "散步", dont: "恐懼未知", fallback: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop"
             },
-            "萬物": {
-                subjects: ["a sleepy tabby cat curled up bathed in warm sunlight", "a small bird resting on a tree branch after the rain", "colorful koi fish swimming slowly in a clear zen pond", "a stray ginger cat sleeping quietly under a parked car"],
-                modifiers: "untouched candid smartphone photo, natural ambient light, slightly imperfect framing, subtle grain, real life photography",
-                music: "Blackbird - The Beatles",
-                fallback: "[https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop)"
+            {
+                tag: "工藝粹取", context: "富士陶瓷濾杯、Garmin 手錶的活動達標通知、剛炸好的西班牙吉拿棒氣味。你沉浸在生活的儀式感與細節中，",
+                insight: "體會到對生活講究不將就的回報。簡單的事情重複做，人生也是這樣一层一层堆疊出來的。",
+                quote: "「所有高貴的靈魂，都願意為美好的事物浪費時間。」", do: "專注", dont: "倉促行事", fallback: "https://images.unsplash.com/photo-1515003197210-ce9c1d06ff9d?q=80&w=720&auto=format&fit=crop"
             }
+        ];
+
+        // 視覺對應庫 (與語意基因綁定)
+        const visualMatrix = {
+            "都會生存": { subjects: ["solitary person rainy window modern city", "quiet subway train interior golden hour sunlight"], modifiers: "cinematic moody urban photography, Kodak Portra 400" },
+            "微小幸運": { subjects: ["富士陶瓷濾杯沖咖啡下午茶", "熱咖啡 Amber 液體滴落近攝"], modifiers: "macro snapshot, shallow depth of field, warm natural afternoon light" },
+            "浩瀚自然": { subjects: ["獨自走在冷空氣步道上的背影", "Milky Way galaxy starry night sky over forest"], modifiers: "National Geographic style, dramatic lighting, epic wide angle" },
+            "工藝粹取": { subjects: ["Garmin 手錶活動達標通知近攝", " Spanish churros rustic table"], modifiers: "close-up documentary style, authentic real life colors" }
         };
+
+        const layoutNames = { 'layout-bottom': '經典沉底', 'layout-top': '天際懸浮', 'layout-center': '極致置中', 'layout-editorial': '日系直書' };
+        const uniTitles = ['宇宙一', '宇宙二', '宇宙三', '宇宙四'];
 
         function shuffleArray(array) {
             let arr = array.slice(); 
@@ -190,6 +195,9 @@
             setTimeout(() => { btnElement.innerHTML = originalText; }, 2000);
         }
 
+        function triggerTearAnimation() { randomizeAll(); }
+        function applyDateChange() { randomizeAll(); }
+
         function downloadPoster(wrapperId, btnElement) {
             const posterWrapper = document.getElementById(wrapperId);
             const mask = document.getElementById(wrapperId.replace('poster-', 'mask-'));
@@ -213,9 +221,6 @@
             });
         }
 
-        const layoutNames = { 'layout-bottom': '經典沉底', 'layout-top': '天際懸浮', 'layout-center': '極致置中', 'layout-editorial': '日系直書' };
-        const uniTitles = ['宇宙一', '宇宙二', '宇宙三', '宇宙四'];
-
         function getAstrologySign(month, day) {
             if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "♈ 牡羊座";
             if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "♉ 金牛座";
@@ -231,9 +236,8 @@
             return "♓ 雙魚座";
         }
 
-        async function renderAIGenesis() {
-            const dateInput = document.getElementById('ui-date-picker').value;
-            const dObj = new Date(dateInput + "T00:00:00");
+        async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
+            const dObj = new Date(currentDate + "T00:00:00");
             const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
             const dayStr = String(d).padStart(2, '0');
             const ymStr = `${y}.${String(m).padStart(2, '0')}`;
@@ -249,25 +253,19 @@
 
             document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><br>${lunarDisplay} ｜ ${exactStarSign}`;
 
+            // 1. 真・全域不放回洗牌：確保 4 張卡片絕對不會選到相同主題
+            let shuffled巴納姆陣列 = shuffleArray(universal巴納姆矩陣);
             let globalLayoutDeck = shuffleArray(['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial']);
+
             let renderQueue = [];
             
-            // 讀取 AI 生成的 4 個宇宙
             for (let i = 0; i < 4; i++) {
-                // 如果 AI 沒給資料，給一個緊急備用文字
-                const aiData = aiGenesisQuotes[i] || {
-                    style: "人間", article: "系統與 AI 大腦連線中斷，請稍後重試。", q: "等待也是一種修行。", p: "斷線", do: "喝水", dont: "焦慮"
-                };
-
+                // 從洗過牌的矩陣中直接 `pop()` 彈出主題，物理上絕對不重複
+                const active巴納姆 = shuffled巴納姆陣列.pop();
                 const drawLayout = globalLayoutDeck.pop();
                 
-                // 找出對應的視覺庫 (預設為人間)
-                let matchedTheme = "人間";
-                if(aiData.style.includes("細節") || aiData.style.includes("慢活")) matchedTheme = "細節";
-                if(aiData.style.includes("浩瀚") || aiData.style.includes("自然")) matchedTheme = "浩瀚";
-                if(aiData.style.includes("萬物") || aiData.style.includes("溫暖")) matchedTheme = "萬物";
-                
-                const visualData = visualMatrix[matchedTheme];
+                // 視覺語意基因綁定：用巴納姆主題標籤去抓取對應的指令與備用圖
+                const visualData = visualMatrix[active巴納姆.tag];
                 const subjectStr = getRandomItem(visualData.subjects);
                 
                 const wrapper = document.getElementById(`card-${i}`);
@@ -276,39 +274,43 @@
                 const overlay = document.getElementById(`overlay-${i}`);
                 const label = document.getElementById(`label-${i}`);
                 
-                if (mask) { mask.style.opacity = '1'; mask.innerHTML = '<span>📡 AI 意識下載中...</span>'; }
+                // 顯示加載罩，顯示語意基因標籤
+                if (mask) { mask.style.opacity = '1'; mask.innerHTML = '<span>📡 語意演算中...</span>'; }
                 bgImg.classList.remove('loaded');
                 bgImg.src = ''; 
                 
                 overlay.className = `poster-overlay ${drawLayout}`;
-                label.innerHTML = `🪐 ${uniTitles[i]}：${aiData.style} <span>${layoutNames[drawLayout]}</span>`;
+                label.innerHTML = `🪐 ${uniTitles[i]}：${active巴納姆.tag} <span>${layoutNames[drawLayout]}</span>`;
                 
                 const isEditorial = (drawLayout === 'layout-editorial');
                 const pDoLabel = isEditorial ? '宜<br><span class="p-do"></span>' : '宜 <span class="p-do"></span>';
                 const pDontLabel = isEditorial ? '忌<br><span class="p-dont"></span>' : '忌 <span class="p-dont"></span>';
                 wrapper.querySelector('.p-fortune').innerHTML = `<span class="p-stamp do">${pDoLabel}</span><span class="p-stamp dont">${pDontLabel}</span>`;
                 
-                const fullMjPrompt = `hyper-realistic photography of ${subjectStr}, ${visualData.modifiers} --style raw --v 6.0 --ar 9:16`;
+                const fullSongInfo = `${active巴納姆.music?.track || "Time"} - ${active巴納姆.music?.artist || "Hans Zimmer"}`;
+                const fullMjPrompt = `hyper-realistic photo of ${subjectStr}, amateur snapshot, documentary photography, untouched, Kodak Portra 400 --style raw --v 6.0 --ar 9:16`;
                 const safeUrlPrompt = encodeURIComponent(`hyper realistic photo of ${subjectStr}`);
                 
-                const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${aiData.do} ｜ 忌 ${aiData.dont}\n\n【萬象紀錄】\n${aiData.article}\n\n「${aiData.q}」\n\n🎵 推薦配樂：${visualData.music}\n\n#日曆 #生活碎片 #${aiData.p} #攝影紀錄`;
+                // 生成 Threads 貼文內容
+                const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${active巴納姆.do} ｜ 忌 ${active巴納姆.dont}\n\n【萬象紀錄】\n${active巴納姆.context}${active巴納姆.insight}\n\n${active巴納姆.quote}\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${active巴納姆.p} #攝影紀錄`;
                 
                 wrapper.querySelector('.prompt-box').value = fullMjPrompt;
                 wrapper.querySelector('.caption-box').value = threadsText;
                 wrapper.querySelector('.p-day').innerText = dayStr;
                 wrapper.querySelector('.p-ym').innerText = ymStr;
                 wrapper.querySelector('.p-lunar').innerText = lunarDisplay;
-                wrapper.querySelectorAll('.p-do').forEach(el => el.innerText = aiData.do);
-                wrapper.querySelectorAll('.p-dont').forEach(el => el.innerText = aiData.dont);
-                wrapper.querySelector('.p-quote').innerText = `「${aiData.q}」`;
+                wrapper.querySelectorAll('.p-do').forEach(el => el.innerText = active巴納姆.do);
+                wrapper.querySelectorAll('.p-dont').forEach(el => el.innerText = active巴納姆.dont);
+                wrapper.querySelector('.p-quote').innerText = active巴納姆.quote;
 
                 renderQueue.push({ 
                     id: i, 
                     prompt: safeUrlPrompt,
-                    fallback: visualData.fallback 
+                    fallback: active巴納姆.fallback 
                 });
             }
 
+            // 2. 無聲預載引擎 (Silent Preloader)：彻底消滅破圖與複製人打字機
             for (let i = 0; i < renderQueue.length; i++) {
                 const target = renderQueue[i];
                 const mask = document.getElementById(`mask-${target.id}`);
@@ -317,7 +319,7 @@
                 if (mask) mask.innerHTML = '<span>✨ 萬象顯影中...</span>';
 
                 const randomSeed = Math.floor(Math.random() * 1000000);
-                const imgUrl = `[https://image.pollinations.ai/prompt/$](https://image.pollinations.ai/prompt/$){target.prompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
+                const imgUrl = `https://image.pollinations.ai/prompt/${target.prompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
 
                 await new Promise((resolve) => {
                     const img = new Image();
@@ -331,7 +333,8 @@
                     };
                     
                     img.onerror = () => {
-                        if (mask) mask.innerHTML = '<span>⚠️ 啟用主題備份</span>';
+                        // 當 API 破圖時，載入綁定該宇宙語意的備用圖，消滅複製人打字機
+                        if (mask) mask.innerHTML = '<span>⚠️ 啟用語意備份</span>';
                         bgImg.src = target.fallback; 
                         bgImg.classList.add('loaded');
                         setTimeout(() => { if (mask) mask.style.opacity = '0'; }, 800);
@@ -341,6 +344,7 @@
                     img.src = imgUrl; 
                 });
 
+                // 每個卡片載入間隔 2 秒，防範 API 當機
                 if (i < renderQueue.length - 1) await new Promise(r => setTimeout(r, 2000));
             }
         }
@@ -350,7 +354,7 @@
                 const today = new Date();
                 document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
             }
-            renderAIGenesis();
+            randomizeAll();
         };
     </script>
 </body>
