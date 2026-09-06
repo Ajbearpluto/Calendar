@@ -1,20 +1,18 @@
 import os
 import json
 import datetime
-from google import genai
-from google.genai import types
+import urllib.request
+import urllib.error
 
 def generate_omniverse_data():
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定，無法喚醒大腦。")
+        raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
     
-    client = genai.Client(api_key=api_key)
-
     tz = datetime.timezone(datetime.timedelta(hours=8))
     today_str = datetime.datetime.now(tz).strftime('%Y-%m-%d')
 
-    print(f"🌌 正在為 {today_str} 進行 Gemini Spark 創世運算...")
+    print(f"🌌 正在為 {today_str} 進行原生 API 創世運算...")
 
     prompt = """
     你是「太極萬象日曆」的創世神。你的任務是生成 4 段極具「巴納姆效應(Barnum Effect)」、能引發現代大眾強烈共鳴的生活散文。
@@ -25,7 +23,7 @@ def generate_omniverse_data():
     4. 溫暖羈絆：寫身邊在意的人露出的笑容、微小善意的陪伴，傳達純粹的治癒力量。
     
     【極度重要】：
-    必須輸出為純 JSON 陣列，每個物件必須完全符合以下 6 個 Key 值，絕不可更改名稱：
+    必須輸出為 JSON 陣列，每個物件必須完全符合以下 6 個 Key 值，絕不可更改名稱：
     [
       {
         "theme": "都會生存",
@@ -38,42 +36,52 @@ def generate_omniverse_data():
     ]
     """
 
-    # 升級至最新模型以修復 404 錯誤
-    response = client.models.generate_content(
-        model='gemini-3.0-flash',
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json",
-        )
-    )
+    # 100% 原生 HTTP 請求，直接對接最穩定的 gemini-1.5-flash 端點
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
     
-    raw_text = response.text.strip()
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "responseMimeType": "application/json"
+        }
+    }
     
-    if raw_text.startswith("```json"):
-        raw_text = raw_text[7:]
-    elif raw_text.startswith("```"):
-        raw_text = raw_text[3:]
-    if raw_text.endswith("```"):
-        raw_text = raw_text[:-3]
+    data = json.dumps(payload).encode('utf-8')
+    req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
     
-    raw_text = raw_text.strip()
-
     try:
-        data = json.loads(raw_text)
-        if not isinstance(data, list) or len(data) != 4:
-            raise ValueError(f"JSON 結構錯誤：必須是長度為 4 的陣列，收到長度 {len(data) if isinstance(data, list) else '非陣列'}")
-        return data, today_str
+        with urllib.request.urlopen(req) as response:
+            result = json.loads(response.read().decode('utf-8'))
+            
+            # 從原生 API 回應中萃取文字
+            raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
+            
+            # 暴力清理 Markdown
+            if raw_text.startswith("```json"): raw_text = raw_text[7:]
+            elif raw_text.startswith("```"): raw_text = raw_text[3:]
+            if raw_text.endswith("```"): raw_text = raw_text[:-3]
+            raw_text = raw_text.strip()
+            
+            quotes_data = json.loads(raw_text)
+            if not isinstance(quotes_data, list) or len(quotes_data) != 4:
+                raise ValueError("JSON 結構長度錯誤")
+            return quotes_data, today_str
+            
+    except urllib.error.HTTPError as e:
+        error_info = e.read().decode('utf-8')
+        print(f"❌ API 請求失敗！狀態碼: {e.code}, 錯誤詳情: {error_info}")
+        raise e
     except Exception as e:
-        print(f"❌ JSON 格式解析失敗！原始回應內容如下：\n{raw_text}")
+        print(f"❌ 解析失敗！錯誤詳情: {e}")
         raise e
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動新世代大腦...")
+    print("🚀 Taiji Genesis Engine: 啟動原生大腦...")
     
     try:
         quotes_data, today_str = generate_omniverse_data()
         quotes_js_string = json.dumps(quotes_data, ensure_ascii=False)
-        print("✅ 大腦生成成功！請檢視以下 JSON 結構是否完全符合對照表：")
+        print("✅ 大腦生成成功！請檢視以下 JSON 結構：")
         print(json.dumps(quotes_data, ensure_ascii=False, indent=2))
     except Exception as e:
         raise SystemExit(f"💀 大腦創世失敗，停止注入皮囊。錯誤原因: {e}")
