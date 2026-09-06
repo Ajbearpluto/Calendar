@@ -10,9 +10,6 @@ def generate_omniverse_data():
     if not api_key:
         raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
     
-    # 【記憶宮殿提取】：2026 年 Google 已全面換用 AQ. 開頭的新版 Auth 金鑰。
-    # 零一已撤除所有對 AQ. 金鑰的錯誤阻擋機制。
-
     tz = datetime.timezone(datetime.timedelta(hours=8))
     today_str = datetime.datetime.now(tz).strftime('%Y-%m-%d')
 
@@ -48,30 +45,29 @@ def generate_omniverse_data():
     }
     data = json.dumps(payload).encode('utf-8')
     
-    # 宗師決議：1.5-flash 已退役 (會報 404)。直接鎖定現役主流模型 gemini-2.0-flash。
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
+    # 🎯 聽從 Google 官方日誌神諭，精準鎖定最新端點：gemini-3.6-flash
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={api_key}"
     req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
     
     max_retries = 3
     for attempt in range(max_retries):
         try:
-            print(f"📡 嘗試連線 (第 {attempt + 1}/{max_retries} 次)...")
+            print(f"📡 嘗試連線 gemini-3.6-flash (第 {attempt + 1}/{max_retries} 次)...")
             with urllib.request.urlopen(req) as response:
                 result = json.loads(response.read().decode('utf-8'))
                 raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
                 print("✅ API 連線成功！")
                 break 
         except urllib.error.HTTPError as e:
-            if e.code in [503, 500, 429]: # 遇到伺服器忙碌或限流，進行重試
+            if e.code in [503, 500, 429]: 
                 print(f"⚠️ 伺服器忙碌 (狀態碼: {e.code})，2秒後進行重試...")
                 time.sleep(2)
                 continue
             else:
-                # 404 找不到模型，或 401/403 金鑰失效，直接拋出錯誤
                 error_info = e.read().decode('utf-8')
                 raise ValueError(f"❌ 致命連線錯誤 (狀態碼: {e.code}): {error_info}")
     else:
-        raise ValueError("❌ 慘烈失敗：已達最大重試次數，Google 伺服器持續 503 無回應。")
+        raise ValueError("❌ 慘烈失敗：已達最大重試次數，Google 伺服器持續無回應。")
             
     # 暴力清理 Markdown
     if raw_text.startswith("```json"): raw_text = raw_text[7:]
