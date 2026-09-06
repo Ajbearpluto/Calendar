@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse - Semantic Binding Edition</title>
+    <title>TAIJI Omniverse - Fractal Semantic Edition</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -114,14 +114,14 @@
             <div class="control-panel">
                 <input type="date" id="ui-date-picker" value="2026-09-06" onchange="applyDateChange()">
                 <button class="btn-tear" onclick="triggerTearAnimation()">
-                    🌌 啟動語意約束引擎
+                    🌌 啟動碎形語意引擎
                 </button>
             </div>
             <div class="today-info" id="today-stats">
                 <strong>載入中...</strong><br>農曆資料計算中
             </div>
             <div style="font-size: 0.75rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
-                ✨ <b>語意基因綁定</b>已上線。嚴格確保星空對應浩瀚、太極對應紀律，100% 消滅邏輯斷裂的語句。
+                ✨ <b>碎形語意陣列</b>已載入。透過將時間情境、內心體悟與金句動態縫合，文字的組合熵值已突破千萬級別。
             </div>
         </div>
 
@@ -134,114 +134,97 @@
     </div>
 
     <script>
-        // 🔥 語意基因庫 (Semantic Gene Binding)
-        // 將世界拆分為 8 個獨立的基因模塊。模塊內的文字與影像將嚴格綁定，確保邏輯 100% 契合。
-        const thematicUniverse = [
-            {
+        // 🔥 碎形語意陣列：將長句子拆解為邏輯緊密的碎片，在確保語意通順下產生海量組合
+        const semanticFractals = {
+            worklife_trade: {
                 tag: "太極紀律",
-                category: "worklife",
-                imageSubjects: ["a professional trading desk with multiple monitors showing abstract charts", "a person looking calmly at a screen with data lines in a dark room"],
-                imageModifiers: "cinematic lighting, hyper-realistic, dark moody atmosphere, 8k",
-                timeContexts: ["看著盤面 K 線在 20MA 與 60MA 間震盪時，", "當系統訊號亮起，冷靜執行 OCO 條件單的瞬間，"],
-                insights: ["明白所有的回檔與震盪，都是為了下一次的蓄力。", "體會到真正的自由，來自於對系統的絕對紀律。"],
-                quotes: ["市場的雜音很多，但你只需要聽見自己的心跳。", "不預測未來，只跟隨當下的趨勢。"],
-                doAction: ["堅守紀律", "冷靜觀望"],
-                dontAction: ["恐慌追高", "過度交易"],
+                timeContexts: ["看著台指期 K 線在 20MA 與 60MA 間來回震盪時，", "當 VIX 波動率飆升，冷靜掛出 OCO 條件單的瞬間，", "重新覆盤太極系統的進出場邏輯後，", "在喧囂的開盤鐘聲響起，安靜盯著螢幕的早晨，"],
+                insights: ["明白所有的回檔與震盪，都是為了下一次的蓄力。", "體會到真正的自由，來自於對系統的絕對紀律。", "看懂了市場的雜音，內心反而越發平靜。", "發現不被情緒綁架，才是這場遊戲最難的關卡。"],
+                quotes: ["市場的雜音很多，但你只需要聽見自己的心跳。", "不預測未來，只跟隨當下的趨勢。", "等待，往往是最具攻擊性的策略。", "紀律不是限制，而是保護你的盔甲。"],
+                doAction: ["堅守紀律", "冷靜觀望", "耐心等待", "覆盤"],
+                dontAction: ["恐慌追高", "過度交易", "猜測高低", "情緒化"],
+                imageSubjects: ["a professional trading desk with abstract charts", "a person looking calmly at a screen with data lines in a dark room"],
                 music: { track: "Time", artist: "Hans Zimmer" },
                 fallback: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=720&auto=format&fit=crop"
             },
-            {
+            worklife_edu: {
                 tag: "偏鄉微光",
-                category: "worklife",
+                timeContexts: ["看著十一位小勇士讀懂《魔法阿媽》繪本的午後，", "在準備跨校閱讀理解教學的深夜，", "看著孩子們認真完成 WQSA 學習單的瞬間，", "走在安靜的偏鄉校園，聽著遠方傳來嬉鬧聲時，"],
+                insights: ["發現最純粹的好奇心，才是驅動世界的真正動力。", "明白教育不是灌滿一桶水，而是點燃一把火。", "感覺大人的煩惱，在純真的笑容前都微不足道。", "意識到陪伴本身，就是一種最深刻的教導。"],
+                quotes: ["有時候，大人比小孩更需要下課鐘聲。", "每一顆微小的種子，都有長成大樹的權利。", "知識能帶他們飛，但愛能讓他們知道降落在哪。", "在最偏遠的角落，往往能看見最亮的星星。"],
+                doAction: ["溫柔陪伴", "用心傾聽", "給予擁抱", "保持微笑"],
+                dontAction: ["說教", "急於求成", "忽視細節", "失去耐性"],
                 imageSubjects: ["a rustic elementary school classroom with a blackboard", "children laughing and reading books in a sunlit wooden room"],
-                imageModifiers: "warm afternoon sunlight, documentary photography, Kodak Portra 400, emotional",
-                timeContexts: ["看著十一位小勇士們讀懂繪本露出笑容的午後，", "在跨校閱讀理解教學的準備過程中，"],
-                insights: ["感覺那些屬於大人的煩惱，其實都很微不足道。", "看見了純粹的好奇心，才是驅動世界轉動的力量。"],
-                quotes: ["教育不是灌滿一桶水，而是點燃一把火。", "有時候，大人比小孩更需要下課鐘聲。"],
-                doAction: ["溫柔陪伴", "用心傾聽"],
-                dontAction: ["說教", "急於求成"],
                 music: { track: "Summer", artist: "Joe Hisaishi" },
                 fallback: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=720&auto=format&fit=crop"
             },
-            {
-                tag: "百岳孤獨",
-                category: "epic_nature",
-                imageSubjects: ["a misty alpine lake surrounded by dark green mountains", "a solitary hiker walking through a dense foggy forest"],
-                imageModifiers: "National Geographic style, raw nature, harsh cold lighting, 8k, highly detailed",
-                timeContexts: ["回憶起第五次獨自走在嘉明湖步道的冷空氣中，", "在跑步機上踩著極大坡度，大汗淋漓的時刻，"],
-                insights: ["意識到有些風景，真的必須親自抵達才能看見。", "發現最艱難的上坡路，往往通往最壯闊的大景。"],
-                quotes: ["山一直在那裡，等著你去發現自己的堅韌。", "爬得越高，留下的只有最純粹的自己。"],
-                doAction: ["調整呼吸", "專注當下"],
-                dontAction: ["頻頻回頭", "抱怨"],
-                music: { track: "Society", artist: "Eddie Vedder" },
-                fallback: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop"
-            },
-            {
+            epic_stars: {
                 tag: "星穹仰望",
-                category: "epic_nature",
+                timeContexts: ["在池上面向西南方，用手機紀錄銀河縮時的深夜，", "看著滿天星斗緩慢在夜空中推移的時刻，", "當流星劃破天際，周圍只剩下蟲鳴的安靜夜晚，", "抬起頭看著星雲在黑暗中閃爍微光的瞬間，"],
+                insights: ["在浩瀚的宇宙面前，我們連一粒微塵都不如。", "明白最深邃的美麗，需要最漫長的守候。", "感覺時間的維度被拉長，眼前的煩惱隨之消散。", "體會到孤獨並不可怕，因為有整片星空作伴。"],
+                quotes: ["只要耐心守候，最暗的夜也能拍出最亮的星。", "所有的迷惘，都能在星空下找到解答。", "不要因為急著趕路，而忘記抬頭看看星空。", "宇宙很大，但你眼底的光也很耀眼。"],
+                doAction: ["仰望星空", "耐心守候", "放空思緒", "擁抱安靜"],
+                dontAction: ["低頭滑手機", "急躁", "抱怨日常", "執著過去"],
                 imageSubjects: ["a brilliant Milky Way galaxy over a quiet rural rice field", "a time-lapse camera set up under a massive starry night sky"],
-                imageModifiers: "astrophotography, long exposure, hyper-realistic night sky, 8k",
-                timeContexts: ["在池上等待西南方銀河升起的深夜，", "看著鏡頭裡縮時攝影將星軌慢慢畫成圓時，"],
-                insights: ["在浩瀚的宇宙面前，我們連一粒微塵都不如。", "明白最深邃的美麗，需要最漫長的守候。"],
-                quotes: ["只要耐心守候，最暗的夜也能拍出最亮的星。", "所有的迷惘，都能在星空下找到解答。"],
-                doAction: ["仰望", "耐心守候"],
-                dontAction: ["低頭", "急躁"],
                 music: { track: "A Sky Full of Stars", artist: "Coldplay" },
                 fallback: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=720&auto=format&fit=crop"
             },
-            {
+            epic_hike: {
+                tag: "百岳孤獨",
+                timeContexts: ["回憶起獨自走在嘉明湖步道的冷空氣中，", "踩著陡峭的坡度，感覺心跳隨著海拔逐漸飆升的時刻，", "站在稜線上俯瞰雲海翻湧的清晨，", "背著重裝，一步一步踏在碎石坡上的喘息瞬間，"],
+                insights: ["意識到有些風景，真的必須親自抵達才能看見。", "發現最艱難的上坡路，往往通往最壯闊的大景。", "體會到在高山上，除了自己的呼吸聲什麼也不剩。", "明白登頂不是為了征服山，而是為了征服自己。"],
+                quotes: ["山一直在那裡，等著你去發現自己的堅韌。", "爬得越高，留下的只有最純粹的自己。", "汗水會蒸發，但眼前的壯闊會永遠留下。", "步伐再慢也沒關係，只要方向是向上的。"],
+                doAction: ["調整呼吸", "專注當下", "保持敬畏", "穩健前行"],
+                dontAction: ["頻頻回頭", "輕言放棄", "好高騖遠", "低估風險"],
+                imageSubjects: ["a misty alpine lake surrounded by dark green mountains", "a solitary hiker walking through a dense foggy forest"],
+                music: { track: "Society", artist: "Eddie Vedder" },
+                fallback: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop"
+            },
+            macro_coffee: {
                 tag: "工藝萃取",
-                category: "macro_zen",
-                imageSubjects: ["a vintage glass siphon coffee maker actively brewing coffee with bubbles", "water pouring slowly from a kettle into a ceramic Fuji filter"],
-                imageModifiers: "macro photography, cinematic lighting, sharp focus on water drops, 8k",
-                timeContexts: ["看著虹吸壺裡水流緩緩上升的早晨，", "用富士陶瓷濾杯靜靜沖煮完一杯夏戀咖啡後，"],
-                insights: ["才發現好味道與好日子一樣，都需要耐心等待。", "感覺時間的流逝，被濃縮進了這杯琥珀色的液體中。"],
-                quotes: ["急不來的，往往都是最好的。", "生活需要過濾掉雜質，留下最純粹的精華。"],
-                doAction: ["靜心萃取", "細細品味"],
-                dontAction: ["囫圇吞棗", "分心"],
+                timeContexts: ["看著虹吸壺裡的水緩緩上升，咖啡粉翻滾的早晨，", "用富士陶瓷濾杯，緩慢沖煮著夏戀咖啡豆的午後，", "聽著磨豆機碾碎烘焙豆發出清脆聲響的瞬間，", "看著熱水畫出同心圓，咖啡粉均勻膨脹的時刻，"],
+                insights: ["才發現好味道與好日子一樣，都需要耐心等待。", "感覺時間的流逝，被濃縮進了這杯琥珀色的液體中。", "體會到每一滴萃取，都是對生活細節的講究。", "明白苦澀過後的回甘，才是值得反覆品味的層次。"],
+                quotes: ["急不來的，往往都是最好的。", "生活需要過濾掉雜質，留下最純粹的精華。", "給自己一杯咖啡的時間，世界就不會崩塌。", "簡單的事情重複做，就能淬鍊出不平凡的香氣。"],
+                doAction: ["靜心萃取", "細細品味", "放慢節奏", "享受留白"],
+                dontAction: ["囫圇吞棗", "分心焦慮", "匆忙行事", "將就應付"],
+                imageSubjects: ["a vintage glass siphon coffee maker actively brewing coffee", "water pouring slowly from a kettle into a ceramic Fuji filter"],
                 music: { track: "Nuvole Bianche", artist: "Ludovico Einaudi" },
                 fallback: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop"
             },
-            {
+            macro_maker: {
                 tag: "創客堆疊",
-                category: "macro_zen",
+                timeContexts: ["看著 A2L 印表機噴頭來回修飾著頂層表面的瞬間，", "在切片軟體裡微調完參數，按下啟動鍵的深夜，", "看著底板上慢慢成形的幾何結構時，", "撕下支撐材，摸著列印件平滑紋理的午後，"],
+                insights: ["體會到沒有一蹴可幾的奇蹟，只有一層一層踏實的累積。", "發現只要參數設定對了，連塑膠也能展現完美的紋理。", "感覺每一個微小的 Z 軸爬升，都充滿了造物的成就感。", "明白修復與打磨的過程，本身就是一種獨特的藝術。"],
+                quotes: ["每一次的打磨與校正，都是為了最終的完美。", "從無到有的過程，需要極大的耐心與精準。", "不要害怕失敗的列印，那是通往成功的切片。", "一層一層地堆疊，人生也是這樣走過來的。"],
+                doAction: ["踏實累積", "微調校正", "專注細節", "保持耐心"],
+                dontAction: ["好高騖遠", "忽視底層", "急躁", "半途而廢"],
                 imageSubjects: ["a 3D printer nozzle extruding bright filament layer by layer", "extreme close-up of perfect 3D printed layers"],
-                imageModifiers: "macro snapshot, hyper-realistic details, sharp focus, technical aesthetic",
-                timeContexts: ["看著 3D 印表機噴頭來回堆疊頂層表面的瞬間，", "調整好 Bambu Studio 的頂層列印速度參數後，"],
-                insights: ["體會到沒有一蹴可幾的奇蹟，只有一層一層踏實的累積。", "發現只要參數設定對了，連塑膠也能展現完美的紋理。"],
-                quotes: ["每一次的打磨與校正，都是為了最終的完美。", "從無到有的過程，本身就是一種藝術。"],
-                doAction: ["踏實累積", "微調校正"],
-                dontAction: ["好高騖遠", "忽視細節"],
                 music: { track: "Cornfield Chase", artist: "Hans Zimmer" },
                 fallback: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=720&auto=format&fit=crop"
             },
-            {
+            human_cook: {
                 tag: "手作煙火氣",
-                category: "worklife",
+                timeContexts: ["廚房裡飄出剛炸好的西班牙吉拿棒香氣時，", "看著鍋裡的烘蛋邊緣微焦，緩緩冒出熱氣的傍晚，", "聽著洋蔥在鍋裡慢火翻炒發出嘶嘶聲的午後，", "掀開鍋蓋，聞到雜炊飯撲鼻而來的溫暖時刻，"],
+                insights: ["發現最療癒的時刻，往往藏在廚房的煙火氣裡。", "體會到為自己準備一頓好飯，是最低成本的快樂。", "感覺所有外在的疲憊，都能被一口熱湯給溫柔融化。", "明白食物的化學反應，就像生活中的各種意外驚喜。"],
+                quotes: ["把日子過好，從好好吃一頓飯開始。", "食物的溫度，就是生活的溫度。", "再怎麼忙碌，也要留時間給自己的胃。", "酸甜苦辣，都是人生這道菜必備的調味料。"],
+                doAction: ["享受美食", "善待自己", "放鬆心情", "感恩日常"],
+                dontAction: ["虧待胃口", "隨便應付", "暴飲暴食", "浪費食物"],
                 imageSubjects: ["freshly fried Spanish churros on a rustic wooden table", "a slice of hot Spanish potato tortilla in a cozy kitchen"],
-                imageModifiers: "food photography, warm natural lighting, candid documentary, 8k",
-                timeContexts: ["剛炸好一盤金黃酥脆的西班牙吉拿棒時，", "廚房裡飄出西班牙馬鈴薯烘蛋與洋蔥湯的香氣時，"],
-                insights: ["發現最療癒的時刻，往往藏在廚房的煙火氣裡。", "體會到為自己準備一頓好飯，是最低成本的快樂。"],
-                quotes: ["把日子過好，從好好吃一頓飯開始。", "食物的溫度，就是生活的溫度。"],
-                doAction: ["享受美食", "善待自己"],
-                dontAction: ["虧待胃口", "隨便應付"],
                 music: { track: "La Vie En Rose", artist: "Louis Armstrong" },
                 fallback: "https://images.unsplash.com/photo-1515003197210-ce9c1d06ff9d?q=80&w=720&auto=format&fit=crop"
             },
-            {
-                tag: "萬物生機",
-                category: "animals",
-                imageSubjects: ["a small bird resting on a branch after the rain", "a playful dog running in a sunlit grassy field"],
-                imageModifiers: "National Geographic wildlife photography, sharp focus, beautiful bokeh, 8k",
-                timeContexts: ["雨後偶然瞥見水窪裡倒映的微小生態，", "看著陽光穿透樹葉灑在安靜的角落時，"],
-                insights: ["感覺這份無聲的生命力，足夠抵擋整個世界的堅硬。", "意識到萬物都有自己的節奏，無需去催促。"],
-                quotes: ["如果快樂有形狀，那一定藏在大自然的角落裡。", "不說話的生命，往往能帶來最大的安慰。"],
-                doAction: ["感受生命", "放慢腳步"],
-                dontAction: ["庸人自擾", "破壞"],
-                music: { track: "Blackbird", artist: "The Beatles" },
-                fallback: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop"
+            health_walk: {
+                tag: "自律步調",
+                timeContexts: ["在室內跑步機上調高坡度，看著螢幕裡的影片快步走著時，", "看著 Garmin 手錶記錄下今日活動達標的瞬間，", "汗水滑落臉頰，耳邊傳來節奏明快的音樂時，", "完成設定的陡坡訓練，感到肌肉微微痠痛的傍晚，"],
+                insights: ["體會到每一滴流下的汗水，都是對抗惰性的最佳證明。", "發現身體的疲憊，反而能換來心靈無比的清澈與平靜。", "意識到不需要跟別人比速度，只要維持自己的節奏就好。", "感覺那些累積在身體裡的壓力，隨著步伐一點一滴被釋放。"],
+                quotes: ["健康是你唯一能穩賺不賠的投資。", "自律不是剝奪自由，而是賦予你更多選擇的權利。", "不要停下腳步，即便走得很慢。", "流汗的感覺，比任何心靈雞湯都來得真實。"],
+                doAction: ["保持節奏", "持續流汗", "專注自我", "享受痠痛"],
+                dontAction: ["找藉口", "半途而廢", "與人攀比", "過度消耗"],
+                imageSubjects: ["a person walking on an indoor treadmill with steep incline", "close up of a modern smartwatch showing fitness tracking data"],
+                music: { track: "Eye of the Tiger", artist: "Survivor" },
+                fallback: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=720&auto=format&fit=crop"
             }
-        ];
+        };
 
         function shuffleArray(array) {
             let arr = array.slice(); 
@@ -294,7 +277,6 @@
             });
         }
 
-        const categoryNames = { 'worklife': '人間', 'animals': '萬物', 'epic_nature': '浩瀚', 'macro_zen': '細節' };
         const layoutNames = { 'layout-bottom': '經典沉底', 'layout-top': '天際懸浮', 'layout-center': '極致置中', 'layout-editorial': '日系直書' };
         const uniTitles = ['宇宙一', '宇宙二', '宇宙三', '宇宙四'];
 
@@ -330,24 +312,25 @@
 
             document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><br>${lunarDisplay} ｜ ${exactStarSign}`;
 
-            // 🔥 1. 從 8 個獨立主題中抽出 4 個 (不放回抽樣)
-            let shuffledThemes = shuffleArray(thematicUniverse);
+            // 1. 抽出 4 個不重複的「專屬宇宙主題」
+            let themeKeys = Object.keys(semanticFractals);
+            let shuffledThemeKeys = shuffleArray(themeKeys);
             let globalLayoutDeck = shuffleArray(['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial']);
 
             let renderQueue = [];
             
             for (let i = 0; i < 4; i++) {
-                const selectedTheme = shuffledThemes.pop(); // 絕對不會抽到重複主題
-                const drawLayout = globalLayoutDeck.pop(); // 絕對不會抽到重複排版
+                const activeThemeKey = shuffledThemeKeys.pop();
+                const activeTheme = semanticFractals[activeThemeKey];
+                const drawLayout = globalLayoutDeck.pop();
 
-                // 🔥 2. 在該主題的「基因限制」下，進行同源隨機抽取
-                const catKey = selectedTheme.category;
-                const drawTimeContext = getRandomItem(selectedTheme.timeContexts);
-                const drawInsight = getRandomItem(selectedTheme.insights);
-                const drawQuote = getRandomItem(selectedTheme.quotes);
-                const drawDo = getRandomItem(selectedTheme.doAction);
-                const drawDont = getRandomItem(selectedTheme.dontAction);
-                const subjectStr = getRandomItem(selectedTheme.imageSubjects);
+                // 🔥 2. 碎形語意縫合：在專屬宇宙內隨機抓取碎片，縫合成一篇全新散文
+                const drawTimeContext = getRandomItem(activeTheme.timeContexts);
+                const drawInsight = getRandomItem(activeTheme.insights);
+                const drawQuote = getRandomItem(activeTheme.quotes);
+                const drawDo = getRandomItem(activeTheme.doAction);
+                const drawDont = getRandomItem(activeTheme.dontAction);
+                const subjectStr = getRandomItem(activeTheme.imageSubjects);
                 
                 const wrapper = document.getElementById(`card-${i}`);
                 const mask = document.getElementById(`mask-${i}`);
@@ -360,20 +343,20 @@
                 bgImg.src = ''; 
                 
                 overlay.className = `poster-overlay ${drawLayout}`;
-                label.innerHTML = `🪐 ${uniTitles[i]}：${categoryNames[catKey]} <span>${layoutNames[drawLayout]}</span>`;
+                label.innerHTML = `🪐 ${uniTitles[i]}：${activeTheme.tag} <span>${layoutNames[drawLayout]}</span>`;
                 
                 const isEditorial = (drawLayout === 'layout-editorial');
                 const pDoLabel = isEditorial ? '宜<br><span class="p-do"></span>' : '宜 <span class="p-do"></span>';
                 const pDontLabel = isEditorial ? '忌<br><span class="p-dont"></span>' : '忌 <span class="p-dont"></span>';
                 wrapper.querySelector('.p-fortune').innerHTML = `<span class="p-stamp do">${pDoLabel}</span><span class="p-stamp dont">${pDontLabel}</span>`;
                 
-                const fullSongInfo = `${selectedTheme.music.track} - ${selectedTheme.music.artist}`;
-                const fullMjPrompt = `${selectedTheme.basePrompt} ${subjectStr}, ${selectedTheme.imageModifiers} --style raw --v 6.0 --ar 9:16`;
+                const fullSongInfo = `${activeTheme.music.track} - ${activeTheme.music.artist}`;
+                const fullMjPrompt = `${activeTheme.basePrompt} ${subjectStr}, ${activeTheme.modifiers || "cinematic lighting, hyper-realistic, 8k"} --style raw --v 6.0 --ar 9:16`;
                 const safeUrlPrompt = encodeURIComponent(`hyper realistic photo of ${subjectStr}`);
                 
                 // 完美縫合的同源文字
                 const articleFull = `${drawTimeContext}${drawInsight}`;
-                const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${drawDo} ｜ 忌 ${drawDont}\n\n【萬象紀錄】\n${articleFull}\n\n「${drawQuote}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${selectedTheme.tag} #攝影紀錄`;
+                const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡 今日指南：宜 ${drawDo} ｜ 忌 ${drawDont}\n\n【萬象紀錄】\n${articleFull}\n\n「${drawQuote}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${activeTheme.tag} #攝影紀錄`;
                 
                 wrapper.querySelector('.prompt-box').value = fullMjPrompt;
                 wrapper.querySelector('.caption-box').value = threadsText;
@@ -387,7 +370,7 @@
                 renderQueue.push({ 
                     id: i, 
                     prompt: safeUrlPrompt,
-                    fallback: selectedTheme.fallback 
+                    fallback: activeTheme.fallback 
                 });
             }
 
