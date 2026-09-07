@@ -6,39 +6,17 @@ import urllib.error
 import random
 import time
 
-def get_available_models(api_key):
-    """階段一：向伺服器索取模型清單，並強制過濾掉不聽話的 Gemma 模型"""
-    print("🔍 [系統檢視] 正在向 Google 總部獲取 Gemini 模型清單...")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models?key={api_key}"
-    req = urllib.request.Request(url)
-    try:
-        with urllib.request.urlopen(req) as response:
-            result = json.loads(response.read().decode('utf-8'))
-            # 嚴格篩選：必須支援文字生成，且名稱必須包含 'gemini' (排除 gemma)
-            models = [
-                m['name'] for m in result.get('models', []) 
-                if 'generateContent' in m.get('supportedGenerationMethods', [])
-                and 'gemini' in m['name'].lower()
-            ]
-            if not models:
-                raise ValueError("金鑰有效，但未授權任何 Gemini 文字生成模型。")
-            print(f"✅ 成功取得 {len(models)} 個純血 Gemini 候選模型。")
-            return models
-    except Exception as e:
-        raise ValueError(f"❌ 取得模型清單失敗: {e}")
-
 def generate_omniverse_data():
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
-    
-    candidate_models = get_available_models(api_key)
     
     tz = datetime.timezone(datetime.timedelta(hours=8))
     today_str = datetime.datetime.now(tz).strftime('%Y-%m-%d')
 
     print(f"🌌 正在為 {today_str} 進行量子文學創世運算...")
 
+    # 千變萬化的文學資料庫
     styles = [
         "法國名著《小王子》的純真與人生哲理",
         "王小棣導演《魔法阿媽》那種台灣本土的溫暖、遺憾與人情味",
@@ -79,17 +57,22 @@ def generate_omniverse_data():
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "responseMimeType": "application/json",
-            "temperature": 0.8
+            "temperature": 0.95 
         }
     }
     data = json.dumps(payload).encode('utf-8')
     
-    # 階段二：內容防彈驗證迴圈
-    for model_name in candidate_models:
-        url = f"https://generativelanguage.googleapis.com/v1beta/{model_name}:generateContent?key={api_key}"
+    # 【記憶階梯確認】：鎖定 2026 現役的主力 Gemini Spark 端點
+    candidate_endpoints = [
+        "v1beta/models/gemini-3.8-flash",
+        "v1beta/models/gemini-3.6-flash"
+    ]
+    
+    for endpoint in candidate_endpoints:
+        url = f"https://generativelanguage.googleapis.com/{endpoint}:generateContent?key={api_key}"
         req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
         
-        print(f"📡 嘗試叩關端點: {model_name} ...")
+        print(f"📡 嘗試叩關現役端點: {endpoint} ...")
         try:
             with urllib.request.urlopen(req) as response:
                 result = json.loads(response.read().decode('utf-8'))
@@ -105,29 +88,29 @@ def generate_omniverse_data():
                 try:
                     quotes_data = json.loads(raw_text)
                     if isinstance(quotes_data, list) and len(quotes_data) == 4 and "theme" in quotes_data[0]:
-                        print(f"✅ 叩關成功！{model_name} 輸出完美 JSON 格式。")
+                        print(f"✅ 叩關成功！{endpoint} 輸出完美 JSON 格式。")
                         return quotes_data, today_str
                     else:
-                        print(f"⚠️ {model_name} 輸出結構錯誤 (長度不符)，捨棄並切換下一組...")
+                        print(f"⚠️ {endpoint} 輸出結構錯誤，捨棄並切換下一組...")
                         continue
                 except json.JSONDecodeError:
-                    print(f"⚠️ {model_name} 未遵守 JSON 格式規定 (出現雜訊)，捨棄並切換下一組...")
+                    print(f"⚠️ {endpoint} 未遵守 JSON 格式規定，捨棄並切換下一組...")
                     continue
                     
         except urllib.error.HTTPError as e:
             if e.code in [404, 403]:
-                print(f"⚠️ {model_name} 權限不足或不存在 ({e.code})，切換下一組...")
+                print(f"⚠️ {endpoint} 權限不足或不存在 ({e.code})，切換下一組...")
             elif e.code in [503, 500, 429]:
-                print(f"⚠️ {model_name} 伺服器忙碌 ({e.code})，冷靜 2 秒後切換下一組...")
+                print(f"⚠️ {endpoint} 伺服器忙碌 ({e.code})，冷靜 2 秒後切換下一組...")
                 time.sleep(2)
             else:
-                print(f"⚠️ {model_name} 未知錯誤 ({e.code})，跳過此端點...")
+                print(f"⚠️ {endpoint} 未知錯誤 ({e.code})，跳過此端點...")
             continue
     
-    raise ValueError("❌ 慘烈失敗：已耗盡所有 Gemini 候選模型，皆無法產出合法 JSON。")
+    raise ValueError("❌ 慘烈失敗：現役 Gemini 模型皆無法產出合法 JSON。")
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動防彈驗證版...")
+    print("🚀 Taiji Genesis Engine: 啟動現役火力防彈版...")
     
     try:
         quotes_data, today_str = generate_omniverse_data()
