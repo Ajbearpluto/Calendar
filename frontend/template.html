@@ -345,6 +345,7 @@
             return array;
         }
 
+        // 🔥 宗師級防彈影像載入引擎
         async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
             const dObj = new Date(currentDate + "T00:00:00");
             const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
@@ -389,7 +390,6 @@
 
                 const matrix = omniverseMatrix[catKey];
                 
-                // 【安全獲取大腦資料】
                 let quoteObj = { do_action: "呼吸", dont_action: "焦慮", quote: "努力活著。", article: "", hashtag: "日常碎片" };
                 if (quotesData && quotesData.length === 4) {
                     quoteObj = quotesData[i];
@@ -422,8 +422,17 @@
                 wrapper.querySelector('.p-lunar').innerText = lunarDisplay;
                 wrapper.querySelector('.p-quote').innerText = `「${quoteText}」`;
                 
-                renderQueue.push({ id: i, prompt: safeUrlPrompt });
+                // 將 catKey 也存入 Queue，用來決定如果算圖失敗時要顯示哪張「專屬高畫質備用圖」
+                renderQueue.push({ id: i, prompt: safeUrlPrompt, catKey: catKey });
             }
+
+            // 🔥 攝影宗師嚴選：四種主題的專屬高畫質寫實備用圖 (取代原本千篇一律的紫色背景)
+            const fallbackImages = {
+                'worklife': 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop', // 寫實咖啡桌
+                'animals': 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop',  // 寫實貓咪
+                'epic_nature': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop', // 寫實高山
+                'macro_zen': 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=720&auto=format&fit=crop'  // 寫實微距植物
+            };
 
             for (let i = 0; i < renderQueue.length; i++) {
                 const target = renderQueue[i];
@@ -437,13 +446,16 @@
                 await new Promise((resolve) => {
                     bgImg.onload = () => { if (mask) mask.style.opacity = '0'; resolve(); };
                     bgImg.onerror = () => {
-                        if (mask) mask.innerHTML = '<span>⚠️ 使用備用圖</span>';
-                        bgImg.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=720&auto=format&fit=crop';
+                        // 當 AI 算圖伺服器過載時，無縫切換至該宇宙的「專屬真實攝影圖」
+                        if (mask) mask.innerHTML = '<span>⚠️ 載入超時，啟用高畫質備用圖</span>';
+                        bgImg.src = fallbackImages[target.catKey];
                         resolve();
                     };
                     bgImg.src = imgUrl;
                 });
-                if (i < renderQueue.length - 1) await new Promise(r => setTimeout(r, 2000));
+                
+                // 網路宗師建議：拉長等待時間至 3.5 秒，確保免費伺服器不會把我們判定為惡意攻擊
+                if (i < renderQueue.length - 1) await new Promise(r => setTimeout(r, 3500));
             }
         }
 
