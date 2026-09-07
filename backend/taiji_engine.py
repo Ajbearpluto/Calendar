@@ -7,28 +7,31 @@ import random
 import time
 
 def get_available_models(api_key):
-    """階段一：不帶任何預設立場，直接向伺服器索取您的金鑰可用的所有模型清單"""
-    print("🔍 啟動自動掃雷：正在向 Google 總部查詢可用模型清單...")
+    """階段一：向伺服器索取模型清單，並強制過濾掉不聽話的 Gemma 模型"""
+    print("🔍 [系統檢視] 正在向 Google 總部獲取 Gemini 模型清單...")
     url = f"https://generativelanguage.googleapis.com/v1beta/models?key={api_key}"
     req = urllib.request.Request(url)
     try:
         with urllib.request.urlopen(req) as response:
             result = json.loads(response.read().decode('utf-8'))
-            # 嚴格篩選出真正支援「文字生成 (generateContent)」的模型
-            models = [m['name'] for m in result.get('models', []) if 'generateContent' in m.get('supportedGenerationMethods', [])]
+            # 嚴格篩選：必須支援文字生成，且名稱必須包含 'gemini' (排除 gemma)
+            models = [
+                m['name'] for m in result.get('models', []) 
+                if 'generateContent' in m.get('supportedGenerationMethods', [])
+                and 'gemini' in m['name'].lower()
+            ]
             if not models:
-                raise ValueError("金鑰有效，但未授權任何文字生成模型。")
-            print(f"✅ 成功取得 {len(models)} 個候選模型。準備開始測試...")
+                raise ValueError("金鑰有效，但未授權任何 Gemini 文字生成模型。")
+            print(f"✅ 成功取得 {len(models)} 個純血 Gemini 候選模型。")
             return models
     except Exception as e:
-        raise ValueError(f"❌ 取得模型清單失敗，請確認金鑰權限: {e}")
+        raise ValueError(f"❌ 取得模型清單失敗: {e}")
 
 def generate_omniverse_data():
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
     
-    # 取得金鑰專屬的候選名單
     candidate_models = get_available_models(api_key)
     
     tz = datetime.timezone(datetime.timedelta(hours=8))
@@ -36,7 +39,6 @@ def generate_omniverse_data():
 
     print(f"🌌 正在為 {today_str} 進行量子文學創世運算...")
 
-    # 千變萬化的文學資料庫
     styles = [
         "法國名著《小王子》的純真與人生哲理",
         "王小棣導演《魔法阿媽》那種台灣本土的溫暖、遺憾與人情味",
@@ -58,9 +60,9 @@ def generate_omniverse_data():
     3. 宇宙三 (浩瀚自然)：請以【{chosen_styles[2]}】的風格來撰寫。
     4. 宇宙四 (溫暖羈絆)：請以【{chosen_styles[3]}】的風格來撰寫。
     
-    【寫作要領】：
-    - 內容必須緊扣分配的風格，讓文字有哲理、幽默、或是高山的沉澱感。
-    - 必須輸出為純 JSON 陣列，每個物件完全符合以下 6 個 Key 值：
+    【極度重要：嚴格 JSON 格式】：
+    - 絕對不要輸出任何解釋、思考過程或 Markdown 標記以外的文字。
+    - 必須輸出為純 JSON 陣列，包含精準的 4 個物件，每個物件 6 個 Key：
     [
       {{
         "theme": "自訂風格標籤(例如: 星空哲理)",
@@ -77,14 +79,12 @@ def generate_omniverse_data():
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "responseMimeType": "application/json",
-            "temperature": 0.95 
+            "temperature": 0.8
         }
     }
     data = json.dumps(payload).encode('utf-8')
     
-    raw_text = None
-    
-    # 階段二：全自動掃雷迴圈。遇到 404 就安靜切換，直到成功為止！
+    # 階段二：內容防彈驗證迴圈
     for model_name in candidate_models:
         url = f"https://generativelanguage.googleapis.com/v1beta/{model_name}:generateContent?key={api_key}"
         req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
@@ -94,46 +94,45 @@ def generate_omniverse_data():
             with urllib.request.urlopen(req) as response:
                 result = json.loads(response.read().decode('utf-8'))
                 raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
-                print(f"✅ 叩關成功！已確認 {model_name} 為有效端點。")
-                break 
+                
+                # 暴力清理 Markdown
+                if raw_text.startswith("```json"): raw_text = raw_text[7:]
+                elif raw_text.startswith("```"): raw_text = raw_text[3:]
+                if raw_text.endswith("```"): raw_text = raw_text[:-3]
+                raw_text = raw_text.strip()
+                
+                # 【防彈機制】：立刻嘗試解析 JSON，確認產出是否合法
+                try:
+                    quotes_data = json.loads(raw_text)
+                    if isinstance(quotes_data, list) and len(quotes_data) == 4 and "theme" in quotes_data[0]:
+                        print(f"✅ 叩關成功！{model_name} 輸出完美 JSON 格式。")
+                        return quotes_data, today_str
+                    else:
+                        print(f"⚠️ {model_name} 輸出結構錯誤 (長度不符)，捨棄並切換下一組...")
+                        continue
+                except json.JSONDecodeError:
+                    print(f"⚠️ {model_name} 未遵守 JSON 格式規定 (出現雜訊)，捨棄並切換下一組...")
+                    continue
+                    
         except urllib.error.HTTPError as e:
             if e.code in [404, 403]:
-                print(f"⚠️ {model_name} 權限不足或不存在 ({e.code})，自動切換下一組...")
-                continue
+                print(f"⚠️ {model_name} 權限不足或不存在 ({e.code})，切換下一組...")
             elif e.code in [503, 500, 429]:
-                print(f"⚠️ 伺服器忙碌 ({e.code})，冷靜 2 秒後切換下一組...")
+                print(f"⚠️ {model_name} 伺服器忙碌 ({e.code})，冷靜 2 秒後切換下一組...")
                 time.sleep(2)
-                continue
             else:
-                print(f"⚠️ 未知錯誤 ({e.code})，跳過此端點...")
-                continue
+                print(f"⚠️ {model_name} 未知錯誤 ({e.code})，跳過此端點...")
+            continue
     
-    if not raw_text:
-        raise ValueError("❌ 慘烈失敗：已耗盡所有候選模型，Google 伺服器全面拒絕連線。")
-            
-    # 暴力清理 Markdown
-    if raw_text.startswith("```json"): raw_text = raw_text[7:]
-    elif raw_text.startswith("```"): raw_text = raw_text[3:]
-    if raw_text.endswith("```"): raw_text = raw_text[:-3]
-    raw_text = raw_text.strip()
-    
-    try:
-        quotes_data = json.loads(raw_text)
-        if not isinstance(quotes_data, list) or len(quotes_data) != 4:
-            raise ValueError("JSON 結構長度錯誤：必須是 4 個物件的陣列。")
-        return quotes_data, today_str
-        
-    except Exception as e:
-        print(f"❌ JSON 解析失敗！原始內容：\n{raw_text}")
-        raise e
+    raise ValueError("❌ 慘烈失敗：已耗盡所有 Gemini 候選模型，皆無法產出合法 JSON。")
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動全自動掃雷版...")
+    print("🚀 Taiji Genesis Engine: 啟動防彈驗證版...")
     
     try:
         quotes_data, today_str = generate_omniverse_data()
         quotes_js_string = json.dumps(quotes_data, ensure_ascii=False)
-        print("✅ 大腦生成完畢，準備寫入皮囊！")
+        print("✅ 嚴格檢驗通過，準備寫入皮囊！")
     except Exception as e:
         raise SystemExit(f"💀 大腦創世失敗，停止注入。錯誤原因: {e}")
 
