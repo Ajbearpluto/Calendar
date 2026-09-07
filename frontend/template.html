@@ -1,213 +1,39 @@
-<script>
-    // 1. 接收 Python 大腦的唯一真理 (如果沒接通，給予空陣列防呆)
-    const quotesData = typeof __QUOTES_JS__ !== 'undefined' ? __QUOTES_JS__ : [];
+import os
+import json
+import urllib.request
+import urllib.error
 
-    // 2. 視覺矩陣 (皮囊只負責管影像的 Prompt，不管文字邏輯)
-    const visualMatrix = [
-        {
-            basePrompt: "A candid documentary photography of",
-            subjects: ["a young Asian woman drinking coffee by a sunlit window", "a person writing in a journal at a sun-drenched wooden dining table", "a vintage glass siphon coffee maker actively brewing coffee"],
-            modifiers: "shot on Kodak Portra 400, amateur snapshot, natural mundane lighting, subtle film grain, untouched, unedited, lifelike realism, 35mm lens",
-            music: "The Lazy Song - Bruno Mars"
-        },
-        {
-            basePrompt: "An untouched candid photo of",
-            subjects: ["a sleepy tabby cat curled up on a pile of old books", "a golden retriever resting on a wooden porch"],
-            modifiers: "smartphone snapshot, natural ambient light, slightly imperfect framing, real life photography, subtle grain, no filters, highly detailed fur",
-            music: "Here Comes The Sun - The Beatles"
-        },
-        {
-            basePrompt: "A raw nature documentary photograph of",
-            subjects: ["a panoramic view of a green valley and an alpine lake", "a sunset over a calm ocean reflecting clouds"],
-            modifiers: "shot on Fujifilm, 24mm lens, dramatic natural lighting, no CGI, 8k resolution",
-            music: "A Sky Full of Stars - Coldplay"
-        },
-        {
-            basePrompt: "An extreme close-up hyper-realistic macro photography of",
-            subjects: ["crystal clear morning dew resting on a vibrant green fern leaf", "delicate dandelion seeds bathed in warm golden hour sunlight"],
-            modifiers: "extreme shallow depth of field, razor sharp focus, real life natural textures, unedited raw photo",
-            music: "Nuvole Bianche - Ludovico Einaudi"
-        }
-    ];
+def main():
+    print("🚀 Taiji Genesis Engine: 啟動『探路者』診斷模式...")
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
 
-    function shuffleArray(array) {
-        let curId = array.length;
-        while (0 !== curId) {
-            let randId = Math.floor(Math.random() * curId);
-            curId -= 1;
-            let tmp = array[curId];
-            array[curId] = array[randId];
-            array[randId] = tmp;
-        }
-        return array;
-    }
+    # 聽從系統建議，呼叫 ListModels 端點
+    url = f"https://generativelanguage.googleapis.com/v1beta/models?key={api_key}"
+    req = urllib.request.Request(url)
 
-    function copyCardText(btnElement, selector) {
-        const card = btnElement.closest('.poster-card');
-        const textarea = card.querySelector(selector);
-        textarea.select();
-        document.execCommand("copy");
-        const originalText = btnElement.innerHTML;
-        btnElement.innerHTML = "已複製！";
-        setTimeout(() => { btnElement.innerHTML = originalText; }, 2000);
-    }
-
-    function triggerTearAnimation() {
-        const dateInput = document.getElementById('ui-date-picker');
-        let currentDate = new Date(dateInput.value);
-        currentDate.setDate(currentDate.getDate() + 1);
-        dateInput.value = currentDate.toISOString().split('T')[0];
-        randomizeAll();
-    }
-
-    function applyDateChange() {
-        randomizeAll();
-    }
-
-    function downloadPoster(wrapperId, btnElement) {
-        const posterWrapper = document.getElementById(wrapperId);
-        const mask = document.getElementById(wrapperId.replace('poster-', 'mask-'));
-        if (mask) mask.style.opacity = '0';
-        
-        const originalText = btnElement.innerHTML;
-        btnElement.innerHTML = "生成中...";
-        btnElement.style.opacity = "0.7";
-        btnElement.style.pointerEvents = "none";
-        
-        const ym = document.querySelector(`#${wrapperId} .p-ym`).innerText.replace('.', '');
-        const day = document.querySelector(`#${wrapperId} .p-day`).innerText;
-        const fileName = `Taiji_Calendar_${ym}${day}_${wrapperId}.png`;
-        
-        html2canvas(posterWrapper, { scale: 3, useCORS: true, backgroundColor: "transparent" }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = fileName;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
+    try:
+        print("📡 正在向 Google 伺服器請求可用模型清單 (ListModels)...")
+        with urllib.request.urlopen(req) as response:
+            result = json.loads(response.read().decode('utf-8'))
+            print("✅ 成功取得模型清單！以下是您的金鑰支援的生成模型：\n")
             
-            btnElement.innerHTML = "下載完成！";
-            setTimeout(() => {
-                btnElement.innerHTML = originalText;
-                btnElement.style.opacity = "1";
-                btnElement.style.pointerEvents = "auto";
-            }, 2000);
-        }).catch(err => {
-            btnElement.innerHTML = "下載失敗";
-            setTimeout(() => {
-                btnElement.innerHTML = originalText;
-                btnElement.style.opacity = "1";
-                btnElement.style.pointerEvents = "auto";
-            }, 2000);
-        });
-    }
+            if 'models' in result:
+                for model in result['models']:
+                    # 過濾出支援 "generateContent" (文字生成) 的模型
+                    if 'supportedGenerationMethods' in model and 'generateContent' in model['supportedGenerationMethods']:
+                        print(f" - 實際端點名稱 (name): {model['name']}")
+                        print(f"   顯示名稱 (displayName): {model['displayName']}")
+                        print(f"   版本 (version): {model['version']}")
+                        print("-" * 40)
+            else:
+                print("⚠️ 伺服器回傳成功，但清單中沒有模型。")
+                
+    except urllib.error.HTTPError as e:
+        error_info = e.read().decode('utf-8')
+        print(f"❌ 致命連線錯誤 (狀態碼: {e.code}): {error_info}")
+        raise SystemExit(1)
 
-    async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
-        const dObj = new Date(currentDate + "T00:00:00");
-        const y = dObj.getFullYear();
-        const m = dObj.getMonth() + 1;
-        const d = dObj.getDate();
-        const dayStr = String(d).padStart(2, '0');
-        const ymStr = `${y}.${String(m).padStart(2, '0')}`;
-        
-        // 星座邏輯 (省略實作細節，保持原樣)
-        const exactStarSign = "處女座"; // 簡化展示
-        
-        let lunarDisplay = "農曆未知";
-        try {
-            if (typeof Lunar !== 'undefined') {
-                const lunar = Lunar.fromDate(dObj);
-                lunarDisplay = `農曆${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
-            }
-        } catch (e) {}
-
-        document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><br>${lunarDisplay} | ${exactStarSign}`;
-
-        // 防呆：如果大腦沒傳資料來
-        if (!quotesData || quotesData.length < 4) {
-            console.error("大腦神經斷裂：無效的資料來源。");
-            return;
-        }
-
-        // 只洗牌視覺佈局，文字完全依照大腦順序
-        let shuffledLayouts = shuffleArray(['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial']);
-        let shuffledVisuals = shuffleArray([...visualMatrix]);
-        let renderQueue = [];
-
-        // 核心對接迴圈：精準提取 Python JSON Key
-        for (let i = 0; i < 4; i++) {
-            const quoteObj = quotesData[i]; 
-            const visual = shuffledVisuals[i];
-            const layoutKey = shuffledLayouts[i];
-            
-            const wrapper = document.getElementById(`card-${i}`);
-            const mask = document.getElementById(`mask-${i}`);
-            const bgImg = document.getElementById(`bg-${i}`);
-            const overlay = document.getElementById(`overlay-${i}`);
-            const label = document.getElementById(`label-${i}`);
-
-            if (mask) {
-                mask.style.opacity = '1';
-                mask.innerHTML = '<span>讀取大腦意識中...</span>';
-            }
-            bgImg.src = ''; 
-            overlay.className = `poster-overlay ${layoutKey}`;
-
-            // 【終極變數對接】
-            const theme = quoteObj.theme || "未知宇宙";
-            const articleText = quoteObj.article || "";
-            const quoteText = quoteObj.quote || "";
-            const hashtag = quoteObj.hashtag || "無";
-            const doAction = quoteObj.do_action || "無";
-            const dontAction = quoteObj.dont_action || "無";
-
-            label.innerHTML = `🪐 宇宙${['一','二','三','四'][i]}：${theme}`;
-
-            const isEditorial = (layoutKey === 'layout-editorial');
-            const pDoLabel = isEditorial ? `宜<br><span class="p-do">${doAction}</span>` : `宜 <span class="p-do">${doAction}</span>`;
-            const pDontLabel = isEditorial ? `忌<br><span class="p-dont">${dontAction}</span>` : `忌 <span class="p-dont">${dontAction}</span>`;
-            wrapper.querySelector('.p-fortune').innerHTML = `<span class="p-stamp do">${pDoLabel}</span><span class="p-stamp dont">${pDontLabel}</span>`;
-            
-            wrapper.querySelector('.p-quote').innerText = `「${quoteText}」`;
-
-            // 組裝 MJ 指令與 Threads 貼文
-            const subjectStr = visual.subjects[Math.floor(Math.random() * visual.subjects.length)];
-            const fullMjPrompt = `${visual.basePrompt} ${subjectStr}, ${visual.modifiers} --style raw --v 6.0 --ar 9:16`;
-            const safeUrlPrompt = encodeURIComponent(`Hyper-realistic raw photograph, ${subjectStr}, natural lighting`);
-
-            const threadsText = `🪐 ${ymStr}.${dayStr} ${lunarDisplay} ${exactStarSign}\n✨ 今日指南：宜 ${doAction} | 忌 ${dontAction}\n\n📖 萬象紀錄：\n${articleText}\n\n💬 宇宙頻率：\n「${quoteText}」\n\n🎵 推薦歌單：${visual.music}\n\n#${theme} #${hashtag} #太極萬象日曆`;
-
-            wrapper.querySelector('.prompt-box').value = fullMjPrompt;
-            wrapper.querySelector('.caption-box').value = threadsText;
-            wrapper.querySelector('.p-day').innerText = dayStr;
-            wrapper.querySelector('.p-ym').innerText = ymStr;
-            wrapper.querySelector('.p-lunar').innerText = lunarDisplay;
-
-            renderQueue.push({ id: i, prompt: safeUrlPrompt });
-        }
-
-        // 循序載入圖片
-        for (let i = 0; i < renderQueue.length; i++) {
-            const target = renderQueue[i];
-            const mask = document.getElementById(`mask-${target.id}`);
-            const bgImg = document.getElementById(`bg-${target.id}`);
-            
-            const randomSeed = Math.floor(Math.random() * 1000000);
-            const imgUrl = `https://image.pollinations.ai/prompt/${target.prompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
-            
-            await new Promise((resolve) => {
-                bgImg.onload = () => { if (mask) mask.style.opacity = '0'; resolve(); };
-                bgImg.onerror = () => { if (mask) mask.innerHTML = '<span>圖片載入失敗</span>'; resolve(); };
-                bgImg.src = imgUrl;
-            });
-            
-            if (i < renderQueue.length - 1) await new Promise(r => setTimeout(r, 2000));
-        }
-    }
-
-    window.onload = function() {
-        if(!document.getElementById('ui-date-picker').value || document.getElementById('ui-date-picker').value === "__PAYLOAD_DATE__") {
-            const today = new Date();
-            document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
-        }
-        randomizeAll();
-    }
-</script>
+if __name__ == "__main__":
+    main()
