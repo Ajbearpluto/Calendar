@@ -6,45 +6,15 @@ import urllib.error
 import random
 import time
 
-def get_valid_model(api_key):
-    """階段一：向伺服器查詢這把金鑰真實支援的模型清單，徹底解決 404 盲猜問題"""
-    url = f"https://generativelanguage.googleapis.com/v1beta/models?key={api_key}"
-    req = urllib.request.Request(url)
-    print("🔍 [系統檢視] 階段一：正在向 Google 總部確認金鑰專屬模型清單...")
-    
-    try:
-        with urllib.request.urlopen(req) as response:
-            result = json.loads(response.read().decode('utf-8'))
-            # 篩選出支援文字生成的模型
-            available_models = [m['name'] for m in result.get('models', []) if 'generateContent' in m.get('supportedGenerationMethods', [])]
-            
-            if not available_models:
-                raise ValueError("金鑰有效，但該專案下沒有支援文字生成的模型。")
-            
-            # 優先使用 1.5-flash，若無則使用清單中第一個合法模型
-            for m in available_models:
-                if "1.5-flash" in m:
-                    print(f"✅ [系統檢視] 階段一通過！精準鎖定端點：{m}")
-                    return m
-            
-            print(f"✅ [系統檢視] 階段一通過！精準鎖定端點：{available_models[0]}")
-            return available_models[0]
-            
-    except Exception as e:
-        raise ValueError(f"❌ 取得模型清單失敗，請確認金鑰是否正確。錯誤詳情: {e}")
-
 def generate_omniverse_data():
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
     
-    # 自動取得合法模型，終結 404
-    valid_model_name = get_valid_model(api_key)
-    
     tz = datetime.timezone(datetime.timedelta(hours=8))
     today_str = datetime.datetime.now(tz).strftime('%Y-%m-%d')
 
-    print(f"🌌 [系統檢視] 階段二：啟動量子文學創世運算 ({today_str})...")
+    print(f"🌌 正在為 {today_str} 進行量子文學創世運算...")
 
     # 文學宗師的無限資料庫：量子風格池
     styles = [
@@ -92,28 +62,32 @@ def generate_omniverse_data():
     }
     data = json.dumps(payload).encode('utf-8')
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/{valid_model_name}:generateContent?key={api_key}"
+    # 宗師決議：放棄複雜的探路，直接鎖死 100% 開放的基礎模型
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
     req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
     
-    max_retries = 3
+    # 強化重試機制：拉長等待時間，增加次數
+    max_retries = 5
+    raw_text = None
+    
     for attempt in range(max_retries):
         try:
-            print(f"📡 嘗試連線生成 (第 {attempt + 1}/{max_retries} 次)...")
+            print(f"📡 嘗試呼叫基礎端點 gemini-1.5-flash (第 {attempt + 1}/{max_retries} 次)...")
             with urllib.request.urlopen(req) as response:
                 result = json.loads(response.read().decode('utf-8'))
                 raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
-                print("✅ [系統檢視] 階段二通過！意識生成成功！")
+                print("✅ 意識生成成功！")
                 break 
         except urllib.error.HTTPError as e:
             if e.code in [503, 500, 429]: 
-                print(f"⚠️ 伺服器忙碌 (狀態碼: {e.code})，2秒後重試...")
-                time.sleep(2)
+                print(f"⚠️ 伺服器忙碌或限流 (狀態碼: {e.code})，冷靜 5 秒後重試...")
+                time.sleep(5)
                 continue
             else:
                 error_info = e.read().decode('utf-8')
-                raise ValueError(f"❌ 生成連線錯誤 (狀態碼: {e.code}): {error_info}")
+                raise ValueError(f"❌ 致命連線錯誤 (狀態碼: {e.code}): {error_info}")
     else:
-        raise ValueError("❌ 慘烈失敗：伺服器持續無回應。")
+        raise ValueError("❌ 慘烈失敗：已達最大重試次數，Google 伺服器持續無回應。")
             
     if raw_text.startswith("```json"): raw_text = raw_text[7:]
     elif raw_text.startswith("```"): raw_text = raw_text[3:]
@@ -131,7 +105,7 @@ def generate_omniverse_data():
         raise e
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動無盡宇宙版...")
+    print("🚀 Taiji Genesis Engine: 啟動強韌回歸版...")
     
     try:
         quotes_data, today_str = generate_omniverse_data()
@@ -160,7 +134,7 @@ def main():
     with open(archive_path, 'w', encoding='utf-8') as f:
         f.write(html_content)
         
-    print("🎉 大腦意識已成功寫入 HTML，請查看網頁變化！")
+    print("🎉 大腦意識已成功寫入 HTML！")
 
 if __name__ == "__main__":
     main()
