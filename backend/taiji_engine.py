@@ -45,14 +45,14 @@ def generate_omniverse_data():
     }
     data = json.dumps(payload).encode('utf-8')
     
-    # 🎯 聽從 Google 官方日誌神諭，精準鎖定最新端點：gemini-3.6-flash
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={api_key}"
+    # 【事實查核】：嚴格使用官方穩定版 (v1) 與標準模型 (gemini-1.5-flash)
+    url = f"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={api_key}"
     req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
     
     max_retries = 3
     for attempt in range(max_retries):
         try:
-            print(f"📡 嘗試連線 gemini-3.6-flash (第 {attempt + 1}/{max_retries} 次)...")
+            print(f"📡 嘗試連線官方穩定端點 (第 {attempt + 1}/{max_retries} 次)...")
             with urllib.request.urlopen(req) as response:
                 result = json.loads(response.read().decode('utf-8'))
                 raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
@@ -69,7 +69,6 @@ def generate_omniverse_data():
     else:
         raise ValueError("❌ 慘烈失敗：已達最大重試次數，Google 伺服器持續無回應。")
             
-    # 暴力清理 Markdown
     if raw_text.startswith("```json"): raw_text = raw_text[7:]
     elif raw_text.startswith("```"): raw_text = raw_text[3:]
     if raw_text.endswith("```"): raw_text = raw_text[:-3]
@@ -86,13 +85,12 @@ def generate_omniverse_data():
         raise e
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動覺醒版原生大腦...")
+    print("🚀 Taiji Genesis Engine: 啟動事實查核版大腦...")
     
     try:
         quotes_data, today_str = generate_omniverse_data()
         quotes_js_string = json.dumps(quotes_data, ensure_ascii=False)
-        print("✅ 大腦生成成功！請檢視以下 JSON 結構：")
-        print(json.dumps(quotes_data, ensure_ascii=False, indent=2))
+        print("✅ 大腦生成成功！")
     except Exception as e:
         raise SystemExit(f"💀 大腦創世失敗，停止注入皮囊。錯誤原因: {e}")
 
