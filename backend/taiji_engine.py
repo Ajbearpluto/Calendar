@@ -6,17 +6,37 @@ import urllib.error
 import random
 import time
 
+def get_available_models(api_key):
+    """階段一：不帶任何預設立場，直接向伺服器索取您的金鑰可用的所有模型清單"""
+    print("🔍 啟動自動掃雷：正在向 Google 總部查詢可用模型清單...")
+    url = f"https://generativelanguage.googleapis.com/v1beta/models?key={api_key}"
+    req = urllib.request.Request(url)
+    try:
+        with urllib.request.urlopen(req) as response:
+            result = json.loads(response.read().decode('utf-8'))
+            # 嚴格篩選出真正支援「文字生成 (generateContent)」的模型
+            models = [m['name'] for m in result.get('models', []) if 'generateContent' in m.get('supportedGenerationMethods', [])]
+            if not models:
+                raise ValueError("金鑰有效，但未授權任何文字生成模型。")
+            print(f"✅ 成功取得 {len(models)} 個候選模型。準備開始測試...")
+            return models
+    except Exception as e:
+        raise ValueError(f"❌ 取得模型清單失敗，請確認金鑰權限: {e}")
+
 def generate_omniverse_data():
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
+    
+    # 取得金鑰專屬的候選名單
+    candidate_models = get_available_models(api_key)
     
     tz = datetime.timezone(datetime.timedelta(hours=8))
     today_str = datetime.datetime.now(tz).strftime('%Y-%m-%d')
 
     print(f"🌌 正在為 {today_str} 進行量子文學創世運算...")
 
-    # 文學宗師的無限資料庫：量子風格池
+    # 千變萬化的文學資料庫
     styles = [
         "法國名著《小王子》的純真與人生哲理",
         "王小棣導演《魔法阿媽》那種台灣本土的溫暖、遺憾與人情味",
@@ -57,38 +77,41 @@ def generate_omniverse_data():
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "responseMimeType": "application/json",
-            "temperature": 0.95 # 高創意溫度，確保每天文字千變萬化
+            "temperature": 0.95 
         }
     }
     data = json.dumps(payload).encode('utf-8')
     
-    # 宗師決議：放棄複雜的探路，直接鎖死 100% 開放的基礎模型
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
-    req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
-    
-    # 強化重試機制：拉長等待時間，增加次數
-    max_retries = 5
     raw_text = None
     
-    for attempt in range(max_retries):
+    # 階段二：全自動掃雷迴圈。遇到 404 就安靜切換，直到成功為止！
+    for model_name in candidate_models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/{model_name}:generateContent?key={api_key}"
+        req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+        
+        print(f"📡 嘗試叩關端點: {model_name} ...")
         try:
-            print(f"📡 嘗試呼叫基礎端點 gemini-1.5-flash (第 {attempt + 1}/{max_retries} 次)...")
             with urllib.request.urlopen(req) as response:
                 result = json.loads(response.read().decode('utf-8'))
                 raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
-                print("✅ 意識生成成功！")
+                print(f"✅ 叩關成功！已確認 {model_name} 為有效端點。")
                 break 
         except urllib.error.HTTPError as e:
-            if e.code in [503, 500, 429]: 
-                print(f"⚠️ 伺服器忙碌或限流 (狀態碼: {e.code})，冷靜 5 秒後重試...")
-                time.sleep(5)
+            if e.code in [404, 403]:
+                print(f"⚠️ {model_name} 權限不足或不存在 ({e.code})，自動切換下一組...")
+                continue
+            elif e.code in [503, 500, 429]:
+                print(f"⚠️ 伺服器忙碌 ({e.code})，冷靜 2 秒後切換下一組...")
+                time.sleep(2)
                 continue
             else:
-                error_info = e.read().decode('utf-8')
-                raise ValueError(f"❌ 致命連線錯誤 (狀態碼: {e.code}): {error_info}")
-    else:
-        raise ValueError("❌ 慘烈失敗：已達最大重試次數，Google 伺服器持續無回應。")
+                print(f"⚠️ 未知錯誤 ({e.code})，跳過此端點...")
+                continue
+    
+    if not raw_text:
+        raise ValueError("❌ 慘烈失敗：已耗盡所有候選模型，Google 伺服器全面拒絕連線。")
             
+    # 暴力清理 Markdown
     if raw_text.startswith("```json"): raw_text = raw_text[7:]
     elif raw_text.startswith("```"): raw_text = raw_text[3:]
     if raw_text.endswith("```"): raw_text = raw_text[:-3]
@@ -105,7 +128,7 @@ def generate_omniverse_data():
         raise e
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動強韌回歸版...")
+    print("🚀 Taiji Genesis Engine: 啟動全自動掃雷版...")
     
     try:
         quotes_data, today_str = generate_omniverse_data()
