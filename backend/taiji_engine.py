@@ -3,22 +3,50 @@ import json
 import datetime
 import urllib.request
 import urllib.error
-import time
 import random
+import time
+
+def get_valid_model(api_key):
+    """階段一：向伺服器查詢這把金鑰真實支援的模型清單，徹底解決 404 盲猜問題"""
+    url = f"https://generativelanguage.googleapis.com/v1beta/models?key={api_key}"
+    req = urllib.request.Request(url)
+    print("🔍 [系統檢視] 階段一：正在向 Google 總部確認金鑰專屬模型清單...")
+    
+    try:
+        with urllib.request.urlopen(req) as response:
+            result = json.loads(response.read().decode('utf-8'))
+            # 篩選出支援文字生成的模型
+            available_models = [m['name'] for m in result.get('models', []) if 'generateContent' in m.get('supportedGenerationMethods', [])]
+            
+            if not available_models:
+                raise ValueError("金鑰有效，但該專案下沒有支援文字生成的模型。")
+            
+            # 優先使用 1.5-flash，若無則使用清單中第一個合法模型
+            for m in available_models:
+                if "1.5-flash" in m:
+                    print(f"✅ [系統檢視] 階段一通過！精準鎖定端點：{m}")
+                    return m
+            
+            print(f"✅ [系統檢視] 階段一通過！精準鎖定端點：{available_models[0]}")
+            return available_models[0]
+            
+    except Exception as e:
+        raise ValueError(f"❌ 取得模型清單失敗，請確認金鑰是否正確。錯誤詳情: {e}")
 
 def generate_omniverse_data():
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
     
+    # 自動取得合法模型，終結 404
+    valid_model_name = get_valid_model(api_key)
+    
     tz = datetime.timezone(datetime.timedelta(hours=8))
     today_str = datetime.datetime.now(tz).strftime('%Y-%m-%d')
 
-    print(f"🌌 正在為 {today_str} 進行原生 API 創世運算...")
+    print(f"🌌 [系統檢視] 階段二：啟動量子文學創世運算 ({today_str})...")
 
-    # ==========================================
-    # 📖 文學宗師的「量子亂數風格池」
-    # ==========================================
+    # 文學宗師的無限資料庫：量子風格池
     styles = [
         "法國名著《小王子》的純真與人生哲理",
         "王小棣導演《魔法阿媽》那種台灣本土的溫暖、遺憾與人情味",
@@ -26,16 +54,13 @@ def generate_omniverse_data():
         "普契尼歌劇《公主徹夜未眠》那種在深夜裡堅持與盼望的壯麗情感",
         "獨自重裝攀登高海拔百岳（如嘉明湖）時，面對浩瀚大自然的敬畏與內心沉澱",
         "像皮克敏(Pikmin)或史努比(Snoopy)那樣，以幽默可愛的微觀視角看待大人的煩惱",
-        "賽博龐克(Cyberpunk)的霓虹都市孤獨感與科技反思",
         "日系雜誌般清新、通透且注重生活微小細節的慢活視角",
-        "猶如電影長鏡頭般的冷調敘事，充滿空間感與疏離感"
+        "如同一杯現煮的虹吸式咖啡，在緩慢萃取的等待中體悟時間的禪意"
     ]
-    
-    # 隨機抽取 4 種不同風格，賦予今日的 4 篇散文
     chosen_styles = random.sample(styles, 4)
 
     prompt = f"""
-    你是「太極萬象日曆」的創世神。你的任務是生成 4 段極具「巴納姆效應(Barnum Effect)」的生活散文，每一段必須採用指定的文學或電影風格。
+    你是「太極萬象日曆」的創世神。你的任務是生成 4 段極具「巴納姆效應(Barnum Effect)」的生活散文。
     
     情境與風格分配：
     1. 宇宙一 (都會生存)：請以【{chosen_styles[0]}】的風格來撰寫。
@@ -44,16 +69,16 @@ def generate_omniverse_data():
     4. 宇宙四 (溫暖羈絆)：請以【{chosen_styles[3]}】的風格來撰寫。
     
     【寫作要領】：
-    - 文章內容必須緊扣上述分配的風格，讓文字有哲理、幽默、或是高山的沉澱感。
-    - 必須輸出為純 JSON 陣列，每個物件必須完全符合以下 6 個 Key 值：
+    - 內容必須緊扣分配的風格，讓文字有哲理、幽默、或是高山的沉澱感。
+    - 必須輸出為純 JSON 陣列，每個物件完全符合以下 6 個 Key 值：
     [
       {{
-        "theme": "根據風格自訂標籤(例如：微觀哲學、霓虹孤獨)",
-        "article": "40~60字的情境散文，完美融入指定的風格與巴納姆效應。",
+        "theme": "自訂風格標籤(例如: 星空哲理)",
+        "article": "40~60字的情境散文，完美融入指定風格。",
         "quote": "15~25字的一擊必殺金句。",
-        "hashtag": "兩個字的情境標籤",
-        "do_action": "兩個字的宜行動",
-        "dont_action": "兩個字的忌禁忌"
+        "hashtag": "兩個字標籤",
+        "do_action": "兩個字的宜行動(如: 仰望)",
+        "dont_action": "兩個字的忌禁忌(如: 執著)"
       }}
     ]
     """
@@ -62,37 +87,33 @@ def generate_omniverse_data():
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "responseMimeType": "application/json",
-            "temperature": 0.9 # 提高創意溫度，讓文字千變萬化
+            "temperature": 0.95 # 高創意溫度，確保每天文字千變萬化
         }
     }
     data = json.dumps(payload).encode('utf-8')
     
-    # 程式宗師的穩定端點陣列 (v1beta 擁有最高的模型涵蓋率)
-    endpoints = [
-        "v1beta/models/gemini-1.5-flash",
-        "v1beta/models/gemini-1.5-pro",
-        "v1beta/models/gemini-pro"
-    ]
+    url = f"https://generativelanguage.googleapis.com/v1beta/{valid_model_name}:generateContent?key={api_key}"
+    req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
     
-    raw_text = None
-    
-    for endpoint in endpoints:
-        url = f"https://generativelanguage.googleapis.com/{endpoint}:generateContent?key={api_key}"
-        req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
-        
+    max_retries = 3
+    for attempt in range(max_retries):
         try:
-            print(f"📡 嘗試連線端點: {endpoint} ...")
+            print(f"📡 嘗試連線生成 (第 {attempt + 1}/{max_retries} 次)...")
             with urllib.request.urlopen(req) as response:
                 result = json.loads(response.read().decode('utf-8'))
                 raw_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
-                print(f"✅ 連線成功！成功使用端點: {endpoint}")
+                print("✅ [系統檢視] 階段二通過！意識生成成功！")
                 break 
         except urllib.error.HTTPError as e:
-            print(f"⚠️ {endpoint} 連線失敗 (狀態碼: {e.code})，自動切換備用端點...")
-            continue
-            
-    if not raw_text:
-        raise ValueError("❌ 慘烈失敗：所有連線皆失敗，請再次確認您的 API Key 是否有效。")
+            if e.code in [503, 500, 429]: 
+                print(f"⚠️ 伺服器忙碌 (狀態碼: {e.code})，2秒後重試...")
+                time.sleep(2)
+                continue
+            else:
+                error_info = e.read().decode('utf-8')
+                raise ValueError(f"❌ 生成連線錯誤 (狀態碼: {e.code}): {error_info}")
+    else:
+        raise ValueError("❌ 慘烈失敗：伺服器持續無回應。")
             
     if raw_text.startswith("```json"): raw_text = raw_text[7:]
     elif raw_text.startswith("```"): raw_text = raw_text[3:]
@@ -106,19 +127,18 @@ def generate_omniverse_data():
         return quotes_data, today_str
         
     except Exception as e:
-        print(f"❌ JSON 格式解析失敗！原始回應內容如下：\n{raw_text}")
+        print(f"❌ JSON 解析失敗！原始內容：\n{raw_text}")
         raise e
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動量子文學大腦...")
+    print("🚀 Taiji Genesis Engine: 啟動無盡宇宙版...")
     
     try:
         quotes_data, today_str = generate_omniverse_data()
         quotes_js_string = json.dumps(quotes_data, ensure_ascii=False)
-        print("✅ 大腦生成成功！請檢視以下 JSON 結構：")
-        print(json.dumps(quotes_data, ensure_ascii=False, indent=2))
+        print("✅ 大腦生成完畢，準備寫入皮囊！")
     except Exception as e:
-        raise SystemExit(f"💀 大腦創世失敗，停止注入皮囊。錯誤原因: {e}")
+        raise SystemExit(f"💀 大腦創世失敗，停止注入。錯誤原因: {e}")
 
     template_path = os.path.join('frontend', 'template.html')
     if not os.path.exists(template_path):
@@ -140,7 +160,7 @@ def main():
     with open(archive_path, 'w', encoding='utf-8') as f:
         f.write(html_content)
         
-    print("🎉 大腦意識已成功寫入 HTML！")
+    print("🎉 大腦意識已成功寫入 HTML，請查看網頁變化！")
 
 if __name__ == "__main__":
     main()
