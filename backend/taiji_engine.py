@@ -16,7 +16,6 @@ def generate_omniverse_data():
 
     print(f"🌌 正在為 {today_str} 進行量子文學創世運算...")
 
-    # 【大腦擴權】：無盡的萬象風格池 (涵蓋文學、哲學、動漫、自然與日常)
     styles = [
         "奧斯卡·王爾德《快樂王子》的無私與唯美哀傷",
         "赫曼·赫塞《流浪者之歌》的東方求道與萬物圓融",
@@ -40,31 +39,31 @@ def generate_omniverse_data():
         "如同一杯現煮的虹吸式咖啡，在緩慢萃取的等待中體悟的禪意",
         "現代都會社畜的『躺平無罪』與『人間清醒』幹話哲學"
     ]
-    # 每天午夜，隨機抽出 4 個截然不同的宇宙碰撞
     chosen_styles = random.sample(styles, 4)
 
+    # 【修復 2：賦予靈魂語氣，徹底終結文字雷同】
     prompt = f"""
-    你是「太極萬象日曆」的創世神。你的任務是生成 4 段極具「巴納姆效應(Barnum Effect)」的生活散文。
+    你是「太極萬象日曆」的創世神。你的任務是生成 4 段極具「巴納姆效應」的生活散文。
     
-    今天，宇宙為我們抽出了以下 4 種截然不同的平行宇宙風格：
-    1. 宇宙一：請以【{chosen_styles[0]}】的風格來撰寫。
-    2. 宇宙二：請以【{chosen_styles[1]}】的風格來撰寫。
-    3. 宇宙三：請以【{chosen_styles[2]}】的風格來撰寫。
-    4. 宇宙四：請以【{chosen_styles[3]}】的風格來撰寫。
+    為了讓 4 個宇宙的文字擁有「極端不同的個性」，避免讀起來像同一個人寫的，請嚴格套用以下語氣：
+    
+    1. 宇宙一：【{chosen_styles[0]}】。語氣要求：👉「幽默、自嘲、帶點現代社畜的無奈與慵懶」。
+    2. 宇宙二：【{chosen_styles[1]}】。語氣要求：👉「極度唯美、詩意、溫柔治癒，像一首散文詩」。
+    3. 宇宙三：【{chosen_styles[2]}】。語氣要求：👉「磅礡、史詩感、充滿大自然或宇宙的敬畏與哲學思辨」。
+    4. 宇宙四：【{chosen_styles[3]}】。語氣要求：👉「冷靜、極簡、充滿東方禪意、一針見血的留白」。
     
     【極度重要：嚴格 JSON 格式】：
-    - 內容必須緊扣分配的風格，讓文字有相應的哲理、熱血、幽默或沉澱感。
     - 絕對不要輸出任何解釋、思考過程或 Markdown 標記以外的文字。
     - 必須輸出為純 JSON 陣列，包含精準的 4 個物件，每個物件必須有以下 7 個 Key：
     [
       {{
-        "theme": "自訂風格標籤(例如: 火之意志 / 唯美哀傷)",
-        "article": "40~60字的情境散文，完美融入該宇宙風格。",
+        "theme": "自訂風格標籤(如: 躺平美學 / 唯美哀傷)",
+        "article": "40~60字的情境散文，必須強烈展現該宇宙要求的『語氣』！",
         "quote": "15~25字的一擊必殺金句。",
         "hashtag": "兩個字標籤",
-        "do_action": "兩個字的宜行動(如: 覺醒)",
-        "dont_action": "兩個字的忌禁忌(如: 退縮)",
-        "image_subject": "一句簡短的英文，描述與這段文字意境相符的畫面主體（例如：A solitary swordsman standing under a blood-red moon. 或 A cute dog sleeping on a cozy sofa.）。純描述畫面，不要加相機參數。"
+        "do_action": "兩個字的宜行動",
+        "dont_action": "兩個字的忌禁忌",
+        "image_subject": "一句簡短的英文，描述與這段文字意境相符的畫面主體（如：A lonely swordsman under a red moon.）。純描述畫面，不要加相機參數。"
       }}
     ]
     """
@@ -83,6 +82,7 @@ def generate_omniverse_data():
         "v1beta/models/gemini-3.6-flash"
     ]
     
+    # API 連線與重試機制：【保證絕對原樣，一字未改】
     for endpoint in candidate_endpoints:
         url = f"https://generativelanguage.googleapis.com/{endpoint}:generateContent?key={api_key}"
         req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
@@ -102,7 +102,6 @@ def generate_omniverse_data():
                     
                     try:
                         quotes_data = json.loads(raw_text)
-                        # 驗證條件加入新參數 image_subject
                         if isinstance(quotes_data, list) and len(quotes_data) == 4 and "image_subject" in quotes_data[0]:
                             print(f"✅ 叩關成功！{endpoint} 輸出完美 JSON 格式。")
                             return quotes_data, today_str
