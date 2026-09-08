@@ -41,6 +41,7 @@ def generate_omniverse_data():
     ]
     chosen_styles = random.sample(styles, 4)
 
+    # 【宗師加固版 Prompt】：加厚防護網，確保算圖 100% 成功
     prompt = f"""
     你是「太極萬象日曆」的創世神。你的任務是生成 4 段極具「巴納姆效應」的生活散文。
     
@@ -52,10 +53,11 @@ def generate_omniverse_data():
     
     【🔥 極度重要：反審查與意象轉換守則 (Anti-Censorship & Metaphor)】
     前端將使用「Hyper-realistic raw photograph (極致寫實攝影)」來生成你指定的 `image_subject`。為了避免觸發 AI 繪圖的安全審查被封鎖，你必須遵守：
-    1. 絕對禁止出現「幼童、未成年、孩童」相關詞彙 (如: little boy, child, kid, little prince)。
-    2. 絕對禁止直接使用「版權角色與動漫名」 (如: Pikachu, Snoopy, Conan, Doraemon, Naruto)。
-    3. 必須「借物喻景」。如果抽到《小王子》，畫面主體請寫「玻璃罩內的一朵紅玫瑰」或「沙漠中的狐狸」；如果抽到《多啦A夢》，請寫「半開的木抽屜透出神秘藍光」；如果抽到《名偵探柯南》，請寫「掉落在犯罪現場的一副黑框眼鏡」；如果抽到《史努比》，請寫「一隻躺在紅色木屋頂上的小獵犬」。
-    4. 畫面描述必須是能夠被相機真實拍出來的「實體靜物、大自然、動物或成人背影」。
+    1. 絕對禁止出現「幼童、未成年、孩童」相關詞彙 (如: little boy, child, kid, little prince, boy, girl)。
+    2. 絕對禁止直接使用「版權角色與動漫名」 (如: Pikachu, Snoopy, Conan, Doraemon, Naruto, One Piece)。
+    3. 絕對禁止血腥、暴力、武器直白描述 (如: blood, kill, gun, corpse)。
+    4. 必須「借物喻景」。如果抽到《小王子》，畫面主體請寫「沙漠中的一朵被玻璃罩保護的紅玫瑰」；如果抽到《多啦A夢》，請寫「半開的木抽屜透出神秘藍光」；如果抽到《火影忍者》，請寫「插在樹幹上的苦無與飄落的樹葉」；如果抽到《史努比》，請寫「一隻躺在紅色木屋頂上的小獵犬剪影」。
+    5. 畫面描述必須是能夠被相機真實拍出來的「實體靜物、大自然、動物或成人背影」。
     
     【極度重要：嚴格 JSON 格式】：
     - 絕對不要輸出任何解釋、思考過程或 Markdown 標記以外的文字。
@@ -68,7 +70,7 @@ def generate_omniverse_data():
         "hashtag": "兩個字標籤",
         "do_action": "兩個字的宜行動",
         "dont_action": "兩個字的忌禁忌",
-        "image_subject": "一句簡短的英文，純描述符合上述『意象轉換守則』的靜物或風景（例如: A single red rose inside a glass dome under a starry night.）。純描述畫面，不要加相機參數。"
+        "image_subject": "一句簡短的英文，純描述符合上述『意象轉換守則』的靜物或風景（例如: A single red rose inside a glass dome under a starry night.）。請務必只用英文，純描述畫面，不要加相機參數。"
       }}
     ]
     """
