@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - True Omniverse Edition</title>
-    <script src="[https://unpkg.com/lunar-javascript/lunar.js](https://unpkg.com/lunar-javascript/lunar.js)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js](https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js)"></script>
+    <title>TAIJI Omniverse Calendar - Hyper-Realistic Edition</title>
+    <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        @import url('[https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap](https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap)');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
         
         :root {
             --paper-bg: #FDFBF7;
@@ -20,7 +20,7 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='[http://www.w3.org/2000/svg'%3E%3Cfilter](http://www.w3.org/2000/svg'%3E%3Cfilter) id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 25px; min-height: 100vh; display: flex; justify-content: center; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 25px; min-height: 100vh; display: flex; justify-content: center; }
         
         .container { max-width: 1600px; width: 100%; display: grid; grid-template-columns: 260px 1fr; gap: 25px; align-items: start; }
         @media (max-width: 1200px) { .container { grid-template-columns: 1fr; } }
@@ -117,6 +117,7 @@
             </div>
         </div>
         <div class="gallery-wrapper">
+            <!-- 容器 0 到 3 -->
             <div class="poster-card" id="card-0">
                 <div class="poster-label" id="label-0">🪐 宇宙一 <span>載入中...</span></div>
                 <div class="poster-wrapper" id="poster-0">
@@ -215,15 +216,10 @@
         </div>
     </div>
     <script>
-        // 【極簡化】：皮囊不再寫死任何分類，完全交由大腦 JSON 決定！
-        const quotesData = typeof [{"theme": "童趣奇蹟", "article": "你總覺得生活平凡無奇，但其實口袋裡早已悄悄裝滿了勇氣。就像翻開舊抽屜時，突然撞見那道能穿越時光的暖陽，微小奇蹟正等著你點頭。", "quote": "最普通的日常裡，其實藏著專屬於你的神奇道具。", "hashtag": "童心", "do_action": "探索", "dont_action": "漠視", "image_subject": "A blue wooden desk drawer open with glowing warm golden light pouring out from inside."}, {"theme": "蛛絲一念", "article": "凝視深淵的焦慮中，你是否常因他人的貪婪而心生絕望？別斬斷內心僅存的那根細絲，那一瞬的善意與寬恕，正是拯救你脫離泥濘的唯一曙光。", "quote": "斷絕惡意的瞬間，那條救贖的銀絲才真正緊握在你手中。", "hashtag": "慈悲", "do_action": "寬恕", "dont_action": "爭奪", "image_subject": "A single glistening silvery spider thread reaching down into a dark mist filled with faint shadows."}, {"theme": "玫瑰馴服", "article": "你每天花費的時間，讓你的生活變得如此重要。世界上雖然有成千上萬朵花，但只要你用心去感受，唯有你灌溉的那朵，能賦予你靈魂溫柔的答案。", "quote": "正是你為生活所浪費的時間，才讓它變得如此重要。", "hashtag": "馴服", "do_action": "傾聽", "dont_action": "盲從", "image_subject": "A single vibrant red rose inside a glass dome under a vast starry night sky."}, {"theme": "徹夜之誓", "article": "黑暗籠罩著長夜，所有人在懷疑中沉睡，唯有你獨自堅守著信念。當黎明破曉那一刻，太陽將洗盡痛苦，你的名字與堅持必隨榮耀高唱勝利。", "quote": "消失吧黑夜，當星星隱去之時，我終將踏著曙光贏得勝利。", "hashtag": "破曉", "do_action": "堅持", "dont_action": "動搖", "image_subject": "A solitary figure standing on a dark mountain peak watching the first golden rays of sunrise breaking through thunderclouds."}] !== 'undefined' ? [{"theme": "童趣奇蹟", "article": "你總覺得生活平凡無奇，但其實口袋裡早已悄悄裝滿了勇氣。就像翻開舊抽屜時，突然撞見那道能穿越時光的暖陽，微小奇蹟正等著你點頭。", "quote": "最普通的日常裡，其實藏著專屬於你的神奇道具。", "hashtag": "童心", "do_action": "探索", "dont_action": "漠視", "image_subject": "A blue wooden desk drawer open with glowing warm golden light pouring out from inside."}, {"theme": "蛛絲一念", "article": "凝視深淵的焦慮中，你是否常因他人的貪婪而心生絕望？別斬斷內心僅存的那根細絲，那一瞬的善意與寬恕，正是拯救你脫離泥濘的唯一曙光。", "quote": "斷絕惡意的瞬間，那條救贖的銀絲才真正緊握在你手中。", "hashtag": "慈悲", "do_action": "寬恕", "dont_action": "爭奪", "image_subject": "A single glistening silvery spider thread reaching down into a dark mist filled with faint shadows."}, {"theme": "玫瑰馴服", "article": "你每天花費的時間，讓你的生活變得如此重要。世界上雖然有成千上萬朵花，但只要你用心去感受，唯有你灌溉的那朵，能賦予你靈魂溫柔的答案。", "quote": "正是你為生活所浪費的時間，才讓它變得如此重要。", "hashtag": "馴服", "do_action": "傾聽", "dont_action": "盲從", "image_subject": "A single vibrant red rose inside a glass dome under a vast starry night sky."}, {"theme": "徹夜之誓", "article": "黑暗籠罩著長夜，所有人在懷疑中沉睡，唯有你獨自堅守著信念。當黎明破曉那一刻，太陽將洗盡痛苦，你的名字與堅持必隨榮耀高唱勝利。", "quote": "消失吧黑夜，當星星隱去之時，我終將踏著曙光贏得勝利。", "hashtag": "破曉", "do_action": "堅持", "dont_action": "動搖", "image_subject": "A solitary figure standing on a dark mountain peak watching the first golden rays of sunrise breaking through thunderclouds."}] : [
-            { do_action: "深呼吸", dont_action: "焦慮", quote: "生活是一場未知的旅程。", article: "請前往 GitHub 觸發大腦生成最新宇宙。", hashtag: "等待", theme: "系統預設", image_subject: "a quiet misty morning in a dense forest" },
-            { do_action: "喝茶", dont_action: "生氣", quote: "一切都是最好的安排。", article: "請前往 GitHub 觸發大腦生成最新宇宙。", hashtag: "等待", theme: "系統預設", image_subject: "a steaming cup of tea on a wooden table" },
-            { do_action: "散步", dont_action: "熬夜", quote: "慢慢走，比較快。", article: "請前往 GitHub 觸發大腦生成最新宇宙。", hashtag: "等待", theme: "系統預設", image_subject: "a beautiful golden retriever resting on a porch" },
-            { do_action: "放空", dont_action: "比較", quote: "做自己，世界就會為你讓路。", article: "請前往 GitHub 觸發大腦生成最新宇宙。", hashtag: "等待", theme: "系統預設", image_subject: "a panoramic view of a lush green valley" }
+        const quotesData = typeof [{"theme": "虹吸哲學", "article": "熱水咕嚕咕嚕上升又落下，像極了我那被鬧鐘反覆蹂躪的靈魂。反正方案改到第七版還是要重來，不如趁咖啡香氣飄散時，名正言順地發呆十分鐘。", "quote": "只要我躺得夠平，生活的耳光就只能扇到空氣。", "hashtag": "摸魚", "do_action": "放空", "dont_action": "內捲", "image_subject": "A steaming syphon coffee maker on a cluttered office desk next to a cat sleeping."}, {"theme": "銀絲微光", "article": "深淵頂端垂落的一縷月白，是黑暗給予世間最溫柔的慈悲。若你在此刻感到墜落的虛無，請握住這抹微光，即便脆弱如絲，也能渡你越過無邊荒原。", "quote": "在最深沉的暗夜裡，一滴清露便足以映照出整片銀河。", "hashtag": "救贖", "do_action": "凝視", "dont_action": "貪婪", "image_subject": "A single shimmering silver spider thread hanging from misty twilight into deep darkness."}, {"theme": "航向星圖", "article": "暴風雨撕裂帆布的那一刻，浩瀚汪洋才真正向靈魂敞開。巨浪不過是星辰推動潮汐的微小呼吸，我們以脊梁為桅桿，在大地盡頭航向那無人知曉的永恆自由。", "quote": "唯有敢於踏碎既定星軌的狂徒，方能在混沌中開闢自己的宇宙。", "hashtag": "破浪", "do_action": "啟程", "dont_action": "畏怯", "image_subject": "A majestic wooden pirate ship sailing through a cosmic nebula ocean of stars."}, {"theme": "微塵之境", "article": "一葉落，天地闊。微蟻聚沙，巨石亦動。萬物皆生於空無，亦歸於寂靜。莫問前路有多寬廣，腳下一步，便是一方乾坤。", "quote": "萬象紛擾隨它去，方寸微光映太虛。", "hashtag": "歸真", "do_action": "靜坐", "dont_action": "妄求", "image_subject": "Tiny colorful sprout creatures carrying a single pebble on a vast minimalist zen gravel floor."}] !== 'undefined' ? [{"theme": "虹吸哲學", "article": "熱水咕嚕咕嚕上升又落下，像極了我那被鬧鐘反覆蹂躪的靈魂。反正方案改到第七版還是要重來，不如趁咖啡香氣飄散時，名正言順地發呆十分鐘。", "quote": "只要我躺得夠平，生活的耳光就只能扇到空氣。", "hashtag": "摸魚", "do_action": "放空", "dont_action": "內捲", "image_subject": "A steaming syphon coffee maker on a cluttered office desk next to a cat sleeping."}, {"theme": "銀絲微光", "article": "深淵頂端垂落的一縷月白，是黑暗給予世間最溫柔的慈悲。若你在此刻感到墜落的虛無，請握住這抹微光，即便脆弱如絲，也能渡你越過無邊荒原。", "quote": "在最深沉的暗夜裡，一滴清露便足以映照出整片銀河。", "hashtag": "救贖", "do_action": "凝視", "dont_action": "貪婪", "image_subject": "A single shimmering silver spider thread hanging from misty twilight into deep darkness."}, {"theme": "航向星圖", "article": "暴風雨撕裂帆布的那一刻，浩瀚汪洋才真正向靈魂敞開。巨浪不過是星辰推動潮汐的微小呼吸，我們以脊梁為桅桿，在大地盡頭航向那無人知曉的永恆自由。", "quote": "唯有敢於踏碎既定星軌的狂徒，方能在混沌中開闢自己的宇宙。", "hashtag": "破浪", "do_action": "啟程", "dont_action": "畏怯", "image_subject": "A majestic wooden pirate ship sailing through a cosmic nebula ocean of stars."}, {"theme": "微塵之境", "article": "一葉落，天地闊。微蟻聚沙，巨石亦動。萬物皆生於空無，亦歸於寂靜。莫問前路有多寬廣，腳下一步，便是一方乾坤。", "quote": "萬象紛擾隨它去，方寸微光映太虛。", "hashtag": "歸真", "do_action": "靜坐", "dont_action": "妄求", "image_subject": "Tiny colorful sprout creatures carrying a single pebble on a vast minimalist zen gravel floor."}] : [
+            { do_action: "深呼吸", dont_action: "焦慮", quote: "生活是一場未知的旅程。", article: "請前往 GitHub 觸發大腦生成最新宇宙。", hashtag: "等待", theme: "系統預設", image_subject: "a quiet misty morning in a dense forest" }
         ]; 
         
-        // 全域配樂庫，隨機給予
         const musicPool = [
             { track: "The Lazy Song", artist: "Bruno Mars" },
             { track: "Here Comes The Sun", artist: "The Beatles" },
@@ -261,10 +257,7 @@
             setTimeout(() => { btnElement.innerHTML = originalText; }, 2000);
         }
 
-        function triggerTearAnimation() {
-            randomizeAll();
-        }
-
+        function triggerTearAnimation() { randomizeAll(); }
         function applyDateChange() { randomizeAll(); }
 
         function downloadPoster(wrapperId, btnElement) {
@@ -300,35 +293,39 @@
             return array;
         }
 
-        // 攝影宗師的破壞性算圖因子
         const disruptiveFactors = [
             "taken during golden hour", "cinematic lighting", "high contrast shadows", "soft pastel tones",
             "wide angle shot", "telephoto compression", "low angle perspective", "birds eye view",
             "shot on Kodak Portra 400", "shot on Fujifilm Velvia", "monochrome high contrast", "vintage polaroid look"
         ];
 
-        async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
-            const dObj = new Date(currentDate + "T00:00:00");
-            const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
+        function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
+            // 【修復 1：農曆精準解析，徹底解決查無資料】
+            const dateParts = currentDate.split('-');
+            const y = parseInt(dateParts[0], 10);
+            const m = parseInt(dateParts[1], 10);
+            const d = parseInt(dateParts[2], 10);
+            const dObj = new Date(y, m - 1, d); 
+            
             const dayStr = String(d).padStart(2, '0');
             const ymStr = `${y}.${String(m).padStart(2, '0')}`;
             const exactStarSign = getAstrologySign(m, d);
+            
             let lunarDisplay = "農曆查無資料";
             try {
                 if (typeof Lunar !== 'undefined') {
                     const lunar = Lunar.fromDate(dObj);
                     lunarDisplay = `農曆${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
                 }
-            } catch (e) {}
+            } catch (e) { console.error("Lunar error:", e); }
             
             document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><br>${lunarDisplay} ｜ ${exactStarSign}`;
 
-            // 只洗牌排版佈局
             let shuffledLayouts = shuffleArray(['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial']);
-            let renderQueue = [];
-
             const layoutNames = { 'layout-bottom': '經典沉底', 'layout-top': '天際懸浮', 'layout-center': '極致置中', 'layout-editorial': '日系直書' };
             const uniTitles = ['一', '二', '三', '四'];
+
+            let renderQueue = [];
 
             for (let i = 0; i < 4; i++) {
                 const layoutKey = shuffledLayouts[i];
@@ -338,14 +335,10 @@
                 const overlay = document.getElementById(`overlay-${i}`);
                 const label = document.getElementById(`label-${i}`);
 
-                if (mask) {
-                    mask.style.opacity = '1';
-                    mask.innerHTML = '<span>📸 宇宙觀測中...</span>';
-                }
+                if (mask) { mask.style.opacity = '1'; mask.innerHTML = '<span>📸 宇宙觀測中...</span>'; }
                 bgImg.src = ''; 
                 overlay.className = `poster-overlay ${layoutKey}`;
                 
-                // 完全聽從大腦指示
                 const quoteObj = quotesData[i] || quotesData[0];
                 const theme = quoteObj.theme || "未知宇宙";
                 const imageSubject = quoteObj.image_subject || "a peaceful beautiful landscape";
@@ -364,9 +357,8 @@
                 
                 const igMusic = getRandomItem(musicPool);
                 const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
-                
-                // 組合破壞性寫實攝影咒語
                 const randomDisruption = getRandomItem(disruptiveFactors);
+                
                 const fullMjPrompt = `A hyper-realistic raw photograph of ${imageSubject}, ${randomDisruption}, shot on 35mm lens, natural lighting, highly detailed --style raw --v 6.0 --ar 9:16`;
                 const safeUrlPrompt = encodeURIComponent(`Hyper-realistic raw photograph of ${imageSubject}, ${randomDisruption}, natural lighting`);
                 
@@ -382,37 +374,47 @@
                 renderQueue.push({ id: i, prompt: safeUrlPrompt });
             }
 
-            // 備用圖陣列洗牌
-            let fallbackImages = shuffleArray([
-                '[https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop)',
-                '[https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop)',
-                '[https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop)',
-                '[https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=720&auto=format&fit=crop)'
-            ]);
+            // 【修復 3：全非同步平行載入，解決超時與雷同備用圖】
+            renderQueue.forEach((target, index) => {
+                setTimeout(() => {
+                    const mask = document.getElementById(`mask-${target.id}`);
+                    const bgImg = document.getElementById(`bg-${target.id}`);
+                    if (mask) mask.innerHTML = '<span>✨ 宇宙顯影中...</span>';
 
-            for (let i = 0; i < renderQueue.length; i++) {
-                const target = renderQueue[i];
-                const mask = document.getElementById(`mask-${target.id}`);
-                const bgImg = document.getElementById(`bg-${target.id}`);
-                
-                if (mask) mask.innerHTML = '<span>✨ 顯影中...</span>';
-                
-                const randomSeed = Math.floor(Math.random() * 1000000);
-                const randomTime = new Date().getTime();
-                const imgUrl = `[https://image.pollinations.ai/prompt/$](https://image.pollinations.ai/prompt/$){target.prompt}?width=720&height=1280&nologo=true&seed=${randomSeed}&time=${randomTime}`;
-                
-                await new Promise((resolve) => {
-                    bgImg.onload = () => { if (mask) mask.style.opacity = '0'; resolve(); };
-                    bgImg.onerror = () => {
-                        if (mask) mask.innerHTML = '<span>⚠️ 啟用高畫質備用圖</span>';
-                        bgImg.src = fallbackImages[i];
-                        resolve();
+                    const randomSeed = Math.floor(Math.random() * 1000000);
+                    // 加上額外參數摧毀快取，確保張張不同
+                    const enhancedPrompt = target.prompt + encodeURIComponent(", 8k resolution, masterpiece");
+                    const imgUrl = `https://image.pollinations.ai/prompt/${enhancedPrompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
+
+                    let isResolved = false;
+
+                    bgImg.onload = () => { 
+                        if(isResolved) return;
+                        isResolved = true;
+                        if (mask) mask.style.opacity = '0'; 
                     };
+                    
+                    bgImg.onerror = () => {
+                        if(isResolved) return;
+                        isResolved = true;
+                        if (mask) mask.innerHTML = '<span>⚠️ 網路波動，備用對焦中...</span>';
+                        // 如果複雜咒語失敗，大腦直接改用純風景的安全咒語生成，確保張張寫實且絕不重複！
+                        const fallbackPrompt = encodeURIComponent("beautiful hyper-realistic nature landscape background, cinematic lighting");
+                        bgImg.src = `https://image.pollinations.ai/prompt/${fallbackPrompt}?width=720&height=1280&nologo=true&seed=${randomSeed + 1}`;
+                    };
+                    
                     bgImg.src = imgUrl;
-                });
-                
-                if (i < renderQueue.length - 1) await new Promise(r => setTimeout(r, 3500));
-            }
+
+                    // 12秒強制判斷
+                    setTimeout(() => {
+                        if(!isResolved) {
+                            isResolved = true;
+                            if (mask) mask.innerHTML = '<span>⚠️ 載入超時</span>';
+                        }
+                    }, 12000);
+
+                }, index * 1000); // 僅間隔 1 秒，4 張圖在 4 秒內全部發出請求
+            });
         }
 
         window.onload = function() { 
