@@ -113,12 +113,12 @@
                 <strong>載入中...</strong><br>農曆資料計算中
             </div>
             <div style="font-size: 0.75rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
-                ✨ 已切換至<b>高純度寫實模式</b>。四張海報將依序載入以確保畫質與伺服器穩定。
+                ✨ 已啟動<b>強制定錨模式</b>。保證文圖相符，且每次重整畫面皆提供破壞性寫實構圖。
             </div>
         </div>
         <div class="gallery-wrapper">
             <div class="poster-card" id="card-0">
-                <div class="poster-label" id="label-0">🪐 宇宙一 <span>載入中...</span></div>
+                <div class="poster-label" id="label-0">🪐 宇宙一：日常 <span>載入中...</span></div>
                 <div class="poster-wrapper" id="poster-0">
                     <div class="html-poster">
                         <div class="loading-mask" id="mask-0"><span>📸 宇宙觀測中...</span></div>
@@ -142,7 +142,7 @@
             </div>
             
             <div class="poster-card" id="card-1">
-                <div class="poster-label" id="label-1">🪐 宇宙二 <span>載入中...</span></div>
+                <div class="poster-label" id="label-1">🪐 宇宙二：療癒 <span>載入中...</span></div>
                 <div class="poster-wrapper" id="poster-1">
                     <div class="html-poster">
                         <div class="loading-mask" id="mask-1"><span>等候算圖...</span></div>
@@ -166,7 +166,7 @@
             </div>
 
             <div class="poster-card" id="card-2">
-                <div class="poster-label" id="label-2">🪐 宇宙三 <span>載入中...</span></div>
+                <div class="poster-label" id="label-2">🪐 宇宙三：史詩 <span>載入中...</span></div>
                 <div class="poster-wrapper" id="poster-2">
                     <div class="html-poster">
                         <div class="loading-mask" id="mask-2"><span>等候算圖...</span></div>
@@ -190,7 +190,7 @@
             </div>
 
             <div class="poster-card" id="card-3">
-                <div class="poster-label" id="label-3">🪐 宇宙四 <span>載入中...</span></div>
+                <div class="poster-label" id="label-3">🪐 宇宙四：禪意 <span>載入中...</span></div>
                 <div class="poster-wrapper" id="poster-3">
                     <div class="html-poster">
                         <div class="loading-mask" id="mask-3"><span>等候算圖...</span></div>
@@ -217,13 +217,6 @@
     <script>
         const quotesData = typeof __QUOTES_JS__ !== 'undefined' ? __QUOTES_JS__ : []; 
         
-        const localExpansionQuotes = [
-            { style: "躺平無罪", article: "有時候覺得進度就像讀不完的進度條，卡在99%。", q: "就算天塌下來，也要等我睡醒再說。", p: "躺平哲學", do: "關靜音", dont: "設鬧鐘" },
-            { style: "微小幸運", article: "下雨天遇見一隻不怕人的小野貓。", q: "這份柔軟的溫度，足夠我抵擋整個世界的堅硬。", p: "吸貓日常", do: "買罐罐", dont: "趕路" },
-            { style: "浩瀚宇宙", article: "從山頂往下看，煩惱變得很小。", q: "世界這麼大，何必把自己困在三坪的辦公室裡。", p: "放寬心", do: "深呼吸", dont: "鑽牛角尖" },
-            { style: "禪意留白", article: "花時間觀察一滴水的形狀，也是一種收穫。", q: "不一定要做大洋裡的鯨魚，做一片葉子上的露水也很好。", p: "安於平凡", do: "觀察", dont: "比較" }
-        ];
-
         const omniverseMatrix = {
             worklife: {
                 basePrompt: "A hyper-realistic raw photograph of",
@@ -250,30 +243,6 @@
                 music: [{ track: "Nuvole Bianche", artist: "Ludovico Einaudi", yt_id: "kcihcYEOeic" }]
             }
         };
-
-        const parsedMatrix = {
-            worklife: { quotes: [] }, animals: { quotes: [] }, epic_nature: { quotes: [] }, macro_zen: { quotes: [] }
-        };
-
-        function injectQuotesToMatrix() {
-            let allAvailableQuotes = [...localExpansionQuotes];
-            if (Array.isArray(quotesData)) allAvailableQuotes = allAvailableQuotes.concat(quotesData);
-            else if (quotesData && quotesData.style) allAvailableQuotes.push(quotesData);
-            
-            allAvailableQuotes.forEach(q => {
-                let style = q.style || "";
-                if (["躺平無罪", "極致反差", "滿血復活"].includes(style)) parsedMatrix.worklife.quotes.push(q);
-                else if (["微小幸運", "童話角落"].includes(style)) parsedMatrix.animals.quotes.push(q);
-                else if (["浩瀚宇宙"].includes(style)) parsedMatrix.epic_nature.quotes.push(q);
-                else if (["人間清醒", "禪意留白"].includes(style)) parsedMatrix.macro_zen.quotes.push(q);
-                else parsedMatrix.worklife.quotes.push(q);
-            });
-
-            if(parsedMatrix.worklife.quotes.length === 0) parsedMatrix.worklife.quotes.push(localExpansionQuotes[0]);
-            if(parsedMatrix.animals.quotes.length === 0) parsedMatrix.animals.quotes.push(localExpansionQuotes[1]);
-            if(parsedMatrix.epic_nature.quotes.length === 0) parsedMatrix.epic_nature.quotes.push(localExpansionQuotes[2]);
-            if(parsedMatrix.macro_zen.quotes.length === 0) parsedMatrix.macro_zen.quotes.push(localExpansionQuotes[3]);
-        }
 
         function getAstrologySign(month, day) {
             if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "♈ 牡羊座";
@@ -303,10 +272,6 @@
         }
 
         function triggerTearAnimation() {
-            const dateInput = document.getElementById('ui-date-picker');
-            let currentDate = new Date(dateInput.value);
-            currentDate.setDate(currentDate.getDate() + 1);
-            dateInput.value = currentDate.toISOString().split('T')[0];
             randomizeAll();
         }
 
@@ -345,7 +310,13 @@
             return array;
         }
 
-        // 🔥 宗師級防彈影像載入引擎
+        // 攝影宗師的破壞性算圖因子
+        const disruptiveFactors = [
+            "taken during golden hour", "cinematic lighting", "high contrast shadows", "soft pastel tones",
+            "wide angle shot", "telephoto compression", "low angle perspective", "birds eye view",
+            "shot on Kodak Portra 400", "shot on Fujifilm Velvia", "monochrome high contrast", "vintage polaroid look"
+        ];
+
         async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
             const dObj = new Date(currentDate + "T00:00:00");
             const y = dObj.getFullYear(); const m = dObj.getMonth() + 1; const d = dObj.getDate();
@@ -362,12 +333,16 @@
             
             document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><br>${lunarDisplay} ｜ ${exactStarSign}`;
 
-            let shuffledCategories = shuffleArray(['worklife', 'animals', 'epic_nature', 'macro_zen']);
+            // 手術 A：取消主題洗牌，強制綁定順序 (0:worklife, 1:animals, 2:epic, 3:macro)
+            const strictCategories = ['worklife', 'animals', 'epic_nature', 'macro_zen'];
+            const categoryNames = { 'worklife': '日常', 'animals': '療癒', 'epic_nature': '史詩', 'macro_zen': '禪意' };
+            
+            // 只有排版允許洗牌
             let shuffledLayouts = shuffleArray(['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial']);
             let renderQueue = [];
 
             for (let i = 0; i < 4; i++) {
-                const catKey = shuffledCategories[i];
+                const catKey = strictCategories[i];
                 const layoutKey = shuffledLayouts[i];
                 const wrapper = document.getElementById(`card-${i}`);
                 const mask = document.getElementById(`mask-${i}`);
@@ -382,7 +357,6 @@
                 bgImg.src = ''; 
                 overlay.className = `poster-overlay ${layoutKey}`;
 
-                const categoryNames = { 'worklife': '日常', 'animals': '療癒', 'epic_nature': '史詩', 'macro_zen': '禪意' };
                 const layoutNames = { 'layout-bottom': '經典沉底', 'layout-top': '天際懸浮', 'layout-center': '極致置中', 'layout-editorial': '日系直書' };
                 const uniTitles = ['一', '二', '三', '四'];
                 
@@ -390,6 +364,7 @@
 
                 const matrix = omniverseMatrix[catKey];
                 
+                // 確保對應大腦傳來的 JSON (index 必須吻合)
                 let quoteObj = { do_action: "呼吸", dont_action: "焦慮", quote: "努力活著。", article: "", hashtag: "日常碎片" };
                 if (quotesData && quotesData.length === 4) {
                     quoteObj = quotesData[i];
@@ -410,8 +385,11 @@
                 const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
                 const subjectStr = getRandomItem(matrix.subjects);
                 
-                const fullMjPrompt = `${matrix.basePrompt} ${subjectStr}, ${matrix.modifiers} --style raw --v 6.0 --ar 9:16`;
-                const safeUrlPrompt = encodeURIComponent(`Hyper-realistic raw photograph, ${subjectStr}, natural lighting`);
+                // 手術 B：注入破壞性算圖因子，強迫 AI 產生不同構圖
+                const randomDisruption = getRandomItem(disruptiveFactors);
+                
+                const fullMjPrompt = `${matrix.basePrompt} ${subjectStr}, ${randomDisruption}, ${matrix.modifiers} --style raw --v 6.0 --ar 9:16`;
+                const safeUrlPrompt = encodeURIComponent(`Hyper-realistic raw photograph, ${subjectStr}, ${randomDisruption}, natural lighting`);
                 
                 const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
                 
@@ -422,16 +400,14 @@
                 wrapper.querySelector('.p-lunar').innerText = lunarDisplay;
                 wrapper.querySelector('.p-quote').innerText = `「${quoteText}」`;
                 
-                // 將 catKey 也存入 Queue，用來決定如果算圖失敗時要顯示哪張「專屬高畫質備用圖」
                 renderQueue.push({ id: i, prompt: safeUrlPrompt, catKey: catKey });
             }
 
-            // 🔥 攝影宗師嚴選：四種主題的專屬高畫質寫實備用圖 (取代原本千篇一律的紫色背景)
             const fallbackImages = {
-                'worklife': 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop', // 寫實咖啡桌
-                'animals': 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop',  // 寫實貓咪
-                'epic_nature': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop', // 寫實高山
-                'macro_zen': 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=720&auto=format&fit=crop'  // 寫實微距植物
+                'worklife': 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop',
+                'animals': 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop',
+                'epic_nature': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop',
+                'macro_zen': 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=720&auto=format&fit=crop'
             };
 
             for (let i = 0; i < renderQueue.length; i++) {
@@ -440,27 +416,27 @@
                 const bgImg = document.getElementById(`bg-${target.id}`);
                 
                 if (mask) mask.innerHTML = '<span>✨ 顯影中...</span>';
+                
+                // 增加雙重隨機數，確保快取失效
                 const randomSeed = Math.floor(Math.random() * 1000000);
-                const imgUrl = `https://image.pollinations.ai/prompt/${target.prompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
+                const randomTime = new Date().getTime();
+                const imgUrl = `https://image.pollinations.ai/prompt/${target.prompt}?width=720&height=1280&nologo=true&seed=${randomSeed}&time=${randomTime}`;
                 
                 await new Promise((resolve) => {
                     bgImg.onload = () => { if (mask) mask.style.opacity = '0'; resolve(); };
                     bgImg.onerror = () => {
-                        // 當 AI 算圖伺服器過載時，無縫切換至該宇宙的「專屬真實攝影圖」
-                        if (mask) mask.innerHTML = '<span>⚠️ 載入超時，啟用高畫質備用圖</span>';
+                        if (mask) mask.innerHTML = '<span>⚠️ 啟用高畫質備用圖</span>';
                         bgImg.src = fallbackImages[target.catKey];
                         resolve();
                     };
                     bgImg.src = imgUrl;
                 });
                 
-                // 網路宗師建議：拉長等待時間至 3.5 秒，確保免費伺服器不會把我們判定為惡意攻擊
                 if (i < renderQueue.length - 1) await new Promise(r => setTimeout(r, 3500));
             }
         }
 
         window.onload = function() { 
-            injectQuotesToMatrix();
             if(!document.getElementById('ui-date-picker').value || document.getElementById('ui-date-picker').value === "__PAYLOAD_DATE__") {
                 const today = new Date();
                 document.getElementById('ui-date-picker').value = today.toISOString().split('T')[0];
