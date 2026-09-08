@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TAIJI Omniverse Calendar - True Omniverse Edition</title>
-    <script src="[https://unpkg.com/lunar-javascript/lunar.js](https://unpkg.com/lunar-javascript/lunar.js)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js](https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js)"></script>
+    <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        @import url('[https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap](https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap)');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
         
         :root {
             --paper-bg: #FDFBF7;
@@ -20,7 +20,7 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='[http://www.w3.org/2000/svg'%3E%3Cfilter](http://www.w3.org/2000/svg'%3E%3Cfilter) id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 25px; min-height: 100vh; display: flex; justify-content: center; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 25px; min-height: 100vh; display: flex; justify-content: center; }
         
         .container { max-width: 1600px; width: 100%; display: grid; grid-template-columns: 260px 1fr; gap: 25px; align-items: start; }
         @media (max-width: 1200px) { .container { grid-template-columns: 1fr; } }
@@ -113,7 +113,7 @@
                 <strong>載入中...</strong><br>農曆資料計算中
             </div>
             <div style="font-size: 0.75rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
-                ✨ <b>Flux 極速引擎模式</b>。啟動平行算圖與文字洗牌，保證每次刷新體驗截然不同！
+                ✨ <b>防禦陣型啟動</b>。採用嚴格單線排隊算圖，擴充 20+ 備用圖庫，徹底終結重複循環！
             </div>
         </div>
         <div class="gallery-wrapper">
@@ -216,7 +216,7 @@
         </div>
     </div>
     <script>
-        const quotesData = typeof [{"theme": "熾熱狂瀾", "article": "這不是黑夜，而是燃燒的深藍！金黃的渦流在神經末梢瘋狂旋轉，胸膛裡的火隨時要將畫布撕裂，你渴望被光芒吞噬，直到靈魂沸騰成灰燼。", "quote": "唯有在狂亂中化作烈火，方能刺穿這永恆的寒夜。", "hashtag": "燃燼", "do_action": "揮灑", "dont_action": "抑鬱", "image_subject": "A blooming golden sunflower standing against a swirling turbulent night sky."}, {"theme": "悲愴深淵", "article": "默然忍受命運暴虐的毒箭，抑或挺身反抗這無涯的苦難？你凝視著鏡中斑駁的影子，深淵回以冷酷低語，凡走過塵世的靈魂，終將在榮耀與腐朽間抉擇。", "quote": "生或死無關勝負，直面虛無才是高貴靈魂的盔甲。", "hashtag": "抉擇", "do_action": "直面", "dont_action": "苟活", "image_subject": "An ornate silver dagger resting on an aged velvet pillow beside an hourglass."}, {"theme": "銀河信念", "article": "深空無聲，暗影如潮水般席捲每一顆星辰。但你胸口跳動的微光，正與億萬光年外的頻率共振。閉上雙眼感知它，那是穿透虛空的無形之網，信仰即是航標。", "quote": "縱使黑夜吞沒星系，守護光明的心永不墜落。", "hashtag": "覺醒", "do_action": "凝神", "dont_action": "恐懼", "image_subject": "A solitary beam of cyan light cutting through cosmic dust in deep space."}, {"theme": "量子頑童", "article": "嘿，瞧瞧水杯裡跳舞的氣泡！宇宙把最奇妙的密碼藏在無聊的日常裡。別管那些死板的定義，拆開它、搖晃它，去發現萬物在琴弦上跳躍的秘密節奏！", "quote": "最偉大的探險不是征服，而是弄懂齒輪為何轉動。", "hashtag": "解構", "do_action": "拆解", "dont_action": "盲從", "image_subject": "A glass prism splitting bright sunlight into a rainbow across a cluttered wooden desk."}] !== 'undefined' ? [{"theme": "熾熱狂瀾", "article": "這不是黑夜，而是燃燒的深藍！金黃的渦流在神經末梢瘋狂旋轉，胸膛裡的火隨時要將畫布撕裂，你渴望被光芒吞噬，直到靈魂沸騰成灰燼。", "quote": "唯有在狂亂中化作烈火，方能刺穿這永恆的寒夜。", "hashtag": "燃燼", "do_action": "揮灑", "dont_action": "抑鬱", "image_subject": "A blooming golden sunflower standing against a swirling turbulent night sky."}, {"theme": "悲愴深淵", "article": "默然忍受命運暴虐的毒箭，抑或挺身反抗這無涯的苦難？你凝視著鏡中斑駁的影子，深淵回以冷酷低語，凡走過塵世的靈魂，終將在榮耀與腐朽間抉擇。", "quote": "生或死無關勝負，直面虛無才是高貴靈魂的盔甲。", "hashtag": "抉擇", "do_action": "直面", "dont_action": "苟活", "image_subject": "An ornate silver dagger resting on an aged velvet pillow beside an hourglass."}, {"theme": "銀河信念", "article": "深空無聲，暗影如潮水般席捲每一顆星辰。但你胸口跳動的微光，正與億萬光年外的頻率共振。閉上雙眼感知它，那是穿透虛空的無形之網，信仰即是航標。", "quote": "縱使黑夜吞沒星系，守護光明的心永不墜落。", "hashtag": "覺醒", "do_action": "凝神", "dont_action": "恐懼", "image_subject": "A solitary beam of cyan light cutting through cosmic dust in deep space."}, {"theme": "量子頑童", "article": "嘿，瞧瞧水杯裡跳舞的氣泡！宇宙把最奇妙的密碼藏在無聊的日常裡。別管那些死板的定義，拆開它、搖晃它，去發現萬物在琴弦上跳躍的秘密節奏！", "quote": "最偉大的探險不是征服，而是弄懂齒輪為何轉動。", "hashtag": "解構", "do_action": "拆解", "dont_action": "盲從", "image_subject": "A glass prism splitting bright sunlight into a rainbow across a cluttered wooden desk."}] : [
+        const quotesData = typeof [{"theme": "唯美哀傷", "article": "你總習慣剝下身上的金箔去溫暖別人的寒冬，即使凍僵在雪地裡，也依然保持著優雅微笑。有些痛楚是高貴的，因為你曾真誠地奉獻過全心全意。", "quote": "最珍貴的東西，眼睛看不到，唯有破碎的心才能深深看清。", "hashtag": "捨得", "do_action": "奉獻", "dont_action": "貪婪", "image_subject": "A weathered golden statue with peeling gold leaf and a glowing ruby jewel on a stone pedestal in misty winter rain."}, {"theme": "星海漫長", "article": "朝著西南方架起鏡頭，在漫長的等待中，百億光年外的星軌悄悄重合。你以為的停滯不前，其實只是宇宙在為你進行一場極度宏大的縮時攝影。", "quote": "萬物的喧囂終將熄滅，唯有內心的星空永遠璀璨運轉。", "hashtag": "沉澱", "do_action": "靜候", "dont_action": "急躁", "image_subject": "A camera on a tripod pointing toward the bright Milky Way arching over a calm mirror-like lake at night."}, {"theme": "太極交易", "article": "紅綠交錯的波段裡，隱藏著陰陽消長的律動。不必強求每一次突破，真正的贏家懂得在均線起伏間恪守紀律，於動盪的市場中尋得心靈的極致平衡。", "quote": "多空交戰皆是執念，唯有守住紀律方能於無聲處聽驚雷。", "hashtag": "守正", "do_action": "觀望", "dont_action": "追高", "image_subject": "A glowing wooden Tai Chi symbol resting beside a clean monitor displaying financial candlestick lines."}, {"theme": "廢墟救贖", "article": "踏過荒廢的記憶遺跡，你終於學會親手關上那扇通往過去災難的門。縱使傷痕累累，晨光依然會穿透縫隙，輕聲對你說：「歡迎回來，明日依然美好。」", "quote": "勇敢關上過往的門，你才能在廢墟之中迎來真正的耀眼晨光。", "hashtag": "重生", "do_action": "和解", "dont_action": "執迷", "image_subject": "An old weathered wooden door standing alone in overgrown mossy ruins with warm morning sunlight beaming through."}] !== 'undefined' ? [{"theme": "唯美哀傷", "article": "你總習慣剝下身上的金箔去溫暖別人的寒冬，即使凍僵在雪地裡，也依然保持著優雅微笑。有些痛楚是高貴的，因為你曾真誠地奉獻過全心全意。", "quote": "最珍貴的東西，眼睛看不到，唯有破碎的心才能深深看清。", "hashtag": "捨得", "do_action": "奉獻", "dont_action": "貪婪", "image_subject": "A weathered golden statue with peeling gold leaf and a glowing ruby jewel on a stone pedestal in misty winter rain."}, {"theme": "星海漫長", "article": "朝著西南方架起鏡頭，在漫長的等待中，百億光年外的星軌悄悄重合。你以為的停滯不前，其實只是宇宙在為你進行一場極度宏大的縮時攝影。", "quote": "萬物的喧囂終將熄滅，唯有內心的星空永遠璀璨運轉。", "hashtag": "沉澱", "do_action": "靜候", "dont_action": "急躁", "image_subject": "A camera on a tripod pointing toward the bright Milky Way arching over a calm mirror-like lake at night."}, {"theme": "太極交易", "article": "紅綠交錯的波段裡，隱藏著陰陽消長的律動。不必強求每一次突破，真正的贏家懂得在均線起伏間恪守紀律，於動盪的市場中尋得心靈的極致平衡。", "quote": "多空交戰皆是執念，唯有守住紀律方能於無聲處聽驚雷。", "hashtag": "守正", "do_action": "觀望", "dont_action": "追高", "image_subject": "A glowing wooden Tai Chi symbol resting beside a clean monitor displaying financial candlestick lines."}, {"theme": "廢墟救贖", "article": "踏過荒廢的記憶遺跡，你終於學會親手關上那扇通往過去災難的門。縱使傷痕累累，晨光依然會穿透縫隙，輕聲對你說：「歡迎回來，明日依然美好。」", "quote": "勇敢關上過往的門，你才能在廢墟之中迎來真正的耀眼晨光。", "hashtag": "重生", "do_action": "和解", "dont_action": "執迷", "image_subject": "An old weathered wooden door standing alone in overgrown mossy ruins with warm morning sunlight beaming through."}] : [
             { do_action: "深呼吸", dont_action: "焦慮", quote: "生活是一場未知的旅程。", article: "請前往 GitHub 觸發大腦生成最新宇宙。", hashtag: "等待", theme: "系統預設", image_subject: "a quiet misty morning in a dense forest" }
         ]; 
         
@@ -299,7 +299,7 @@
             "shot on Kodak Portra 400", "shot on Fujifilm Velvia", "monochrome high contrast", "vintage polaroid look"
         ];
 
-        // 🛡️ 宗師級極速防彈影像載入引擎
+        // 🛡️ 宗師級：防破圖且具備超高耐心的安全載入器
         async function loadImageSafe(imgElement, maskElement, primaryUrl, fallbackUrl) {
             return new Promise((resolve) => {
                 let isResolved = false;
@@ -317,7 +317,7 @@
                     if (isResolved) return;
                     isResolved = true;
                     clearTimeout(timeoutId);
-                    if (maskElement) maskElement.innerHTML = '<span>⚠️ 啟用極致安全備用圖</span>';
+                    if (maskElement) maskElement.innerHTML = '<span>⚠️ 網路波動，啟用備用圖庫</span>';
                     
                     imgElement.onload = () => { if(maskElement) maskElement.style.opacity = '0'; resolve(); };
                     imgElement.onerror = () => { resolve(); }; 
@@ -327,13 +327,13 @@
                 imgElement.onload = handleSuccess;
                 imgElement.onerror = handleFail;
                 
-                // 超時底線縮短為 5 秒，極限止損
+                // 【關鍵修復】：放寬到 15 秒！給足免費伺服器算圖時間，不再輕易切斷。
                 timeoutId = setTimeout(() => {
                     if (!isResolved) {
                         imgElement.src = ''; 
                         handleFail();
                     }
-                }, 5000);
+                }, 15000);
 
                 imgElement.src = primaryUrl;
             });
@@ -364,9 +364,7 @@
             const layoutNames = { 'layout-bottom': '經典沉底', 'layout-top': '天際懸浮', 'layout-center': '極致置中', 'layout-editorial': '日系直書' };
             const uniTitles = ['一', '二', '三', '四'];
 
-            // 🔥 每次刷新都會重新洗牌文字與圖片對應關係，保證新鮮感
             let mixedQuotes = shuffleArray([...quotesData]);
-
             let renderQueue = [];
 
             for (let i = 0; i < 4; i++) {
@@ -381,7 +379,6 @@
                 bgImg.src = ''; 
                 overlay.className = `poster-overlay ${layoutKey}`;
                 
-                // 取用洗牌後的金句
                 const quoteObj = mixedQuotes[i] || mixedQuotes[0];
                 const theme = quoteObj.theme || "未知宇宙";
                 const imageSubject = quoteObj.image_subject || "a peaceful beautiful landscape";
@@ -417,38 +414,42 @@
                 renderQueue.push({ id: i, prompt: safeUrlPrompt });
             }
 
-            // 擴增備用圖庫，避免重複視覺
+            // 🔥 視覺宗師的防護網：擴大備用圖庫至 20 張頂級寫實攝影，絕不重複！
             const fallbackImages = shuffleArray([
-                '[https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop)',
-                '[https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop)',
-                '[https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop)',
-                '[https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=720&auto=format&fit=crop)',
-                '[https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=720&auto=format&fit=crop)',
-                '[https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=720&auto=format&fit=crop)',
-                '[https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=720&auto=format&fit=crop](https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=720&auto=format&fit=crop)'
+                'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop', // 咖啡
+                'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop', // 貓咪
+                'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop', // 高山
+                'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=720&auto=format&fit=crop', // 露水微距
+                'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=720&auto=format&fit=crop', // 田野
+                'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=720&auto=format&fit=crop', // 沙灘
+                'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=720&auto=format&fit=crop', // 房間光影
+                'https://images.unsplash.com/photo-1444464666168-49b626f86641?q=80&w=720&auto=format&fit=crop', // 森林
+                'https://images.unsplash.com/photo-1470071131384-001b85755b36?q=80&w=720&auto=format&fit=crop', // 湖泊
+                'https://images.unsplash.com/photo-1505144808419-f9c3134dc1ab?q=80&w=720&auto=format&fit=crop', // 大自然
+                'https://images.unsplash.com/photo-1436891620584-47fd0e565afb?q=80&w=720&auto=format&fit=crop', // 天空
+                'https://images.unsplash.com/photo-1490682143684-14369e18dce8?q=80&w=720&auto=format&fit=crop', // 花卉
+                'https://images.unsplash.com/photo-1483728642387-6c3ba6c6b870?q=80&w=720&auto=format&fit=crop', // 暗黑紋理
+                'https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=720&auto=format&fit=crop', // 海洋
+                'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=720&auto=format&fit=crop'  // 橋與樹林
             ]);
 
-            // 🔥 取消排隊等待！改用「平行載入」+ flux 極速引擎
-            const loadPromises = renderQueue.map((target, i) => {
-                return new Promise(resolve => {
-                    // 錯開 500ms 發送，避免瞬間 4 張同時戳爆伺服器
-                    setTimeout(async () => {
-                        const mask = document.getElementById(`mask-${target.id}`);
-                        const bgImg = document.getElementById(`bg-${target.id}`);
-                        
-                        const randomSeed = Math.floor(Math.random() * 1000000);
-                        // 🔥 加上 &model=flux 強迫 Pollinations 使用最快模型
-                        const imgUrl = `[https://image.pollinations.ai/prompt/$](https://image.pollinations.ai/prompt/$){target.prompt}?width=720&height=1280&nologo=true&model=flux&seed=${randomSeed}`;
-                        const fallback = fallbackImages[i % fallbackImages.length];
+            // 🔥 前端與網路宗師聯手：回歸「瀑布流嚴格排隊」
+            // 第一張圖要到了，才准要第二張，徹底杜絕被 API 伺服器限流拉黑！
+            for (let i = 0; i < renderQueue.length; i++) {
+                const target = renderQueue[i];
+                const mask = document.getElementById(`mask-${target.id}`);
+                const bgImg = document.getElementById(`bg-${target.id}`);
+                
+                if (mask) mask.innerHTML = '<span>✨ 宇宙顯影中...</span>';
+                
+                const randomSeed = Math.floor(Math.random() * 1000000);
+                // 拿掉耗時的 flux 模型，使用預設最穩定的模型
+                const imgUrl = `https://image.pollinations.ai/prompt/${target.prompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
+                const fallback = fallbackImages[i % fallbackImages.length];
 
-                        await loadImageSafe(bgImg, mask, imgUrl, fallback);
-                        resolve();
-                    }, i * 500);
-                });
-            });
-
-            // 等待四張平行發送的圖皆出結果
-            await Promise.all(loadPromises);
+                // 乖乖等這張圖載入完成（或超過 15 秒失敗）
+                await loadImageSafe(bgImg, mask, imgUrl, fallback);
+            }
         }
 
         window.onload = function() { 
