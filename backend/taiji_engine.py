@@ -41,16 +41,21 @@ def generate_omniverse_data():
     ]
     chosen_styles = random.sample(styles, 4)
 
-    # 【修復 2：賦予靈魂語氣，徹底終結文字雷同】
     prompt = f"""
     你是「太極萬象日曆」的創世神。你的任務是生成 4 段極具「巴納姆效應」的生活散文。
     
-    為了讓 4 個宇宙的文字擁有「極端不同的個性」，避免讀起來像同一個人寫的，請嚴格套用以下語氣：
+    為了讓 4 個宇宙的文字擁有「極端不同的個性」，請嚴格套用以下語氣：
+    1. 宇宙一：【{chosen_styles[0]}】。
+    2. 宇宙二：【{chosen_styles[1]}】。
+    3. 宇宙三：【{chosen_styles[2]}】。
+    4. 宇宙四：【{chosen_styles[3]}】。
     
-    1. 宇宙一：【{chosen_styles[0]}】。語氣要求：👉「幽默、自嘲、帶點現代社畜的無奈與慵懶」。
-    2. 宇宙二：【{chosen_styles[1]}】。語氣要求：👉「極度唯美、詩意、溫柔治癒，像一首散文詩」。
-    3. 宇宙三：【{chosen_styles[2]}】。語氣要求：👉「磅礡、史詩感、充滿大自然或宇宙的敬畏與哲學思辨」。
-    4. 宇宙四：【{chosen_styles[3]}】。語氣要求：👉「冷靜、極簡、充滿東方禪意、一針見血的留白」。
+    【🔥 極度重要：反審查與意象轉換守則 (Anti-Censorship & Metaphor)】
+    前端將使用「Hyper-realistic raw photograph (極致寫實攝影)」來生成你指定的 `image_subject`。為了避免觸發 AI 繪圖的安全審查被封鎖，你必須遵守：
+    1. 絕對禁止出現「幼童、未成年、孩童」相關詞彙 (如: little boy, child, kid, little prince)。
+    2. 絕對禁止直接使用「版權角色與動漫名」 (如: Pikachu, Snoopy, Conan, Doraemon, Naruto)。
+    3. 必須「借物喻景」。如果抽到《小王子》，畫面主體請寫「玻璃罩內的一朵紅玫瑰」或「沙漠中的狐狸」；如果抽到《多啦A夢》，請寫「半開的木抽屜透出神秘藍光」；如果抽到《名偵探柯南》，請寫「掉落在犯罪現場的一副黑框眼鏡」；如果抽到《史努比》，請寫「一隻躺在紅色木屋頂上的小獵犬」。
+    4. 畫面描述必須是能夠被相機真實拍出來的「實體靜物、大自然、動物或成人背影」。
     
     【極度重要：嚴格 JSON 格式】：
     - 絕對不要輸出任何解釋、思考過程或 Markdown 標記以外的文字。
@@ -63,7 +68,7 @@ def generate_omniverse_data():
         "hashtag": "兩個字標籤",
         "do_action": "兩個字的宜行動",
         "dont_action": "兩個字的忌禁忌",
-        "image_subject": "一句簡短的英文，描述與這段文字意境相符的畫面主體（如：A lonely swordsman under a red moon.）。純描述畫面，不要加相機參數。"
+        "image_subject": "一句簡短的英文，純描述符合上述『意象轉換守則』的靜物或風景（例如: A single red rose inside a glass dome under a starry night.）。純描述畫面，不要加相機參數。"
       }}
     ]
     """
@@ -82,7 +87,6 @@ def generate_omniverse_data():
         "v1beta/models/gemini-3.6-flash"
     ]
     
-    # API 連線與重試機制：【保證絕對原樣，一字未改】
     for endpoint in candidate_endpoints:
         url = f"https://generativelanguage.googleapis.com/{endpoint}:generateContent?key={api_key}"
         req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
