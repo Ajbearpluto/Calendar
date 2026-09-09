@@ -14,11 +14,10 @@ def generate_omniverse_data():
     tz = datetime.timezone(datetime.timedelta(hours=8))
     today_str = datetime.datetime.now(tz).strftime('%Y-%m-%d')
 
-    print(f"🌌 正在為 {today_str} 進行量子文學創世運算...")
+    print(f"🌌 正在為 {today_str} 進行量子文學創世運算 (12重宇宙擴容版)...")
 
     # 【太極萬象庫：120 重平行宇宙】
     styles = [
-        # 卷一：指揮官的初始宇宙（1-21）
         "奧斯卡·王爾德《快樂王子》的無私與唯美哀傷",
         "赫曼·赫塞《流浪者之歌》的東方求道與萬物圓融",
         "紀伯倫《先知》如散文詩般的通透人生智慧",
@@ -40,8 +39,6 @@ def generate_omniverse_data():
         "普契尼歌劇《公主徹夜未眠》那種在深夜裡堅持與盼望的壯麗",
         "如同一杯現煮的虹吸式咖啡，在緩慢萃取的等待中體悟的禪意",
         "現代都會社畜的「躺平無罪」與「人間清醒」幹話哲學",
-
-        # 卷二：文學長河與哲學叩問（22-40）
         "吳承恩《西遊記》歷經九九八十一難的修心與降妖伏魔之路",
         "曹雪芹《紅樓夢》繁華落盡如春夢一場的無常與淒美輓歌",
         "莊子《逍遙遊》化蝶入夢、超然物外且「無用之用」的灑脫大智慧",
@@ -61,8 +58,6 @@ def generate_omniverse_data():
         "蘇格拉底「我唯一知道的，就是我一無所知」的極致謙卑與智者詰問",
         "阿德勒《被討厭的勇氣》中斬斷人際羈絆、落實課題分離的自由之道",
         "張愛玲《傾城之戀》在時代傾覆下，成全一段平凡姻緣的蒼涼與機關算盡",
-
-        # 卷三：當代社群與生存圖鑑（41-55）
         "Threads 上午夜發文的碎碎念，那種拋開濾鏡與人設的賽博龐克式靈魂裸奔",
         "在 IG 限動精心排版卻僅限「摯友」可見的微型情緒避難所與社交邊界感",
         "現代 Z 世代「與其精神內耗自己，不如發瘋外耗別人」的黑色幽默生存學",
@@ -78,8 +73,6 @@ def generate_omniverse_data():
         "日本「侘寂 (Wabi-sabi)」美學中欣賞殘缺、短暫與歲月痕跡的平靜",
         "極簡主義 (Minimalism) 「少即是多」的斷捨離與回歸生活本質的清爽",
         "站在繁華十字路口看著車水馬龍，感受自身如微塵卻又真切存在的視角",
-
-        # 卷四：動漫影視的熱血與羈絆（56-72）
         "《進擊的巨人》在殘酷世界中探究真相與不計代價追求自由的決心",
         "《葬送的芙莉蓮》在漫長歲月中重新體會生命重量與日常溫度的旅程",
         "《新世紀福音戰士》(EVA) 於末日危機中對自我存在價值的深層叩問",
@@ -97,8 +90,6 @@ def generate_omniverse_data():
         "《紫羅蘭永恆花園》在戰火硝煙後，學會理解「愛」與傳遞思念的唯美救贖",
         "諾蘭《星際效應》跨越維度與黑洞，深信唯有愛能超越時空引力的浪漫",
         "王家衛電影中那種潮濕、曖昧，且永遠差一分鐘的錯過與遺憾美學",
-
-        # 卷五：藝術、美學與微觀生活禪（73-99）
         "梵谷《星夜》在燃燒般狂亂的筆觸中，釋放對生命的極致渴望與瘋狂",
         "貝多芬《命運交響曲》扼住命運咽喉，在失聰絕境中爆發的生命怒吼",
         "披頭四《Let It Be》在混亂與失落中，任其自然流淌並與世界和解的釋懷",
@@ -126,8 +117,6 @@ def generate_omniverse_data():
         "收到一封手寫信，在墨水深淺與字跡轉折間觸摸到對方溫度的古老浪漫",
         "在熙攘的人群中逆流而上，堅持守護內心那塊未被世俗侵蝕的淨土",
         "面對浩瀚資訊與未知，依然保持如初學者般好奇，隨時準備出發的破框者視角",
-
-        # 卷六：星火傳承與跨維度日常（100-120）
         "梭羅《湖濱散記》逃離文明喧囂，在林中木屋尋求極致簡樸與心靈自足的隱士哲學",
         "莎士比亞《哈姆雷特》在生存與毀滅的永恆抉擇中，直面人性深淵的悲劇壯麗",
         "米蘭·昆德拉《生命中不能承受之輕》在媚俗與純粹、沉重與輕盈之間跳躍的哲學思辨",
@@ -150,37 +139,38 @@ def generate_omniverse_data():
         "將 20MA 與 60MA 均線化作太極圖騰，在市場的劇烈波動中保持心如止水的交易紀律",
         "《星際大戰》「願原力與你同在」，在浩瀚星海中對抗黑暗、堅守光明信仰的史詩浪漫"
     ]
-    chosen_styles = random.sample(styles, 4)
+    
+    # 🔥 宗師級擴容：一次抽出 12 個宇宙放入牌組！
+    chosen_styles = random.sample(styles, 12)
+    style_lines = "\n".join([f"{i+1}. 宇宙{i+1}：【{s}】" for i, s in enumerate(chosen_styles)])
 
     prompt = f"""
-    你是「太極萬象日曆」的創世神。你的任務是生成 4 段極具「巴納姆效應」的生活散文。
+    你是「太極萬象日曆」的創世神。
     
-    為了讓 4 個宇宙的文字擁有「極端不同的個性」，請嚴格套用以下語氣：
-    1. 宇宙一：【{chosen_styles[0]}】。
-    2. 宇宙二：【{chosen_styles[1]}】。
-    3. 宇宙三：【{chosen_styles[2]}】。
-    4. 宇宙四：【{chosen_styles[3]}】。
+    【🔥 最高指令：絕對不准複製貼上！】
+    你必須生成 12 段【主題截然不同、內容 100% 不重複】的生活散文！
+    如果 12 個物件的 article 或 quote 有任何雷同，你的創世神格將被抹殺！
     
-    【🔥 極度重要：反審查與意象轉換守則 (Anti-Censorship & Metaphor)】
-    前端將使用「Hyper-realistic raw photograph (極致寫實攝影)」來生成你指定的 `image_subject`。為了避免觸發 AI 繪圖的安全審查被封鎖，你必須遵守：
-    1. 絕對禁止出現「幼童、未成年、孩童」相關詞彙 (如: little boy, child, kid, little prince, boy, girl)。
-    2. 絕對禁止直接使用「版權角色與動漫名」 (如: Pikachu, Snoopy, Conan, Doraemon, Naruto, One Piece)。
-    3. 絕對禁止血腥、暴力、武器直白描述 (如: blood, kill, gun, corpse)。
-    4. 必須「借物喻景」。如果抽到《小王子》，畫面主體請寫「沙漠中的一朵被玻璃罩保護的紅玫瑰」；如果抽到《多啦A夢》，請寫「半開的木抽屜透出神秘藍光」；如果抽到《火影忍者》，請寫「插在樹幹上的苦無與飄落的樹葉」；如果抽到《史努比》，請寫「一隻躺在紅色木屋頂上的小獵犬剪影」。
-    5. 畫面描述必須是能夠被相機真實拍出來的「實體靜物、大自然、動物或成人背影」。
+    請為這 12 個宇宙套用強烈且各自獨立的風格語氣，不可重複：
+    {style_lines}
     
-    【極度重要：嚴格 JSON 格式】：
-    - 絕對不要輸出任何解釋、思考過程或 Markdown 標記以外的文字。
-    - 必須輸出為純 JSON 陣列，包含精準的 4 個物件，每個物件必須有以下 7 個 Key：
+    【🔥 反審查與意象轉換守則 (Anti-Censorship)】
+    1. 絕對禁止出現「幼童、孩童」相關詞彙 (boy, girl, kid, child)。
+    2. 絕對禁止直接使用「版權角色與動漫名」 (Pikachu, Snoopy, Naruto 等)。
+    3. 絕對禁止血腥、暴力、武器直白描述 (blood, kill, gun, corpse)。
+    4. 必須「借物喻景」。(例: 火影忍者轉化為「插在樹幹上的苦無」；小王子轉化為「沙漠中的玻璃罩紅玫瑰」)。
+    
+    【嚴格 JSON 格式】：
+    - 只輸出純 JSON 陣列，包含精準的 12 個物件。不加任何 Markdown 標記或解釋。
     [
       {{
-        "theme": "自訂風格標籤(如: 躺平美學 / 唯美哀傷)",
-        "article": "40~60字的情境散文，必須強烈展現該宇宙要求的『語氣』！",
+        "theme": "風格標籤(不可重複)",
+        "article": "40~60字的情境散文，強烈展現該宇宙要求的語氣！絕對不可與其他宇宙重複！",
         "quote": "15~25字的一擊必殺金句。",
         "hashtag": "兩個字標籤",
         "do_action": "兩個字的宜行動",
         "dont_action": "兩個字的忌禁忌",
-        "image_subject": "一句簡短的英文，純描述符合上述『意象轉換守則』的靜物或風景（例如: A single red rose inside a glass dome under a starry night.）。請務必只用英文，純描述畫面，不要加相機參數。"
+        "image_subject": "純英文，描述符合意象轉換的寫實靜物或風景，不要加相機參數。"
       }}
     ]
     """
@@ -218,8 +208,9 @@ def generate_omniverse_data():
                     
                     try:
                         quotes_data = json.loads(raw_text)
-                        if isinstance(quotes_data, list) and len(quotes_data) == 4 and "image_subject" in quotes_data[0]:
-                            print(f"✅ 叩關成功！{endpoint} 輸出完美 JSON 格式。")
+                        # 確保產出的是陣列且包含資料
+                        if isinstance(quotes_data, list) and len(quotes_data) >= 4 and "image_subject" in quotes_data[0]:
+                            print(f"✅ 叩關成功！{endpoint} 輸出 12 重宇宙 JSON 牌組。")
                             return quotes_data, today_str
                         else:
                             print(f"⚠️ {endpoint} 輸出結構錯誤，捨棄並重試 (第 {attempt+1}/4 次)...")
@@ -246,53 +237,22 @@ def generate_omniverse_data():
                     print(f"⚠️ {endpoint} 未知錯誤 ({e.code})，跳過此端點。")
                     break
 
-    # 【零一的終極防禦：本地備用大腦】
     print("❌ 警告：所有線上 Gemini 模型皆因伺服器過載或限流無法連線。")
     print("🛡️ 啟動【本地備用量子庫】，確保 GitHub Actions 綠燈與網站正常運作！")
     
+    # 備用庫也擴增至 6 組以確保洗牌多樣性
     fallback_data = [
-        {
-            "theme": "系統守護",
-            "article": "當雲端伺服器陷入無盡的沉睡與擁塞時，本地的備用宇宙依然為您精準運轉。請享受這份不被網路打擾的寧靜。",
-            "quote": "最深的寂靜，往往孕育著最強大的力量。",
-            "hashtag": "靜心",
-            "do_action": "等待",
-            "dont_action": "焦慮",
-            "image_subject": "A solitary ancient tree standing on a quiet misty mountain peak"
-        },
-        {
-            "theme": "寫實日常",
-            "article": "網路的波動就像生活中的陣雨，來得突然，卻也洗刷了空氣中的煩躁。沖一杯熱茶，讓時間稍微暫停一下。",
-            "quote": "停下腳步，才能看清雨後的彩虹。",
-            "hashtag": "暫停",
-            "do_action": "喝茶",
-            "dont_action": "抱怨",
-            "image_subject": "A steaming cup of tea on a vintage wooden desk by a rain-streaked window"
-        },
-        {
-            "theme": "純粹療癒",
-            "article": "即使在沒有 AI 運算的宇宙裡，真實世界的小確幸依然存在。比如一隻正在陽光下打呼嚕的貓咪，牠才不在乎伺服器有沒有當機。",
-            "quote": "真正的療癒，存在於無需運算的純粹之中。",
-            "hashtag": "陪伴",
-            "do_action": "撫摸",
-            "dont_action": "執著",
-            "image_subject": "A fluffy cat sleeping peacefully in a patch of warm sunlight on a rug"
-        },
-        {
-            "theme": "極簡禪意",
-            "article": "斷線的瞬間，世界突然安靜了下來。我們終於有理由把目光從螢幕移開，看看窗外真實飄落的樹葉。",
-            "quote": "失去連結的那一刻，我們才真正與自己連線。",
-            "hashtag": "留白",
-            "do_action": "遠眺",
-            "dont_action": "刷新",
-            "image_subject": "A single red autumn leaf resting on a smooth zen garden stone"
-        }
+        { "theme": "系統守護", "article": "當雲端伺服器陷入無盡的沉睡與擁塞時，本地的備用宇宙依然為您精準運轉。請享受這份不被網路打擾的寧靜。", "quote": "最深的寂靜，往往孕育著最強大的力量。", "hashtag": "靜心", "do_action": "等待", "dont_action": "焦慮", "image_subject": "A solitary ancient tree standing on a quiet misty mountain peak" },
+        { "theme": "寫實日常", "article": "網路的波動就像生活中的陣雨，來得突然，卻也洗刷了空氣中的煩躁。沖一杯熱茶，讓時間稍微暫停一下。", "quote": "停下腳步，才能看清雨後的彩虹。", "hashtag": "暫停", "do_action": "喝茶", "dont_action": "抱怨", "image_subject": "A steaming cup of tea on a vintage wooden desk by a rain-streaked window" },
+        { "theme": "純粹療癒", "article": "即使在沒有 AI 運算的宇宙裡，真實世界的小確幸依然存在。比如一隻正在陽光下打呼嚕的貓咪，牠才不在乎伺服器有沒有當機。", "quote": "真正的療癒，存在於無需運算的純粹之中。", "hashtag": "陪伴", "do_action": "撫摸", "dont_action": "執著", "image_subject": "A fluffy cat sleeping peacefully in a patch of warm sunlight on a rug" },
+        { "theme": "極簡禪意", "article": "斷線的瞬間，世界突然安靜了下來。我們終於有理由把目光從螢幕移開，看看窗外真實飄落的樹葉。", "quote": "失去連結的那一刻，我們才真正與自己連線。", "hashtag": "留白", "do_action": "遠眺", "dont_action": "刷新", "image_subject": "A single red autumn leaf resting on a smooth zen garden stone" },
+        { "theme": "孤獨荒野", "article": "沒有演算法推薦的時刻，就像獨自走入無人的荒野。你的每一步，都成為了這片寧靜宇宙中唯一的座標。", "quote": "在荒野中迷路，是找回自己最快的方式。", "hashtag": "迷途", "do_action": "探索", "dont_action": "回頭", "image_subject": "A winding dirt path disappearing into a dense realistic foggy pine forest" },
+        { "theme": "時間刻度", "article": "當數位世界的指針停擺，老舊懷錶的滴答聲才顯得如此真實。那些我們以為失去的時間，其實只是換了一種方式陪伴。", "quote": "時間從不語，卻回答了所有問題。", "hashtag": "刻度", "do_action": "傾聽", "dont_action": "追趕", "image_subject": "An antique pocket watch resting on a stack of old leather bound books" }
     ]
     return fallback_data, today_str
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動永不墜毀防彈版...")
-    
+    print("🚀 Taiji Genesis Engine: 啟動 12 重宇宙擴容防彈版...")
     try:
         quotes_data, today_str = generate_omniverse_data()
         quotes_js_string = json.dumps(quotes_data, ensure_ascii=False)
