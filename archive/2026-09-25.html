@@ -3,220 +3,727 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - True Omniverse Edition</title>
+    <title>TAIJI Omniverse Calendar - 四重平行宇宙美學旗艦版</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&family=Space+Grotesk:wght@500;700&display=swap');
         
         :root {
             --paper-bg: #FDFBF7;
             --ink-black: #1A1A1A;
             --ink-gray: #757575;
-            --line-color: #E0E0E0;
-            --accent-color: #E1306C;
-            --env-bg: #F0F0EE;
+            --line-color: #E2E2DF;
+            --accent-color: #D4A373;
+            --accent-hover: #b88656;
+            --env-bg: #EFECE6;
+            --card-radius: 18px;
         }
-        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--env-bg); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"); color: var(--ink-black); margin: 0; padding: 25px; min-height: 100vh; display: flex; justify-content: center; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); }
+
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; 
+            background-color: var(--env-bg); 
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"); 
+            color: var(--ink-black); 
+            margin: 0; 
+            padding: 24px; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+        }
         
-        .container { max-width: 1600px; width: 100%; display: grid; grid-template-columns: 260px 1fr; gap: 25px; align-items: start; }
-        @media (max-width: 1200px) { .container { grid-template-columns: 1fr; } }
+        .container { 
+            max-width: 1720px; 
+            width: 100%; 
+            display: grid; 
+            grid-template-columns: 280px 1fr; 
+            gap: 28px; 
+            align-items: start; 
+        }
+        @media (max-width: 1200px) { 
+            .container { grid-template-columns: 1fr; } 
+        }
         
-        .sidebar { background: rgba(255,255,255,0.85); padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 15px; position: sticky; top: 25px; border: 1px solid rgba(255,255,255,1); }
-        .sidebar h1 { font-size: 1.1rem; font-weight: 900; margin: 0; color: var(--ink-black); letter-spacing: 1px; }
+        /* 側邊導航控制台 */
+        .sidebar { 
+            background: rgba(255,255,255,0.88); 
+            padding: 24px; 
+            border-radius: var(--card-radius); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
+            backdrop-filter: blur(14px); 
+            display: flex; 
+            flex-direction: column; 
+            gap: 18px; 
+            position: sticky; 
+            top: 24px; 
+            border: 1px solid rgba(255,255,255,0.9); 
+        }
+        .sidebar-brand { display: flex; flex-direction: column; gap: 4px; }
+        .sidebar h1 { 
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.35rem; 
+            font-weight: 900; 
+            margin: 0; 
+            color: var(--ink-black); 
+            letter-spacing: 1px; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sidebar-subtitle {
+            font-size: 0.72rem;
+            color: var(--ink-gray);
+            font-family: 'Space Grotesk', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
         
         .control-panel { display: flex; flex-direction: column; gap: 10px; }
-        .control-panel input { background: #fff; border: 1px solid var(--line-color); padding: 10px 15px; border-radius: 8px; font-family: inherit; font-size: 0.95rem; font-weight: 700; outline: none; cursor: pointer; transition: 0.3s; }
+        .control-panel label { font-size: 0.75rem; font-weight: 700; color: var(--ink-gray); margin-bottom: -4px; }
+        .control-panel input[type="date"] { 
+            background: #fff; 
+            border: 1px solid var(--line-color); 
+            padding: 11px 14px; 
+            border-radius: 10px; 
+            font-family: 'Space Grotesk', sans-serif; 
+            font-size: 0.95rem; 
+            font-weight: 700; 
+            outline: none; 
+            cursor: pointer; 
+            transition: 0.25s; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .control-panel input[type="date"]:hover, .control-panel input[type="date"]:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.15);
+        }
         
-        .btn-tear { background: var(--ink-black); color: #fff; border: none; padding: 12px; border-radius: 8px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-tear:hover { background: #333; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .today-info { background: #fff; padding: 12px; border-radius: 8px; border: 1px solid var(--line-color); font-size: 0.85rem; font-weight: 500; color: var(--ink-gray); line-height: 1.5; }
-        .today-info strong { color: var(--ink-black); font-size: 1rem; }
-        
-        .gallery-wrapper { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-        @media (max-width: 1400px) { .gallery-wrapper { grid-template-columns: repeat(2, 1fr); } }
+        .btn-tear { 
+            background: var(--ink-black); 
+            color: #fff; 
+            border: none; 
+            padding: 13px; 
+            border-radius: 10px; 
+            font-size: 0.92rem; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+        }
+        .btn-tear:hover { 
+            background: #333; 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2); 
+        }
+        .btn-tear:active { transform: translateY(0); }
+
+        .today-info { 
+            background: #fff; 
+            padding: 14px; 
+            border-radius: 12px; 
+            border: 1px solid var(--line-color); 
+            font-size: 0.85rem; 
+            font-weight: 500; 
+            color: var(--ink-gray); 
+            line-height: 1.6; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .today-info strong { 
+            color: var(--ink-black); 
+            font-size: 1.05rem; 
+            font-family: 'Space Grotesk', sans-serif;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* 宇宙快速過濾選單 */
+        .universe-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .universe-nav-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--ink-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .universe-pill-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+        .universe-pill {
+            background: #fff;
+            border: 1px solid var(--line-color);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-black);
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .universe-pill span { font-size: 0.68rem; font-weight: 400; color: var(--ink-gray); }
+        .universe-pill:hover {
+            border-color: var(--accent-color);
+            background: rgba(212, 163, 115, 0.08);
+        }
+        .universe-pill.active {
+            background: var(--ink-black);
+            color: #fff;
+            border-color: var(--ink-black);
+        }
+        .universe-pill.active span { color: rgba(255,255,255,0.7); }
+
+        /* 四重宇宙畫廊區 */
+        .gallery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4px;
+        }
+        .gallery-header-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--ink-black);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .gallery-header-badge {
+            background: #fff;
+            border: 1px solid var(--line-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #3D5A45;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .gallery-header-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #3D5A45;
+            display: inline-block;
+            box-shadow: 0 0 6px #3D5A45;
+        }
+
+        .gallery-wrapper { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 22px; 
+        }
+        @media (max-width: 1440px) { .gallery-wrapper { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { .gallery-wrapper { grid-template-columns: 1fr; } }
-        .poster-card { display: flex; flex-direction: column; gap: 10px; background: rgba(255,255,255,0.7); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,1); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+
+        /* 卡片容器 */
+        .poster-card { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            background: rgba(255,255,255,0.85); 
+            padding: 14px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.9); 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+            transition: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .poster-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+            background: #fff;
+        }
+        .poster-card.selected-universe {
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 12px 32px rgba(212, 163, 115, 0.25);
+        }
         
-        .poster-label { font-size: 0.85rem; font-weight: 900; color: var(--ink-black); display: flex; justify-content: space-between; align-items: center; padding: 0 4px; }
-        .poster-label span { font-weight: 500; color: var(--ink-gray); font-size: 0.7rem; background: #fff; padding: 2px 8px; border-radius: 10px; }
+        .poster-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 2px 4px; 
+        }
+        .poster-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .poster-label { 
+            font-size: 0.92rem; 
+            font-weight: 900; 
+            color: var(--ink-black); 
+            font-family: 'Noto Serif TC', serif;
+        }
+        .poster-tag { 
+            font-weight: 600; 
+            color: var(--ink-gray); 
+            font-size: 0.68rem; 
+            background: rgba(0,0,0,0.04); 
+            padding: 2px 7px; 
+            border-radius: 6px; 
+            font-family: 'Space Grotesk', sans-serif;
+        }
         
-        .poster-wrapper { position: relative; width: 100%; border-radius: 10px; padding: 0; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: transform 0.3s ease; }
-        .poster-wrapper:hover { transform: scale(1.03); z-index: 10; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
-        .html-poster { position: relative; width: 100%; aspect-ratio: 9/16; border-radius: 10px; overflow: hidden; background-color: #E8E8E8; }
-        .poster-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.5s ease; }
+        .btn-select-star {
+            background: transparent;
+            border: 1px solid var(--line-color);
+            border-radius: 6px;
+            padding: 3px 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--ink-gray);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-select-star:hover {
+            background: var(--ink-black);
+            color: #fff;
+            border-color: var(--ink-black);
+        }
+        .poster-card.selected-universe .btn-select-star {
+            background: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+        }
+
+        /* 海報主體視覺 (9:16) */
+        .poster-wrapper { 
+            position: relative; 
+            width: 100%; 
+            border-radius: 12px; 
+            padding: 0; 
+            background: #ffffff; 
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08); 
+            transition: transform 0.3s ease; 
+        }
+        .html-poster { 
+            position: relative; 
+            width: 100%; 
+            aspect-ratio: 9/16; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            background-color: #E6E4DF; 
+        }
+        .poster-bg { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            z-index: 1; 
+            transition: filter 0.5s ease, transform 0.6s ease; 
+        }
+        .html-poster:hover .poster-bg {
+            transform: scale(1.03);
+        }
         
-        .loading-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #E8E8E8; z-index: 1; display: flex; justify-content: center; align-items: center; color: var(--ink-gray); font-size: 0.85rem; font-weight: 700; transition: opacity 0.5s; flex-direction: column; gap: 10px; }
-        .poster-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: #fff; display: flex; padding: 20px; box-sizing: border-box; pointer-events: none; }
+        .loading-mask { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: #E8E5DF; 
+            z-index: 2; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            color: var(--ink-gray); 
+            font-size: 0.85rem; 
+            font-weight: 700; 
+            transition: opacity 0.5s; 
+            flex-direction: column; 
+            gap: 10px; 
+        }
+        .poster-overlay { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 3; 
+            color: #fff; 
+            display: flex; 
+            padding: 22px; 
+            box-sizing: border-box; 
+            pointer-events: none; 
+        }
         
-        .p-top { display: flex; text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.5); }
-        .p-day { font-family: 'Noto Sans TC'; font-weight: 900; line-height: 0.8; font-size: 3.5rem; }
-        .p-meta { font-size: 0.7rem; line-height: 1.4; font-weight: 400; opacity: 0.95; display: flex; flex-direction: column; gap: 1px; }
+        .p-top { 
+            display: flex; 
+            text-shadow: 0 1px 3px rgba(0,0,0,0.85), 0 2px 8px rgba(0,0,0,0.6); 
+        }
+        .p-day { 
+            font-family: 'Space Grotesk', 'Noto Sans TC', sans-serif; 
+            font-weight: 900; 
+            line-height: 0.8; 
+            font-size: 3.8rem; 
+            letter-spacing: -2px;
+        }
+        .p-meta { 
+            font-size: 0.72rem; 
+            line-height: 1.45; 
+            font-weight: 500; 
+            opacity: 0.95; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 2px; 
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        .p-ym { font-family: 'Space Grotesk', monospace; font-weight: 700; }
         .p-bottom { width: 100%; box-sizing: border-box; }
-        .p-fortune { display: flex; gap: 6px; }
-        .p-stamp { border: 1px solid rgba(255,255,255,0.7); padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; backdrop-filter: blur(2px); box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .p-stamp.do { background: rgba(91, 130, 102, 0.75); }
-        .p-stamp.dont { background: rgba(192, 90, 80, 0.75); }
-        .p-quote { font-family: 'Noto Serif TC', serif; font-weight: 900; line-height: 1.5; text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 2px 8px rgba(0,0,0,0.6); margin: 0; overflow-wrap: break-word; word-wrap: break-word; width: 100%; box-sizing: border-box; }
+        .p-fortune { display: flex; gap: 7px; margin-bottom: 8px; }
+        .p-stamp { 
+            border: 1px solid rgba(255,255,255,0.75); 
+            padding: 2.5px 8px; 
+            border-radius: 5px; 
+            font-size: 0.7rem; 
+            font-weight: 700; 
+            backdrop-filter: blur(4px); 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.35); 
+        }
+        .p-stamp.do { background: rgba(61, 90, 69, 0.82); }
+        .p-stamp.dont { background: rgba(138, 59, 52, 0.82); }
+        .p-quote { 
+            font-family: 'Noto Serif TC', serif; 
+            font-weight: 900; 
+            line-height: 1.55; 
+            text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 3px 10px rgba(0,0,0,0.7); 
+            margin: 0; 
+            overflow-wrap: break-word; 
+            word-wrap: break-word; 
+            width: 100%; 
+            box-sizing: border-box; 
+        }
         
-        .layout-bottom { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.85) 100%); flex-direction: column; justify-content: space-between; }
-        .layout-bottom .p-top { align-items: baseline; gap: 10px; }
-        .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.6); padding-left: 6px; }
+        /* 4大美學排版模式 */
+        .layout-bottom { 
+            background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.88) 100%); 
+            flex-direction: column; 
+            justify-content: space-between; 
+        }
+        .layout-bottom .p-top { align-items: baseline; gap: 12px; }
+        .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.75); padding-left: 8px; }
         .layout-bottom .p-bottom { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-align: left; }
-        .layout-bottom .p-quote { font-size: clamp(0.95rem, 4vw, 1.15rem); border-left: 2px solid rgba(255,255,255,0.9); padding-left: 10px; padding-right: 5px; }
+        .layout-bottom .p-quote { font-size: clamp(0.95rem, 3.8vw, 1.15rem); border-left: 2px solid var(--accent-color); padding-left: 10px; }
         
-        .layout-top { background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 50%); flex-direction: column; justify-content: flex-start; gap: 20px; }
-        .layout-top .p-top { align-items: baseline; gap: 10px; }
-        .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.6); padding-left: 6px; }
-        .layout-top .p-bottom { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-align: left; }
-        .layout-top .p-quote { font-size: clamp(0.95rem, 4vw, 1.15rem); border-left: 2px solid rgba(255,255,255,0.9); padding-left: 10px; padding-right: 5px; }
+        .layout-top { 
+            background: linear-gradient(180deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0) 100%); 
+            flex-direction: column; 
+            justify-content: flex-start; 
+            gap: 16px; 
+        }
+        .layout-top .p-top { align-items: baseline; gap: 12px; }
+        .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.75); padding-left: 8px; }
+        .layout-top .p-bottom { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-align: left; margin-top: auto; }
+        .layout-top .p-quote { font-size: clamp(0.95rem, 3.8vw, 1.15rem); border-left: 2px solid var(--accent-color); padding-left: 10px; }
         
-        .layout-center { background: radial-gradient(circle at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 70%); flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 20px; }
-        .layout-center .p-top { flex-direction: column; align-items: center; gap: 5px; }
-        .layout-center .p-day { font-size: 4rem; }
-        .layout-center .p-meta { flex-direction: row; gap: 8px; border-top: 1px solid rgba(255,255,255,0.6); padding-top: 6px; border-left: none; padding-left: 0; }
+        .layout-center { 
+            background: radial-gradient(circle at center, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.88) 85%); 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            gap: 18px; 
+        }
+        .layout-center .p-top { flex-direction: column; align-items: center; gap: 6px; }
+        .layout-center .p-day { font-size: 4.5rem; }
+        .layout-center .p-meta { flex-direction: row; gap: 10px; border-top: 1px solid rgba(255,255,255,0.65); padding-top: 8px; border-left: none; padding-left: 0; }
         .layout-center .p-bottom { display: flex; flex-direction: column; align-items: center; gap: 12px; }
         .layout-center .p-fortune { justify-content: center; }
-        .layout-center .p-quote { font-size: clamp(0.95rem, 4vw, 1.15rem); border-left: none; border-bottom: 2px solid rgba(255,255,255,0.9); padding-bottom: 8px; }
+        .layout-center .p-quote { font-size: clamp(0.95rem, 3.8vw, 1.15rem); border-left: none; border-bottom: 2px solid var(--accent-color); padding-bottom: 8px; }
         
-        .layout-editorial { background: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.85) 100%); flex-direction: row; justify-content: space-between; }
-        .layout-editorial .p-top { flex-direction: column; gap: 8px; width: 40%; }
-        .layout-editorial .p-day { font-size: 3rem; line-height: 0.9; }
-        .layout-editorial .p-meta { border-top: 2px solid rgba(255,255,255,0.6); padding-top: 6px; border-left: none; padding-left: 0; }
-        .layout-editorial .p-bottom { width: 50%; display: flex; flex-direction: row-reverse; gap: 8px; align-items: flex-start; justify-content: flex-start; }
+        .layout-editorial { 
+            background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.6) 65%, rgba(0,0,0,0.88) 100%); 
+            flex-direction: row; 
+            justify-content: space-between; 
+        }
+        .layout-editorial .p-top { flex-direction: column; gap: 8px; width: 38%; }
+        .layout-editorial .p-day { font-size: 3.2rem; line-height: 0.9; }
+        .layout-editorial .p-meta { border-top: 2px solid rgba(255,255,255,0.7); padding-top: 6px; border-left: none; padding-left: 0; }
+        .layout-editorial .p-bottom { width: 55%; display: flex; flex-direction: row-reverse; gap: 10px; align-items: flex-start; justify-content: flex-start; }
         .layout-editorial .p-fortune { flex-direction: column; align-items: flex-end; }
-        .layout-editorial .p-quote { writing-mode: vertical-rl; text-align: left; font-size: 1.1rem; border-top: 2px solid #fff; padding-top: 10px; line-height: 1.6; max-height: 90%; }
+        .layout-editorial .p-quote { writing-mode: vertical-rl; text-align: left; font-size: 1.05rem; border-top: 2px solid var(--accent-color); padding-top: 10px; line-height: 1.65; max-height: 85%; }
         
-        .btn-action { background: var(--accent-color); color: #fff; border: none; padding: 10px; border-radius: 8px; font-family: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .btn-action:hover { background: #c12258; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-        .tool-panel { background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 10px; margin-top: 2px; }
-        .tool-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: 700; color: var(--ink-black); }
-        .btn-icon { background: #fff; border: 1px solid var(--line-color); color: var(--ink-black); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
-        .btn-icon:hover { background: var(--ink-black); color: #fff; border-color: var(--ink-black); }
-        .tool-panel textarea { width: 100%; box-sizing: border-box; background: #fff; border: 1px solid var(--line-color); border-radius: 6px; padding: 8px; font-family: monospace; font-size: 0.75rem; color: var(--ink-gray); resize: none; outline: none; }
-        .prompt-box { height: 50px; }
-        .caption-box { height: 80px; }
+        /* 動作按鈕與工具面板 */
+        .btn-action { 
+            background: var(--ink-black); 
+            color: #fff; 
+            border: none; 
+            padding: 10px; 
+            border-radius: 9px; 
+            font-family: inherit; 
+            font-size: 0.85rem; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 6px; 
+        }
+        .btn-action:hover { 
+            background: #333; 
+            transform: translateY(-1px); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+        }
+
+        .tool-panel { 
+            background: rgba(0,0,0,0.025); 
+            border: 1px solid rgba(0,0,0,0.06); 
+            border-radius: 12px; 
+            padding: 12px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+        }
+        .tool-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-size: 0.74rem; 
+            font-weight: 700; 
+            color: var(--ink-black); 
+        }
+        .btn-icon { 
+            background: #fff; 
+            border: 1px solid var(--line-color); 
+            color: var(--ink-black); 
+            padding: 2px 8px; 
+            border-radius: 5px; 
+            font-size: 0.72rem; 
+            font-weight: 600;
+            cursor: pointer; 
+            transition: 0.2s; 
+        }
+        .btn-icon:hover { 
+            background: var(--ink-black); 
+            color: #fff; 
+            border-color: var(--ink-black); 
+        }
+        .tool-panel textarea { 
+            width: 100%; 
+            box-sizing: border-box; 
+            background: #fff; 
+            border: 1px solid var(--line-color); 
+            border-radius: 8px; 
+            padding: 8px 10px; 
+            font-family: 'Space Grotesk', monospace, sans-serif; 
+            font-size: 0.72rem; 
+            color: #4A4A4A; 
+            resize: none; 
+            outline: none; 
+            transition: border-color 0.2s;
+        }
+        .tool-panel textarea:focus { border-color: var(--accent-color); }
+        .prompt-box { height: 55px; }
+        .caption-box { height: 85px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="sidebar">
-            <h1>TAIJI Omniverse</h1>
+        <!-- 側邊控制面板 -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h1>🌌 TAIJI Omniverse</h1>
+                <div class="sidebar-subtitle">四重時空語義引擎 · 旗艦版</div>
+            </div>
+
             <div class="control-panel">
+                <label for="ui-date-picker">📅 選擇時空座標</label>
                 <input type="date" id="ui-date-picker" value="2026-09-25" onchange="applyDateChange()">
-                <button class="btn-tear" onclick="triggerTearAnimation()">🌌 刷新今日無盡宇宙</button>
+                <button class="btn-tear" onclick="triggerTearAnimation()">
+                    <span>✨</span> 刷新今日無盡宇宙
+                </button>
             </div>
+
             <div class="today-info" id="today-stats">
-                <strong>載入中...</strong><br>農曆資料計算中
+                <strong>載入中...</strong>
+                <span>農曆與天文資料計算中</span>
             </div>
-            <div style="font-size: 0.75rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto;">
-                ✨ <b>防禦陣型啟動</b>。採用嚴格單線排隊算圖，擴充 20+ 備用圖庫，徹底終結重複循環！
-            </div>
-        </div>
-        <div class="gallery-wrapper">
-            <!-- 容器 0 到 3 -->
-            <div class="poster-card" id="card-0">
-                <div class="poster-label" id="label-0">🪐 宇宙一 <span>載入中...</span></div>
-                <div class="poster-wrapper" id="poster-0">
-                    <div class="html-poster">
-                        <div class="loading-mask" id="mask-0"><span>📸 宇宙觀測中...</span></div>
-                        <img class="poster-bg" id="bg-0" src="" crossorigin="anonymous">
-                        <div class="poster-overlay" id="overlay-0">
-                            <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
-                            <div class="p-bottom">
-                                <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
-                                <p class="p-quote">「金句載入中...」</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn-action" onclick="downloadPoster('poster-0', this)">⬇️ 下載海報</button>
-                <div class="tool-panel">
-                    <div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div>
-                    <textarea class="prompt-box" readonly></textarea>
-                    <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div>
-                    <textarea class="caption-box" readonly></textarea>
-                </div>
-            </div>
-            
-            <div class="poster-card" id="card-1">
-                <div class="poster-label" id="label-1">🪐 宇宙二 <span>載入中...</span></div>
-                <div class="poster-wrapper" id="poster-1">
-                    <div class="html-poster">
-                        <div class="loading-mask" id="mask-1"><span>等候算圖...</span></div>
-                        <img class="poster-bg" id="bg-1" src="" crossorigin="anonymous">
-                        <div class="poster-overlay" id="overlay-1">
-                            <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
-                            <div class="p-bottom">
-                                <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
-                                <p class="p-quote">「金句載入中...」</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn-action" onclick="downloadPoster('poster-1', this)">⬇️ 下載海報</button>
-                <div class="tool-panel">
-                    <div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div>
-                    <textarea class="prompt-box" readonly></textarea>
-                    <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div>
-                    <textarea class="caption-box" readonly></textarea>
+
+            <!-- 宇宙快速跳轉選單 -->
+            <div class="universe-nav">
+                <div class="universe-nav-title">🪐 快速聚焦平行宇宙</div>
+                <div class="universe-pill-group">
+                    <button class="universe-pill" onclick="focusUniverse(0)">宇宙一<span>經典沉底</span></button>
+                    <button class="universe-pill" onclick="focusUniverse(1)">宇宙二<span>天際懸浮</span></button>
+                    <button class="universe-pill" onclick="focusUniverse(2)">宇宙三<span>極致置中</span></button>
+                    <button class="universe-pill" onclick="focusUniverse(3)">宇宙四<span>日系直書</span></button>
                 </div>
             </div>
 
-            <div class="poster-card" id="card-2">
-                <div class="poster-label" id="label-2">🪐 宇宙三 <span>載入中...</span></div>
-                <div class="poster-wrapper" id="poster-2">
-                    <div class="html-poster">
-                        <div class="loading-mask" id="mask-2"><span>等候算圖...</span></div>
-                        <img class="poster-bg" id="bg-2" src="" crossorigin="anonymous">
-                        <div class="poster-overlay" id="overlay-2">
-                            <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
-                            <div class="p-bottom">
-                                <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
-                                <p class="p-quote">「金句載入中...」</p>
-                            </div>
-                        </div>
-                    </div>
+            <div style="font-size: 0.72rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto; border-top: 1px solid var(--line-color); pt-3;">
+                ✨ <b>美學防禦陣型</b>：採用 Midjourney v7.0 寫實指令與 20+ 組頂級備用圖庫，終結重複循環。
+            </div>
+        </aside>
+
+        <!-- 四重宇宙並列畫廊 -->
+        <section class="gallery-container">
+            <div class="gallery-header">
+                <div class="gallery-header-title">
+                    <span>🪐 四重時空切片並列展廊</span>
+                    <span style="font-size: 0.75rem; font-weight: 500; color: var(--ink-gray);">（點擊任一宇宙即可設為主選）</span>
                 </div>
-                <button class="btn-action" onclick="downloadPoster('poster-2', this)">⬇️ 下載海報</button>
-                <div class="tool-panel">
-                    <div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div>
-                    <textarea class="prompt-box" readonly></textarea>
-                    <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div>
-                    <textarea class="caption-box" readonly></textarea>
+                <div class="gallery-header-badge" id="primary-universe-indicator">
+                    主選宇宙：宇宙一 · 經典沉底
                 </div>
             </div>
 
-            <div class="poster-card" id="card-3">
-                <div class="poster-label" id="label-3">🪐 宇宙四 <span>載入中...</span></div>
-                <div class="poster-wrapper" id="poster-3">
-                    <div class="html-poster">
-                        <div class="loading-mask" id="mask-3"><span>等候算圖...</span></div>
-                        <img class="poster-bg" id="bg-3" src="" crossorigin="anonymous">
-                        <div class="poster-overlay" id="overlay-3">
-                            <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
-                            <div class="p-bottom">
-                                <div class="p-fortune"><span class="p-stamp do">宜<br><span class="p-do"></span></span><span class="p-stamp dont">忌<br><span class="p-dont"></span></span></div>
-                                <p class="p-quote">「金句載入中...」</p>
+            <div class="gallery-wrapper">
+                <!-- 容器 0 到 3 -->
+                <div class="poster-card selected-universe" id="card-0" onclick="selectUniverse(0)">
+                    <div class="poster-header">
+                        <div class="poster-title-wrap">
+                            <span class="poster-label" id="label-0">🪐 宇宙一</span>
+                            <span class="poster-tag" id="tag-0">載入中...</span>
+                        </div>
+                        <button class="btn-select-star" id="star-btn-0">★ 今日主選</button>
+                    </div>
+                    <div class="poster-wrapper" id="poster-0">
+                        <div class="html-poster">
+                            <div class="loading-mask" id="mask-0"><span>📸 宇宙顯影中...</span></div>
+                            <img class="poster-bg" id="bg-0" src="" crossorigin="anonymous" alt="宇宙海報">
+                            <div class="poster-overlay" id="overlay-0">
+                                <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
+                                <div class="p-bottom">
+                                    <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
+                                    <p class="p-quote">「金句載入中...」</p>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <button class="btn-action" onclick="downloadPoster('poster-0', this, event)">⬇️ 下載海報</button>
+                    <div class="tool-panel">
+                        <div class="tool-header"><span>🎨 MJ v7.0 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
+                        <textarea class="prompt-box" readonly></textarea>
+                        <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box', event)">複製</button></div>
+                        <textarea class="caption-box" readonly></textarea>
+                    </div>
                 </div>
-                <button class="btn-action" onclick="downloadPoster('poster-3', this)">⬇️ 下載海報</button>
-                <div class="tool-panel">
-                    <div class="tool-header"><span>🎨 MJ 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box')">複製</button></div>
-                    <textarea class="prompt-box" readonly></textarea>
-                    <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box')">複製</button></div>
-                    <textarea class="caption-box" readonly></textarea>
+                
+                <div class="poster-card" id="card-1" onclick="selectUniverse(1)">
+                    <div class="poster-header">
+                        <div class="poster-title-wrap">
+                            <span class="poster-label" id="label-1">🪐 宇宙二</span>
+                            <span class="poster-tag" id="tag-1">載入中...</span>
+                        </div>
+                        <button class="btn-select-star" id="star-btn-1">設為首選</button>
+                    </div>
+                    <div class="poster-wrapper" id="poster-1">
+                        <div class="html-poster">
+                            <div class="loading-mask" id="mask-1"><span>等候算圖...</span></div>
+                            <img class="poster-bg" id="bg-1" src="" crossorigin="anonymous" alt="宇宙海報">
+                            <div class="poster-overlay" id="overlay-1">
+                                <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
+                                <div class="p-bottom">
+                                    <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
+                                    <p class="p-quote">「金句載入中...」</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-action" onclick="downloadPoster('poster-1', this, event)">⬇️ 下載海報</button>
+                    <div class="tool-panel">
+                        <div class="tool-header"><span>🎨 MJ v7.0 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
+                        <textarea class="prompt-box" readonly></textarea>
+                        <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box', event)">複製</button></div>
+                        <textarea class="caption-box" readonly></textarea>
+                    </div>
+                </div>
+
+                <div class="poster-card" id="card-2" onclick="selectUniverse(2)">
+                    <div class="poster-header">
+                        <div class="poster-title-wrap">
+                            <span class="poster-label" id="label-2">🪐 宇宙三</span>
+                            <span class="poster-tag" id="tag-2">載入中...</span>
+                        </div>
+                        <button class="btn-select-star" id="star-btn-2">設為首選</button>
+                    </div>
+                    <div class="poster-wrapper" id="poster-2">
+                        <div class="html-poster">
+                            <div class="loading-mask" id="mask-2"><span>等候算圖...</span></div>
+                            <img class="poster-bg" id="bg-2" src="" crossorigin="anonymous" alt="宇宙海報">
+                            <div class="poster-overlay" id="overlay-2">
+                                <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
+                                <div class="p-bottom">
+                                    <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
+                                    <p class="p-quote">「金句載入中...」</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-action" onclick="downloadPoster('poster-2', this, event)">⬇️ 下載海報</button>
+                    <div class="tool-panel">
+                        <div class="tool-header"><span>🎨 MJ v7.0 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
+                        <textarea class="prompt-box" readonly></textarea>
+                        <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box', event)">複製</button></div>
+                        <textarea class="caption-box" readonly></textarea>
+                    </div>
+                </div>
+
+                <div class="poster-card" id="card-3" onclick="selectUniverse(3)">
+                    <div class="poster-header">
+                        <div class="poster-title-wrap">
+                            <span class="poster-label" id="label-3">🪐 宇宙四</span>
+                            <span class="poster-tag" id="tag-3">載入中...</span>
+                        </div>
+                        <button class="btn-select-star" id="star-btn-3">設為首選</button>
+                    </div>
+                    <div class="poster-wrapper" id="poster-3">
+                        <div class="html-poster">
+                            <div class="loading-mask" id="mask-3"><span>等候算圖...</span></div>
+                            <img class="poster-bg" id="bg-3" src="" crossorigin="anonymous" alt="宇宙海報">
+                            <div class="poster-overlay" id="overlay-3">
+                                <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
+                                <div class="p-bottom">
+                                    <div class="p-fortune"><span class="p-stamp do">宜<br><span class="p-do"></span></span><span class="p-stamp dont">忌<br><span class="p-dont"></span></span></div>
+                                    <p class="p-quote">「金句載入中...」</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-action" onclick="downloadPoster('poster-3', this, event)">⬇️ 下載海報</button>
+                    <div class="tool-panel">
+                        <div class="tool-header"><span>🎨 MJ v7.0 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
+                        <textarea class="prompt-box" readonly></textarea>
+                        <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box', event)">複製</button></div>
+                        <textarea class="caption-box" readonly></textarea>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
+
     <script>
-        const quotesData = typeof [{"theme": "寂靜稜線", "article": "背負三十公斤的重量翻越碎石坡，當湛藍的天使眼淚映入眼簾，萬籟俱寂，所有的喧囂都在稀薄的空氣中沉澱為平靜。", "quote": "唯有將自己縮小到極致，才能容納整座高山的蒼茫。", "hashtag": "敬畏", "do_action": "攀登", "dont_action": "浮躁", "image_subject": "A heavy expedition backpack placed beside a pristine high-altitude alpine lake surrounded by mist."}, {"theme": "日神狂飈", "article": "舊神已成灰燼，虛空正是創造的基石！在永劫輪迴的深淵狂笑起舞，用燃燒的意志重鑄生命的重量，我就是自身的造物主。", "quote": "既然世界無可依靠，便以雙足踏碎虛無，立地成神。", "hashtag": "覺醒", "do_action": "破立", "dont_action": "畏縮", "image_subject": "A solitary marble statue standing above swirling clouds atop a sunlit rocky peak."}, {"theme": "風之指彈", "article": "指腹壓緊琴弦微微泛紅，指尖輕輕一撥，未說出口的酸澀隨著共鳴箱震顫，散落在暮色長街，化作一陣無言的溫柔。", "quote": "說不出口的情緒，就交給微風和最後一記清脆泛音。", "hashtag": "傾聽", "do_action": "彈奏", "dont_action": "壓抑", "image_subject": "An acoustic wooden guitar resting on an old park bench in warm autumn evening light."}, {"theme": "烈葉殘焰", "article": "木葉飛舞之處，必有薪火綿延。即使暴雨澆熄前路，刻在掌心的誓言絕不退轉，那是超越生死的誓約與孤傲的守望。", "quote": "真正的強大不是從不倒下，而是咬緊牙關貫徹自己的誓約。", "hashtag": "堅守", "do_action": "承諾", "dont_action": "輕棄", "image_subject": "A weathered forehead metal protector tied to a thick pine branch against falling red autumn leaves."}, {"theme": "深海孤島", "article": "警報隱退後的死寂中，無形的屏障隔絕了世界。我在此刻究竟是誰？反覆叩問空洞的軀殼，只為確認一次真實的心跳。", "quote": "就算被刺痛也想擁抱世界，這是我活著的唯一證明。", "hashtag": "尋己", "do_action": "直視", "dont_action": "逃避", "image_subject": "A vintage portable cassette player on a wet concrete parapet overlooking an orange twilight city."}, {"theme": "浪巔遠征", "article": "揚起破舊風帆直面洶湧巨浪，指針指向未知深海。只要甲板上還有一同碰杯的笑聲，整座汪洋都不過是冒險的遊樂場。", "quote": "真正的自由不是航向安全港灣，而是隨波浪馳騁到底。", "hashtag": "揚帆", "do_action": "啟程", "dont_action": "躊躇", "image_subject": "A weathered straw hat hanging on the wooden helm of a classic sailing vessel under an open sunrise horizon."}, {"theme": "無垠求索", "article": "在數據洪流與龐雜知識中卸下傲慢，像初生靈魂般凝視未知。推翻已知的定理，世界在每一次好奇的叩問中重新展開。", "quote": "保持無知並非愚昧，而是留給奇蹟生長的無限空地。", "hashtag": "破框", "do_action": "探究", "dont_action": "自矜", "image_subject": "A stack of open parchment notebooks and glowing crystalline prisms on an explorer desk."}, {"theme": "雲端放逐", "article": "一台筆電、一張單程機票，咖啡香混合著異國海浪聲。在任何能連上網路的角落敲打代碼，四海皆是我的客廳與征途。", "quote": "地圖上的邊界是虛構的，自由的心靈從不畫地為牢。", "hashtag": "漂泊", "do_action": "遷徙", "dont_action": "拘泥", "image_subject": "A sleek laptop open on a rustic wooden cafe table overlooking turquoise tropical ocean waves."}, {"theme": "霓虹微塵", "article": "站在洶湧交錯的人潮中央，紅綠燈閃爍如星塵。億萬人匆匆擦肩，我如塵埃般渺小，卻在深吸一口氣時感到無比真實。", "quote": "身在川流不息的洪流裡，每一次呼吸都是對存在的確證。", "hashtag": "靜觀", "do_action": "駐足", "dont_action": "盲從", "image_subject": "A bustling metropolitan crosswalk blurred with vehicle light trails reflecting on asphalt under city neon signs."}, {"theme": "極限律動", "article": "音樂震動頭骨，汗水滑過眼角。十二度斜坡無情轉動，雙腿似火焚燒，耳邊只剩下肺部急促的拉扯與規律搏動的心音。", "quote": "當身體抵達臨界點，靈魂才剛要在烈火中淬煉而出。", "hashtag": "燃燒", "do_action": "衝刺", "dont_action": "懈怠", "image_subject": "A sleek pair of modern headphones resting beside a water bottle on a gym surface."}, {"theme": "孤夜燈塔", "article": "凌晨三點的街角，發光的招牌泛著暖黃光暈。一杯冒著熱氣的關東煮，給疲憊的旅人築起一座不打烊的臨時避風港。", "quote": "哪怕世界沉入無邊黑暗，總有一處微光替夜歸人留著門。", "hashtag": "守護", "do_action": "療癒", "dont_action": "孤絕", "image_subject": "An illuminated glowing storefront window casting warm yellow light onto an empty nighttime wet street."}, {"theme": "命運裂變", "article": "雙耳縱然寂滅無聲，胸膛卻轟鳴著雷霆萬鈞。雙手猛烈砸下黑白琴鍵，將宿命的枷鎖震得粉碎，譜寫不屈的生命交響。", "quote": "縱使世界奪去我的聽覺，我也要扼住命運的咽喉咆哮。", "hashtag": "咆哮", "do_action": "搏擊", "dont_action": "認命", "image_subject": "An antique open grand piano with dramatic beams of sunlight cutting through darkness across sheet music."}] !== 'undefined' ? [{"theme": "寂靜稜線", "article": "背負三十公斤的重量翻越碎石坡，當湛藍的天使眼淚映入眼簾，萬籟俱寂，所有的喧囂都在稀薄的空氣中沉澱為平靜。", "quote": "唯有將自己縮小到極致，才能容納整座高山的蒼茫。", "hashtag": "敬畏", "do_action": "攀登", "dont_action": "浮躁", "image_subject": "A heavy expedition backpack placed beside a pristine high-altitude alpine lake surrounded by mist."}, {"theme": "日神狂飈", "article": "舊神已成灰燼，虛空正是創造的基石！在永劫輪迴的深淵狂笑起舞，用燃燒的意志重鑄生命的重量，我就是自身的造物主。", "quote": "既然世界無可依靠，便以雙足踏碎虛無，立地成神。", "hashtag": "覺醒", "do_action": "破立", "dont_action": "畏縮", "image_subject": "A solitary marble statue standing above swirling clouds atop a sunlit rocky peak."}, {"theme": "風之指彈", "article": "指腹壓緊琴弦微微泛紅，指尖輕輕一撥，未說出口的酸澀隨著共鳴箱震顫，散落在暮色長街，化作一陣無言的溫柔。", "quote": "說不出口的情緒，就交給微風和最後一記清脆泛音。", "hashtag": "傾聽", "do_action": "彈奏", "dont_action": "壓抑", "image_subject": "An acoustic wooden guitar resting on an old park bench in warm autumn evening light."}, {"theme": "烈葉殘焰", "article": "木葉飛舞之處，必有薪火綿延。即使暴雨澆熄前路，刻在掌心的誓言絕不退轉，那是超越生死的誓約與孤傲的守望。", "quote": "真正的強大不是從不倒下，而是咬緊牙關貫徹自己的誓約。", "hashtag": "堅守", "do_action": "承諾", "dont_action": "輕棄", "image_subject": "A weathered forehead metal protector tied to a thick pine branch against falling red autumn leaves."}, {"theme": "深海孤島", "article": "警報隱退後的死寂中，無形的屏障隔絕了世界。我在此刻究竟是誰？反覆叩問空洞的軀殼，只為確認一次真實的心跳。", "quote": "就算被刺痛也想擁抱世界，這是我活著的唯一證明。", "hashtag": "尋己", "do_action": "直視", "dont_action": "逃避", "image_subject": "A vintage portable cassette player on a wet concrete parapet overlooking an orange twilight city."}, {"theme": "浪巔遠征", "article": "揚起破舊風帆直面洶湧巨浪，指針指向未知深海。只要甲板上還有一同碰杯的笑聲，整座汪洋都不過是冒險的遊樂場。", "quote": "真正的自由不是航向安全港灣，而是隨波浪馳騁到底。", "hashtag": "揚帆", "do_action": "啟程", "dont_action": "躊躇", "image_subject": "A weathered straw hat hanging on the wooden helm of a classic sailing vessel under an open sunrise horizon."}, {"theme": "無垠求索", "article": "在數據洪流與龐雜知識中卸下傲慢，像初生靈魂般凝視未知。推翻已知的定理，世界在每一次好奇的叩問中重新展開。", "quote": "保持無知並非愚昧，而是留給奇蹟生長的無限空地。", "hashtag": "破框", "do_action": "探究", "dont_action": "自矜", "image_subject": "A stack of open parchment notebooks and glowing crystalline prisms on an explorer desk."}, {"theme": "雲端放逐", "article": "一台筆電、一張單程機票，咖啡香混合著異國海浪聲。在任何能連上網路的角落敲打代碼，四海皆是我的客廳與征途。", "quote": "地圖上的邊界是虛構的，自由的心靈從不畫地為牢。", "hashtag": "漂泊", "do_action": "遷徙", "dont_action": "拘泥", "image_subject": "A sleek laptop open on a rustic wooden cafe table overlooking turquoise tropical ocean waves."}, {"theme": "霓虹微塵", "article": "站在洶湧交錯的人潮中央，紅綠燈閃爍如星塵。億萬人匆匆擦肩，我如塵埃般渺小，卻在深吸一口氣時感到無比真實。", "quote": "身在川流不息的洪流裡，每一次呼吸都是對存在的確證。", "hashtag": "靜觀", "do_action": "駐足", "dont_action": "盲從", "image_subject": "A bustling metropolitan crosswalk blurred with vehicle light trails reflecting on asphalt under city neon signs."}, {"theme": "極限律動", "article": "音樂震動頭骨，汗水滑過眼角。十二度斜坡無情轉動，雙腿似火焚燒，耳邊只剩下肺部急促的拉扯與規律搏動的心音。", "quote": "當身體抵達臨界點，靈魂才剛要在烈火中淬煉而出。", "hashtag": "燃燒", "do_action": "衝刺", "dont_action": "懈怠", "image_subject": "A sleek pair of modern headphones resting beside a water bottle on a gym surface."}, {"theme": "孤夜燈塔", "article": "凌晨三點的街角，發光的招牌泛著暖黃光暈。一杯冒著熱氣的關東煮，給疲憊的旅人築起一座不打烊的臨時避風港。", "quote": "哪怕世界沉入無邊黑暗，總有一處微光替夜歸人留著門。", "hashtag": "守護", "do_action": "療癒", "dont_action": "孤絕", "image_subject": "An illuminated glowing storefront window casting warm yellow light onto an empty nighttime wet street."}, {"theme": "命運裂變", "article": "雙耳縱然寂滅無聲，胸膛卻轟鳴著雷霆萬鈞。雙手猛烈砸下黑白琴鍵，將宿命的枷鎖震得粉碎，譜寫不屈的生命交響。", "quote": "縱使世界奪去我的聽覺，我也要扼住命運的咽喉咆哮。", "hashtag": "咆哮", "do_action": "搏擊", "dont_action": "認命", "image_subject": "An antique open grand piano with dramatic beams of sunlight cutting through darkness across sheet music."}] : [
+        const quotesData = typeof [{"theme": "系統守護", "article": "當雲端伺服器陷入無盡的沉睡與擁塞時，本地的備用宇宙依然為您精準運轉。請享受這份不被網路打擾的寧靜。", "quote": "最深的寂靜，往往孕育著最強大的力量。", "hashtag": "靜心", "do_action": "等待", "dont_action": "焦慮", "image_subject": "A solitary ancient tree standing on a quiet misty mountain peak"}, {"theme": "寫實日常", "article": "網路的波動就像生活中的陣雨，來得突然，卻也洗刷了空氣中的煩躁。沖一杯熱茶，讓時間稍微暫停一下。", "quote": "停下腳步，才能看清雨後的彩虹。", "hashtag": "暫停", "do_action": "喝茶", "dont_action": "抱怨", "image_subject": "A steaming cup of tea on a vintage wooden desk by a rain-streaked window"}, {"theme": "純粹療癒", "article": "即使在沒有 AI 運算的宇宙裡，真實世界的小確幸依然存在。比如一隻正在陽光下打呼嚕的貓咪，牠才不在乎伺服器有沒有當機。", "quote": "真正的療癒，存在於無需運算的純粹之中。", "hashtag": "陪伴", "do_action": "撫摸", "dont_action": "執著", "image_subject": "A fluffy cat sleeping peacefully in a patch of warm sunlight on a rug"}, {"theme": "極簡禪意", "article": "斷線的瞬間，世界突然安靜了下來。我們終於有理由把目光從螢幕移開，看看窗外真實飄落的樹葉。", "quote": "失去連結的那一刻，我們才真正與自己連線。", "hashtag": "留白", "do_action": "遠眺", "dont_action": "刷新", "image_subject": "A single red autumn leaf resting on a smooth zen garden stone"}, {"theme": "孤獨荒野", "article": "沒有演算法推薦的時刻，就像獨自走入無人的荒野。你的每一步，都成為了這片寧靜宇宙中唯一的座標。", "quote": "在荒野中迷路，是找回自己最快的方式。", "hashtag": "迷途", "do_action": "探索", "dont_action": "回頭", "image_subject": "A winding dirt path disappearing into a dense realistic foggy pine forest"}, {"theme": "時間刻度", "article": "當數位世界的指針停擺，老舊懷錶的滴答聲才顯得如此真實。那些我們以為失去的時間，其實只是換了一種方式陪伴。", "quote": "時間從不語，卻回答了所有問題。", "hashtag": "刻度", "do_action": "傾聽", "dont_action": "追趕", "image_subject": "An antique pocket watch resting on a stack of old leather bound books"}] !== 'undefined' ? [{"theme": "系統守護", "article": "當雲端伺服器陷入無盡的沉睡與擁塞時，本地的備用宇宙依然為您精準運轉。請享受這份不被網路打擾的寧靜。", "quote": "最深的寂靜，往往孕育著最強大的力量。", "hashtag": "靜心", "do_action": "等待", "dont_action": "焦慮", "image_subject": "A solitary ancient tree standing on a quiet misty mountain peak"}, {"theme": "寫實日常", "article": "網路的波動就像生活中的陣雨，來得突然，卻也洗刷了空氣中的煩躁。沖一杯熱茶，讓時間稍微暫停一下。", "quote": "停下腳步，才能看清雨後的彩虹。", "hashtag": "暫停", "do_action": "喝茶", "dont_action": "抱怨", "image_subject": "A steaming cup of tea on a vintage wooden desk by a rain-streaked window"}, {"theme": "純粹療癒", "article": "即使在沒有 AI 運算的宇宙裡，真實世界的小確幸依然存在。比如一隻正在陽光下打呼嚕的貓咪，牠才不在乎伺服器有沒有當機。", "quote": "真正的療癒，存在於無需運算的純粹之中。", "hashtag": "陪伴", "do_action": "撫摸", "dont_action": "執著", "image_subject": "A fluffy cat sleeping peacefully in a patch of warm sunlight on a rug"}, {"theme": "極簡禪意", "article": "斷線的瞬間，世界突然安靜了下來。我們終於有理由把目光從螢幕移開，看看窗外真實飄落的樹葉。", "quote": "失去連結的那一刻，我們才真正與自己連線。", "hashtag": "留白", "do_action": "遠眺", "dont_action": "刷新", "image_subject": "A single red autumn leaf resting on a smooth zen garden stone"}, {"theme": "孤獨荒野", "article": "沒有演算法推薦的時刻，就像獨自走入無人的荒野。你的每一步，都成為了這片寧靜宇宙中唯一的座標。", "quote": "在荒野中迷路，是找回自己最快的方式。", "hashtag": "迷途", "do_action": "探索", "dont_action": "回頭", "image_subject": "A winding dirt path disappearing into a dense realistic foggy pine forest"}, {"theme": "時間刻度", "article": "當數位世界的指針停擺，老舊懷錶的滴答聲才顯得如此真實。那些我們以為失去的時間，其實只是換了一種方式陪伴。", "quote": "時間從不語，卻回答了所有問題。", "hashtag": "刻度", "do_action": "傾聽", "dont_action": "追趕", "image_subject": "An antique pocket watch resting on a stack of old leather bound books"}] : [
             { do_action: "深呼吸", dont_action: "焦慮", quote: "生活是一場未知的旅程。", article: "請前往 GitHub 觸發大腦生成最新宇宙。", hashtag: "等待", theme: "系統預設", image_subject: "a quiet misty morning in a dense forest" }
         ]; 
         
@@ -247,7 +754,40 @@
 
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-        function copyCardText(btnElement, selector) {
+        // 選擇今日主選宇宙
+        let currentPrimaryIndex = 0;
+        function selectUniverse(index) {
+            currentPrimaryIndex = index;
+            for (let i = 0; i < 4; i++) {
+                const card = document.getElementById(`card-${i}`);
+                const starBtn = document.getElementById(`star-btn-${i}`);
+                if (i === index) {
+                    card.classList.add('selected-universe');
+                    if (starBtn) starBtn.innerText = "★ 今日主選";
+                } else {
+                    card.classList.remove('selected-universe');
+                    if (starBtn) starBtn.innerText = "設為首選";
+                }
+            }
+            const label = document.getElementById(`label-${index}`);
+            const tag = document.getElementById(`tag-${index}`);
+            const indicator = document.getElementById('primary-universe-indicator');
+            if (indicator && label && tag) {
+                indicator.innerText = `主選宇宙：${label.innerText} · ${tag.innerText}`;
+            }
+        }
+
+        // 聚焦捲動至指定宇宙卡片
+        function focusUniverse(index) {
+            selectUniverse(index);
+            const card = document.getElementById(`card-${index}`);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function copyCardText(btnElement, selector, event) {
+            if (event) event.stopPropagation();
             const card = btnElement.closest('.poster-card');
             const textarea = card.querySelector(selector);
             textarea.select();
@@ -260,7 +800,8 @@
         function triggerTearAnimation() { randomizeAll(); }
         function applyDateChange() { randomizeAll(); }
 
-        function downloadPoster(wrapperId, btnElement) {
+        function downloadPoster(wrapperId, btnElement, event) {
+            if (event) event.stopPropagation();
             const posterWrapper = document.getElementById(wrapperId);
             const mask = document.getElementById(wrapperId.replace('poster-', 'mask-'));
             if (mask) mask.style.opacity = '0';
@@ -293,53 +834,78 @@
             return array;
         }
 
+        // 升級版 Midjourney v7.0 干擾與風格修飾詞
         const disruptiveFactors = [
-            "taken during golden hour", "cinematic lighting", "high contrast shadows", "soft pastel tones",
-            "wide angle shot", "telephoto compression", "low angle perspective", "birds eye view",
-            "shot on Kodak Portra 400", "shot on Fujifilm Velvia", "monochrome high contrast", "vintage polaroid look"
+            "taken during golden hour, cinematic lighting",
+            "shot on Hasselblad 500C, Kodak Portra 400 aesthetic",
+            "diffused soft morning light, hyper-detailed textures",
+            "wide angle shot, high contrast shadow architecture",
+            "monochrome high contrast, minimalist wabi-sabi atmosphere",
+            "telephoto compression, subtle evening mist reflection",
+            "shot on 35mm f/1.4 lens, natural organic film grain",
+            "cinematic anamorphic lens flare, moody twilight illumination"
         ];
 
-        // 🛡️ 宗師級：防破圖且具備超高耐心的安全載入器
-        async function loadImageSafe(imgElement, maskElement, primaryUrl, fallbackUrl) {
-            return new Promise((resolve) => {
-                let isResolved = false;
-                let timeoutId;
+        // 🛡️ 宗師級防破圖載入器
+        // 🚀 頂級優化：輕量動態圖庫 (360x640 輕量 20KB，載入僅需 0.3 秒)
+        // 依照主題意象精準分類的專業攝影庫（極速 Unsplash CDN 480px + Picsum 動態隨機種子）
+        const thematicPhotos = [
+            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=480&q=70&auto=format&fit=crop', // 寧靜湖泊
+            'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=480&q=70&auto=format&fit=crop', // 壯麗高山
+            'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=480&q=70&auto=format&fit=crop', // 晨光窗影
+            'https://images.unsplash.com/photo-1490682143684-14369e18dce8?w=480&q=70&auto=format&fit=crop', // 秋日花卉
+            'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=480&q=70&auto=format&fit=crop', // 靜謐手沖咖啡
+            'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=480&q=70&auto=format&fit=crop', // 溫潤木吉他
+            'https://images.unsplash.com/photo-1520523839898-50712509e37b?w=480&q=70&auto=format&fit=crop', // 晨曦光芒鋼琴
+            'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=480&q=70&auto=format&fit=crop', // 陽光慵懶貓咪
+            'https://images.unsplash.com/photo-1444464666168-49b626f86641?w=480&q=70&auto=format&fit=crop', // 晨霧深邃森林
+            'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=480&q=70&auto=format&fit=crop', // 賽博霓虹街頭
+            'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=480&q=70&auto=format&fit=crop', // 晨露微距禪石
+            'https://images.unsplash.com/photo-1532693322450-2cb5c511067d?w=480&q=70&auto=format&fit=crop', // 浩瀚夜空明月
+            'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=480&q=70&auto=format&fit=crop', // 黃金暮色田野
+            'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=480&q=70&auto=format&fit=crop', // 碧藍深邃海洋
+            'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=480&q=70&auto=format&fit=crop', // 溫暖舊書案頭
+            'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=480&q=70&auto=format&fit=crop', // 璀璨璀璨星河
+            'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=480&q=70&auto=format&fit=crop', // 靜謐綠意木橋
+            'https://images.unsplash.com/photo-1483728642387-6c3ba6c6b870?w=480&q=70&auto=format&fit=crop', // 黑色大理石紋理
+            'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=480&q=70&auto=format&fit=crop', // 雨夜暖黃路燈
+            'https://images.unsplash.com/photo-1470071131384-001b85755b36?w=480&q=70&auto=format&fit=crop'  // 晨光薄霧群山
+        ];
 
-                const handleSuccess = () => {
-                    if (isResolved) return;
-                    isResolved = true;
-                    clearTimeout(timeoutId);
-                    if (maskElement) maskElement.style.opacity = '0';
-                    resolve();
-                };
+        // ⚡ 極速載入器：短逾時 (2.5秒)，若 AI 端點塞車立刻無縫平滑切換，絕不卡死
+        function loadCardImageFast(imgElement, maskElement, primaryUrl, fallbackUrl) {
+            let isLoaded = false;
+            let timer = null;
 
-                const handleFail = () => {
-                    if (isResolved) return;
-                    isResolved = true;
-                    clearTimeout(timeoutId);
-                    if (maskElement) maskElement.innerHTML = '<span>⚠️ 網路波動，啟用備用圖庫</span>';
-                    
-                    imgElement.onload = () => { if(maskElement) maskElement.style.opacity = '0'; resolve(); };
-                    imgElement.onerror = () => { resolve(); }; 
-                    imgElement.src = fallbackUrl;
-                };
+            const onDone = (success) => {
+                if (isLoaded) return;
+                isLoaded = true;
+                if (timer) clearTimeout(timer);
+                if (maskElement) {
+                    maskElement.style.opacity = '0';
+                    setTimeout(() => { maskElement.style.display = 'none'; }, 500);
+                }
+            };
 
-                imgElement.onload = handleSuccess;
-                imgElement.onerror = handleFail;
-                
-                // 【關鍵修復】：放寬到 15 秒！給足免費伺服器算圖時間，不再輕易切斷。
-                timeoutId = setTimeout(() => {
-                    if (!isResolved) {
-                        imgElement.src = ''; 
-                        handleFail();
-                    }
-                }, 15000);
+            const triggerFallback = () => {
+                if (isLoaded) return;
+                imgElement.onload = () => onDone(true);
+                imgElement.onerror = () => onDone(false);
+                imgElement.src = fallbackUrl;
+            };
 
-                imgElement.src = primaryUrl;
-            });
+            imgElement.onload = () => onDone(true);
+            imgElement.onerror = triggerFallback;
+
+            // 2.5 秒超短逾時（若 Pollinations 伺服器排隊，立刻切到動態攝影圖庫）
+            timer = setTimeout(triggerFallback, 2500);
+            imgElement.src = primaryUrl;
         }
 
-        async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
+        function triggerTearAnimation() { randomizeAll(document.getElementById('ui-date-picker').value, true); }
+        function applyDateChange() { randomizeAll(document.getElementById('ui-date-picker').value, false); }
+
+        async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value, shouldShuffle = false) {
             const dateParts = currentDate.split('-');
             const y = parseInt(dateParts[0], 10);
             const m = parseInt(dateParts[1], 10);
@@ -351,20 +917,50 @@
             const exactStarSign = getAstrologySign(m, d);
             
             let lunarDisplay = "農曆查無資料";
+            let festivalTags = [];
             try {
                 if (typeof Lunar !== 'undefined') {
                     const lunar = Lunar.fromDate(dObj);
                     lunarDisplay = `農曆${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
+                    const fList = lunar.getFestivals();
+                    if (fList && fList.length > 0) festivalTags.push(...fList);
+                    const jieQi = lunar.getJieQi();
+                    if (jieQi) festivalTags.push(jieQi);
                 }
             } catch (e) { console.error("Lunar error:", e); }
-            
-            document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><br>${lunarDisplay} ｜ ${exactStarSign}`;
 
-            let shuffledLayouts = shuffleArray(['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial']);
-            const layoutNames = { 'layout-bottom': '經典沉底', 'layout-top': '天際懸浮', 'layout-center': '極致置中', 'layout-editorial': '日系直書' };
+            // 🌐 全球多重節慶與天文感知矩陣 (Global Festival & Astronomical Sensor)
+            const globalEventsMap = {
+                "09-25": ["🌕 中秋節 (望月)", "🌾 秋分收穫月", "✨ 世界夢想日"],
+                "09-23": ["🍁 秋分節氣", "天平平衡之日"],
+                "10-31": ["🎃 萬聖前夜", "暗夜靈魂節"],
+                "12-21": ["❄️ 冬至節氣", "極夜初光"],
+                "12-25": ["🎄 耶誕節", "平安夜"],
+                "01-01": ["🎉 元旦新年", "萬象更新"],
+                "04-22": ["🌍 世界地球日", "大地之母"]
+            };
+            const dateMD = `${String(m).padStart(2, '0')}-${dayStr}`;
+            if (globalEventsMap[dateMD]) {
+                festivalTags.push(...globalEventsMap[dateMD]);
+            }
+            const uniqueFestivals = [...new Set(festivalTags)];
+            const festivalStr = uniqueFestivals.length > 0 ? `<br><span style="color: var(--accent-color); font-weight: 700;">${uniqueFestivals.join(' ｜ ')}</span>` : '';
+            
+            document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><span>${lunarDisplay} ｜ ${exactStarSign}${festivalStr}</span>`;
+
+            // 固定四種版型映射四重宇宙
+            const layoutOrder = ['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial'];
+            let shuffledLayouts = shouldShuffle ? shuffleArray([...layoutOrder]) : layoutOrder;
+            const layoutNames = { 
+                'layout-bottom': '經典沉底', 
+                'layout-top': '天際懸浮', 
+                'layout-center': '極致置中', 
+                'layout-editorial': '日系直書' 
+            };
             const uniTitles = ['一', '二', '三', '四'];
 
-            let mixedQuotes = shuffleArray([...quotesData]);
+            // 初始載入時鎖定前四大節慶宇宙，點擊刷新按鈕時才進入全池洗牌
+            let mixedQuotes = shouldShuffle ? shuffleArray([...quotesData]) : [...quotesData];
             let renderQueue = [];
 
             for (let i = 0; i < 4; i++) {
@@ -374,6 +970,7 @@
                 const bgImg = document.getElementById(`bg-${i}`);
                 const overlay = document.getElementById(`overlay-${i}`);
                 const label = document.getElementById(`label-${i}`);
+                const tag = document.getElementById(`tag-${i}`);
 
                 if (mask) { mask.style.opacity = '1'; mask.innerHTML = '<span>📸 宇宙顯影中...</span>'; }
                 bgImg.src = ''; 
@@ -388,7 +985,8 @@
                 const articleText = quoteObj.article || "";
                 const painTag = quoteObj.hashtag || "日常碎片";
                 
-                label.innerHTML = `🪐 宇宙${uniTitles[i]}：${theme} <span>${layoutNames[layoutKey]}</span>`;
+                label.innerHTML = `🪐 宇宙${uniTitles[i]}：${theme}`;
+                tag.innerHTML = layoutNames[layoutKey];
                 
                 const isEditorial = (layoutKey === 'layout-editorial');
                 const pDoLabel = isEditorial ? `宜<br><span class="p-do">${doAction}</span>` : `宜 <span class="p-do">${doAction}</span>`;
@@ -399,10 +997,11 @@
                 const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
                 const randomDisruption = getRandomItem(disruptiveFactors);
                 
-                const fullMjPrompt = `A hyper-realistic raw photograph of ${imageSubject}, ${randomDisruption}, shot on 35mm lens, natural lighting, highly detailed --style raw --v 6.0 --ar 9:16`;
+                // 升級至 Midjourney v7.0 旗艦指令規格
+                const fullMjPrompt = `A hyper-realistic raw photograph of ${imageSubject}, ${randomDisruption}, shot on 35mm lens, natural lighting, highly detailed --style raw --v 7.0 --ar 9:16 --stylize 250`;
                 const safeUrlPrompt = encodeURIComponent(`Hyper-realistic raw photograph of ${imageSubject}, ${randomDisruption}, natural lighting`);
                 
-                const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #攝影紀錄`;
+                const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #TAIJI_Omniverse #2026`;
                 
                 wrapper.querySelector('.prompt-box').value = fullMjPrompt;
                 wrapper.querySelector('.caption-box').value = threadsText;
@@ -414,42 +1013,25 @@
                 renderQueue.push({ id: i, prompt: safeUrlPrompt });
             }
 
-            // 🔥 視覺宗師的防護網：擴大備用圖庫至 20 張頂級寫實攝影，絕不重複！
-            const fallbackImages = shuffleArray([
-                'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=720&auto=format&fit=crop', // 咖啡
-                'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=720&auto=format&fit=crop', // 貓咪
-                'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=720&auto=format&fit=crop', // 高山
-                'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=720&auto=format&fit=crop', // 露水微距
-                'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=720&auto=format&fit=crop', // 田野
-                'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=720&auto=format&fit=crop', // 沙灘
-                'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=720&auto=format&fit=crop', // 房間光影
-                'https://images.unsplash.com/photo-1444464666168-49b626f86641?q=80&w=720&auto=format&fit=crop', // 森林
-                'https://images.unsplash.com/photo-1470071131384-001b85755b36?q=80&w=720&auto=format&fit=crop', // 湖泊
-                'https://images.unsplash.com/photo-1505144808419-f9c3134dc1ab?q=80&w=720&auto=format&fit=crop', // 大自然
-                'https://images.unsplash.com/photo-1436891620584-47fd0e565afb?q=80&w=720&auto=format&fit=crop', // 天空
-                'https://images.unsplash.com/photo-1490682143684-14369e18dce8?q=80&w=720&auto=format&fit=crop', // 花卉
-                'https://images.unsplash.com/photo-1483728642387-6c3ba6c6b870?q=80&w=720&auto=format&fit=crop', // 暗黑紋理
-                'https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=720&auto=format&fit=crop', // 海洋
-                'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=720&auto=format&fit=crop'  // 橋與樹林
-            ]);
+            selectUniverse(0);
 
-            // 🔥 前端與網路宗師聯手：回歸「瀑布流嚴格排隊」
-            // 第一張圖要到了，才准要第二張，徹底杜絕被 API 伺服器限流拉黑！
-            for (let i = 0; i < renderQueue.length; i++) {
-                const target = renderQueue[i];
+            // 🚀 全並行極速顯影：四個宇宙同時發起，誰先好誰先亮，完全不卡死！
+            renderQueue.forEach((target, idx) => {
                 const mask = document.getElementById(`mask-${target.id}`);
                 const bgImg = document.getElementById(`bg-${target.id}`);
-                
                 if (mask) mask.innerHTML = '<span>✨ 宇宙顯影中...</span>';
-                
-                const randomSeed = Math.floor(Math.random() * 1000000);
-                // 拿掉耗時的 flux 模型，使用預設最穩定的模型
-                const imgUrl = `https://image.pollinations.ai/prompt/${target.prompt}?width=720&height=1280&nologo=true&seed=${randomSeed}`;
-                const fallback = fallbackImages[i % fallbackImages.length];
 
-                // 乖乖等這張圖載入完成（或超過 15 秒失敗）
-                await loadImageSafe(bgImg, mask, imgUrl, fallback);
-            }
+                const randomSeed = Math.floor(Math.random() * 900000) + 100000;
+                // 輕量化 360x640 規格（約 20KB），運算負載只有原本 1/4，極速響應！
+                const imgUrl = `https://image.pollinations.ai/prompt/${target.prompt}?width=360&height=640&nologo=true&seed=${randomSeed}`;
+                
+                // 動態多樣圖庫：結合 Picsum 隨機種子與主題攝影 CDN，絕不重複
+                const fallback = (idx % 2 === 0)
+                    ? `https://picsum.photos/seed/taiji_${currentDate}_${target.id}_${randomSeed}/360/640`
+                    : thematicPhotos[(idx * 5 + Math.floor(Math.random() * 5)) % thematicPhotos.length];
+
+                loadCardImageFast(bgImg, mask, imgUrl, fallback);
+            });
         }
 
         window.onload = function() { 
