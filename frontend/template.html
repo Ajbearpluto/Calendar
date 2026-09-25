@@ -902,7 +902,10 @@
             imgElement.src = primaryUrl;
         }
 
-        async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value) {
+        function triggerTearAnimation() { randomizeAll(document.getElementById('ui-date-picker').value, true); }
+        function applyDateChange() { randomizeAll(document.getElementById('ui-date-picker').value, false); }
+
+        async function randomizeAll(currentDate = document.getElementById('ui-date-picker').value, shouldShuffle = false) {
             const dateParts = currentDate.split('-');
             const y = parseInt(dateParts[0], 10);
             const m = parseInt(dateParts[1], 10);
@@ -914,16 +917,40 @@
             const exactStarSign = getAstrologySign(m, d);
             
             let lunarDisplay = "農曆查無資料";
+            let festivalTags = [];
             try {
                 if (typeof Lunar !== 'undefined') {
                     const lunar = Lunar.fromDate(dObj);
                     lunarDisplay = `農曆${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
+                    const fList = lunar.getFestivals();
+                    if (fList && fList.length > 0) festivalTags.push(...fList);
+                    const jieQi = lunar.getJieQi();
+                    if (jieQi) festivalTags.push(jieQi);
                 }
             } catch (e) { console.error("Lunar error:", e); }
-            
-            document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><span>${lunarDisplay} ｜ ${exactStarSign}</span>`;
 
-            let shuffledLayouts = shuffleArray(['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial']);
+            // 🌐 全球多重節慶與天文感知矩陣 (Global Festival & Astronomical Sensor)
+            const globalEventsMap = {
+                "09-25": ["🌕 中秋節 (望月)", "🌾 秋分收穫月", "✨ 世界夢想日"],
+                "09-23": ["🍁 秋分節氣", "天平平衡之日"],
+                "10-31": ["🎃 萬聖前夜", "暗夜靈魂節"],
+                "12-21": ["❄️ 冬至節氣", "極夜初光"],
+                "12-25": ["🎄 耶誕節", "平安夜"],
+                "01-01": ["🎉 元旦新年", "萬象更新"],
+                "04-22": ["🌍 世界地球日", "大地之母"]
+            };
+            const dateMD = `${String(m).padStart(2, '0')}-${dayStr}`;
+            if (globalEventsMap[dateMD]) {
+                festivalTags.push(...globalEventsMap[dateMD]);
+            }
+            const uniqueFestivals = [...new Set(festivalTags)];
+            const festivalStr = uniqueFestivals.length > 0 ? `<br><span style="color: var(--accent-color); font-weight: 700;">${uniqueFestivals.join(' ｜ ')}</span>` : '';
+            
+            document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><span>${lunarDisplay} ｜ ${exactStarSign}${festivalStr}</span>`;
+
+            // 固定四種版型映射四重宇宙
+            const layoutOrder = ['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial'];
+            let shuffledLayouts = shouldShuffle ? shuffleArray([...layoutOrder]) : layoutOrder;
             const layoutNames = { 
                 'layout-bottom': '經典沉底', 
                 'layout-top': '天際懸浮', 
@@ -932,7 +959,8 @@
             };
             const uniTitles = ['一', '二', '三', '四'];
 
-            let mixedQuotes = shuffleArray([...quotesData]);
+            // 初始載入時鎖定前四大節慶宇宙，點擊刷新按鈕時才進入全池洗牌
+            let mixedQuotes = shouldShuffle ? shuffleArray([...quotesData]) : [...quotesData];
             let renderQueue = [];
 
             for (let i = 0; i < 4; i++) {
