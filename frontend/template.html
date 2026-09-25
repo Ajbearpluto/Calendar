@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAIJI Omniverse Calendar - 四重平行宇宙美學旗艦版</title>
+    <title>TAIJI Omniverse Calendar - 殿堂級桌面日曆 · 四重宇宙藝術旗艦版</title>
     <script src="https://unpkg.com/lunar-javascript/lunar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@600;900&family=Space+Grotesk:wght@500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;600;900&family=Space+Grotesk:wght@500;700;900&display=swap');
         
         :root {
-            --paper-bg: #FDFBF7;
+            --env-bg: #EFECE6;
+            --sidebar-bg: rgba(255,255,255,0.92);
             --ink-black: #1A1A1A;
             --ink-gray: #757575;
             --line-color: #E2E2DF;
-            --accent-color: #D4A373;
-            --accent-hover: #b88656;
-            --env-bg: #EFECE6;
+            --accent-gold: #C29553;
+            --accent-hover: #A87D3F;
             --card-radius: 18px;
         }
+
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
@@ -40,7 +41,7 @@
             max-width: 1720px; 
             width: 100%; 
             display: grid; 
-            grid-template-columns: 280px 1fr; 
+            grid-template-columns: 290px 1fr; 
             gap: 28px; 
             align-items: start; 
         }
@@ -50,11 +51,11 @@
         
         /* 側邊導航控制台 */
         .sidebar { 
-            background: rgba(255,255,255,0.88); 
+            background: var(--sidebar-bg); 
             padding: 24px; 
             border-radius: var(--card-radius); 
             box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
-            backdrop-filter: blur(14px); 
+            backdrop-filter: blur(16px); 
             display: flex; 
             flex-direction: column; 
             gap: 18px; 
@@ -76,9 +77,8 @@
         }
         .sidebar-subtitle {
             font-size: 0.72rem;
-            color: var(--ink-gray);
-            font-family: 'Space Grotesk', monospace;
-            text-transform: uppercase;
+            color: var(--accent-gold);
+            font-weight: 700;
             letter-spacing: 1.5px;
         }
         
@@ -98,8 +98,8 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.02);
         }
         .control-panel input[type="date"]:hover, .control-panel input[type="date"]:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.15);
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(194, 149, 83, 0.15);
         }
         
         .btn-tear { 
@@ -177,10 +177,10 @@
             flex-direction: column;
             gap: 2px;
         }
-        .universe-pill span { font-size: 0.68rem; font-weight: 400; color: var(--ink-gray); }
+        .universe-pill span { font-size: 0.65rem; font-weight: 400; color: var(--ink-gray); }
         .universe-pill:hover {
-            border-color: var(--accent-color);
-            background: rgba(212, 163, 115, 0.08);
+            border-color: var(--accent-gold);
+            background: rgba(194, 149, 83, 0.08);
         }
         .universe-pill.active {
             background: var(--ink-black);
@@ -203,7 +203,7 @@
             padding: 0 4px;
         }
         .gallery-header-title {
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             font-weight: 800;
             color: var(--ink-black);
             display: flex;
@@ -213,23 +213,24 @@
         .gallery-header-badge {
             background: #fff;
             border: 1px solid var(--line-color);
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 0.72rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: #3D5A45;
+            color: #982A2A;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
         .gallery-header-badge::before {
             content: '';
-            width: 6px;
-            height: 6px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
-            background: #3D5A45;
+            background: #982A2A;
             display: inline-block;
-            box-shadow: 0 0 6px #3D5A45;
+            box-shadow: 0 0 6px #982A2A;
         }
 
         .gallery-wrapper { 
@@ -240,7 +241,7 @@
         @media (max-width: 1440px) { .gallery-wrapper { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { .gallery-wrapper { grid-template-columns: 1fr; } }
 
-        /* 卡片容器 */
+        /* 卡片包覆容器 */
         .poster-card { 
             display: flex; 
             flex-direction: column; 
@@ -259,8 +260,8 @@
             background: #fff;
         }
         .poster-card.selected-universe {
-            border: 2px solid var(--accent-color);
-            box-shadow: 0 12px 32px rgba(212, 163, 115, 0.25);
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 12px 32px rgba(194, 149, 83, 0.25);
         }
         
         .poster-header { 
@@ -307,171 +308,656 @@
             border-color: var(--ink-black);
         }
         .poster-card.selected-universe .btn-select-star {
-            background: var(--accent-color);
+            background: var(--accent-gold);
             color: #fff;
-            border-color: var(--accent-color);
+            border-color: var(--accent-gold);
         }
 
-        /* 海報主體視覺 (9:16) */
+        /* ========================================================
+           🌟 殿堂級日曆實體畫頁架構 (Physical Calendar Sheet Architecture)
+           ======================================================== */
         .poster-wrapper { 
             position: relative; 
             width: 100%; 
-            border-radius: 12px; 
+            border-radius: 14px; 
             padding: 0; 
             background: #ffffff; 
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08); 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08); 
             transition: transform 0.3s ease; 
+            overflow: hidden;
         }
+        
         .html-poster { 
             position: relative; 
             width: 100%; 
             aspect-ratio: 9/16; 
-            border-radius: 12px; 
+            border-radius: 14px; 
             overflow: hidden; 
-            background-color: #E6E4DF; 
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        .poster-bg { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            z-index: 1; 
-            transition: filter 0.5s ease, transform 0.6s ease; 
+
+        /* 📜 紙張微噪點質感層 (Paper Tactile Layer) */
+        .paper-tactile-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.32;
+            mix-blend-mode: multiply;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
-        .html-poster:hover .poster-bg {
+
+        /* 頂部裝訂條通則 */
+        .binder-header {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* 插畫邊框通則 */
+        .illustration-frame {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .poster-illustration {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+        .html-poster:hover .poster-illustration {
             transform: scale(1.03);
         }
-        
+
         .loading-mask { 
             position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
+            inset: 0;
             background: #E8E5DF; 
             z-index: 2; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             color: var(--ink-gray); 
-            font-size: 0.85rem; 
+            font-size: 0.78rem; 
             font-weight: 700; 
             transition: opacity 0.5s; 
             flex-direction: column; 
-            gap: 10px; 
+            gap: 8px; 
         }
-        .poster-overlay { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: 3; 
-            color: #fff; 
-            display: flex; 
-            padding: 22px; 
-            box-sizing: border-box; 
-            pointer-events: none; 
+
+        /* --------------------------------------------------------
+           🪐 宇宙一：月魄清輝 (Classic Literary & Zen - 單向曆 & 讀曆書店)
+           -------------------------------------------------------- */
+        .universe-zen {
+            background-color: #F7F4EE; /* 粗糙宣紙/手工棉紙米白 */
+            color: #1A1C1E;
+            padding: 16px 20px 20px 20px;
+        }
+        .zen-binder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding-bottom: 8px;
+        }
+        .zen-binder .binder-holes {
+            display: flex;
+            gap: 36px;
+        }
+        .zen-binder .hole {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #EAE5DC;
+            border: 1px solid #D6D0C5;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.15);
+        }
+        .zen-binder .perforation-line {
+            width: 100%;
+            border-bottom: 1px dashed #D9D3C7;
+        }
+        .zen-top-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 0.75rem;
+            color: #555;
+            font-family: 'Space Grotesk', 'Noto Serif TC', serif;
+            letter-spacing: 0.5px;
+            padding-top: 4px;
+        }
+        .zen-top-meta .zen-year-month { font-weight: 700; font-size: 0.95rem; color: #1A1C1E; }
+        .zen-top-meta .zen-lunar { font-family: 'Noto Serif TC', serif; font-weight: 600; color: #982A2A; }
+        
+        .zen-frame {
+            aspect-ratio: 16/10;
+            border: 1px solid rgba(26,28,30,0.1);
+            border-radius: 6px;
+            margin: 12px 0 10px 0;
+            background: #FAF8F5;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.8), 0 2px 8px rgba(0,0,0,0.03);
         }
         
-        .p-top { 
-            display: flex; 
-            text-shadow: 0 1px 3px rgba(0,0,0,0.85), 0 2px 8px rgba(0,0,0,0.6); 
+        .zen-date-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 8px;
         }
-        .p-day { 
-            font-family: 'Space Grotesk', 'Noto Sans TC', sans-serif; 
-            font-weight: 900; 
-            line-height: 0.8; 
-            font-size: 3.8rem; 
+        .zen-day {
+            font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+            font-size: 4.5rem;
+            line-height: 0.82;
+            font-weight: 700;
+            color: #1A1C1E;
             letter-spacing: -2px;
         }
-        .p-meta { 
-            font-size: 0.72rem; 
-            line-height: 1.45; 
-            font-weight: 500; 
-            opacity: 0.95; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 2px; 
+        .zen-day-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        .zen-weekday {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: #666;
+        }
+        .zen-fortune {
+            display: flex;
+            gap: 6px;
+        }
+        .zen-stamp {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 2px 6px;
+            border: 1px solid #C4BEB4;
+            border-radius: 3px;
+            color: #333;
+            background: #FDFBF8;
+        }
+        .zen-stamp.do { border-color: #3D5A45; color: #3D5A45; }
+        .zen-stamp.dont { border-color: #8A3B34; color: #8A3B34; }
+        
+        .zen-quote-box {
+            border-top: 1px solid #E5E0D6;
+            padding-top: 12px;
+            margin-top: 4px;
+        }
+        .zen-quote {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.92rem;
+            line-height: 1.65;
+            font-weight: 600;
+            color: #1A1C1E;
+            margin: 0;
+            text-align: justify;
+        }
+        .zen-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #ECE7DD;
+            padding-top: 8px;
+            margin-top: auto;
+            font-size: 0.62rem;
+            color: #888;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 1px;
+        }
+        .zen-seal {
+            display: inline-block;
+            border: 1px solid #982A2A;
+            color: #982A2A;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.62rem;
+            padding: 1px 3px;
+            font-weight: 900;
+            border-radius: 2px;
+        }
+
+        /* --------------------------------------------------------
+           🪐 宇宙二：金禾暮野 (Modern Risograph & Tactile - 五金行日曆)
+           -------------------------------------------------------- */
+        .universe-riso {
+            background-color: #EDE6D6; /* 燕麥再生紙顆粒底 */
+            color: #23382D; /* 深林墨綠墨 */
+            padding: 16px 18px 18px 18px;
+        }
+        .riso-binder {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .riso-tear-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .riso-pill-no {
+            background: #23382D;
+            color: #EDE6D6;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-size: 0.68rem;
+            padding: 2px 7px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+        .riso-series-tag {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #D34E2A;
+            letter-spacing: 1px;
+        }
+        .perforation-dots {
+            width: 100%;
+            border-bottom: 2px dashed rgba(35, 56, 45, 0.28);
+        }
+        .riso-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 6px;
+        }
+        .riso-ym {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            letter-spacing: -0.5px;
+            color: #23382D;
+        }
+        .riso-lunar-pill {
+            background: #D34E2A;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .riso-frame {
+            aspect-ratio: 16/10;
+            border: 2px solid #23382D;
+            border-radius: 4px;
+            margin: 10px 0;
+            background: #F8F5EE;
+            box-shadow: 4px 4px 0 #D34E2A;
+        }
+        
+        .riso-date-block {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .riso-day {
+            font-family: 'Space Grotesk', 'Noto Sans TC', sans-serif;
+            font-size: 4.8rem;
+            font-weight: 900;
+            line-height: 0.8;
+            color: #23382D;
+            letter-spacing: -3px;
+            text-shadow: 2px 2px 0 #F8B600;
+        }
+        .riso-date-side {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: flex-end;
+        }
+        .riso-fortune {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .riso-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .riso-badge.do {
+            background: #F8B600;
+            color: #23382D;
+        }
+        .riso-badge.dont {
+            background: #D34E2A;
+            color: #fff;
+        }
+        .badge-label {
+            font-size: 0.62rem;
+            font-weight: 900;
+            opacity: 0.85;
+        }
+        .riso-weekday {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #6A7A6E;
+        }
+
+        .riso-quote-box {
+            background: rgba(255,255,255,0.5);
+            border-left: 3px solid #D34E2A;
+            padding: 8px 10px;
+            border-radius: 0 6px 6px 0;
+            margin-top: 4px;
+        }
+        .riso-quote {
             font-family: 'Noto Sans TC', sans-serif;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            font-weight: 700;
+            color: #23382D;
+            margin: 0;
         }
-        .p-ym { font-family: 'Space Grotesk', monospace; font-weight: 700; }
-        .p-bottom { width: 100%; box-sizing: border-box; }
-        .p-fortune { display: flex; gap: 7px; margin-bottom: 8px; }
-        .p-stamp { 
-            border: 1px solid rgba(255,255,255,0.75); 
-            padding: 2.5px 8px; 
-            border-radius: 5px; 
-            font-size: 0.7rem; 
-            font-weight: 700; 
-            backdrop-filter: blur(4px); 
-            box-shadow: 0 2px 6px rgba(0,0,0,0.35); 
+        .riso-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(35, 56, 45, 0.15);
+            padding-top: 8px;
+            margin-top: auto;
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: #23382D;
+            letter-spacing: 0.5px;
         }
-        .p-stamp.do { background: rgba(61, 90, 69, 0.82); }
-        .p-stamp.dont { background: rgba(138, 59, 52, 0.82); }
-        .p-quote { 
-            font-family: 'Noto Serif TC', serif; 
-            font-weight: 900; 
-            line-height: 1.55; 
-            text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 3px 10px rgba(0,0,0,0.7); 
-            margin: 0; 
-            overflow-wrap: break-word; 
-            word-wrap: break-word; 
-            width: 100%; 
-            box-sizing: border-box; 
+        .riso-color-dots { display: flex; gap: 4px; }
+        .riso-color-dots i { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+
+        /* --------------------------------------------------------
+           🪐 宇宙三：太虛星火 (Avant-Garde & Neo-Brutalism - FEDRIGONI 365)
+           -------------------------------------------------------- */
+        .universe-brutal {
+            background-color: #0C0D0E; /* 啞光黑卡紙 */
+            color: #E1E4E6; /* 冷凝銀白 */
+            padding: 16px 18px 18px 18px;
+        }
+        .universe-brutal .paper-tactile-layer {
+            mix-blend-mode: screen;
+            opacity: 0.18;
+        }
+        .brutal-binder {
+            border-bottom: 1px solid #2A2D32;
+            padding-bottom: 6px;
+        }
+        .brutal-industrial-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.68rem;
+            color: #D4FF00;
+            font-weight: 700;
+        }
+        .brutal-screw { color: #555; font-size: 0.8rem; font-weight: 900; }
+        .brutal-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-top: 8px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.72rem;
+            color: #8E9298;
+        }
+        .brutal-ym { color: #fff; font-weight: 900; font-size: 0.95rem; }
+        .brutal-lunar { color: #D4FF00; font-weight: 700; }
+
+        .brutal-frame {
+            aspect-ratio: 16/10;
+            border: 1px solid #D4FF00;
+            border-radius: 0px;
+            margin: 10px 0;
+            background: #141517;
+            box-shadow: 0 0 14px rgba(212, 255, 0, 0.12);
+        }
+
+        .brutal-hero-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .brutal-day {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 0.8;
+            color: #fff;
+            letter-spacing: -4px;
+        }
+        .brutal-side-telemetry {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: flex-end;
+        }
+        .brutal-fortune {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .brutal-box {
+            padding: 2px 6px;
+            border: 1px solid #2A2D32;
+            background: #16181B;
+        }
+        .brutal-box.do { border-color: #D4FF00; color: #D4FF00; }
+        .brutal-box.dont { color: #8E9298; }
+        .brutal-status-tag {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.62rem;
+            color: #6C7076;
+            letter-spacing: 0.5px;
+        }
+
+        .brutal-quote-box {
+            border: 1px solid #22252A;
+            background: #111215;
+            padding: 8px 10px;
+            margin-top: 4px;
+        }
+        .brutal-quote {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            font-weight: 500;
+            color: #E1E4E6;
+            margin: 0;
+        }
+        .brutal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #1E2024;
+            padding-top: 8px;
+            margin-top: auto;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.62rem;
+            color: #6A7078;
+        }
+        .brutal-barcode { font-weight: 900; letter-spacing: 2px; color: #D4FF00; }
+
+        /* --------------------------------------------------------
+           🪐 宇宙四：天涯共此 (Traditional Calligraphy & Retro - 老派的生活日曆)
+           -------------------------------------------------------- */
+        .universe-retro {
+            background-color: #EFE8D3; /* 泛黃老信箋 / 新聞紙 */
+            color: #1F1E1C;
+            padding: 16px 18px 18px 18px;
+        }
+        .retro-binder {
+            border-bottom: 2px solid #B22222;
+            padding-bottom: 5px;
+            margin-bottom: 6px;
+        }
+        .retro-stitch-line {
+            display: flex;
+            justify-content: space-around;
+        }
+        .retro-stitch-line .stitch {
+            width: 14px;
+            height: 3px;
+            background: #B22222;
+            border-radius: 1px;
+        }
+
+        .retro-grid-container {
+            display: grid;
+            grid-template-columns: 28px 1fr 68px;
+            gap: 10px;
+            height: 100%;
+            align-items: stretch;
         }
         
-        /* 4大美學排版模式 */
-        .layout-bottom { 
-            background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.88) 100%); 
-            flex-direction: column; 
-            justify-content: space-between; 
+        /* 右側日期直書欄 */
+        .retro-date-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 1px solid rgba(178, 34, 34, 0.3);
+            padding-left: 6px;
         }
-        .layout-bottom .p-top { align-items: baseline; gap: 12px; }
-        .layout-bottom .p-meta { border-left: 2px solid rgba(255,255,255,0.75); padding-left: 8px; }
-        .layout-bottom .p-bottom { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-align: left; }
-        .layout-bottom .p-quote { font-size: clamp(0.95rem, 3.8vw, 1.15rem); border-left: 2px solid var(--accent-color); padding-left: 10px; }
-        
-        .layout-top { 
-            background: linear-gradient(180deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0) 100%); 
-            flex-direction: column; 
-            justify-content: flex-start; 
-            gap: 16px; 
+        .retro-year-banner {
+            writing-mode: vertical-rl;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #555;
+            letter-spacing: 1px;
         }
-        .layout-top .p-top { align-items: baseline; gap: 12px; }
-        .layout-top .p-meta { border-left: 2px solid rgba(255,255,255,0.75); padding-left: 8px; }
-        .layout-top .p-bottom { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-align: left; margin-top: auto; }
-        .layout-top .p-quote { font-size: clamp(0.95rem, 3.8vw, 1.15rem); border-left: 2px solid var(--accent-color); padding-left: 10px; }
-        
-        .layout-center { 
-            background: radial-gradient(circle at center, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.88) 85%); 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center; 
-            gap: 18px; 
+        .retro-date-box {
+            border: 2px solid #B22222;
+            padding: 6px 4px;
+            background: #FAF6EB;
+            box-shadow: 2px 2px 0 rgba(178, 34, 34, 0.2);
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
         }
-        .layout-center .p-top { flex-direction: column; align-items: center; gap: 6px; }
-        .layout-center .p-day { font-size: 4.5rem; }
-        .layout-center .p-meta { flex-direction: row; gap: 10px; border-top: 1px solid rgba(255,255,255,0.65); padding-top: 8px; border-left: none; padding-left: 0; }
-        .layout-center .p-bottom { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-        .layout-center .p-fortune { justify-content: center; }
-        .layout-center .p-quote { font-size: clamp(0.95rem, 3.8vw, 1.15rem); border-left: none; border-bottom: 2px solid var(--accent-color); padding-bottom: 8px; }
-        
-        .layout-editorial { 
-            background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.6) 65%, rgba(0,0,0,0.88) 100%); 
-            flex-direction: row; 
-            justify-content: space-between; 
+        .retro-day {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            line-height: 0.9;
+            color: #B22222;
         }
-        .layout-editorial .p-top { flex-direction: column; gap: 8px; width: 38%; }
-        .layout-editorial .p-day { font-size: 3.2rem; line-height: 0.9; }
-        .layout-editorial .p-meta { border-top: 2px solid rgba(255,255,255,0.7); padding-top: 6px; border-left: none; padding-left: 0; }
-        .layout-editorial .p-bottom { width: 55%; display: flex; flex-direction: row-reverse; gap: 10px; align-items: flex-start; justify-content: flex-start; }
-        .layout-editorial .p-fortune { flex-direction: column; align-items: flex-end; }
-        .layout-editorial .p-quote { writing-mode: vertical-rl; text-align: left; font-size: 1.05rem; border-top: 2px solid var(--accent-color); padding-top: 10px; line-height: 1.65; max-height: 85%; }
-        
+        .retro-lunar-vertical {
+            writing-mode: vertical-rl;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.68rem;
+            font-weight: 900;
+            color: #1F1E1C;
+            letter-spacing: 2px;
+            margin: 4px auto 0 auto;
+        }
+        .retro-day-name {
+            writing-mode: vertical-rl;
+            font-size: 0.62rem;
+            color: #777;
+            letter-spacing: 1px;
+        }
+
+        /* 中央木刻版畫與宜忌欄 */
+        .retro-center-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .retro-frame {
+            aspect-ratio: 16/10;
+            border: 2px solid #B22222;
+            border-radius: 2px;
+            background: #FBF8EE;
+            outline: 1px solid rgba(178, 34, 34, 0.3);
+            outline-offset: 2px;
+        }
+        .retro-fortune {
+            display: flex;
+            justify-content: space-around;
+            gap: 6px;
+            border-top: 1px solid rgba(178, 34, 34, 0.3);
+            padding-top: 6px;
+        }
+        .retro-stamp {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 6px;
+            border: 1px solid #B22222;
+            background: #FAF6EB;
+            color: #1F1E1C;
+            border-radius: 2px;
+        }
+        .retro-stamp.do { color: #B22222; }
+
+        /* 左側直排書法金句欄 */
+        .retro-vertical-quote-col {
+            writing-mode: vertical-rl;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-right: 1px solid rgba(178, 34, 34, 0.3);
+            padding-right: 4px;
+        }
+        .retro-quote {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.88rem;
+            font-weight: 700;
+            line-height: 1.7;
+            color: #1F1E1C;
+            margin: 0;
+            letter-spacing: 1.5px;
+        }
+        .retro-seal-stamp {
+            display: inline-block;
+            border: 2px solid #B22222;
+            color: #B22222;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 0.65rem;
+            padding: 2px 2px;
+            font-weight: 900;
+            margin-top: 8px;
+            background: #FAF6EB;
+        }
+
+        .retro-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(178, 34, 34, 0.25);
+            padding-top: 6px;
+            margin-top: 6px;
+            font-size: 0.62rem;
+            font-family: 'Noto Serif TC', serif;
+            color: #777;
+        }
+
         /* 動作按鈕與工具面板 */
         .btn-action { 
             background: var(--ink-black); 
@@ -542,8 +1028,8 @@
             outline: none; 
             transition: border-color 0.2s;
         }
-        .tool-panel textarea:focus { border-color: var(--accent-color); }
-        .prompt-box { height: 55px; }
+        .tool-panel textarea:focus { border-color: var(--accent-gold); }
+        .prompt-box { height: 60px; }
         .caption-box { height: 85px; }
     </style>
 </head>
@@ -553,7 +1039,7 @@
         <aside class="sidebar">
             <div class="sidebar-brand">
                 <h1>🌌 TAIJI Omniverse</h1>
-                <div class="sidebar-subtitle">四重時空語義引擎 · 旗艦版</div>
+                <div class="sidebar-subtitle">社群流行語 × 殿堂日曆引擎</div>
             </div>
 
             <div class="control-panel">
@@ -573,15 +1059,15 @@
             <div class="universe-nav">
                 <div class="universe-nav-title">🪐 快速聚焦平行宇宙</div>
                 <div class="universe-pill-group">
-                    <button class="universe-pill" onclick="focusUniverse(0)">宇宙一<span>經典沉底</span></button>
-                    <button class="universe-pill" onclick="focusUniverse(1)">宇宙二<span>天際懸浮</span></button>
-                    <button class="universe-pill" onclick="focusUniverse(2)">宇宙三<span>極致置中</span></button>
-                    <button class="universe-pill" onclick="focusUniverse(3)">宇宙四<span>日系直書</span></button>
+                    <button class="universe-pill" onclick="focusUniverse(0)">宇宙一<span>經典禪意 · 水墨</span></button>
+                    <button class="universe-pill" onclick="focusUniverse(1)">宇宙二<span>現代孔版 · 疊印</span></button>
+                    <button class="universe-pill" onclick="focusUniverse(2)">宇宙三<span>粗野主義 · 幾何</span></button>
+                    <button class="universe-pill" onclick="focusUniverse(3)">宇宙四<span>老派活字 · 直排</span></button>
                 </div>
             </div>
 
-            <div style="font-size: 0.72rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto; border-top: 1px solid var(--line-color); pt-3;">
-                ✨ <b>美學防禦陣型</b>：採用 Midjourney v7.0 寫實指令與 20+ 組頂級備用圖庫，終結重複循環。
+            <div style="font-size: 0.72rem; color: var(--ink-gray); line-height: 1.6; margin-top: auto; border-top: 1px solid var(--line-color); padding-top: 12px;">
+                ✨ <b>社群時事熱點感知</b>：每天即時融合 Threads (脆)、IG 與當代青年流行語，以高雅平面藝術解構現代生活隱痛與驚喜。
             </div>
         </aside>
 
@@ -593,126 +1079,230 @@
                     <span style="font-size: 0.75rem; font-weight: 500; color: var(--ink-gray);">（點擊任一宇宙即可設為主選）</span>
                 </div>
                 <div class="gallery-header-badge" id="primary-universe-indicator">
-                    主選宇宙：宇宙一 · 經典沉底
+                    主選宇宙：宇宙一 · 經典禪意水墨
                 </div>
             </div>
 
             <div class="gallery-wrapper">
-                <!-- 容器 0 到 3 -->
+                <!-- 宇宙一：月魄清輝 (Classic Literary & Zen) -->
                 <div class="poster-card selected-universe" id="card-0" onclick="selectUniverse(0)">
                     <div class="poster-header">
                         <div class="poster-title-wrap">
-                            <span class="poster-label" id="label-0">🪐 宇宙一</span>
-                            <span class="poster-tag" id="tag-0">載入中...</span>
+                            <span class="poster-label" id="label-0">🪐 宇宙一：月魄清輝</span>
+                            <span class="poster-tag" id="tag-0">經典禪意 · 水墨</span>
                         </div>
                         <button class="btn-select-star" id="star-btn-0">★ 今日主選</button>
                     </div>
                     <div class="poster-wrapper" id="poster-0">
-                        <div class="html-poster">
-                            <div class="loading-mask" id="mask-0"><span>📸 宇宙顯影中...</span></div>
-                            <img class="poster-bg" id="bg-0" src="" crossorigin="anonymous" alt="宇宙海報">
-                            <div class="poster-overlay" id="overlay-0">
-                                <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
-                                <div class="p-bottom">
-                                    <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
-                                    <p class="p-quote">「金句載入中...」</p>
+                        <div class="html-poster universe-zen" id="sheet-0">
+                            <div class="paper-tactile-layer"></div>
+                            <div class="binder-header zen-binder">
+                                <div class="binder-holes">
+                                    <span class="hole"></span>
+                                    <span class="hole"></span>
                                 </div>
+                                <div class="perforation-line"></div>
+                            </div>
+                            <div class="zen-top-meta">
+                                <span class="zen-year-month p-ym">2026.09</span>
+                                <span class="zen-lunar p-lunar">八月十五 · 中秋望月</span>
+                                <span class="zen-star p-star">天秤座</span>
+                            </div>
+                            <div class="illustration-frame zen-frame">
+                                <div class="loading-mask" id="mask-0"><span>📸 禪意顯影中...</span></div>
+                                <img class="poster-illustration" id="bg-0" src="" crossorigin="anonymous" alt="禪意水墨插畫">
+                            </div>
+                            <div class="zen-date-row">
+                                <div class="p-day zen-day">25</div>
+                                <div class="zen-day-meta">
+                                    <span class="zen-weekday p-weekday">FRIDAY</span>
+                                    <div class="p-fortune zen-fortune">
+                                        <span class="zen-stamp do">宜 <span class="p-do">水月觀心</span></span>
+                                        <span class="zen-stamp dont">忌 <span class="p-dont">強求圓滿</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="zen-quote-box">
+                                <p class="p-quote zen-quote">「月未滿時皆是追尋，既滿之後全是告別。人世間最好的相遇，在將盈未盈的剎那。」</p>
+                            </div>
+                            <div class="zen-footer">
+                                <span>TAIJI OMNIVERSE · LITERARY ARCHIVE</span>
+                                <span class="zen-seal">太極</span>
                             </div>
                         </div>
                     </div>
-                    <button class="btn-action" onclick="downloadPoster('poster-0', this, event)">⬇️ 下載海報</button>
+                    <button class="btn-action" onclick="downloadPoster('poster-0', this, event)">⬇️ 下載日曆畫頁</button>
                     <div class="tool-panel">
-                        <div class="tool-header"><span>🎨 MJ v7.0 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
+                        <div class="tool-header"><span>🎨 MJ v7.0 藝術指令 (禪意水墨)</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
                         <textarea class="prompt-box" readonly></textarea>
                         <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box', event)">複製</button></div>
                         <textarea class="caption-box" readonly></textarea>
                     </div>
                 </div>
-                
+
+                <!-- 宇宙二：金禾暮野 (Modern Risograph & Tactile) -->
                 <div class="poster-card" id="card-1" onclick="selectUniverse(1)">
                     <div class="poster-header">
                         <div class="poster-title-wrap">
-                            <span class="poster-label" id="label-1">🪐 宇宙二</span>
-                            <span class="poster-tag" id="tag-1">載入中...</span>
+                            <span class="poster-label" id="label-1">🪐 宇宙二：金禾暮野</span>
+                            <span class="poster-tag" id="tag-1">現代孔版 · 疊印</span>
                         </div>
                         <button class="btn-select-star" id="star-btn-1">設為首選</button>
                     </div>
                     <div class="poster-wrapper" id="poster-1">
-                        <div class="html-poster">
-                            <div class="loading-mask" id="mask-1"><span>等候算圖...</span></div>
-                            <img class="poster-bg" id="bg-1" src="" crossorigin="anonymous" alt="宇宙海報">
-                            <div class="poster-overlay" id="overlay-1">
-                                <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
-                                <div class="p-bottom">
-                                    <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
-                                    <p class="p-quote">「金句載入中...」</p>
+                        <div class="html-poster universe-riso" id="sheet-1">
+                            <div class="paper-tactile-layer"></div>
+                            <div class="binder-header riso-binder">
+                                <div class="riso-tear-bar">
+                                    <span class="riso-pill-no">NO. 268</span>
+                                    <span class="riso-series-tag">RISOGRAPH EDITION</span>
                                 </div>
+                                <div class="perforation-dots"></div>
+                            </div>
+                            <div class="riso-top-row">
+                                <span class="p-ym riso-ym">2026.09</span>
+                                <span class="riso-lunar-pill p-lunar">八月十五中秋</span>
+                            </div>
+                            <div class="illustration-frame riso-frame">
+                                <div class="loading-mask" id="mask-1"><span>📸 孔版顯影中...</span></div>
+                                <img class="poster-illustration" id="bg-1" src="" crossorigin="anonymous" alt="孔版印刷幾何插圖">
+                            </div>
+                            <div class="riso-date-block">
+                                <div class="p-day riso-day">25</div>
+                                <div class="riso-date-side">
+                                    <div class="p-fortune riso-fortune">
+                                        <div class="riso-badge do"><span class="badge-label">宜</span> <span class="p-do">夜釀煮酒</span></div>
+                                        <div class="riso-badge dont"><span class="badge-label">忌</span> <span class="p-dont">斤斤計較</span></div>
+                                    </div>
+                                    <span class="riso-weekday p-weekday">FRI / 金曜日</span>
+                                </div>
+                            </div>
+                            <div class="riso-quote-box">
+                                <p class="p-quote riso-quote">「天地在秋分收起一半的光，留給人間足夠的長夜去煨熱一壺酒。」</p>
+                            </div>
+                            <div class="riso-footer">
+                                <span>HARVEST EQUILIBRIUM</span>
+                                <span class="riso-color-dots"><i style="background:#F8B600"></i><i style="background:#D34E2A"></i><i style="background:#23382D"></i></span>
                             </div>
                         </div>
                     </div>
-                    <button class="btn-action" onclick="downloadPoster('poster-1', this, event)">⬇️ 下載海報</button>
+                    <button class="btn-action" onclick="downloadPoster('poster-1', this, event)">⬇️ 下載日曆畫頁</button>
                     <div class="tool-panel">
-                        <div class="tool-header"><span>🎨 MJ v7.0 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
+                        <div class="tool-header"><span>🎨 MJ v7.0 藝術指令 (Risograph)</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
                         <textarea class="prompt-box" readonly></textarea>
                         <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box', event)">複製</button></div>
                         <textarea class="caption-box" readonly></textarea>
                     </div>
                 </div>
 
+                <!-- 宇宙三：太虛星火 (Avant-Garde & Neo-Brutalism) -->
                 <div class="poster-card" id="card-2" onclick="selectUniverse(2)">
                     <div class="poster-header">
                         <div class="poster-title-wrap">
-                            <span class="poster-label" id="label-2">🪐 宇宙三</span>
-                            <span class="poster-tag" id="tag-2">載入中...</span>
+                            <span class="poster-label" id="label-2">🪐 宇宙三：太虛星火</span>
+                            <span class="poster-tag" id="tag-2">粗野主義 · 幾何</span>
                         </div>
                         <button class="btn-select-star" id="star-btn-2">設為首選</button>
                     </div>
                     <div class="poster-wrapper" id="poster-2">
-                        <div class="html-poster">
-                            <div class="loading-mask" id="mask-2"><span>等候算圖...</span></div>
-                            <img class="poster-bg" id="bg-2" src="" crossorigin="anonymous" alt="宇宙海報">
-                            <div class="poster-overlay" id="overlay-2">
-                                <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
-                                <div class="p-bottom">
-                                    <div class="p-fortune"><span class="p-stamp do">宜 <span class="p-do"></span></span><span class="p-stamp dont">忌 <span class="p-dont"></span></span></div>
-                                    <p class="p-quote">「金句載入中...」</p>
+                        <div class="html-poster universe-brutal" id="sheet-2">
+                            <div class="paper-tactile-layer"></div>
+                            <div class="binder-header brutal-binder">
+                                <div class="brutal-industrial-bar">
+                                    <span class="brutal-screw">+</span>
+                                    <span>SYS.365 // CHRONO.V2</span>
+                                    <span class="brutal-screw">+</span>
                                 </div>
+                            </div>
+                            <div class="brutal-meta-row">
+                                <span class="p-ym brutal-ym">2026 // 09</span>
+                                <span class="p-lunar brutal-lunar">PHASE: 1.000 FULL</span>
+                            </div>
+                            <div class="illustration-frame brutal-frame">
+                                <div class="loading-mask" id="mask-2"><span>⚡ 奇點運算中...</span></div>
+                                <img class="poster-illustration" id="bg-2" src="" crossorigin="anonymous" alt="粗野主義奇點插畫">
+                            </div>
+                            <div class="brutal-hero-row">
+                                <div class="p-day brutal-day">25</div>
+                                <div class="brutal-side-telemetry">
+                                    <div class="p-fortune brutal-fortune">
+                                        <div class="brutal-box do">[ DO: <span class="p-do">出格造夢</span> ]</div>
+                                        <div class="brutal-box dont">[ AVOID: <span class="p-dont">安分守己</span> ]</div>
+                                    </div>
+                                    <div class="brutal-status-tag">WORLD DREAM DAY</div>
+                                </div>
+                            </div>
+                            <div class="brutal-quote-box">
+                                <p class="p-quote brutal-quote">「所有不能抵達星空的夢想，都是地球重力對自由意志的拙劣拘留。」</p>
+                            </div>
+                            <div class="brutal-footer">
+                                <div class="brutal-barcode">|||| | | |||| || | || |||| |</div>
+                                <span>LAT 23°30'N // LON 121°00'E</span>
                             </div>
                         </div>
                     </div>
-                    <button class="btn-action" onclick="downloadPoster('poster-2', this, event)">⬇️ 下載海報</button>
+                    <button class="btn-action" onclick="downloadPoster('poster-2', this, event)">⬇️ 下載日曆畫頁</button>
                     <div class="tool-panel">
-                        <div class="tool-header"><span>🎨 MJ v7.0 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
+                        <div class="tool-header"><span>🎨 MJ v7.0 藝術指令 (Neo-Brutalism)</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
                         <textarea class="prompt-box" readonly></textarea>
                         <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box', event)">複製</button></div>
                         <textarea class="caption-box" readonly></textarea>
                     </div>
                 </div>
 
+                <!-- 宇宙四：天涯共此 (Traditional Calligraphy & Retro) -->
                 <div class="poster-card" id="card-3" onclick="selectUniverse(3)">
                     <div class="poster-header">
                         <div class="poster-title-wrap">
-                            <span class="poster-label" id="label-3">🪐 宇宙四</span>
-                            <span class="poster-tag" id="tag-3">載入中...</span>
+                            <span class="poster-label" id="label-3">🪐 宇宙四：天涯共此</span>
+                            <span class="poster-tag" id="tag-3">老派活字 · 直排</span>
                         </div>
                         <button class="btn-select-star" id="star-btn-3">設為首選</button>
                     </div>
                     <div class="poster-wrapper" id="poster-3">
-                        <div class="html-poster">
-                            <div class="loading-mask" id="mask-3"><span>等候算圖...</span></div>
-                            <img class="poster-bg" id="bg-3" src="" crossorigin="anonymous" alt="宇宙海報">
-                            <div class="poster-overlay" id="overlay-3">
-                                <div class="p-top"><div class="p-day">00</div><div class="p-meta"><div class="p-ym">0000.00</div><div class="p-lunar">農曆</div></div></div>
-                                <div class="p-bottom">
-                                    <div class="p-fortune"><span class="p-stamp do">宜<br><span class="p-do"></span></span><span class="p-stamp dont">忌<br><span class="p-dont"></span></span></div>
-                                    <p class="p-quote">「金句載入中...」</p>
+                        <div class="html-poster universe-retro" id="sheet-3">
+                            <div class="paper-tactile-layer"></div>
+                            <div class="binder-header retro-binder">
+                                <div class="retro-stitch-line">
+                                    <span class="stitch"></span><span class="stitch"></span><span class="stitch"></span><span class="stitch"></span>
                                 </div>
+                            </div>
+                            <div class="retro-grid-container">
+                                <!-- 直排書法金句欄 -->
+                                <div class="retro-vertical-quote-col">
+                                    <p class="p-quote retro-quote">「海上生明月，天涯共此時。無人知你行經的風雪，但頭頂始終是同一抹青光。」</p>
+                                    <div class="retro-seal-stamp">萬相</div>
+                                </div>
+                                <!-- 中央木刻插畫與宜忌欄 -->
+                                <div class="retro-center-col">
+                                    <div class="illustration-frame retro-frame">
+                                        <div class="loading-mask" id="mask-3"><span>🪓 木刻顯影中...</span></div>
+                                        <img class="poster-illustration" id="bg-3" src="" crossorigin="anonymous" alt="傳統木刻版畫">
+                                    </div>
+                                    <div class="p-fortune retro-fortune">
+                                        <div class="retro-stamp do">宜 <span class="p-do">手書致遠</span></div>
+                                        <div class="retro-stamp dont">忌 <span class="p-dont">過度憂思</span></div>
+                                    </div>
+                                </div>
+                                <!-- 右側日期欄 -->
+                                <div class="retro-date-col">
+                                    <div class="retro-year-banner p-ym">歲次丙午 · 2026.09</div>
+                                    <div class="retro-date-box">
+                                        <div class="p-day retro-day">25</div>
+                                        <div class="retro-lunar-vertical p-lunar">八月十五望</div>
+                                    </div>
+                                    <div class="retro-day-name p-weekday">金曜日 · 望月節</div>
+                                </div>
+                            </div>
+                            <div class="retro-footer">
+                                <span>歲月靜好 · 萬物有信</span>
+                                <span>老派生活日曆紀念卷</span>
                             </div>
                         </div>
                     </div>
-                    <button class="btn-action" onclick="downloadPoster('poster-3', this, event)">⬇️ 下載海報</button>
+                    <button class="btn-action" onclick="downloadPoster('poster-3', this, event)">⬇️ 下載日曆畫頁</button>
                     <div class="tool-panel">
-                        <div class="tool-header"><span>🎨 MJ v7.0 寫實指令</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
+                        <div class="tool-header"><span>🎨 MJ v7.0 藝術指令 (Woodblock Print)</span><button class="btn-icon" onclick="copyCardText(this, '.prompt-box', event)">複製</button></div>
                         <textarea class="prompt-box" readonly></textarea>
                         <div class="tool-header"><span>📱 Threads 貼文</span><button class="btn-icon" onclick="copyCardText(this, '.caption-box', event)">複製</button></div>
                         <textarea class="caption-box" readonly></textarea>
@@ -724,17 +1314,32 @@
 
     <script>
         const quotesData = typeof __QUOTES_JS__ !== 'undefined' ? __QUOTES_JS__ : [
-            { do_action: "深呼吸", dont_action: "焦慮", quote: "生活是一場未知的旅程。", article: "請前往 GitHub 觸發大腦生成最新宇宙。", hashtag: "等待", theme: "系統預設", image_subject: "a quiet misty morning in a dense forest" }
+            { do_action: "水月觀心", dont_action: "強求圓滿", quote: "月未滿時皆是追尋，既滿之後全是告別。人世間最好的相遇，在將盈未盈的剎那。", article: "八月十五望月，清輝漫灑人間。", hashtag: "中秋", theme: "月魄清輝", image_subject: "minimalist Zen ink painting of an Enso circle" }
         ]; 
         
         const musicPool = [
-            { track: "The Lazy Song", artist: "Bruno Mars" },
-            { track: "Here Comes The Sun", artist: "The Beatles" },
-            { track: "A Sky Full of Stars", artist: "Coldplay" },
-            { track: "Nuvole Bianche", artist: "Ludovico Einaudi" },
+            { track: "月光 (Clair de Lune)", artist: "Claude Debussy" },
+            { track: "流浪者之歌 (Zigeunerweisen)", artist: "Pablo de Sarasate" },
             { track: "Merry-Go-Round of Life", artist: "Joe Hisaishi" },
-            { track: "Nessun Dorma", artist: "Giacomo Puccini" },
-            { track: "Sparkle", artist: "RADWIMPS" }
+            { track: "Nuvole Bianche", artist: "Ludovico Einaudi" },
+            { track: "Sparkle", artist: "RADWIMPS" },
+            { track: "Here Comes The Sun", artist: "The Beatles" },
+            { track: "A Sky Full of Stars", artist: "Coldplay" }
+        ];
+
+        // 🎨 殿堂級 0 延遲向量藝術保底庫 (Zero-latency Handcrafted SVG Masterpieces)
+        const vectorArtFallbacks = [
+            // 宇宙一：禪意水墨圓相 (Zen Ink Ensō)
+            `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200' width='320' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23FAF8F5'/%3E%3Cpath d='M160,35 C215,35 255,75 255,115 C255,160 210,185 160,185 C110,185 65,150 65,110 C65,65 110,38 152,38' fill='none' stroke='%231A1C1E' stroke-width='14' stroke-linecap='round' stroke-dasharray='500' opacity='0.88'/%3E%3Ccircle cx='160' cy='110' r='5' fill='%23982A2A' opacity='0.9'/%3E%3Ccircle cx='160' cy='135' r='2' fill='%231A1C1E' opacity='0.4'/%3E%3Crect x='230' y='145' width='16' height='16' fill='none' stroke='%23982A2A' stroke-width='1.5'/%3E%3Ctext x='238' y='157' font-family='serif' font-size='9' fill='%23982A2A' text-anchor='middle'%3E太%3C/text%3E%3C/svg%3E`,
+            
+            // 宇宙二：孔版印刷幾何金禾 (Risograph Golden Harvest)
+            `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200' width='320' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23F8F5EE'/%3E%3Ccircle cx='140' cy='95' r='60' fill='%23F8B600' opacity='0.85'/%3E%3Ccircle cx='190' cy='110' r='48' fill='%23D34E2A' opacity='0.75' mix-blend-mode='multiply'/%3E%3Cpath d='M90,170 Q130,110 160,50 Q170,110 210,170' fill='none' stroke='%2323382D' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M125,170 Q145,130 160,80 Q175,130 195,170' fill='none' stroke='%2323382D' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E`,
+            
+            // 宇宙三：粗野主義先鋒奇點 (Neo-Brutalist Singularity)
+            `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200' width='320' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23141517'/%3E%3Cg stroke='%232E3238' stroke-width='1'%3E%3Cline x1='0' y1='40' x2='320' y2='40'/%3E%3Cline x1='0' y1='80' x2='320' y2='80'/%3E%3Cline x1='0' y1='120' x2='320' y2='120'/%3E%3Cline x1='0' y1='160' x2='320' y2='160'/%3E%3Cline x1='80' y1='0' x2='80' y2='200'/%3E%3Cline x1='160' y1='0' x2='160' y2='200'/%3E%3Cline x1='240' y1='0' x2='240' y2='200'/%3E%3C/g%3E%3Ccircle cx='160' cy='100' r='50' fill='none' stroke='%23D4FF00' stroke-width='3'/%3E%3Ccircle cx='160' cy='100' r='20' fill='%23D4FF00'/%3E%3Cline x1='110' y1='100' x2='210' y2='100' stroke='%23FFFFFF' stroke-width='2'/%3E%3Ctext x='25' y='180' fill='%23D4FF00' font-family='monospace' font-size='10' font-weight='bold'%3ESINGULARITY_01 // ACTIVE%3C/text%3E%3C/svg%3E`,
+            
+            // 宇宙四：傳統木刻海潮明月 (Vintage Woodblock Waves)
+            `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200' width='320' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23FBF8EE'/%3E%3Ccircle cx='160' cy='75' r='36' fill='%23B22222' opacity='0.9'/%3E%3Cpath d='M0,165 Q40,135 80,165 T160,165 T240,165 T320,165 L320,200 L0,200 Z' fill='%231F1E1C'/%3E%3Cpath d='M0,175 Q40,150 80,175 T160,175 T240,175 T320,175 L320,200 L0,200 Z' fill='%2336332E'/%3E%3Cpath d='M40,135 Q50,115 65,130 Q55,145 40,135' fill='%23FFFFFF'/%3E%3Cpath d='M120,135 Q130,115 145,130 Q135,145 120,135' fill='%23FFFFFF'/%3E%3Crect x='270' y='20' width='24' height='24' fill='none' stroke='%23B22222' stroke-width='1.5'/%3E%3Ctext x='282' y='36' font-family='serif' font-size='11' font-weight='bold' fill='%23B22222' text-anchor='middle'%3E萬%3C/text%3E%3C/svg%3E`
         ];
 
         function getAstrologySign(month, day) {
@@ -797,9 +1402,6 @@
             setTimeout(() => { btnElement.innerHTML = originalText; }, 2000);
         }
 
-        function triggerTearAnimation() { randomizeAll(); }
-        function applyDateChange() { randomizeAll(); }
-
         function downloadPoster(wrapperId, btnElement, event) {
             if (event) event.stopPropagation();
             const posterWrapper = document.getElementById(wrapperId);
@@ -808,10 +1410,10 @@
             const originalText = btnElement.innerHTML;
             btnElement.innerHTML = "⏳ 渲染中...";
             btnElement.style.opacity = "0.7"; btnElement.style.pointerEvents = "none";
-            const ym = document.querySelector(`#${wrapperId} .p-ym`).innerText.replace('.', '');
-            const day = document.querySelector(`#${wrapperId} .p-day`).innerText;
+            const ym = document.querySelector(`#${wrapperId} .p-ym`).innerText.replace(/[^0-9]/g, '');
+            const day = document.querySelector(`#${wrapperId} .p-day`).innerText.trim();
             const fileName = `Taiji_Calendar_${ym}${day}_${wrapperId}.png`;
-            html2canvas(posterWrapper, { scale: 3, useCORS: true, backgroundColor: "transparent" }).then(canvas => {
+            html2canvas(posterWrapper, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
                 const link = document.createElement('a'); link.download = fileName;
                 link.href = canvas.toDataURL('image/png'); link.click();
                 btnElement.innerHTML = "✅ 下載完成！";
@@ -834,45 +1436,7 @@
             return array;
         }
 
-        // 升級版 Midjourney v7.0 干擾與風格修飾詞
-        const disruptiveFactors = [
-            "taken during golden hour, cinematic lighting",
-            "shot on Hasselblad 500C, Kodak Portra 400 aesthetic",
-            "diffused soft morning light, hyper-detailed textures",
-            "wide angle shot, high contrast shadow architecture",
-            "monochrome high contrast, minimalist wabi-sabi atmosphere",
-            "telephoto compression, subtle evening mist reflection",
-            "shot on 35mm f/1.4 lens, natural organic film grain",
-            "cinematic anamorphic lens flare, moody twilight illumination"
-        ];
-
-        // 🛡️ 宗師級防破圖載入器
-        // 🚀 頂級優化：輕量動態圖庫 (360x640 輕量 20KB，載入僅需 0.3 秒)
-        // 依照主題意象精準分類的專業攝影庫（極速 Unsplash CDN 480px + Picsum 動態隨機種子）
-        const thematicPhotos = [
-            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=480&q=70&auto=format&fit=crop', // 寧靜湖泊
-            'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=480&q=70&auto=format&fit=crop', // 壯麗高山
-            'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=480&q=70&auto=format&fit=crop', // 晨光窗影
-            'https://images.unsplash.com/photo-1490682143684-14369e18dce8?w=480&q=70&auto=format&fit=crop', // 秋日花卉
-            'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=480&q=70&auto=format&fit=crop', // 靜謐手沖咖啡
-            'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=480&q=70&auto=format&fit=crop', // 溫潤木吉他
-            'https://images.unsplash.com/photo-1520523839898-50712509e37b?w=480&q=70&auto=format&fit=crop', // 晨曦光芒鋼琴
-            'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=480&q=70&auto=format&fit=crop', // 陽光慵懶貓咪
-            'https://images.unsplash.com/photo-1444464666168-49b626f86641?w=480&q=70&auto=format&fit=crop', // 晨霧深邃森林
-            'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=480&q=70&auto=format&fit=crop', // 賽博霓虹街頭
-            'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=480&q=70&auto=format&fit=crop', // 晨露微距禪石
-            'https://images.unsplash.com/photo-1532693322450-2cb5c511067d?w=480&q=70&auto=format&fit=crop', // 浩瀚夜空明月
-            'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=480&q=70&auto=format&fit=crop', // 黃金暮色田野
-            'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=480&q=70&auto=format&fit=crop', // 碧藍深邃海洋
-            'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=480&q=70&auto=format&fit=crop', // 溫暖舊書案頭
-            'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=480&q=70&auto=format&fit=crop', // 璀璨璀璨星河
-            'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=480&q=70&auto=format&fit=crop', // 靜謐綠意木橋
-            'https://images.unsplash.com/photo-1483728642387-6c3ba6c6b870?w=480&q=70&auto=format&fit=crop', // 黑色大理石紋理
-            'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=480&q=70&auto=format&fit=crop', // 雨夜暖黃路燈
-            'https://images.unsplash.com/photo-1470071131384-001b85755b36?w=480&q=70&auto=format&fit=crop'  // 晨光薄霧群山
-        ];
-
-        // ⚡ 極速載入器：短逾時 (2.5秒)，若 AI 端點塞車立刻無縫平滑切換，絕不卡死
+        // ⚡ 0 延遲藝術顯影載入器
         function loadCardImageFast(imgElement, maskElement, primaryUrl, fallbackUrl) {
             let isLoaded = false;
             let timer = null;
@@ -883,7 +1447,7 @@
                 if (timer) clearTimeout(timer);
                 if (maskElement) {
                     maskElement.style.opacity = '0';
-                    setTimeout(() => { maskElement.style.display = 'none'; }, 500);
+                    setTimeout(() => { maskElement.style.display = 'none'; }, 400);
                 }
             };
 
@@ -897,7 +1461,7 @@
             imgElement.onload = () => onDone(true);
             imgElement.onerror = triggerFallback;
 
-            // 2.5 秒超短逾時（若 Pollinations 伺服器排隊，立刻切到動態攝影圖庫）
+            // 2.5 秒逾時保護：若 Pollinations 排隊，立刻切到手工向量藝術 SVG 保底！
             timer = setTimeout(triggerFallback, 2500);
             imgElement.src = primaryUrl;
         }
@@ -916,7 +1480,12 @@
             const ymStr = `${y}.${String(m).padStart(2, '0')}`;
             const exactStarSign = getAstrologySign(m, d);
             
-            let lunarDisplay = "農曆查無資料";
+            const weekdaysEn = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+            const weekdaysJp = ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"];
+            const weekdayEn = weekdaysEn[dObj.getDay()];
+            const weekdayJp = weekdaysJp[dObj.getDay()];
+
+            let lunarDisplay = "農曆八月十五";
             let festivalTags = [];
             try {
                 if (typeof Lunar !== 'undefined') {
@@ -929,109 +1498,143 @@
                 }
             } catch (e) { console.error("Lunar error:", e); }
 
-            // 🌐 全球多重節慶與天文感知矩陣 (Global Festival & Astronomical Sensor)
+            // 🌐 全球多重節慶感知矩陣
+            // 🌐 365天全時空智能感知矩陣 (24節氣、月相與全球紀念日)
             const globalEventsMap = {
-                "09-25": ["🌕 中秋節 (望月)", "🌾 秋分收穫月", "✨ 世界夢想日"],
-                "09-23": ["🍁 秋分節氣", "天平平衡之日"],
-                "10-31": ["🎃 萬聖前夜", "暗夜靈魂節"],
-                "12-21": ["❄️ 冬至節氣", "極夜初光"],
-                "12-25": ["🎄 耶誕節", "平安夜"],
                 "01-01": ["🎉 元旦新年", "萬象更新"],
-                "04-22": ["🌍 世界地球日", "大地之母"]
+                "01-05": ["❄️ 小寒節氣", "積雪凝冰"],
+                "01-20": ["❄️ 大寒節氣", "歲末寒極"],
+                "02-04": ["🌱 立春節氣", "萬物復甦"],
+                "02-14": ["💌 西洋情人節", "心意相契"],
+                "02-19": ["🌧️ 雨水節氣", "春雨潤物"],
+                "03-05": ["⚡ 驚蟄節氣", "雷動生機"],
+                "03-08": ["💐 國際婦女節", "女性力量"],
+                "03-20": ["🌸 春分節氣", "晝夜均分"],
+                "03-21": ["📖 世界詩歌日", "靈魂韻律"],
+                "04-04": ["🌿 清明節氣", "慎終追遠"],
+                "04-20": ["🌾 穀雨節氣", "雨生百穀"],
+                "04-22": ["🌍 世界地球日", "大地之母"],
+                "05-01": ["🛠️ 國際勞動節", "致敬耕耘"],
+                "05-05": ["☀️ 立夏節氣", "綠陰初盛"],
+                "05-18": ["🏛️ 國際博物館日", "文明星火"],
+                "05-21": ["🌱 小滿節氣", "物致於此"],
+                "06-05": ["🌾 芒種節氣", "有芒有種"],
+                "06-21": ["☀️ 夏至節氣", "白晝之極", "🎵 世界音樂日"],
+                "07-07": ["🔥 小暑節氣", "熱風初至"],
+                "07-22": ["🔥 大暑節氣", "盛夏蒸騰"],
+                "08-07": ["🍂 立秋節氣", "涼風漸生"],
+                "08-23": ["🍁 處暑節氣", "暑氣將止"],
+                "09-07": ["💧 白露節氣", "玉露生寒"],
+                "09-21": ["🕊️ 國際和平日", "和光同塵"],
+                "09-23": ["⚖️ 秋分節氣", "光暗平衡"],
+                "09-25": ["🌕 中秋節 (望月)", "🌾 秋分收穫月", "✨ 世界夢想日"],
+                "10-08": ["🍁 寒露節氣", "露氣寒冷"],
+                "10-23": ["❄️ 霜降節氣", "霜葉紅遍"],
+                "10-31": ["🎃 萬聖前夜", "暗夜微光"],
+                "11-07": ["❄️ 立冬節氣", "水始冰凍"],
+                "11-22": ["🌨️ 小雪節氣", "雪花初落"],
+                "12-07": ["❄️ 大雪節氣", "萬山素裹"],
+                "12-21": ["☯️ 冬至節氣", "一陽來復", "極夜之光"],
+                "12-24": ["🕯️ 平安夜", "靜候天明"],
+                "12-25": ["🎄 耶誕節", "星光守望"],
+                "12-31": ["⏳ 跨年除舊", "時空重置"]
             };
             const dateMD = `${String(m).padStart(2, '0')}-${dayStr}`;
             if (globalEventsMap[dateMD]) {
                 festivalTags.push(...globalEventsMap[dateMD]);
             }
             const uniqueFestivals = [...new Set(festivalTags)];
-            const festivalStr = uniqueFestivals.length > 0 ? `<br><span style="color: var(--accent-color); font-weight: 700;">${uniqueFestivals.join(' ｜ ')}</span>` : '';
+            const festivalStr = uniqueFestivals.length > 0 ? `<br><span style="color: #982A2A; font-weight: 700;">${uniqueFestivals.join(' ｜ ')}</span>` : '';
             
             document.getElementById('today-stats').innerHTML = `<strong>${ymStr}.${dayStr}</strong><span>${lunarDisplay} ｜ ${exactStarSign}${festivalStr}</span>`;
 
-            // 固定四種版型映射四重宇宙
-            const layoutOrder = ['layout-bottom', 'layout-top', 'layout-center', 'layout-editorial'];
-            let shuffledLayouts = shouldShuffle ? shuffleArray([...layoutOrder]) : layoutOrder;
-            const layoutNames = { 
-                'layout-bottom': '經典沉底', 
-                'layout-top': '天際懸浮', 
-                'layout-center': '極致置中', 
-                'layout-editorial': '日系直書' 
-            };
-            const uniTitles = ['一', '二', '三', '四'];
+            // 四大殿堂宇宙 365天全域自適應 Midjourney v7.0 藝術指令產生器 (嚴禁 photorealistic 與 3D render)
+            const universePromptsGenerators = [
+                // 宇宙一：經典禪意 · 水墨留白 (Zen Ink & Wabi-Sabi)
+                (subj) => `A minimalist fine-art Zen sumi-e ink painting of ${subj}, expressive calligraphy brushstrokes, contemplative poetic negative space on rough handmade washi paper, high-contrast ink wash gradations, Japanese wabi-sabi aesthetic, Song dynasty fine art curation, no photorealism, no 3D render, no camera lens --v 7.0 --stylize 300 --ar 9:16`,
+                // 宇宙二：現代孔版 · 疊印生活 (Modern Risograph Print)
+                (subj) => `A vibrant two-color or three-color Risograph print of ${subj}, overlapping bold geometric graphic silhouettes, tactile halftone screenprint dots, organic paper grain texture, slight ink bleed misalignment, textured oat paper background, retro-modern graphic poster, screen printed aesthetic, flat design, no photography, no realism, no gradient shine --v 7.0 --stylize 250 --ar 9:16`,
+                // 宇宙三：先鋒粗野 · 幾何數據 (Neo-Brutalist Typographic Poster)
+                (subj) => `Neo-brutalist typographic poster art of ${subj}, Swiss international typographic style, abstract geometric grid deformed by algorithmic vector shapes, high contrast, monochrome black and silver-white with an electric neon accent, sharp vector shapes, dithered bitmap pattern, bold modernism, Fedrigoni 365 editorial style, no photorealism, no 3D rendered surface --v 7.0 --stylize 180 --ar 9:16`,
+                // 宇宙四：老派活字 · 直排版畫 (Traditional East Asian Woodblock)
+                (subj) => `Vintage East Asian woodblock print of ${subj}, traditional linocut relief texture, aged newsprint paper grain, rough hand-carved edges, two-tone deep sumi ink and vermilion red seal stamp, antique craftsmanship, flat graphic art, no shiny gradients, no 3D render --v 7.0 --stylize 200 --ar 9:16`
+            ];
 
-            // 初始載入時鎖定前四大節慶宇宙，點擊刷新按鈕時才進入全池洗牌
+            const universePollinationsGenerators = [
+                (subj) => encodeURIComponent(`Minimalist fine-art Zen ink painting, ${subj}, sumi-e wabi-sabi aesthetic, flat graphic poster, no 3D render`),
+                (subj) => encodeURIComponent(`Vibrant two-color Risograph print, ${subj}, screen printed aesthetic, tactile halftone dots, flat design`),
+                (subj) => encodeURIComponent(`Neo-brutalist typographic poster art, ${subj}, Swiss graphic art, monochrome with acid-lime accent, vector illustration`),
+                (subj) => encodeURIComponent(`Vintage woodblock print, ${subj}, traditional East Asian linocut, aged newsprint grain, antique craftsmanship`)
+            ];
+
+            const universeTitles = ["月魄清輝", "金禾暮野", "太虛星火", "天涯共此"];
+            const universeTags = ["經典禪意 · 水墨", "現代孔版 · 疊印", "粗野主義 · 幾何", "老派活字 · 直排"];
+
             let mixedQuotes = shouldShuffle ? shuffleArray([...quotesData]) : [...quotesData];
-            let renderQueue = [];
 
             for (let i = 0; i < 4; i++) {
-                const layoutKey = shuffledLayouts[i];
                 const wrapper = document.getElementById(`card-${i}`);
                 const mask = document.getElementById(`mask-${i}`);
                 const bgImg = document.getElementById(`bg-${i}`);
-                const overlay = document.getElementById(`overlay-${i}`);
                 const label = document.getElementById(`label-${i}`);
                 const tag = document.getElementById(`tag-${i}`);
 
-                if (mask) { mask.style.opacity = '1'; mask.innerHTML = '<span>📸 宇宙顯影中...</span>'; }
+                if (mask) { mask.style.opacity = '1'; mask.style.display = 'flex'; }
                 bgImg.src = ''; 
-                overlay.className = `poster-overlay ${layoutKey}`;
                 
                 const quoteObj = mixedQuotes[i] || mixedQuotes[0];
-                const theme = quoteObj.theme || "未知宇宙";
-                const imageSubject = quoteObj.image_subject || "a peaceful beautiful landscape";
-                const doAction = quoteObj.do_action || "呼吸";
-                const dontAction = quoteObj.dont_action || "焦慮";
-                const quoteText = quoteObj.quote || "努力活著。";
+                const theme = quoteObj.theme || universeTitles[i];
+                const imageSubject = quoteObj.image_subject || "abstract cosmic harmony and philosophical reflection";
+                const doAction = quoteObj.do_action || "心安";
+                const dontAction = quoteObj.dont_action || "浮躁";
+                const quoteText = quoteObj.quote || "月未滿時皆是追尋，既滿之後全是告別。";
                 const articleText = quoteObj.article || "";
-                const painTag = quoteObj.hashtag || "日常碎片";
+                const painTag = quoteObj.hashtag || "生活碎片";
                 
-                label.innerHTML = `🪐 宇宙${uniTitles[i]}：${theme}`;
-                tag.innerHTML = layoutNames[layoutKey];
+                label.innerHTML = `🪐 宇宙${['一','二','三','四'][i]}：${theme}`;
+                tag.innerHTML = universeTags[i];
                 
-                const isEditorial = (layoutKey === 'layout-editorial');
-                const pDoLabel = isEditorial ? `宜<br><span class="p-do">${doAction}</span>` : `宜 <span class="p-do">${doAction}</span>`;
-                const pDontLabel = isEditorial ? `忌<br><span class="p-dont">${dontAction}</span>` : `忌 <span class="p-dont">${dontAction}</span>`;
-                wrapper.querySelector('.p-fortune').innerHTML = `<span class="p-stamp do">${pDoLabel}</span><span class="p-stamp dont">${pDontLabel}</span>`;
-                
+                // 更新文字欄位
+                const dayEl = wrapper.querySelector('.p-day');
+                const ymEl = wrapper.querySelector('.p-ym');
+                const lunarEl = wrapper.querySelector('.p-lunar');
+                const quoteEl = wrapper.querySelector('.p-quote');
+                const doEl = wrapper.querySelector('.p-do');
+                const dontEl = wrapper.querySelector('.p-dont');
+                const weekdayEl = wrapper.querySelector('.p-weekday');
+
+                if (dayEl) dayEl.innerText = dayStr;
+                if (ymEl) ymEl.innerText = (i === 2) ? `${y} // ${String(m).padStart(2, '0')}` : ymStr;
+                if (lunarEl) lunarEl.innerText = lunarDisplay;
+                if (quoteEl) quoteEl.innerText = `「${quoteText}」`;
+                if (doEl) doEl.innerText = doAction;
+                if (dontEl) dontEl.innerText = dontAction;
+                if (weekdayEl) {
+                    const shortEn = weekdayEn.substring(0, 3);
+                    const festLabel = (uniqueFestivals.length > 0) ? ` · ${uniqueFestivals[0].replace(/[^一-龥]/g, '').substring(0, 4)}` : '';
+                    if (i === 1) weekdayEl.innerText = `${shortEn} / ${weekdayJp}`;
+                    else if (i === 3) weekdayEl.innerText = `${weekdayJp}${festLabel}`;
+                    else weekdayEl.innerText = `${weekdayEn}${festLabel}`;
+                }
+
+                // 產生 MJ v7.0 專屬平面藝術指令與 Threads 文案
+                const fullMjPrompt = universePromptsGenerators[i](imageSubject);
+                const safeUrlPrompt = universePollinationsGenerators[i](imageSubject);
                 const igMusic = getRandomItem(musicPool);
-                const fullSongInfo = `${igMusic.track} - ${igMusic.artist}`;
-                const randomDisruption = getRandomItem(disruptiveFactors);
-                
-                // 升級至 Midjourney v7.0 旗艦指令規格
-                const fullMjPrompt = `A hyper-realistic raw photograph of ${imageSubject}, ${randomDisruption}, shot on 35mm lens, natural lighting, highly detailed --style raw --v 7.0 --ar 9:16 --stylize 250`;
-                const safeUrlPrompt = encodeURIComponent(`Hyper-realistic raw photograph of ${imageSubject}, ${randomDisruption}, natural lighting`);
-                
-                const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【日曆小故事】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${fullSongInfo}\n\n#日曆 #生活碎片 #${painTag} #TAIJI_Omniverse #2026`;
-                
+                const threadsText = `📅 ${ymStr}.${dayStr}｜${lunarDisplay}｜${exactStarSign}\n💡今日指南：宜 ${doAction} ｜ 忌 ${dontAction}\n\n【TAIJI 萬相日曆 · 宇宙${['一','二','三','四'][i]}】\n${articleText}\n\n「${quoteText}」\n\n🎵 推薦配樂：${igMusic.track} - ${igMusic.artist}\n\n#日曆 #平面設計 #${painTag} #TAIJI_Omniverse #2026`;
+
                 wrapper.querySelector('.prompt-box').value = fullMjPrompt;
                 wrapper.querySelector('.caption-box').value = threadsText;
-                wrapper.querySelector('.p-day').innerText = dayStr;
-                wrapper.querySelector('.p-ym').innerText = ymStr;
-                wrapper.querySelector('.p-lunar').innerText = lunarDisplay;
-                wrapper.querySelector('.p-quote').innerText = `「${quoteText}」`;
-                
-                renderQueue.push({ id: i, prompt: safeUrlPrompt });
+
+                // ⚡ 0 延遲平行載入：優先嘗試 Pollinations 平面藝術圖，以手繪向量 SVG 傑作秒速保底
+                const randomSeed = Math.floor(Math.random() * 900000) + 100000;
+                const imgUrl = `https://image.pollinations.ai/prompt/${safeUrlPrompt}?width=360&height=225&nologo=true&seed=${randomSeed}`;
+                const fallbackSvg = vectorArtFallbacks[i];
+
+                loadCardImageFast(bgImg, mask, imgUrl, fallbackSvg);
             }
 
             selectUniverse(0);
-
-            // 🚀 全並行極速顯影：四個宇宙同時發起，誰先好誰先亮，完全不卡死！
-            renderQueue.forEach((target, idx) => {
-                const mask = document.getElementById(`mask-${target.id}`);
-                const bgImg = document.getElementById(`bg-${target.id}`);
-                if (mask) mask.innerHTML = '<span>✨ 宇宙顯影中...</span>';
-
-                const randomSeed = Math.floor(Math.random() * 900000) + 100000;
-                // 輕量化 360x640 規格（約 20KB），運算負載只有原本 1/4，極速響應！
-                const imgUrl = `https://image.pollinations.ai/prompt/${target.prompt}?width=360&height=640&nologo=true&seed=${randomSeed}`;
-                
-                // 動態多樣圖庫：結合 Picsum 隨機種子與主題攝影 CDN，絕不重複
-                const fallback = (idx % 2 === 0)
-                    ? `https://picsum.photos/seed/taiji_${currentDate}_${target.id}_${randomSeed}/360/640`
-                    : thematicPhotos[(idx * 5 + Math.floor(Math.random() * 5)) % thematicPhotos.length];
-
-                loadCardImageFast(bgImg, mask, imgUrl, fallback);
-            });
         }
 
         window.onload = function() { 

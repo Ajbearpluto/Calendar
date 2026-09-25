@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 import json
@@ -19,9 +20,12 @@ def generate_omniverse_data():
         raise ValueError("❌ 錯誤：GEMINI_API_KEY 未設定。")
     
     tz = datetime.timezone(datetime.timedelta(hours=8))
-    today_str = datetime.datetime.now(tz).strftime('%Y-%m-%d')
+    now_dt = datetime.datetime.now(tz)
+    today_str = now_dt.strftime('%Y-%m-%d')
+    month = now_dt.month
+    day = now_dt.day
 
-    print(f"🌌 正在為 {today_str} 進行量子文學創世運算 (12重宇宙擴容版)...")
+    print(f"🌌 正在為 {today_str} 啟動【社群時事流行語 × 365天全時空感知引擎】(12重殿堂宇宙版)...")
 
     # 【太極萬象庫：120 重平行宇宙】
     styles = [
@@ -35,35 +39,6 @@ def generate_omniverse_data():
         "王小棣導演《魔法阿媽》的台灣本土溫暖與人情味",
         "《海賊王》(One Piece) 追尋自由與夥伴羈絆的熱血視角",
         "《多啦A夢》在平凡日常中遇見奇蹟的童趣視角",
-        "《七龍珠》不斷突破自我極限的戰鬥與修行哲學",
-        "《咒術迴戰》在詛咒與絕望中尋找生存意義的視角",
-        "《火影忍者》傳承火之意志與忍道堅持的視角",
-        "《名偵探柯南》在微小細節中勘破真相的推理視角",
-        "像皮克敏 (Pikmin) 般微小卻團結面對巨大世界的視角",
-        "史努比 (Snoopy) 那種慵懶、幽默又帶點哲學的犬系視角",
-        "台灣黑熊在深山林道中漫步的孤獨與堅韌",
-        "獨自重裝攀登嘉明湖時，面對浩瀚大自然的敬畏與內心沉澱",
-        "普契尼歌劇《公主徹夜未眠》那種在深夜裡堅持與盼望的壯麗",
-        "如同一杯現煮的虹吸式咖啡，在緩慢萃取的等待中體悟的禪意",
-        "現代都會社畜的「躺平無罪」與「人間清醒」幹話哲學",
-        "吳承恩《西遊記》歷經九九八十一難的修心與降妖伏魔之路",
-        "曹雪芹《紅樓夢》繁華落盡如春夢一場的無常與淒美輓歌",
-        "莊子《逍遙遊》化蝶入夢、超然物外且「無用之用」的灑脫大智慧",
-        "蘇軾《赤壁賦》「寄蜉蝣於天地，渺滄海之一粟」的曠達與釋然",
-        "劉鶚《老殘遊記》在冰天雪地中聽大珠小珠落玉盤的純粹知音視角",
-        "海明威《老人與海》「人可以被毀滅，但不能被打敗」的硬漢堅持",
-        "卡繆《異鄉人》面對世界荒謬時的冷靜、直率與孤獨反叛",
-        "夏目漱石《我是貓》以貓的冷眼旁觀人類社會滑稽與無奈的視角",
-        "太宰治《人間失格》的自我放逐，與對人類社會過分溫柔的絕望",
-        "馬奎斯《百年孤寂》在魔幻寫實中看透家族宿命與時間輪迴的滄桑悲涼",
-        "東野圭吾《解憂雜貨店》在時空交錯的信件中，傳遞人性微光與溫暖",
-        "川端康成《雪國》在徒勞與虛無中，捕捉極致淒冷且轉瞬即逝的日式美學",
-        "村上春樹《挪威的森林》在都市喧囂中尋找一口深井般，屬於青春的孤獨",
-        "尼采「上帝已死」後，在虛無中躍升為「超人」的狂氣與擁抱生命的熱烈",
-        "叔本華形容人生在痛苦與無聊之間像鐘擺般搖擺的悲觀主義清醒",
-        "薛西弗斯 (Sisyphus) 日復一日推石上山，卻在荒謬中感到靈魂充實的反抗",
-        "蘇格拉底「我唯一知道的，就是我一無所知」的極致謙卑與智者詰問",
-        "阿德勒《被討厭的勇氣》中斬斷人際羈絆、落實課題分離的自由之道",
         "張愛玲《傾城之戀》在時代傾覆下，成全一段平凡姻緣的蒼涼與機關算盡",
         "Threads 上午夜發文的碎碎念，那種拋開濾鏡與人設的賽博龐克式靈魂裸奔",
         "在 IG 限動精心排版卻僅限「摯友」可見的微型情緒避難所與社交邊界感",
@@ -142,77 +117,85 @@ def generate_omniverse_data():
         "面對西南方靜靜架設鏡頭，在縮時攝影的漫長等待中，捕獲銀河璀璨運行的千萬年密語",
         "如同「皮卡丘」般，平時可愛無害，遇到不公卻能瞬間爆發十萬伏特的傲嬌與直率",
         "達文西 (Da Vinci) 橫跨藝術與科學的極致狂熱，將人體與自然密碼繪入草圖的專注",
-        "奧黛麗·赫本在《羅馬假期》中那種逃離束縛、騎著偉士牌擁抱短暫自由的經典浪漫",
+        "奧黛麗·赫本在《羅馬假期》中那種逃離束縛、騎著偉士牌擁抱短zat自由的經典浪漫",
         "將 20MA 與 60MA 均線化作太極圖騰，在市場的劇烈波動中保持心如止水的交易紀律",
         "《星際大戰》「願原力與你同在」，在浩瀚星海中對抗黑暗、堅守光明信仰的史詩浪漫"
     ]
     
-    # 🔥 宗師級擴容：一次抽出 12 個宇宙放入牌組！
     chosen_styles = random.sample(styles, 12)
     style_lines = "\n".join([f"{i+1}. 宇宙{i+1}：【{s}】" for i, s in enumerate(chosen_styles)])
 
-    # 🌐 全球多重節慶與天文感知字典
-    global_festival_hints = {
-        "09-25": "【今日多重節慶疊加】：1. 東亞中秋節（農曆八月十五望月，象徵團圓、月魄清輝、桂花暗香） 2. 全球秋分收穫月（Harvest Equilibrium，象徵晝夜平衡、大地金禾豐收） 3. 世界夢想日（World Dream Day，象徵人類超越現實引力的星際願景）",
-        "09-23": "【今日節氣】：秋分（Autumnal Equinox，象徵光暗均等、天平平衡、秋意初染）",
-        "10-31": "【今日節慶】：萬聖前夜（All Hallows' Eve，象徵暗夜微光、靈魂狂歡與未知探索）",
-        "12-21": "【今日節氣】：冬至（Winter Solstice，象徵極夜之後一陽來復、溫暖團聚）",
-        "12-25": "【今日節慶】：耶誕節（Christmas，象徵平安、銀白星光與人間守候）",
-        "01-01": "【今日節慶】：元旦新年（New Year's Day，象徵時間重置、日出破曉與萬象更新）",
-        "04-22": "【今日節慶】：世界地球日（Earth Day，象徵藍色行星、山海共生與自然敬畏）"
-    }
-    md_str = today_str[5:]
-    special_day_directive = global_festival_hints.get(
-        md_str,
-        f"請自動檢索公曆 {today_str} 對應之農曆節日、二十四節氣、天文月相及全球國際紀念日。"
-    )
-
     prompt = f"""
-    你是「太極萬象日曆 (TAIJI Omniverse)」的全域美學與時空語義創世神。
+    你是由「萬相星域」驅動的【TAIJI Omniverse 每日日曆視覺總監與社群時事策展大腦】。
+    你融合了約翰·前田的網格秩序、原研哉的留白美學、施德明的視覺衝擊力，並深度汲取市面現象級日曆（《單向曆》、《讀曆書店》、《五金行日曆》、《FEDRIGONI 365》）的精髓。
+
     今日時空座標：{today_str}
-    {special_day_directive}
-    
-    【🔥 多重節慶分流與時空共振最高法則】：
-    1. 若今日適逢節慶、節氣或國際紀念日（尤其是多個節慶重疊時），**前 4 個宇宙（宇宙1 ~ 宇宙4）必須優先作為今日多重節慶的專屬美學分流載體**：
-       - 宇宙1：聚焦東方傳統/在地文化節慶之高階隱喻（如：中秋之皓月清輝與水月鏡像，嚴禁廉價卡通或俗套詞彙）。
-       - 宇宙2：聚焦自然節氣與天文現象之壯闊美學（如：秋分大地金禾、光暗平衡、月相引力）。
-       - 宇宙3：聚焦全球人文/國際紀念日之哲學共鳴（如：世界夢想日的太虛星火與人類願景）。
-       - 宇宙4：聚焦跨文化交響與侘寂留白（如：天涯共此、圓相墨跡、萬物靜觀）。
-    2. 宇宙5 ~ 宇宙12（或當日無特殊節日時），則深度融合當日季節氛圍與以下抽出的獨立風格語氣：
+
+    【🔥 核心演算法：社群時事熱點 × 殿堂日曆美學 (Social Zeitgeist Fusion)】：
+    你絕不能產出平庸、過時或老生常談的說教！你必須在思考時，主動感知並結合【當前 Threads (脆)、Instagram (IG)、Dcard、社群熱搜話題與當代青年生活型態】：
+    1. 【當前社群真實情緒】：
+       - 捕捉當代人的生活隱痛與集體情緒：如「深夜脆上的 Emo 碎碎念」、「社畜發瘋生存學（與其內耗自己，不如發瘋外耗別人）」、「I人的社交能量歸零與物理斷網」、「早八人靠冰美式續命」、「IG 限動僅限摯友可見的微型避難所」、「演算法推播的資訊焦慮」、「脫美役與鬆弛感」。
+    2. 【當前流行時事與風物】：
+       - 結合當季當下熱搜的影視動漫、熱門飲食潮流、當代流行梗與日常微察覺。
+    3. 【今日節慶/節氣的反差化轉譯 (Subversive Holiday Resonance)】：
+       - 若今日有節慶（如中秋、萬聖、冬至、跨年等），嚴禁陳詞濫調！必須用現代年輕人的社群生活痛點去解構節日（例如：中秋不談月餅，談連假前的社畜發瘋、逃離親戚拷問的自救、或是退去 IG 濾鏡後真正的天涯共此）。
+
+    【🔥 四大殿堂宇宙 · 社群流行反差化分流規則】：
+    - 宇宙一：【經典禪意 · 水墨留白】(致敬《單向曆》、《讀曆書店》)
+      * 角色：【以禪解梗 · 深層治癒】
+      * 任務：將社群上的深夜焦慮、社交疲憊或精神內耗，化為宋代水墨與枯山水般的溫柔沉澱與「物理斷網/觀心自由」。
+      * 風格：東方水墨、枯山水、極簡線條畫、粗糙宣紙/手工棉紙。
+    - 宇宙二：【現代孔版 · 疊印生活】(致敬《五金行日曆》)
+      * 角色：【人間煙火 · 黑色幽默】
+      * 任務：將當紅飲食風潮（如冰美式、咖啡豆研磨、熱炒甜點）、辦公室社畜自嘲、發瘋文學，化為色彩鮮明的 Risograph 雙色/三色幾何孔版印刷與幽默膠囊標籤。
+      * 風格：Risograph (孔版印刷)、雙色/三色幾何疊印、網點半色調、再生燕麥紙。
+    - 宇宙三：【先鋒粗野 · 幾何數據】(致敬《FEDRIGONI 365》)
+      * 角色：【先鋒拆解 · 時代批判】
+      * 任務：將演算法綁架、AI 取代焦慮、短影音多巴胺奴隸、科技異化，用粗野主義大字與幾何條碼狠狠拆解，激發破框者的造夢意志。
+      * 風格：瑞士國際主義、粗野主義字體排印、幾何數據雕塑、深空啞光黑卡。
+    - 宇宙四：【老派活字 · 直排版畫】(致敬《老派的生活日曆》)
+      * 角色：【古今互文 · 荒誕典雅】
+      * 任務：用古典文言文、浮世繪木刻與直排老派書法，幽默反諷當代人滑手機到凌晨三點的奇景，以歲月流轉的厚度撫平當代的浮躁。
+      * 風格：傳統木刻版畫、東方浮世繪線條、日系/漢風垂直書寫、泛黃老信箋。
+
+    宇宙五 ~ 宇宙十二：則自由融會以下抽出的風格牌組：
     {style_lines}
-    
-    【🔥 最高指令：絕對不准複製貼上！】
-    你必須生成 12 段【主題截然不同、內容 100% 不重複】的高端哲學生活散文！
-    
-    【🔥 反審查與意象轉換守則 (Anti-Censorship)】：
-    1. 絕對禁止出現「幼童、孩童」相關詞彙 (boy, girl, kid, child)。
-    2. 絕對禁止直接使用「版權角色與動漫名」 (Pikachu, Snoopy, Naruto 等)。
-    3. 絕對禁止血腥、暴力、武器直白描述 (blood, kill, gun, corpse)。
-    4. 必須「借物喻景」，採用高端、深邃、富有電影感與哲學思辨的意象。
-    
+
+    【🔥 嚴格禁令】：
+    1. 絕對禁止具象寫實照片 (photorealistic, real photo) 與 3D 渲染 (3D render, octane render)！
+    2. 圖像主體 (image_subject) 必須是「純平面藝術設計、水墨、版畫或幾何插圖」的英文描述，不要加相機參數。
+    3. 嚴禁任何侵權角色名或粗俗爛梗，必須做到「梗在骨子裡，美在皮相上」的高雅轉譯。
+
     【嚴格 JSON 格式】：
-    - 只輸出純 JSON 陣列，包含精準的 12 個物件（前 4 個必須為今日節慶/時空核心分流宇宙）。不加任何 Markdown 標記或解釋。
+    - 只輸出純 JSON 陣列，包含精準的 12 個物件（前 4 個為四大殿堂宇宙）。不加任何 Markdown 標記或額外解釋。
     [
       {{
         "theme": "四字高雅風格標籤(不可重複，如：月魄清輝、金禾暮野、太虛星火、天涯共此)",
-        "article": "40~60字的情境散文，強烈展現該宇宙要求的節慶隱喻或風格語氣！絕對不可與其他宇宙重複！",
-        "quote": "15~25字的一擊必殺哲學金句。",
-        "hashtag": "兩個字標籤",
-        "do_action": "兩個字的宜行動",
-        "dont_action": "兩個字的忌禁忌",
-        "image_subject": "純英文，描述符合高端美學隱喻的寫實靜物、天文或風景，不要加相機參數。"
+        "article": "40~60字的情境散文，強烈展現該宇宙要求的社群情緒解構或生活幽默！絕對不可重複！",
+        "quote": "15~25字的一擊必殺金句（結合社群隱痛與哲學穿透力）。",
+        "hashtag": "兩個字流行標籤(如：發瘋、斷網、續命、破框、鬆弛等)",
+        "do_action": "四個字或兩個字的宜行動(如：物理斷網、發瘋外耗、重置維度、手書真言)",
+        "dont_action": "四個字或兩個字的忌禁忌(如：已讀亂回、精神內耗、隨波逐流、精緻偽裝)",
+        "image_subject": "純英文，描述平面藝術、水墨、版畫或幾何插圖，不要加相機參數。"
       }}
     ]
     """
 
-    payload = {
+    payload_with_search = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "tools": [{"googleSearch": {}}],
+        "generationConfig": {
+            "temperature": 0.95 
+        }
+    }
+
+    payload_pure = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "responseMimeType": "application/json",
             "temperature": 0.95 
         }
     }
-    data = json.dumps(payload).encode('utf-8')
     
     candidate_endpoints = [
         "v1beta/models/gemini-2.5-flash",
@@ -223,11 +206,14 @@ def generate_omniverse_data():
     
     for endpoint in candidate_endpoints:
         url = f"https://generativelanguage.googleapis.com/{endpoint}:generateContent?key={api_key}"
-        req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+        print(f"📡 鎖定現役端點: {endpoint}，啟動社群感知運算...")
         
-        print(f"📡 鎖定現役端點: {endpoint}，準備叩關...")
-        
-        for attempt in range(4):
+        # 優先嘗試啟動 Google Search 即時聯網搜尋社群時事
+        for use_search in [True, False]:
+            current_payload = payload_with_search if use_search else payload_pure
+            data = json.dumps(current_payload).encode('utf-8')
+            req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+            
             try:
                 with urllib.request.urlopen(req) as response:
                     result = json.loads(response.read().decode('utf-8'))
@@ -240,57 +226,145 @@ def generate_omniverse_data():
                     
                     try:
                         quotes_data = json.loads(raw_text)
-                        # 確保產出的是陣列且包含資料
                         if isinstance(quotes_data, list) and len(quotes_data) >= 4 and "image_subject" in quotes_data[0]:
-                            print(f"✅ 叩關成功！{endpoint} 輸出 12 重宇宙 JSON 牌組。")
+                            search_status = "【已聯網獲取社群熱搜】" if use_search else "【原生語義深度共振】"
+                            print(f"✅ 叩關成功！{endpoint} {search_status} 輸出 12 重殿堂宇宙。")
                             return quotes_data, today_str
-                        else:
-                            print(f"⚠️ {endpoint} 輸出結構錯誤，捨棄並重試 (第 {attempt+1}/4 次)...")
-                            time.sleep(2)
-                            continue
                     except json.JSONDecodeError:
-                        print(f"⚠️ {endpoint} 未遵守 JSON 格式規定，捨棄並重試 (第 {attempt+1}/4 次)...")
-                        time.sleep(2)
                         continue
-                        
             except urllib.error.HTTPError as e:
-                if e.code == 429:
-                    print(f"⚠️ 觸發流量管制 ({e.code})，強制深呼吸 15 秒冷卻 (第 {attempt+1}/4 次)...")
-                    time.sleep(15)
+                if e.code in [400] and use_search:
+                    # 搜尋工具若衝突，平滑降級至純語義感知模式
+                    continue
+                elif e.code == 429:
+                    print(f"⚠️ 觸發流量管制 ({e.code})，冷卻 10 秒...")
+                    time.sleep(10)
                     continue
                 elif e.code in [503, 500]:
-                    print(f"⚠️ 伺服器忙碌 ({e.code})，冷靜 5 秒後重試 (第 {attempt+1}/4 次)...")
-                    time.sleep(5)
-                    continue 
-                elif e.code in [404, 403]:
-                    print(f"⚠️ {endpoint} 權限不足或不存在 ({e.code})，切換下一組端點。")
-                    break 
+                    print(f"⚠️ 伺服器忙碌 ({e.code})，稍候重試...")
+                    time.sleep(4)
+                    continue
                 else:
-                    print(f"⚠️ {endpoint} 未知錯誤 ({e.code})，跳過此端點。")
                     break
 
     print("❌ 警告：所有線上 Gemini 模型皆因伺服器過載或限流無法連線。")
-    print("🛡️ 啟動【本地備用量子庫】，確保 GitHub Actions 綠燈與網站正常運作！")
+    print("🛡️ 啟動【社群流行語 × 殿堂級備用量子庫】，確保 GitHub Actions 綠燈與網站正常運作！")
     
-    # 備用庫：高雅的 12 重節慶與哲學平行宇宙
+    # 🌟 殿堂級社群感知備用庫：完美融合中秋與當前社群熱梗（Threads深夜Emo、社畜發瘋、演算法成癮、IG摯友濾鏡）
     fallback_data = [
-        { "theme": "月魄清輝", "article": "皓月騰空，天地澄澈。八月十五的清輝穿透億萬光年，照進人間的杯盞，所有相隔千里的凝視，都在此刻重聚為同一個宇宙。", "quote": "千江有水千江月，萬里無雲萬里天。", "hashtag": "中秋", "do_action": "賞月", "dont_action": "浮躁", "image_subject": "A colossal luminous full harvest moon rising over calm dark reflective ocean, gentle cold misty light" },
-        { "theme": "金禾暮野", "article": "秋分過後，白晝與黑夜在天平上緩慢傾斜。低垂的金禾在暮風中低語，每一粒種子都承載著大地的慷慨與時光的沉澱。", "quote": "萬物皆有其時，成熟是在沉默中盛滿金光。", "hashtag": "秋分", "do_action": "感恩", "dont_action": "貪念", "image_subject": "Golden hour sunlight casting dramatic elongated shadows through ripe barley field, mist over distant mountains" },
-        { "theme": "太虛星火", "article": "在無垠的虛空邊界點亮微光。夢想並非脫離現實的幻象，而是人類靈魂向未知宇宙發射的最高頻座標，引領我們穿過長夜。", "quote": "我們都在陰溝裡，但仍有人仰望星空。", "hashtag": "夢想", "do_action": "造夢", "dont_action": "妥協", "image_subject": "A lone monolithic glowing beacon floating in deep space above curvature of Earth, aurora borealis" },
-        { "theme": "天涯共此", "article": "同一片月光照亮不同經緯度的心事。語言與疆界在光影中融化，天地留白之處，正是萬物靈魂共同棲息的永恆家園。", "quote": "但願人長久，千里共嬋娟。", "hashtag": "嬋娟", "do_action": "懷遠", "dont_action": "疏離", "image_subject": "Zen enso ink circle painted on rough textured parchment under cold raking light, absolute negative space" },
-        { "theme": "桂子天香", "article": "風過長街，暗香浮動。中秋的夜風捎來了金桂的氣息，那是屬於時間的私語，提醒著遠行的人，總有一縷香氣在等候歸途。", "quote": "月是故鄉明，人隨秋思遠。", "hashtag": "天香", "do_action": "品茗", "dont_action": "疾行", "image_subject": "A delicate branch of blooming golden osmanthus against a soft evening moonlit window" },
-        { "theme": "圓融太極", "article": "陰陽互抱，日月同輝。圓滿並非無所匱乏，而是在圓缺流轉的軌道上，領悟萬物循環的從容與無常。", "quote": "圓滿在心不在月，心安之處即故鄉。", "hashtag": "圓融", "do_action": "觀心", "dont_action": "偏執", "image_subject": "A perfectly centered glowing white full moon reflecting on a still circular mirror pool, zen stone garden" },
-        { "theme": "寂靜稜線", "article": "背負行囊翻越碎石坡，當湛藍的天使眼淚映入眼簾，萬籟俱寂，所有的喧囂都在稀薄的空氣中沉澱為平靜。", "quote": "唯有將自己縮小到極致，才能容納整座高山的蒼茫。", "hashtag": "敬畏", "do_action": "攀登", "dont_action": "浮躁", "image_subject": "A heavy expedition backpack placed beside a pristine high-altitude alpine lake surrounded by mist" },
-        { "theme": "湖濱晨霧", "article": "拂曉時分步入林間木屋，湖面泛起層層水汽。逃離文明的繁冗，在最樸素的呼吸間找回靈魂的自足。", "quote": "把生活縮減到最深處，吸盡生命中所有的精髓。", "hashtag": "簡約", "do_action": "靜坐", "dont_action": "奢求", "image_subject": "A solitary wooden canoe floating on a tranquil glass lake surrounded by morning mist and pine forest" },
-        { "theme": "孤夜燈塔", "article": "凌晨三點的街角，發光的招牌泛著暖黃光暈。一杯熱茶，給疲憊的旅人築起一座不打烊的臨時避風港。", "quote": "哪怕世界沉入無邊黑暗，總有一處微光替夜歸人留著門。", "hashtag": "守護", "do_action": "療癒", "dont_action": "孤絕", "image_subject": "An illuminated glowing storefront window casting warm yellow light onto an empty nighttime wet street" },
-        { "theme": "風之指彈", "article": "指腹壓緊琴弦微微泛紅，指尖輕輕一撥，未說出口的酸澀隨著共鳴箱震顫，散落在暮色長街，化作一陣無言的溫柔。", "quote": "說不出口的情緒，就交給微風和最後一記清脆泛音。", "hashtag": "傾聽", "do_action": "彈奏", "dont_action": "壓抑", "image_subject": "An acoustic wooden guitar resting on an old park bench in warm autumn evening light" },
-        { "theme": "日神狂飈", "article": "舊神已成灰燼，虛空正是創造的基石！在永劫輪迴的深淵狂笑起舞，用燃燒的意志重鑄生命的重量，我就是自身的造物主。", "quote": "既然世界無可依靠，便以雙足踏碎虛無，立地成神。", "hashtag": "覺醒", "do_action": "破立", "dont_action": "畏縮", "image_subject": "A solitary marble statue standing above swirling clouds atop a sunlit rocky peak" },
-        { "theme": "星塵之舟", "article": "深夜架起腳架仰望南方夜空，以縮時攝影捕捉銀河星轉斗移的心跳。我們皆是星塵，亦終將回歸星塵。", "quote": "每一顆星辰都是億萬年前的告白，我們在光年外相遇。", "hashtag": "無垠", "do_action": "仰望", "dont_action": "盲目", "image_subject": "The vibrant milky way arching across a dramatic desert canyon with deep indigo night sky" }
+        {
+            "theme": "月魄清輝",
+            "article": "捷運早高峰戴上降噪耳機，深夜在脆上靈魂裸奔。今夜月滿無言，最好的情緒避難所不在演算法的推播裡，而在關掉手機、放空呼吸的瞬間。",
+            "quote": "在喧囂的動態串裡靈魂裸奔，不如在月光下給自己留一寸留白。",
+            "hashtag": "斷網",
+            "do_action": "物理斷網",
+            "dont_action": "已讀亂回",
+            "image_subject": "a minimalist Zen sumi-e ink painting of a single imperfect Enso circle and a suspended ink drop falling into silence, vast negative washi paper space"
+        },
+        {
+            "theme": "金禾暮野",
+            "article": "老闆畫的餅從不充飢，人間的月亮才算真實。秋分收起一半的光，留給打工人足夠的長夜去煨熱一壺酒，把釘釘和加班徹底拋在腦後。",
+            "quote": "與其在連假前夕精神內耗自己，不如在月圓之夜痛快發瘋。",
+            "hashtag": "發瘋",
+            "do_action": "發瘋外耗",
+            "dont_action": "精神內耗",
+            "image_subject": "a vibrant three-color Risograph print of a geometric crescent moon, coffee cup and wheat stalks, tactile halftone screenprint dots, oat paper"
+        },
+        {
+            "theme": "太虛星火",
+            "article": "我們仰望的不再是八月十五的星空，而是 6.1 吋發光發熱的像素方塊。所有不能抵達星空的夢想，都淪為了信息繭房裡的廉價滑動。今夜撕裂常規，重置坐標。",
+            "quote": "所有不能抵達星空的夢想，都淪為了信息繭房裡的廉價滑動。",
+            "hashtag": "破框",
+            "do_action": "撕裂常規",
+            "dont_action": "算法成癮",
+            "image_subject": "neo-brutalist typographic poster art of a smartphone screen shattered by a geometric cosmic singularity, monochrome with neon lime accent"
+        },
+        {
+            "theme": "天涯共此",
+            "article": "古人對月舉杯寄相思，今人九宮格精修發摯友。風月本無常，何必執著於點讚之數？無人知你行經的風雪，但頭頂始終是同一抹青光。",
+            "quote": "千江有水千江月，萬人限動萬人裝。褪去濾鏡，方見天涯本色。",
+            "hashtag": "真實",
+            "do_action": "手書真言",
+            "dont_action": "精緻偽裝",
+            "image_subject": "vintage East Asian woodblock print of turbulent sea waves cresting beneath a vermilion red circular moon stamp, traditional linocut texture"
+        },
+        {
+            "theme": "冰美續命",
+            "article": "早八人的靈魂全靠一杯深烘冰美式強行招魂。冰塊撞擊杯壁的脆響，是現代都市人在死線前演奏的最清醒輓歌與戰歌。",
+            "quote": "只要咖啡夠冰，生活裡的苦就追不上我。",
+            "hashtag": "續命",
+            "do_action": "大口吸冰",
+            "dont_action": "早八破防",
+            "image_subject": "two-color risograph screenprint of a tall iced coffee glass casting geometric shadow on desk"
+        },
+        {
+            "theme": "社交充電",
+            "article": "喧鬧聚會後血條歸零，默默躲進洗手間刷五分鐘手機。I 人的體面，全靠回家後反鎖房門那一聲清脆的落鎖聲守護。",
+            "quote": "獨處不是孤僻，是靈魂在進行超快充。",
+            "hashtag": "充電",
+            "do_action": "閉門謝客",
+            "dont_action": "強顏歡笑",
+            "image_subject": "minimalist line art of a solitary closed wooden door and faint warm yellow light slipping through crack"
+        },
+        {
+            "theme": "鬆弛漫遊",
+            "article": "脫下高跟鞋與緊繃襯衫，穿著寬鬆拖鞋在無人街角散步。不為了打卡拍照，只為了感受微風吹過腳踝的純粹自由。",
+            "quote": "允許一切發生，也是允許自己偶爾平庸。",
+            "hashtag": "鬆弛",
+            "do_action": "散步放空",
+            "dont_action": "過度修圖",
+            "image_subject": "poetic sumi-e ink wash painting of gentle evening breeze stirring roadside wild grasses"
+        },
+        {
+            "theme": "數位遊牧",
+            "article": "背起筆電把世界當辦公室，在清邁的咖啡香與峇里島的浪潮間切換。四海為家不是流浪，而是不願在同一個格子間老去的倔強。",
+            "quote": "世界那麼大，沒人規定靈魂必須打卡上班。",
+            "hashtag": "遊牧",
+            "do_action": "買單程票",
+            "dont_action": "畫地為牢",
+            "image_subject": "modern geometric screenprint of a lone traveler with backpack looking at distant mountain skyline"
+        },
+        {
+            "theme": "深夜避難",
+            "article": "凌晨兩點的超商，微波爐發出叮的一聲。在無人打擾的吧台嚼著飯糰，這是都市夜歸人花費五十元就能買下的整座安全島。",
+            "quote": "哪怕世界沉入無邊黑暗，總有一處微光替夜歸人留著門。",
+            "hashtag": "避難",
+            "do_action": "熱食暖胃",
+            "dont_action": "自責晚睡",
+            "image_subject": "woodblock print of warm glowing yellow light from a convenience store window on rainy night"
+        },
+        {
+            "theme": "弦外清音",
+            "article": "一把木吉他刷下和弦，將說不出口的情緒化作旋律飄散在風中。不求知音，只求在指尖生繭的痛感裡確認自己還活著。",
+            "quote": "說不出口的情緒，就交給微風和最後一記清脆泛音。",
+            "hashtag": "自愈",
+            "do_action": "撫弦低吟",
+            "dont_action": "逢人訴苦",
+            "image_subject": "cubist geometric line drawing of an acoustic guitar, warm earth tone paper collage aesthetic"
+        },
+        {
+            "theme": "虛擬共振",
+            "article": "隔著冰冷螢幕與素未謀面的陌生人交換一句「我也是」。在這座光怪陸離的賽博都市裡，微小的善意正在悄悄縫合破碎的靈魂。",
+            "quote": "我們在代碼裡孤獨，也在像素裡相擁。",
+            "hashtag": "共鳴",
+            "do_action": "善意留言",
+            "dont_action": "鍵盤引戰",
+            "image_subject": "neo-brutalist poster of glowing interconnected network nodes in deep space void"
+        },
+        {
+            "theme": "星塵覺醒",
+            "article": "關掉所有推播通知，抬頭望向南方夜空。銀河以億萬年不變的節奏緩慢旋轉，當你意識到自身渺小如微塵，塵世所有的焦慮便不攻自破。",
+            "quote": "在浩瀚的宇宙尺度面前，今天的煩惱不過是一粒微塵。",
+            "hashtag": "豁達",
+            "do_action": "仰望星空",
+            "dont_action": "鑽牛角尖",
+            "image_subject": "stark dithered bitmap starfield illustration with glowing milky way arch on black card"
+        }
     ]
     return fallback_data, today_str
 
 def main():
-    print("🚀 Taiji Genesis Engine: 啟動 12 重宇宙擴容防彈版...")
+    print("🚀 Taiji Genesis Engine: 啟動【社群時事流行語 × 365天全時空感知引擎】...")
     try:
         quotes_data, today_str = generate_omniverse_data()
         quotes_js_string = json.dumps(quotes_data, ensure_ascii=False)
@@ -317,8 +391,8 @@ def main():
     archive_path = os.path.join(archive_dir, f"{today_str}.html")
     with open(archive_path, 'w', encoding='utf-8') as f:
         f.write(html_content)
-        
-    print("🎉 大腦意識已成功寫入 HTML！")
+
+    print(f"🎉 社群時事語義意識已成功編譯寫入 index.html 與 {archive_path}！")
 
 if __name__ == "__main__":
     main()
