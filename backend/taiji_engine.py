@@ -1,10 +1,17 @@
 import os
+import sys
 import json
 import datetime
 import urllib.request
 import urllib.error
 import random
 import time
+
+if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if sys.stderr and hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 
 def generate_omniverse_data():
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -208,8 +215,10 @@ def generate_omniverse_data():
     data = json.dumps(payload).encode('utf-8')
     
     candidate_endpoints = [
-        "v1beta/models/gemini-3.8-flash",
-        "v1beta/models/gemini-3.6-flash"
+        "v1beta/models/gemini-2.5-flash",
+        "v1beta/models/gemini-2.0-flash",
+        "v1beta/models/gemini-2.5-flash-lite",
+        "v1beta/models/gemini-1.5-flash"
     ]
     
     for endpoint in candidate_endpoints:
@@ -250,11 +259,11 @@ def generate_omniverse_data():
                     time.sleep(15)
                     continue
                 elif e.code in [503, 500]:
-                    print(f"⚠️ 伺服器大塞車 ({e.code})，深呼吸冷靜 8 秒後重新敲門 (第 {attempt+1}/4 次)...")
-                    time.sleep(8)
+                    print(f"⚠️ 伺服器忙碌 ({e.code})，冷靜 5 秒後重試 (第 {attempt+1}/4 次)...")
+                    time.sleep(5)
                     continue 
                 elif e.code in [404, 403]:
-                    print(f"⚠️ {endpoint} 權限不足或不存在 ({e.code})，放棄此端點，切換下一組。")
+                    print(f"⚠️ {endpoint} 權限不足或不存在 ({e.code})，切換下一組端點。")
                     break 
                 else:
                     print(f"⚠️ {endpoint} 未知錯誤 ({e.code})，跳過此端點。")
@@ -263,14 +272,20 @@ def generate_omniverse_data():
     print("❌ 警告：所有線上 Gemini 模型皆因伺服器過載或限流無法連線。")
     print("🛡️ 啟動【本地備用量子庫】，確保 GitHub Actions 綠燈與網站正常運作！")
     
-    # 備用庫也擴增至 6 組以確保洗牌多樣性
+    # 備用庫：高雅的 12 重節慶與哲學平行宇宙
     fallback_data = [
-        { "theme": "系統守護", "article": "當雲端伺服器陷入無盡的沉睡與擁塞時，本地的備用宇宙依然為您精準運轉。請享受這份不被網路打擾的寧靜。", "quote": "最深的寂靜，往往孕育著最強大的力量。", "hashtag": "靜心", "do_action": "等待", "dont_action": "焦慮", "image_subject": "A solitary ancient tree standing on a quiet misty mountain peak" },
-        { "theme": "寫實日常", "article": "網路的波動就像生活中的陣雨，來得突然，卻也洗刷了空氣中的煩躁。沖一杯熱茶，讓時間稍微暫停一下。", "quote": "停下腳步，才能看清雨後的彩虹。", "hashtag": "暫停", "do_action": "喝茶", "dont_action": "抱怨", "image_subject": "A steaming cup of tea on a vintage wooden desk by a rain-streaked window" },
-        { "theme": "純粹療癒", "article": "即使在沒有 AI 運算的宇宙裡，真實世界的小確幸依然存在。比如一隻正在陽光下打呼嚕的貓咪，牠才不在乎伺服器有沒有當機。", "quote": "真正的療癒，存在於無需運算的純粹之中。", "hashtag": "陪伴", "do_action": "撫摸", "dont_action": "執著", "image_subject": "A fluffy cat sleeping peacefully in a patch of warm sunlight on a rug" },
-        { "theme": "極簡禪意", "article": "斷線的瞬間，世界突然安靜了下來。我們終於有理由把目光從螢幕移開，看看窗外真實飄落的樹葉。", "quote": "失去連結的那一刻，我們才真正與自己連線。", "hashtag": "留白", "do_action": "遠眺", "dont_action": "刷新", "image_subject": "A single red autumn leaf resting on a smooth zen garden stone" },
-        { "theme": "孤獨荒野", "article": "沒有演算法推薦的時刻，就像獨自走入無人的荒野。你的每一步，都成為了這片寧靜宇宙中唯一的座標。", "quote": "在荒野中迷路，是找回自己最快的方式。", "hashtag": "迷途", "do_action": "探索", "dont_action": "回頭", "image_subject": "A winding dirt path disappearing into a dense realistic foggy pine forest" },
-        { "theme": "時間刻度", "article": "當數位世界的指針停擺，老舊懷錶的滴答聲才顯得如此真實。那些我們以為失去的時間，其實只是換了一種方式陪伴。", "quote": "時間從不語，卻回答了所有問題。", "hashtag": "刻度", "do_action": "傾聽", "dont_action": "追趕", "image_subject": "An antique pocket watch resting on a stack of old leather bound books" }
+        { "theme": "月魄清輝", "article": "皓月騰空，天地澄澈。八月十五的清輝穿透億萬光年，照進人間的杯盞，所有相隔千里的凝視，都在此刻重聚為同一個宇宙。", "quote": "千江有水千江月，萬里無雲萬里天。", "hashtag": "中秋", "do_action": "賞月", "dont_action": "浮躁", "image_subject": "A colossal luminous full harvest moon rising over calm dark reflective ocean, gentle cold misty light" },
+        { "theme": "金禾暮野", "article": "秋分過後，白晝與黑夜在天平上緩慢傾斜。低垂的金禾在暮風中低語，每一粒種子都承載著大地的慷慨與時光的沉澱。", "quote": "萬物皆有其時，成熟是在沉默中盛滿金光。", "hashtag": "秋分", "do_action": "感恩", "dont_action": "貪念", "image_subject": "Golden hour sunlight casting dramatic elongated shadows through ripe barley field, mist over distant mountains" },
+        { "theme": "太虛星火", "article": "在無垠的虛空邊界點亮微光。夢想並非脫離現實的幻象，而是人類靈魂向未知宇宙發射的最高頻座標，引領我們穿過長夜。", "quote": "我們都在陰溝裡，但仍有人仰望星空。", "hashtag": "夢想", "do_action": "造夢", "dont_action": "妥協", "image_subject": "A lone monolithic glowing beacon floating in deep space above curvature of Earth, aurora borealis" },
+        { "theme": "天涯共此", "article": "同一片月光照亮不同經緯度的心事。語言與疆界在光影中融化，天地留白之處，正是萬物靈魂共同棲息的永恆家園。", "quote": "但願人長久，千里共嬋娟。", "hashtag": "嬋娟", "do_action": "懷遠", "dont_action": "疏離", "image_subject": "Zen enso ink circle painted on rough textured parchment under cold raking light, absolute negative space" },
+        { "theme": "桂子天香", "article": "風過長街，暗香浮動。中秋的夜風捎來了金桂的氣息，那是屬於時間的私語，提醒著遠行的人，總有一縷香氣在等候歸途。", "quote": "月是故鄉明，人隨秋思遠。", "hashtag": "天香", "do_action": "品茗", "dont_action": "疾行", "image_subject": "A delicate branch of blooming golden osmanthus against a soft evening moonlit window" },
+        { "theme": "圓融太極", "article": "陰陽互抱，日月同輝。圓滿並非無所匱乏，而是在圓缺流轉的軌道上，領悟萬物循環的從容與無常。", "quote": "圓滿在心不在月，心安之處即故鄉。", "hashtag": "圓融", "do_action": "觀心", "dont_action": "偏執", "image_subject": "A perfectly centered glowing white full moon reflecting on a still circular mirror pool, zen stone garden" },
+        { "theme": "寂靜稜線", "article": "背負行囊翻越碎石坡，當湛藍的天使眼淚映入眼簾，萬籟俱寂，所有的喧囂都在稀薄的空氣中沉澱為平靜。", "quote": "唯有將自己縮小到極致，才能容納整座高山的蒼茫。", "hashtag": "敬畏", "do_action": "攀登", "dont_action": "浮躁", "image_subject": "A heavy expedition backpack placed beside a pristine high-altitude alpine lake surrounded by mist" },
+        { "theme": "湖濱晨霧", "article": "拂曉時分步入林間木屋，湖面泛起層層水汽。逃離文明的繁冗，在最樸素的呼吸間找回靈魂的自足。", "quote": "把生活縮減到最深處，吸盡生命中所有的精髓。", "hashtag": "簡約", "do_action": "靜坐", "dont_action": "奢求", "image_subject": "A solitary wooden canoe floating on a tranquil glass lake surrounded by morning mist and pine forest" },
+        { "theme": "孤夜燈塔", "article": "凌晨三點的街角，發光的招牌泛著暖黃光暈。一杯熱茶，給疲憊的旅人築起一座不打烊的臨時避風港。", "quote": "哪怕世界沉入無邊黑暗，總有一處微光替夜歸人留著門。", "hashtag": "守護", "do_action": "療癒", "dont_action": "孤絕", "image_subject": "An illuminated glowing storefront window casting warm yellow light onto an empty nighttime wet street" },
+        { "theme": "風之指彈", "article": "指腹壓緊琴弦微微泛紅，指尖輕輕一撥，未說出口的酸澀隨著共鳴箱震顫，散落在暮色長街，化作一陣無言的溫柔。", "quote": "說不出口的情緒，就交給微風和最後一記清脆泛音。", "hashtag": "傾聽", "do_action": "彈奏", "dont_action": "壓抑", "image_subject": "An acoustic wooden guitar resting on an old park bench in warm autumn evening light" },
+        { "theme": "日神狂飈", "article": "舊神已成灰燼，虛空正是創造的基石！在永劫輪迴的深淵狂笑起舞，用燃燒的意志重鑄生命的重量，我就是自身的造物主。", "quote": "既然世界無可依靠，便以雙足踏碎虛無，立地成神。", "hashtag": "覺醒", "do_action": "破立", "dont_action": "畏縮", "image_subject": "A solitary marble statue standing above swirling clouds atop a sunlit rocky peak" },
+        { "theme": "星塵之舟", "article": "深夜架起腳架仰望南方夜空，以縮時攝影捕捉銀河星轉斗移的心跳。我們皆是星塵，亦終將回歸星塵。", "quote": "每一顆星辰都是億萬年前的告白，我們在光年外相遇。", "hashtag": "無垠", "do_action": "仰望", "dont_action": "盲目", "image_subject": "The vibrant milky way arching across a dramatic desert canyon with deep indigo night sky" }
     ]
     return fallback_data, today_str
 
