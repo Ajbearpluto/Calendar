@@ -2,24 +2,30 @@ name: Daily Taiji Calendar Update
 
 on:
   schedule:
-    - cron: '0 16 * * *' # 每天 UTC 16:00 (台灣時間半夜 00:00) 自動執行
-  workflow_dispatch:      # 允許我們手動點擊按鈕執行
+    - cron: '5 16 * * *'  # 每天台灣時間 00:05 自動執行
+    - cron: '30 21 * * *' # 每天台灣時間 05:30 晨間雙重保險更新
+  push:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/**'
+  workflow_dispatch:      # 允許手動點擊按鈕立即執行
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
-
-      # 注意：我們已經砍掉了 Install dependencies 這個步驟，
-      # 因為新大腦將使用 100% Python 原生庫，不再需要 pip install 任何東西。
+          python-version: '3.12'
 
       - name: ⚙️ 零一：啟動原生 HTTP 創世大腦
         env:
@@ -31,6 +37,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add index.html archive/
-          git commit -m "Taiji Engine 🌌 Omniverse Sync: $(date +'%Y.%m.%d') 日常碎片與歷史檔案已封存" || echo "No changes to commit"
+          git add index.html
+          git commit -m "Taiji Engine 🌌 Omniverse Sync: $(TZ=Asia/Taipei date +'%Y.%m.%d') 今日宇宙自動更新" || echo "No changes to commit"
           git push
