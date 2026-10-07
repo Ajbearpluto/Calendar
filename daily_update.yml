@@ -1,0 +1,46 @@
+name: Daily Taiji Calendar Update
+
+on:
+  schedule:
+    - cron: '5 16 * * *'  # 每天台灣時間 00:05 自動執行 (避開整點排隊高峰)
+    - cron: '30 21 * * *' # 每天台灣時間 05:30 晨間雙重保險更新
+  push:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/**'
+  workflow_dispatch:      # 允許手動點擊按鈕立即執行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: ⚙️ 零一：啟動原生 HTTP 創世大腦
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python backend/taiji_engine.py
+
+      - name: Commit and Push changes (僅更新今日 index.html，不留存歷史垃圾檔案)
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          # 若版本庫仍殘留舊版 archive 則安全移除，已無 archive 則完全不報錯
+          if git ls-files | grep -q '^archive/'; then
+            git rm -rf archive || true
+          fi
+          git add index.html
+          git commit -m "Taiji Engine 🌌 Omniverse Sync: $(TZ=Asia/Taipei date +'%Y.%m.%d') 今日宇宙自動更新" || echo "No changes to commit"
+          git push
